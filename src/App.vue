@@ -1,5 +1,7 @@
 <template>
-  <HeaderLogo/>
+  <div id="container">
+    <router-view />
+  </div>
 </template>
 
 <script>
@@ -12,6 +14,9 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#container{
+  display: flex;
 }
 </style>
