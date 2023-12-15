@@ -1,14 +1,8 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router';
 import App from './App.vue'
-import HeaderLogo from './components/header/HeaderLogo.vue'
-import HeaderContainer from './components/header/HeaderContainer.vue';
-import BasicBody from './components/body/BasicBody.vue';
-import HomePage from './components/HomePage.vue';
-import HalfHeader from './components/HalfHeader.vue';
-import LoginForm from './components/LoginForm.vue';
-import ResetPasswordPage from './components/ResetPasswordPage.vue';
-import RegisterPage from './components/RegisterPage.vue';
+import HeaderContainer from './components/header/HeaderContainer.vue'
+import BasicBody from './components/body/BasicBody.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -16,33 +10,42 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      components:{
-        header: HalfHeader,
-        body: HomePage,
+      components: {
+        header: () => import('./components/header/HalfHeader.vue'),
+        body: () => import('./components/body/HomePage.vue'),
       },
     },
     {
       path: '/login',
       name: 'login',
-      components:{
-        header: HalfHeader,
-        body: LoginForm,
+      components: {
+        header: () => import('./components/header/HalfHeader.vue'),
+        body: () => import('./components/body/LoginForm.vue'),
+      },
+      meta: {
+        transitionEnabled: true,
       },
     },
     {
       path: '/resetPassword',
       name: 'resetPassword',
-      components:{
-        header: HalfHeader,
-        body: ResetPasswordPage,
+      components: {
+        header: () => import('./components/header/HalfHeader.vue'),
+        body: () => import('./components/body/ResetPasswordPage.vue'),
+      },
+      meta: {
+        transitionEnabled: true,
       },
     },
     {
       path: '/register',
       name: 'register',
-      components:{
-        header: HalfHeader,
-        body: RegisterPage,
+      components: {
+        header: () => import('./components/header/HalfHeader.vue'),
+        body: () => import('./components/body/RegisterPage.vue'),
+      },
+      meta: {
+        transitionEnabled: true,
       },
     }
   ]
@@ -59,12 +62,11 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-const app = createApp(App)
+const app = createApp(App);
 app.component('HeaderContainer', HeaderContainer);
-app.component('HeaderLogo', HeaderLogo);
 app.component('BasicBody', BasicBody);
-app.use(router)
-app.mount('#app')
+app.use(router);
+app.mount('#app');
 
 function isAuthenticated() {
   return false;
