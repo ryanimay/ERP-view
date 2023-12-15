@@ -1,7 +1,7 @@
 <template>
   <HeaderContainer>
     <template v-slot:slot1>
-      <HeaderLogo/>
+      <HeaderLogo />
     </template>
     <template v-slot:slot2>
       <div id='headerbody'>
@@ -24,9 +24,16 @@
     </template>
   </HeaderContainer>
 </template>
-
+<script>
+import HeaderLogo from './HeaderLogo.vue';
+export default {
+  components: {
+    HeaderLogo,
+  }
+}
+</script>
 <style>
-#headerbody{
+#headerbody {
   flex: 66%;
   margin: 0 10%;
   text-align: left;
