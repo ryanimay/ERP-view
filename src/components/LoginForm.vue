@@ -4,7 +4,7 @@
             <img id="welcomeText" src="@/assets/icon/svg/Welcome.svg" />
             <img id="SigninText" src="@/assets/icon/svg/SigninText.svg" />
             <div id="placeholder">
-                <p id="info">{{ info }}用戶名不得為空</p>
+                <p id="info">{{ info }}</p>
             </div>
             <form id='loginform' action="">
                 <div class="inputdiv" style="flex:2">
