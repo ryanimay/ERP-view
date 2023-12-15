@@ -2,14 +2,26 @@
   <BasicBody>
     <div id="formContainer">
       <div>
-        <img src="">
+        <img src="@/assets/icon/svg/resetPwd/back.svg">
       </div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+      <div>
+        <img src="@/assets/icon/svg/resetPwd/PasswordReset.svg">
+      </div>
+      <div>
+        <img src="@/assets/icon/svg/resetPwd/resetInfo.svg">
+      </div>
+      <div>
+        <img src="@/assets/icon/svg/resetPwd/Username.svg">
+      </div>
+      <div>
+        <img src="@/assets/icon/svg/resetPwd/Email.svg">
+      </div>
+      <div>
+        <img src="@/assets/icon/svg/resetPwd/submit.svg">
+      </div>
+      <div>
+        <img src="@/assets/icon/svg/resetPwd/submit_hover.svg">
+      </div>
     </div>
   </BasicBody>
 </template>
@@ -33,6 +45,7 @@ export default {
   height: 45%;
   width: 25%;
   display: flex;
+  flex-direction: column;
   border-radius: 10px;
   background-color: #ffffff;
   box-shadow: 10px 10px 10px rgba(73, 73, 73, 0.5);
