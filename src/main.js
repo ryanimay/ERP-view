@@ -8,26 +8,28 @@ import HomePage from './components/HomePage.vue';
 import LoginPage from './components/LoginPage.vue';
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes: [
-      {
-        path: '/',
-        component: HomePage
-      },
-      {
-        path: '/login',
-        component: LoginPage
-      }
-    ]
-  })
-
-  router.beforeEach((to, from, next) => {
-    if (to.path === '/login' || isAuthenticated()) {
-      next();
-    } else {
-      next('/login');
+  history: createWebHistory(),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomePage
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginPage
     }
-  });
+  ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login' || isAuthenticated()) {
+    next();
+  } else {
+    next('/login');
+  }
+});
 
 const app = createApp(App)
 app.component('HeaderContainer', HeaderContainer);
@@ -36,6 +38,6 @@ app.component('BasicBody', BasicBody);
 app.use(router)
 app.mount('#app')
 
-function isAuthenticated(){
+function isAuthenticated() {
   return false;
 }

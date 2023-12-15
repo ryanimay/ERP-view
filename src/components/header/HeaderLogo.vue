@@ -1,6 +1,6 @@
 <template>
   <span id="headerleft">
-    <router-link id='logoa' to="/">
+    <router-link id='logoa' :to="{name:'home'}">
       <img id='logo' src="@/assets/icon/svg/LOGO.svg">
     </router-link>
   </span>
