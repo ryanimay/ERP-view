@@ -5,7 +5,8 @@ import HeaderLogo from './components/header/HeaderLogo.vue'
 import HeaderContainer from './components/header/HeaderContainer.vue';
 import BasicBody from './components/body/BasicBody.vue';
 import HomePage from './components/HomePage.vue';
-import LoginPage from './components/LoginPage.vue';
+import HalfHeader from './components/HalfHeader.vue';
+import LoginForm from './components/LoginForm.vue';
 import ResetPasswordPage from './components/ResetPasswordPage.vue';
 import RegisterPage from './components/RegisterPage.vue';
 
@@ -15,22 +16,34 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomePage
+      components:{
+        header: HalfHeader,
+        body: HomePage,
+      },
     },
     {
       path: '/login',
       name: 'login',
-      component: LoginPage
+      components:{
+        header: HalfHeader,
+        body: LoginForm,
+      },
     },
     {
       path: '/resetPassword',
       name: 'resetPassword',
-      component: ResetPasswordPage
+      components:{
+        header: HalfHeader,
+        body: ResetPasswordPage,
+      },
     },
     {
       path: '/register',
       name: 'register',
-      component: RegisterPage
+      components:{
+        header: HalfHeader,
+        body: RegisterPage,
+      },
     }
   ]
 })
