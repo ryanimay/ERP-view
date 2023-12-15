@@ -1,7 +1,7 @@
 <template>
   <span id="headerleft">
     <router-link id='logoa' :to="{name:'home'}">
-      <img id='logo' src="@/assets/icon/svg/LOGO.svg">
+      <img id='logo' src="@/assets/icon/svg/loginPage/LOGO.svg">
     </router-link>
   </span>
 </template>

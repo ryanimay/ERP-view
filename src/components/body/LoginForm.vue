@@ -2,35 +2,35 @@
     <BasicBody>
         <div id="formContainer">
             <div id="formframe">
-                <img id="welcomeText" src="@/assets/icon/svg/Welcome.svg" />
-                <img id="SigninText" src="@/assets/icon/svg/SigninText.svg" />
+                <img id="welcomeText" src="@/assets/icon/svg/loginPage/Welcome.svg" />
+                <img id="SigninText" src="@/assets/icon/svg/loginPage/SigninText.svg" />
                 <div id="placeholder">
                     <p id="info">{{ info }}</p>
                 </div>
                 <form id='loginform' action="">
                     <div class="inputdiv" style="flex:2">
-                        <img class="inputText" src="@/assets/icon/svg/UsernameText.svg" />
+                        <img class="inputText" src="@/assets/icon/svg/loginPage/UsernameText.svg" />
                         <input v-model="formData.username" class="inputArea" type="text" placeholder="Enter your username">
                     </div>
                     <div class="inputdiv" style="flex:2">
-                        <img class="inputText" src="@/assets/icon/svg/PasswordText.svg" />
+                        <img class="inputText" src="@/assets/icon/svg/loginPage/PasswordText.svg" />
                         <input v-model="formData.password" class="inputArea" type="password"
                             placeholder="Enter your password">
                     </div>
                     <div style="display: flex; width: 100%; flex:1;">
                         <input type="checkbox">
-                        <img style="width: 25%;" src="@/assets/icon/svg/Rememberme.svg">
+                        <img style="width: 25%;" src="@/assets/icon/svg/loginPage/Rememberme.svg">
                         <router-link style="margin-left: auto;" id="clickable" :to="{ name: 'resetPassword' }">
                             <p>Forget password ?</p>
                         </router-link>
                     </div>
                     <div id="LoginArea" style="flex:2" @click="doLogin">
-                        <img src="@/assets/icon/svg/LoginBtn.svg">
+                        <img src="@/assets/icon/svg/loginPage/LoginBtn.svg">
                     </div>
                     <div id="RegisterArea" style="flex:1">
-                        <img style="width: 66%; margin: auto 2%;" src="@/assets/icon/svg/Don’yhaveanAccount.svg">
+                        <img style="width: 66%; margin: auto 2%;" src="@/assets/icon/svg/loginPage/Don’yhaveanAccount.svg">
                         <router-link id="registerlink" :to="{ name: 'register' }">
-                            <img style="width: 100%; height: 100%;" src="@/assets/icon/svg/Register.svg">
+                            <img style="width: 100%; height: 100%;" src="@/assets/icon/svg/loginPage/Register.svg">
                         </router-link>
                     </div>
                 </form>
@@ -92,7 +92,7 @@ export default {
 }
 
 #registerlink:hover {
-    content: url('@/assets/icon/svg/Register_hover.svg');
+    content: url('@/assets/icon/svg/loginPage/Register_hover.svg');
 }
 
 #LoginArea {
@@ -109,7 +109,7 @@ export default {
 }
 
 #LoginArea:hover {
-    content: url('@/assets/icon/svg/LoginBtn_hover.svg');
+    content: url('@/assets/icon/svg/loginPage/LoginBtn_hover.svg');
 }
 
 #RegisterArea {
