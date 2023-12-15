@@ -3,26 +3,31 @@
         <div id="formframe">
             <img id="welcomeText" src="@/assets/icon/svg/Welcome.svg" />
             <img id="SigninText" src="@/assets/icon/svg/SigninText.svg" />
+            <div id="placeholder">
+                <p id="info">{{ info }}用戶名不得為空</p>
+            </div>
             <form id='loginform' action="">
                 <div class="inputdiv" style="flex:2">
                     <img class="inputText" src="@/assets/icon/svg/UsernameText.svg" />
-                    <input class="inputArea" type="text" placeholder="Enter your username">
+                    <input v-model="formData.username" class="inputArea" type="text" placeholder="Enter your username">
                 </div>
                 <div class="inputdiv" style="flex:2">
                     <img class="inputText" src="@/assets/icon/svg/PasswordText.svg" />
-                    <input class="inputArea" type="password" placeholder="Enter your password">
+                    <input v-model="formData.password" class="inputArea" type="password" placeholder="Enter your password">
                 </div>
                 <div style="display: flex; width: 100%; flex:1;">
                     <input type="checkbox">
-                    <img style="width: 33%;" src="@/assets/icon/svg/Rememberme.svg">
-                    <p style="margin-left: auto;" class="clickable" @click="forgetPassword">Forget password ?</p>
+                    <img style="width: 25%;" src="@/assets/icon/svg/Rememberme.svg">
+                    <router-link style="margin-left: auto;" id="clickable" :to="{ name: 'resetPassword' }">
+                        <p>Forget password ?</p>
+                    </router-link>
                 </div>
                 <div id="LoginArea" style="flex:2" @click="doLogin">
                     <img src="@/assets/icon/svg/LoginBtn.svg">
                 </div>
                 <div id="RegisterArea" style="flex:1">
                     <img style="width: 66%; margin: auto 2%;" src="@/assets/icon/svg/Don’yhaveanAccount.svg">
-                    <router-link id="registerlink" to="/">
+                    <router-link id="registerlink" :to="{ name: 'register' }">
                         <img style="width: 100%; height: 100%;" src="@/assets/icon/svg/Register.svg">
                     </router-link>
                 </div>
@@ -32,50 +37,91 @@
 </template>
 
 <script>
+import config from '@/config/RouterConfig';
+import axios from '@/config/Axios.js';
+
 export default {
+    data() {
+        return {
+            status: null,
+            info: '',
+            formData: {
+                username: '',
+                password: '',
+            },
+        };
+    },
     methods: {
         forgetPassword() {
             console.log('forgetPassword!');
         },
-        doLogin() {
-            console.log('login!');
+        async doLogin() {
+            try {
+                const response = await axios.post(config.api.client.login, this.formData);
+                this.$router.push({ name: 'home', params: { data: response } });
+
+            } catch (error) {
+                console.error('API request failed:', error);
+                this.info = error.response.data.data
+            }
         }
     }
 }
 </script>
 
 <style scoped>
-#registerlink{
+#info {
+    margin: 0;
+    color: red;
+    font-size: 90%;
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
-#registerlink:hover{
+
+#placeholder {
+    position: relative;
+    width: 100%;
+    height: 10%;
+    text-align: center;
+}
+
+#registerlink:hover {
     content: url('@/assets/icon/svg/Register_hover.svg');
 }
-#LoginArea{
+
+#LoginArea {
     cursor: pointer;
-    align-items: center; 
+    align-items: center;
     justify-content: center;
     width: 100%;
 }
-#LoginArea *{
+
+#LoginArea * {
     margin: auto o;
     width: 100%;
     height: 100%;
 }
-#LoginArea:hover{
+
+#LoginArea:hover {
     content: url('@/assets/icon/svg/LoginBtn_hover.svg');
 }
-#RegisterArea{
+
+#RegisterArea {
     display: flex;
     margin: auto;
 }
-.clickable {
+
+#clickable {
     cursor: pointer;
     color: gray;
     box-sizing: border-box;
     text-align: center;
 }
 
-.clickable:hover {
+#clickable:hover {
     color: rgb(59, 59, 59);
     text-decoration: underline;
     box-sizing: border-box;
@@ -109,7 +155,7 @@ export default {
 }
 
 #SigninText {
-    margin: 10% 0;
+    margin-top: 10%;
     width: 90%;
     box-sizing: border-box;
 

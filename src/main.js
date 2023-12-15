@@ -6,6 +6,8 @@ import HeaderContainer from './components/header/HeaderContainer.vue';
 import BasicBody from './components/body/BasicBody.vue';
 import HomePage from './components/HomePage.vue';
 import LoginPage from './components/LoginPage.vue';
+import ResetPasswordPage from './components/ResetPasswordPage.vue';
+import RegisterPage from './components/RegisterPage.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -19,12 +21,25 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginPage
+    },
+    {
+      path: '/resetPassword',
+      name: 'resetPassword',
+      component: ResetPasswordPage
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterPage
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login' || isAuthenticated()) {
+  if (to.path === '/login'
+    || to.path === '/resetPassword'
+    || to.path === '/register'
+    || isAuthenticated()) {
     next();
   } else {
     next('/login');
