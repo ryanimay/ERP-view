@@ -7,7 +7,7 @@
                 <div id="placeholder">
                     <p id="info">{{ info }}</p>
                 </div>
-                <form id='loginform' action="">
+                <div id='loginform'>
                     <div class="inputdiv" style="flex:2">
                         <img class="inputText" src="@/assets/icon/svg/loginPage/UsernameText.svg" />
                         <input v-model="formData.username" class="inputArea" type="text" placeholder="Enter your username">
@@ -33,7 +33,7 @@
                             <img style="width: 100%; height: 100%;" src="@/assets/icon/svg/loginPage/Register.svg">
                         </router-link>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </BasicBody>
@@ -170,6 +170,7 @@ export default {
     margin: 8%;
     width: 100%;
     box-sizing: border-box;
+    overflow: auto;
 
 }
 
