@@ -21,10 +21,7 @@ const router = createRouter({
       components: {
         header: () => import('./components/header/HalfHeader.vue'),
         body: () => import('./components/body/LoginForm.vue'),
-      },
-      meta: {
-        transitionEnabled: true,
-      },
+      }
     },
     {
       path: '/resetPassword',
@@ -32,10 +29,7 @@ const router = createRouter({
       components: {
         header: () => import('./components/header/HalfHeader.vue'),
         body: () => import('./components/body/ResetPasswordPage.vue'),
-      },
-      meta: {
-        transitionEnabled: true,
-      },
+      }
     },
     {
       path: '/register',
@@ -43,10 +37,15 @@ const router = createRouter({
       components: {
         header: () => import('./components/header/HalfHeader.vue'),
         body: () => import('./components/body/RegisterPage.vue'),
-      },
-      meta: {
-        transitionEnabled: true,
-      },
+      }
+    },
+    {
+      path: '/message',
+      name: 'messagePage',
+      components: {
+        header: () => import('./components/header/HalfHeader.vue'),
+        body: () => import('./components/body/MessagePage.vue'),
+      }
     }
   ]
 })
