@@ -1,8 +1,14 @@
 <template>
     <BasicBody>
         <div id="formContainer">
-            <div id="message"><p>{{ message }}test</p></div>
-            <div id="btn"><img src="@/assets/icon/svg/resetPwd/submit.svg"></div>
+            <div id="frame">
+                <div style="flex: 1; height: 30%; margin-top: 10%;" id="message">
+                    <p>{{ message }}</p>
+                </div>
+                <router-link style="flex: 1; height: 50%;" id="btn" :to="{ name: 'login' }">
+                    <img id="img" src="@/assets/icon/svg/resetPwd/submit.svg">
+                </router-link>
+            </div>
         </div>
     </BasicBody>
 </template>
@@ -10,15 +16,32 @@
 <script>
 export default {
     data(){
-        console.log(this.$route.params);
         return{
-            message:this.$route.params,
+            message:'Somethings Wrong, Please Re-Login'
         }
-    }
+    },
+    mounted() {
+        this.message = this.$route.params.data;
+    },
 };
 </script>
 
 <style>
+#message{
+    font-weight: bold;
+    font-size: 150%;
+}
+#img:hover{
+    cursor: pointer;
+    content: url('@/assets/icon/svg/resetPwd/submit_hover.svg');
+}
+#message, #btn, #img{
+    width: 100%;
+}
+#frame{
+    margin: 10% 10%;
+    height: 100%;
+}
 #formContainer {
     position: absolute;
     top: 33%;

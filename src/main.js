@@ -52,13 +52,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
-  const isNotAuthenticated = !isAuthenticated();
-  if ((requiresAuth && isNotAuthenticated)) {
-    next('/login');
-  } else {
+  // const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
+  // const isNotAuthenticated = !isAuthenticated();
+  // if ((requiresAuth && isNotAuthenticated)) {
+  //   next('/login');
+  // } else {
     next();
-  }
+  // }
 });
 
 const app = createApp(App);
@@ -67,6 +67,6 @@ app.component('BasicBody', BasicBody);
 app.use(router);
 app.mount('#app');
 
-function isAuthenticated() {
-  return false;
-}
+// function isAuthenticated() {
+//   return false;
+// }

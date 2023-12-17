@@ -55,8 +55,10 @@ export default {
       try {
         // const response = await axios.post(config.api.client.resetPassword, this.formData);
         const response = { code: 200, message: "success", data: 'data' };
-        this.$router.push({ name: 'messagePage', params: { responseData: response } });
-
+        this.$router.push({
+          name: "messagePage",
+          params: { data:response.data } 
+        });
       } catch (error) {
         console.error('API request failed:', error);
         this.info = error.response.data.data
@@ -100,7 +102,6 @@ export default {
 }
 
 #submitiocn {
-
   cursor: pointer;
 }
 
