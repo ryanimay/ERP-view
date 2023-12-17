@@ -54,6 +54,7 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/login'
     || to.path === '/resetPassword'
     || to.path === '/register'
+    || to.path === '/message'
     || isAuthenticated()) {
     next();
   } else {

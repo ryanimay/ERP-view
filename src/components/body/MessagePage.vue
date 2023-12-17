@@ -1,3 +1,5 @@
 <template>
-    <div></div>
+    <BasicBody>
+        <div></div>
+    </BasicBody>
 </template>
