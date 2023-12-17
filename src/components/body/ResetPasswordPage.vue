@@ -54,8 +54,8 @@ export default {
     async doReset() {
       try {
         // const response = await axios.post(config.api.client.resetPassword, this.formData);
-        const response = {code: 200, message:"success", data: 'data'};
-        this.$router.push({ name: 'messagePage', params: { data: response } });
+        const response = { code: 200, message: "success", data: 'data' };
+        this.$router.push({ name: 'messagePage', params: { responseData: response } });
 
       } catch (error) {
         console.error('API request failed:', error);
