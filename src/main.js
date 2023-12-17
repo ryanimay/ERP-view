@@ -14,6 +14,7 @@ const router = createRouter({
         header: () => import('./components/header/HalfHeader.vue'),
         body: () => import('./components/body/HomePage.vue'),
       },
+      meta: { requiresAuth: true },
     },
     {
       path: '/login',
@@ -40,7 +41,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/message',
+      path: '/message/:data',
       name: 'messagePage',
       components: {
         header: () => import('./components/header/HalfHeader.vue'),
@@ -51,14 +52,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login'
-    || to.path === '/resetPassword'
-    || to.path === '/register'
-    || to.path === '/message'
-    || isAuthenticated()) {
-    next();
-  } else {
+  const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
+  const isNotAuthenticated = !isAuthenticated();
+  if ((requiresAuth && isNotAuthenticated)) {
     next('/login');
+  } else {
+    next();
   }
 });
 
