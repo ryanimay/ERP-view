@@ -26,7 +26,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #btn {
     flex: 1;
     height: 50%;
