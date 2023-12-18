@@ -34,7 +34,7 @@ export default {
 
 #message {
     font-weight: bold;
-    font-size: 150%;
+    font-size: 100%;
     flex: 1;
     height: 30%;
     margin-top: 6%;
