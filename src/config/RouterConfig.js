@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const router = [
     {
-        path: '/',
+        path: '/home',
         name: 'home',
         components: {
             header: () => import('../components/header/HalfHeader.vue'),
@@ -64,4 +64,4 @@ function isAuthenticated() {
     return user !== null && user !== undefined;
 }
 
-export default r;
+export default {r, router};

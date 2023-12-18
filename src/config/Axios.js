@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import router from './RouterConfig'
 const instance = axios.create({
     baseURL: '',
     timeout: 10000,
@@ -10,15 +10,17 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token');
-        if(token){
-            config.headers['Authorization'] = `Bearer ${token}`;
+        const matchedRoute = router.router.find(route => config.url.includes(route.path));
+        if(matchedRoute.meta && matchedRoute.meta.requiresAuth && matchedRoute.meta.requiresAuth === true){
+            const token = localStorage.getItem('token');
+            if(token){
+                config.headers['Authorization'] = `Bearer ${token}`;
+            }
+            const refreshToken = localStorage.getItem('refreshToken');
+            if(refreshToken){
+                config.headers['X-Refresh-Token'] = refreshToken;
+            }
         }
-        const refreshToken = localStorage.getItem('refreshToken');
-        if(refreshToken){
-            config.headers['X-Refresh-Token'] = refreshToken;
-        }
-    
         return config;
     }
 )
@@ -29,7 +31,8 @@ instance.interceptors.response.use(
         if(token){
             localStorage.setItem('token', token.replace('Bearer ', ''))
         }
-        const refreshToken = response.headers['X-Refresh-Token'];
+        console.log(response);
+        const refreshToken = response.headers['x-refresh-token'];
         if(refreshToken){
             localStorage.setItem('refreshToken', refreshToken)
         }
