@@ -1,41 +1,67 @@
-const config = {
-  api: (() => {
-    const base = '/api';//proxy轉換
-    const context_path = base + '/erp_base';//後端api字段
-    const cache = context_path + '/cache';
-    const client = context_path + '/client';
-    const role = context_path + '/role';
-    const permission = context_path + '/permission';
-    return {
-      cache: {
-        refresh: cache + '/refresh',
-      },
-      client: {
-        opValid: client + '/opValid',
-        register: client + '/register',
-        login: client + '/login',
-        resetPassword: client + '/resetPassword',
-        list: client + '/list',
-        getClient: client + '/getClient',
-        update: client + '/update',
-        updatePassword: client + '/updatePassword',
-        clientLock: client + '/clientLock',
-        clientStatus: client + '/clientStatus',
-      },
-      role: {
-        list: role + '/list',
-        update: role + '/update',
-        add: role + '/add',
-        remove: role + '/remove',
-      },
-      permission: {
-        role: permission + '/role',
-        tree: permission + '/tree',
-        ban: permission + '/ban',
-        securityConfirm: permission + '/securityConfirm',
-      },
-    };
-  })(),
+import { createRouter, createWebHistory } from 'vue-router';
+
+const router = [
+    {
+        path: '/',
+        name: 'home',
+        components: {
+            header: () => import('../components/header/HalfHeader.vue'),
+            body: () => import('../components/body/HomePage.vue'),
+        },
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/login',
+        name: 'login',
+        components: {
+            header: () => import('../components/header/HalfHeader.vue'),
+            body: () => import('../components/body/LoginForm.vue'),
+        }
+    },
+    {
+        path: '/resetPassword',
+        name: 'resetPassword',
+        components: {
+            header: () => import('../components/header/HalfHeader.vue'),
+            body: () => import('../components/body/ResetPasswordPage.vue'),
+        }
+    },
+    {
+        path: '/register',
+        name: 'register',
+        components: {
+            header: () => import('../components/header/HalfHeader.vue'),
+            body: () => import('../components/body/RegisterPage.vue'),
+        }
+    },
+    {
+        path: '/message',
+        name: 'messagePage',
+        components: {
+            header: () => import('../components/header/HalfHeader.vue'),
+            body: () => import('../components/body/MessagePage.vue'),
+        }
+    }
+]
+
+const r = createRouter({
+    history: createWebHistory(),
+    routes: router,
+})
+
+r.beforeEach((to, from, next) => {
+    const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
+    const isNotAuthenticated = !isAuthenticated();
+    if ((requiresAuth && isNotAuthenticated)) {
+        next('/login');
+    } else {
+        next();
+    }
+});
+
+function isAuthenticated() {
+    const user = localStorage.getItem('user');
+    return user !== null && user !== undefined;
 }
 
-export default config;
+export default r;

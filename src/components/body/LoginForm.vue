@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import config from '@/config/RouterConfig';
+import config from '@/config/RouterPath';
 import axios from '@/config/Axios.js';
 
 export default {
@@ -62,8 +62,8 @@ export default {
         async doLogin() {
             try {
                 const response = await axios.post(config.api.client.login, this.formData);
-                this.$router.push({ name: 'home', params: { data: response } });
-
+                localStorage.setItem('user', JSON.stringify(response.data.data));
+                this.$router.push({ name: 'home'});
             } catch (error) {
                 console.error('API request failed:', error);
                 this.info = error.response.data.data
