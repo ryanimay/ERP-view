@@ -18,8 +18,8 @@
                             placeholder="Enter your password">
                     </div>
                     <div style="display: flex; width: 100%; flex:1;">
-                        <input type="checkbox">
-                        <img style="width: 25%;" src="@/assets/icon/svg/loginPage/Rememberme.svg">
+                        <input type="checkbox" v-model="isChecked">
+                        <img @click="check" style="width: 25%;" src="@/assets/icon/svg/loginPage/Rememberme.svg">
                         <router-link style="margin-left: auto;" id="clickable" :to="{ name: 'resetPassword' }">
                             <p>Forget password ?</p>
                         </router-link>
@@ -52,6 +52,7 @@ export default {
                 username: '',
                 password: '',
             },
+            isChecked: false,
         };
     },
     methods: {
@@ -67,6 +68,9 @@ export default {
                 console.error('API request failed:', error);
                 this.info = error.response.data.data
             }
+        },
+        check(){
+            this.isChecked = !this.isChecked;
         }
     }
 }
