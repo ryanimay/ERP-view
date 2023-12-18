@@ -2,11 +2,11 @@
     <BasicBody>
         <div id="formContainer">
             <div id="frame">
-                <div style="flex: 1; height: 30%; margin-top: 10%;" id="message">
-                    <p>{{ message }}</p>
+                <div id="message">
+                    <p style="margin: 0 0;">{{ message }}</p>
                 </div>
-                <router-link style="flex: 1; height: 50%;" id="btn" :to="{ name: 'login' }">
-                    <img id="img" src="@/assets/icon/svg/resetPwd/submit.svg">
+                <router-link id="btn" :to="{ name: 'login' }">
+                    <img id="img" src="@/assets/icon/svg/resetPwd/backToLogin.svg">
                 </router-link>
             </div>
         </div>
@@ -15,38 +15,52 @@
 
 <script>
 export default {
-    data(){
-        return{
-            message:'Somethings Wrong, Please Re-Login'
+    data() {
+        return {
+            message: 'Somethings Wrong, Please Re-Login'
         }
     },
     mounted() {
-        this.message = this.$route.params.data;
+        this.message = this.$store.state.promptMessage;
     },
 };
 </script>
 
 <style>
-#message{
+#btn {
+    flex: 1;
+    height: 50%;
+}
+
+#message {
     font-weight: bold;
     font-size: 150%;
+    flex: 1;
+    height: 30%;
+    margin-top: 6%;
 }
-#img:hover{
+
+#img:hover {
     cursor: pointer;
-    content: url('@/assets/icon/svg/resetPwd/submit_hover.svg');
+    content: url('@/assets/icon/svg/resetPwd/backToLogin_hover.svg');
 }
-#message, #btn, #img{
+
+#message,
+#btn,
+#img {
     width: 100%;
 }
-#frame{
-    margin: 10% 10%;
+
+#frame {
+    margin: 3% 5%;
     height: 100%;
 }
+
 #formContainer {
     position: absolute;
     top: 33%;
     right: 35%;
-    height: 25%;
+    height: 20%;
     width: 25%;
     display: flex;
     flex-direction: column;

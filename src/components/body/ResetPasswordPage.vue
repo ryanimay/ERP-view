@@ -35,8 +35,8 @@
 </template>
 
 <script>
-// import config from '@/config/RouterConfig';
-// import axios from '@/config/Axios.js';
+import config from '@/config/RouterConfig';
+import axios from '@/config/Axios.js';
 export default {
   data() {
     return {
@@ -53,11 +53,10 @@ export default {
     },
     async doReset() {
       try {
-        // const response = await axios.post(config.api.client.resetPassword, this.formData);
-        const response = { code: 200, message: "success", data: 'data' };
+        const response = await axios.post(config.api.client.resetPassword, this.formData);
+        this.$store.dispatch('setPromptMessage', response.data);
         this.$router.push({
-          name: "messagePage",
-          params: { data:response.data } 
+          name: "messagePage"
         });
       } catch (error) {
         console.error('API request failed:', error);

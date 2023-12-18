@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router';
 import App from './App.vue'
+import store  from './config/Store'
 import HeaderContainer from './components/header/HeaderContainer.vue'
 import BasicBody from './components/body/BasicBody.vue'
 
@@ -41,7 +42,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/message/:data',
+      path: '/message',
       name: 'messagePage',
       components: {
         header: () => import('./components/header/HalfHeader.vue'),
@@ -52,21 +53,22 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
-  // const isNotAuthenticated = !isAuthenticated();
-  // if ((requiresAuth && isNotAuthenticated)) {
-  //   next('/login');
-  // } else {
+  const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
+  const isNotAuthenticated = !isAuthenticated();
+  if ((requiresAuth && isNotAuthenticated)) {
+    next('/login');
+  } else {
     next();
-  // }
+  }
 });
+
+function isAuthenticated() {
+  return false;
+}
 
 const app = createApp(App);
 app.component('HeaderContainer', HeaderContainer);
 app.component('BasicBody', BasicBody);
 app.use(router);
+app.use(store);
 app.mount('#app');
-
-// function isAuthenticated() {
-//   return false;
-// }
