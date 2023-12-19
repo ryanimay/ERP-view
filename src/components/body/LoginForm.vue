@@ -41,7 +41,6 @@
 
 <script>
 import config from '@/config/RouterPath';
-import axios from '@/config/Axios.js';
 
 export default {
     data() {
@@ -61,15 +60,25 @@ export default {
         },
         async doLogin() {
             try {
-                const response = await axios.post(config.api.client.login, this.formData);
-                localStorage.setItem('user', JSON.stringify(response.data.data));
-                this.$router.push({ name: 'home'});
+                const response = await this.$axios.post(config.api.client.login, this.formData);
+                // const response = {
+                //     code: 200, message: 'success', data: {
+                //         "id": 6,
+                //         "username": "ryanimay840121",
+                //         "roleId": 1,
+                //         "email": "ryan@esound.com.tw",
+                //         "active": true,
+                //         "lock": false
+                //     }
+                // }
+                localStorage.setItem('user', JSON.stringify(response.data));
+                this.$router.push({ name: 'home' });
             } catch (error) {
                 console.error('API request failed:', error);
                 this.info = error.response.data.data
             }
         },
-        check(){
+        check() {
             this.isChecked = !this.isChecked;
         }
     }

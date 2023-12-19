@@ -36,7 +36,6 @@
 
 <script>
 import config from '@/config/RouterPath';
-import axios from '@/config/Axios.js';
 export default {
   data() {
     return {
@@ -53,7 +52,7 @@ export default {
     },
     async doReset() {
       try {
-        const response = await axios.put(config.api.client.resetPassword, this.formData);
+        const response = await this.$axios.put(config.api.client.resetPassword, this.formData);
         this.$store.dispatch('setPromptMessage', response.data.data);
         this.$router.push({
           name: "messagePage"
