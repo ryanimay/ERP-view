@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-
+import jwt_encode from 'vue-jwt-decode';
 const router = [
     {
         path: '/home',
@@ -52,8 +52,14 @@ const r = createRouter({
 r.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
     const isNotAuthenticated = !isAuthenticated();
-    if ((requiresAuth && isNotAuthenticated)) {
-        next('/login');
+    const tokenExpiredv = tokenExpired();
+    if ((requiresAuth && isNotAuthenticated && tokenExpiredv)) {
+        next({
+            path:'/login',
+            query:{
+                message:'Please re-login.'
+            }
+        });
     } else {
         next();
     }
@@ -64,4 +70,17 @@ function isAuthenticated() {
     return user !== null && user !== undefined;
 }
 
-export default {r, router};
+function tokenExpired() {
+    const token = localStorage.getItem('token');
+    console.log(localStorage);
+    const decodedToken = jwt_encode.decode(token);
+    console.log(decodedToken);
+    if (decodedToken && decodedToken.exp) {
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        console.log(currentTimestamp);
+        return decodedToken.exp < currentTimestamp;
+    }
+    return true;
+}
+
+export default { r, router };

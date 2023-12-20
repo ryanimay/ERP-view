@@ -5,7 +5,7 @@
                 <img id="welcomeText" src="@/assets/icon/svg/loginPage/Welcome.svg" />
                 <img id="SigninText" src="@/assets/icon/svg/loginPage/SigninText.svg" />
                 <div id="placeholder">
-                    <p id="info">{{ info }}</p>
+                    <p id="info" v-if="info">{{ info }}</p>
                 </div>
                 <div id='loginform'>
                     <div class="inputdiv" style="flex:2">
@@ -81,6 +81,9 @@ export default {
         check() {
             this.isChecked = !this.isChecked;
         }
+    },
+    mounted() {
+        this.info = this.$route.query.message;
     }
 }
 </script>
