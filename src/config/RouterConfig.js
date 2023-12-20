@@ -53,7 +53,8 @@ r.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
     const isNotAuthenticated = !isAuthenticated();
     const tokenExpiredv = tokenExpired();
-    if ((requiresAuth && isNotAuthenticated && tokenExpiredv)) {
+    //如果是須驗驗證 且 未登入 或 token過期，導向到login頁面
+    if (requiresAuth && (isNotAuthenticated || tokenExpiredv)) {
         next({
             path:'/login',
             query:{
@@ -72,13 +73,14 @@ function isAuthenticated() {
 
 function tokenExpired() {
     const token = localStorage.getItem('token');
-    console.log(localStorage);
-    const decodedToken = jwt_encode.decode(token);
-    console.log(decodedToken);
-    if (decodedToken && decodedToken.exp) {
-        const currentTimestamp = Math.floor(Date.now() / 1000);
-        console.log(currentTimestamp);
-        return decodedToken.exp < currentTimestamp;
+    try {
+        const decodedToken = jwt_encode.decode(token);
+        if (decodedToken && decodedToken.exp) {
+            const currentTimestamp = Math.floor(Date.now() / 1000);
+            return decodedToken.exp < currentTimestamp;
+        }
+    } catch (error) {
+        console.log('ErrorToken:' + error);
     }
     return true;
 }
