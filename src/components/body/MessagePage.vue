@@ -14,15 +14,19 @@
 </template>
 
 <script>
+import { ref, onMounted, getCurrentInstance } from 'vue';
 export default {
-    data() {
-        return {
-            message: 'Somethings Wrong, Please Re-Login'
+    setup(){
+        const { proxy } = getCurrentInstance();//獲取全局組件
+        const message = ref('Somethings Wrong, Please Re-Login');
+        onMounted(() => {
+            message.value = proxy.$store.state.promptMessage;
+        });
+
+        return{
+            message,
         }
-    },
-    mounted() {
-        this.message = this.$store.state.promptMessage;
-    },
+    }
 };
 </script>
 

@@ -3,15 +3,21 @@
     <p>{{ user }}</p>
   </BasicBody>
 </template>
+
 <script>
+import { ref, onMounted } from 'vue';
+
 export default {
-  data() {
+  setup() {
+    const user = ref(null);
+
+    onMounted(() => {
+      user.value = JSON.parse(localStorage.getItem('user'));
+    });
+
     return {
-      user: null,
-    }
-  },
-  mounted() {
-    this.user = JSON.parse(localStorage.getItem('user'));
+      user,
+    };
   },
 };
 </script>

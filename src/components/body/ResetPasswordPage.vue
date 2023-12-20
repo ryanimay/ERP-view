@@ -36,31 +36,36 @@
 
 <script>
 import config from '@/config/RouterPath';
+import { ref, getCurrentInstance } from 'vue';
+
 export default {
-  data() {
-    return {
-      formData: {
-        username: '',
-        email: ''
-      },
-      info: '',
-    }
-  },
-  methods: {
-    goBack() {
-      this.$router.back();
-    },
-    async doReset() {
+  setup() {
+    const { proxy } = getCurrentInstance();//獲取全局組件
+    const formData = ref({
+      username: '',
+      email: ''
+    });
+    const info = ref('');
+    const goBack = () => {
+      proxy.$router.back();
+    };
+    const doReset = async() => {
       try {
-        const response = await this.$axios.put(config.api.client.resetPassword, this.formData);
-        this.$store.dispatch('setPromptMessage', response.data.data);
-        this.$router.push({
+        const response = await proxy.$axios.put(config.api.client.resetPassword, formData.value);
+        proxy.$store.dispatch('setPromptMessage', response.data.data);
+        proxy.$router.push({
           name: "messagePage"
         });
       } catch (error) {
         console.error('API request failed:', error);
-        this.info = error.response.data.data
+        info.value = error.response.data.data
       }
+    };
+    return{
+      formData,
+      info,
+      goBack,
+      doReset,
     }
   }
 }

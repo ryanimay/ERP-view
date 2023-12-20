@@ -10,15 +10,24 @@
                 <div id='loginform'>
                     <div class="inputdiv" style="flex:2">
                         <img class="inputText" src="@/assets/icon/svg/loginPage/UsernameText.svg" />
-                        <input v-model="formData.username" class="inputArea" type="text" placeholder="Enter your username">
+                        <div id="inputblock">
+                            <input v-model="formData.username" class="inputArea" type="text"
+                                placeholder="Enter your username">
+                        </div>
                     </div>
                     <div class="inputdiv" style="flex:2">
                         <img class="inputText" src="@/assets/icon/svg/loginPage/PasswordText.svg" />
-                        <input v-model="formData.password" class="inputArea" type="password"
-                            placeholder="Enter your password">
+                        <div id="inputblock">
+                            <input v-model="formData.password" class="inputArea" :type="showPassword ? 'text' : 'password'"
+                                placeholder="Enter your password">
+                            <img v-if="showPassword" class="showPasswordBtn" @click="showpassword"
+                                src="@/assets/icon/svg/loginPage/visible.svg">
+                            <img v-else class="showPasswordBtn" @click="showpassword"
+                                src="@/assets/icon/svg/loginPage/invisible.svg">
+                        </div>
                     </div>
                     <div style="display: flex; width: 100%; flex:1;">
-                        <input type="checkbox" v-model="isChecked">
+                        <input type="checkbox" v-model="rememberme">
                         <img @click="check" style="width: 25%;" src="@/assets/icon/svg/loginPage/Rememberme.svg">
                         <router-link style="margin-left: auto;" id="clickable" :to="{ name: 'resetPassword' }">
                             <p>Forget password ?</p>
@@ -41,54 +50,100 @@
 
 <script>
 import config from '@/config/RouterPath';
+import crypto from '@/config/Crypto';
+import { ref, onMounted, getCurrentInstance } from 'vue';
 
 export default {
-    data() {
-        return {
-            status: null,
-            info: '',
-            formData: {
-                username: '',
-                password: '',
-            },
-            isChecked: false,
+    setup() {
+        const { proxy } = getCurrentInstance();//獲取全局組件
+        const formData = ref({
+            username: '',
+            password: '',
+        });
+
+        const rememberme = ref(false);
+        const showPassword = ref(false);
+        const status = ref(null);
+        const info = ref('');
+
+        const doRememberMe = () => {
+            if (rememberme.value) {
+                localStorage.setItem('rememberUserName', formData.value.username);
+                const encodePwd = crypto.encryptData(formData.value.password);
+                localStorage.setItem('rememberPassword', encodePwd);
+            } else {
+                localStorage.removeItem('rememberUserName');
+                localStorage.removeItem('rememberPassword');
+            }
         };
-    },
-    methods: {
-        forgetPassword() {
+
+        const forgetPassword = () => {
             console.log('forgetPassword!');
-        },
-        async doLogin() {
+        };
+
+        const doLogin = async () => {
             try {
-                const response = await this.$axios.post(config.api.client.login, this.formData);
-                // const response = {
-                //     code: 200, message: 'success', data: {
-                //         "id": 6,
-                //         "username": "ryanimay840121",
-                //         "roleId": 1,
-                //         "email": "ryan@esound.com.tw",
-                //         "active": true,
-                //         "lock": false
-                //     }
-                // }
+                const response = await proxy.$axios.post(config.api.client.login, formData.value);
                 localStorage.setItem('user', JSON.stringify(response.data));
-                this.$router.push({ name: 'home' });
+                doRememberMe(); // 如果成功就保存登入資料
+                proxy.$router.push({ name: 'home' });
             } catch (error) {
                 console.error('API request failed:', error);
-                this.info = error.response.data.data
+                info.value = error.response.data.data;
             }
-        },
-        check() {
-            this.isChecked = !this.isChecked;
-        }
+        };
+
+        const check = () => {
+            rememberme.value = !rememberme.value;
+        };
+
+        const showpassword = () => {
+            showPassword.value = !showPassword.value;
+        };
+
+        onMounted(() => {
+            info.value = proxy.$route.query.message;
+            const savedUsername = localStorage.getItem('rememberUserName');
+            const savedPassword = localStorage.getItem('rememberPassword');
+            if (savedUsername && savedPassword) {
+                formData.value.username = savedUsername;
+                formData.value.password = crypto.decryptData(savedPassword);
+                rememberme.value = true;
+            }
+        });
+
+        return {
+            formData,
+            rememberme,
+            showPassword,
+            status,
+            info,
+            doRememberMe,
+            forgetPassword,
+            doLogin,
+            check,
+            showpassword,
+        };
     },
-    mounted() {
-        this.info = this.$route.query.message;
-    }
-}
+};
 </script>
 
 <style scoped>
+#inputblock {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.showPasswordBtn {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 10px;
+    height: 50%;
+    cursor: pointer;
+}
+
 #info {
     margin: 0;
     color: red;

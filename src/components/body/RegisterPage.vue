@@ -8,10 +8,15 @@
 </template>
 
 <script>
+import { getCurrentInstance } from 'vue';
 export default {
-  methods: {
-    goBack() {
-      this.$router.back();
+  setup() {
+    const { proxy } = getCurrentInstance();//獲取全局組件
+    const goBack = () => {
+      proxy.$router.back();
+    };
+    return {
+      goBack,
     }
   }
 }
