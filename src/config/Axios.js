@@ -31,7 +31,6 @@ instance.interceptors.response.use(
         if(token){
             localStorage.setItem('token', token.replace('Bearer ', ''))
         }
-        console.log(response);
         const refreshToken = response.headers['x-refresh-token'];
         if(refreshToken){
             localStorage.setItem('refreshToken', refreshToken)
