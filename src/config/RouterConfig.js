@@ -2,6 +2,15 @@ import { createRouter, createWebHistory } from 'vue-router';
 import jwt_encode from 'vue-jwt-decode';
 const router = [
     {
+        path: '/',
+        name: 'in',
+        components: {
+            header: () => import('../components/header/HalfHeader.vue'),
+            body: () => import('../components/body/HomePage.vue'),
+        },
+        meta: { requiresAuth: true },
+    },
+    {
         path: '/home',
         name: 'home',
         components: {
@@ -58,7 +67,8 @@ r.beforeEach((to, from, next) => {
         next({
             path:'/login',
             query:{
-                message:'Please re-login.'
+                //如果正常登出isNotAuthenticated會被刪除，就不用顯示提示字
+                message: isNotAuthenticated ? undefined : 'Please re-login.'
             }
         });
     } else {
