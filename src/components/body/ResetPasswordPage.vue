@@ -1,9 +1,7 @@
 <template>
   <BasicBody>
     <div id="formContainer">
-      <div id="backbtn" @click="goBack">
-        <img id="backicon" src="@/assets/icon/svg/resetPwd/back.svg">
-      </div>
+      <backbtn/>
       <!-- title -->
       <div id="title" class="marginside">
         <img style="width: 50%;" class="img" src="@/assets/icon/svg/resetPwd/PasswordReset.svg">
@@ -37,7 +35,7 @@
 <script>
 import config from '@/config/RouterPath';
 import { ref, getCurrentInstance } from 'vue';
-
+import backbtn from '@/components/body/BackBtn.vue'
 export default {
   setup() {
     const { proxy } = getCurrentInstance();//獲取全局組件
@@ -67,6 +65,9 @@ export default {
       goBack,
       doReset,
     }
+  },
+  components:{
+    backbtn
   }
 }
 </script>
@@ -121,21 +122,6 @@ export default {
 #title {
   margin-top: 1%;
   margin-bottom: 3%;
-}
-
-#backbtn {
-  margin-right: auto;
-  cursor: pointer;
-}
-
-#backbtn:hover {
-  opacity: 0.5;
-}
-
-#backicon {
-  padding-top: 50%;
-  padding-left: 25%;
-  width: 90%;
 }
 
 #formContainer {
