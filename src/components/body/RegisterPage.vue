@@ -122,7 +122,6 @@ onMounted(async () => {
 
 const handleSubmit = async () => {
   try {
-    console.log(formData.value);
     const response = await proxy.$axios.post(config.api.client.register, formData.value);
     proxy.$store.dispatch('setPromptMessage', response.data.data);
     proxy.$router.push({
