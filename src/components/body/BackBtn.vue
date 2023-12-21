@@ -14,17 +14,19 @@ const goBack = () => {
 
 <style scoped>
 #backbtn {
-  margin-right: auto;
-  cursor: pointer;
+    margin-top: 1%;
+    margin-left: 1%;
+    margin-right: auto;
+    cursor: pointer;
 }
 
 #backbtn:hover {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 
 #backicon {
-  padding-top: 50%;
-  padding-left: 25%;
-  width: 90%;
+    padding-top: 50%;
+    padding-left: 25%;
+    width: 90%;
 }
 </style>
