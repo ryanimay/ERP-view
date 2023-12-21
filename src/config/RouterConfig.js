@@ -3,12 +3,7 @@ import jwt_encode from 'vue-jwt-decode';
 const router = [
     {
         path: '/',
-        name: 'in',
-        components: {
-            header: () => import('../components/header/HalfHeader.vue'),
-            body: () => import('../components/body/HomePage.vue'),
-        },
-        meta: { requiresAuth: true },
+        redirect: '/home',
     },
     {
         path: '/home',
