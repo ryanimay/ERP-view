@@ -27,6 +27,7 @@ let userLocale = getUserLocale();
 import(`@vee-validate/i18n/dist/locale/${userLocale}.json`)
     .then((locale) => {
         configure({
+            //設定使用語系 default errorMessage
             generateMessage: localize({ [userLocale]: locale.default}),
             validateOnInput: true,
         })
@@ -37,6 +38,7 @@ import(`@vee-validate/i18n/dist/locale/${userLocale}.json`)
     });
 
 Object.keys(AllRules).forEach((rule) => {
+    //設定使用的rule規則
     defineRule(rule, AllRules[rule]);
 });
 

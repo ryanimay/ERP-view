@@ -33,7 +33,7 @@
             </div>
             <div class="inputArea">
               <VField v-model="formData.password" :type="showPassword ? 'text' : 'password'" name="password" id="password"
-                rules="required|min:8|max:20" placeholder="Enter your password" />
+                rules="required|min:8|max:20|atLeastOneLowercase|atLeastOneUppercase|atLeastOneNumber|noSpecialChars" placeholder="Enter your password" />
               <img v-if="showPassword" class="showPasswordBtn" @click="showpassword"
                 src="@/assets/icon/svg/loginPage/visible.svg">
               <img v-else class="showPasswordBtn" @click="showpassword" src="@/assets/icon/svg/loginPage/invisible.svg">
@@ -98,7 +98,16 @@
 <script setup>
 import { ref, onMounted, getCurrentInstance } from 'vue';
 import backBtn from '@/components/body/BackBtn.vue';
-import config from '@/config/RouterPath';
+import path from '@/config/RouterPath';
+import { defineRule } from 'vee-validate';
+
+const createValidationRule = (regex, errorMessage) => (value) => regex.test(value) || errorMessage;
+// 自定義規則
+defineRule('atLeastOneLowercase', createValidationRule(/.*[a-z].*/,'Password must contain at least one lowercase letter.'));
+defineRule('atLeastOneUppercase', createValidationRule(/.*[A-Z].*/,'Password must contain at least one uppercase letter.'));
+defineRule('atLeastOneNumber', createValidationRule(/.*\d.*/,'Password must contain at least one number.'));
+defineRule('noSpecialChars', createValidationRule(/^[^\s!@#$%^&*()_+={}[\]:;<>,.?~\\/-]+$/,'Password must not contain special characters.'));
+
 const { proxy } = getCurrentInstance();//獲取全局組件
 
 const showPassword = ref(false);
@@ -113,7 +122,7 @@ const info = ref('');
 
 onMounted(async () => {
   try {
-    const response = await proxy.$axios.get(config.api.role.list);
+    const response = await proxy.$axios.get(path.api.role.list);
     roles.value = response.data.data;
   } catch (e) {
     console.error('loading roles error:' + e);
@@ -122,7 +131,8 @@ onMounted(async () => {
 
 const handleSubmit = async () => {
   try {
-    const response = await proxy.$axios.post(config.api.client.register, formData.value);
+    console.log(1);
+    const response = await proxy.$axios.post(path.api.client.register, formData.value);
     proxy.$store.dispatch('setPromptMessage', response.data.data);
     proxy.$router.push({
       name: "messagePage"
