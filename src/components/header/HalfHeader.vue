@@ -24,13 +24,8 @@
     </template>
   </HeaderContainer>
 </template>
-<script>
+<script setup>
 import HeaderLogo from './HeaderLogo.vue';
-export default {
-  components: {
-    HeaderLogo,
-  }
-}
 </script>
 <style>
 #headerbody {

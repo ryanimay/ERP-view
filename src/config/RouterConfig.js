@@ -9,7 +9,7 @@ const router = [
         path: '/home',
         name: 'home',
         components: {
-            header: () => import('../components/header/HalfHeader.vue'),
+            header: () => import('../components/header/LeftHeader.vue'),
             body: () => import('../components/body/HomePage.vue'),
         },
         meta: { requiresAuth: true },
