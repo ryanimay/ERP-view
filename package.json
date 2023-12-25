@@ -16,6 +16,7 @@
     "axios": "^1.6.2",
     "core-js": "^3.8.3",
     "crypto-js": "^4.2.0",
+    "element-plus": "^2.4.4",
     "vee-validate": "^4.5.8",
     "vue": "^3.2.13",
     "vue-jwt-decode": "^0.1.0",
