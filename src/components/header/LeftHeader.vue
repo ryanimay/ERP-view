@@ -1,5 +1,5 @@
 <template>
-  <HeaderContainer style="flex: none; width: 15%; ">
+  <HeaderContainer style="flex: none; width: 15%; min-width: 260px; height: auto;">
     <template v-slot:slot1>
       <span id="headerL">
         <router-link id='logoL' :to="{ name: 'home' }">
@@ -7,6 +7,18 @@
         </router-link>
         <font-awesome-icon icon="circle-user" id="userIcon" @click="clickUser" />
       </span>
+      <div v-if="showUserMenu" id="showUserMenu">
+        <div>
+          <div style="color: #ffffff;">Username: {{ user.username }}</div>
+          <div style="color: #ffffff;">RoleId: {{ user.roleId }}</div>
+        </div>
+        <div style="display: flex; ">
+          <router-link :to="{ name: 'UserInfo' }" class="userbtn" @click="clickUser">
+            Userinfo
+          </router-link>
+          <div class="userbtn" @click="logout">Logout</div>
+        </div>
+      </div>
     </template>
     <template v-slot:slot2>
       <el-collapse accordion id="headerB">
@@ -19,16 +31,6 @@
       </el-collapse>
     </template>
   </HeaderContainer>
-  <div v-if="showUserMenu" id="showUserMenu">
-    <div>
-      <div style="color: #ffffff;">Username: {{ user.username }}</div>
-      <div style="color: #ffffff;">RoleId: {{ user.roleId }}</div>
-    </div>
-    <div style="display: flex; ">
-      <div class="userbtn" >Userinfo</div>
-      <div class="userbtn" @click="logout">Logout</div>
-    </div>
-  </div>
 </template>
 <script setup>
 import { ref, getCurrentInstance } from 'vue';
@@ -46,14 +48,14 @@ const logout = () => {
   localStorage.removeItem('refreshToken');
   localStorage.removeItem('token');
   proxy.$router.push({
-      name: "login"
-    });
+    name: "login"
+  });
 }
 </script>
 <style>
-.userbtn{
-  flex: 1; 
-  border-radius: 3px; 
+.userbtn {
+  flex: 1;
+  border-radius: 3px;
   background-color: rgb(80, 80, 80);
   color: #ffffff;
   margin: 1px;
@@ -62,9 +64,10 @@ const logout = () => {
   align-items: center;
   justify-content: center;
   line-height: 30px;
+  text-decoration: none;
 }
 
-.userbtn:hover{
+.userbtn:hover {
   background-color: #707070;
 }
 
@@ -186,5 +189,6 @@ const logout = () => {
   width: 12%;
   text-align: left;
   padding: 5px;
+  z-index: 1000;
 }
 </style>

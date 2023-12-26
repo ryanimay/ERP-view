@@ -45,6 +45,14 @@ const router = [
             header: () => import('../components/header/HalfHeader.vue'),
             body: () => import('../components/body/MessagePage.vue'),
         }
+    },
+    {
+        path: '/userInfo',
+        name: 'UserInfo',
+        components: {
+            header: () => import('../components/header/LeftHeader.vue'),
+            body: () => import('../components/body/UserInfo.vue'),
+        }
     }
 ]
 

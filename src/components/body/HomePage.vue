@@ -1,7 +1,7 @@
 <template>
   <BasicBody>
     <div id="bodyframe">
-      <div style="display: flex; margin: 1%; flex-direction: column; height: 97%;">
+      <div style="display: flex; margin: 1%; flex-direction: column; height: 96%; overflow: auto;">
         <div style="flex: 1; margin-right: auto; margin-left: 2%; align-items: center; display: flex;">
           <h1 style="font-size: 300%;"><b>SystemInfo</b></h1>
         </div>
