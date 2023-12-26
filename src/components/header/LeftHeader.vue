@@ -122,8 +122,11 @@ const logout = () => {
   height: 56px;
   position: relative;
   background-color: #848484;
-  border: 0px;
   cursor: pointer;
+  border-top: 1px solid #5f5f5f;
+  border-bottom: 1px solid #5f5f5f;
+  border-left: 0px;
+  border-right: 0px;
 }
 
 #header {
