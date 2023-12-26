@@ -7,6 +7,9 @@ import router from './config/RouterConfig'
 import axios from './config/Axios.js';
 import validate from './config/ValidateConfig';
 import icons from './config/IconConfig';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap';
 
 const app = createApp(App);
 app.config.globalProperties.$axios = axios;
