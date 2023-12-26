@@ -10,11 +10,11 @@
     </template>
     <template v-slot:slot2>
       <el-collapse accordion id="headerB">
-        <el-collapse-item title="用戶管理">
-          <p><font-awesome-icon icon="users" /> 用戶列表</p>
+        <el-collapse-item title="User Management">
+          <p><font-awesome-icon icon="users" /> UserList</p>
         </el-collapse-item>
-        <el-collapse-item title="權限管理">
-          <p><font-awesome-icon icon="receipt" /> 權限列表</p>
+        <el-collapse-item title="Permission Management">
+          <p><font-awesome-icon icon="receipt" /> PermissionList</p>
         </el-collapse-item>
       </el-collapse>
     </template>
@@ -183,7 +183,7 @@ const logout = () => {
   border-radius: 5px;
   top: 6.6%;
   left: 12%;
-  width: 11%;
+  width: 12%;
   text-align: left;
   padding: 5px;
 }
