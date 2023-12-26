@@ -1,7 +1,7 @@
 <template>
   <BasicBody>
     <div id="formContainer">
-      <backbtn/>
+      <backbtn />
       <!-- title -->
       <div id="title" class="marginside">
         <img style="width: 50%;" class="img" src="@/assets/icon/svg/resetPwd/PasswordReset.svg">
@@ -30,6 +30,7 @@
       </div>
     </div>
   </BasicBody>
+  <VLoading :active="isLoading"></VLoading>
 </template>
 
 <script>
@@ -38,6 +39,7 @@ import { ref, getCurrentInstance } from 'vue';
 import backbtn from '@/components/body/BackBtn.vue'
 export default {
   setup() {
+    const isLoading = ref(false);
     const { proxy } = getCurrentInstance();//獲取全局組件
     const formData = ref({
       username: '',
@@ -47,8 +49,9 @@ export default {
     const goBack = () => {
       proxy.$router.back();
     };
-    const doReset = async() => {
+    const doReset = async () => {
       try {
+        isLoading.value = true;
         const response = await proxy.$axios.put(config.api.client.resetPassword, formData.value);
         proxy.$store.dispatch('setPromptMessage', response.data.data);
         proxy.$router.push({
@@ -57,16 +60,19 @@ export default {
       } catch (error) {
         console.error('API request failed:', error);
         info.value = error.response.data.data
+      } finally {
+        isLoading.value = false;
       }
     };
-    return{
+    return {
       formData,
       info,
       goBack,
       doReset,
+      isLoading,
     }
   },
-  components:{
+  components: {
     backbtn
   }
 }

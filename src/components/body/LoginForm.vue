@@ -46,6 +46,7 @@
             </div>
         </div>
     </BasicBody>
+    <VLoading :active="isLoading"></VLoading>
 </template>
 
 <script>
@@ -55,6 +56,7 @@ import { ref, onMounted, getCurrentInstance } from 'vue';
 
 export default {
     setup() {
+        const isLoading = ref(false);
         const { proxy } = getCurrentInstance();//獲取全局組件
         const formData = ref({
             username: '',
@@ -83,6 +85,7 @@ export default {
 
         const doLogin = async () => {
             try {
+                isLoading.value = true;
                 const response = await proxy.$axios.post(config.api.client.login, formData.value);
                 localStorage.setItem('user', JSON.stringify(response.data.data));
                 doRememberMe(); // 如果成功就保存登入資料
@@ -90,6 +93,8 @@ export default {
             } catch (error) {
                 console.error('API request failed:', error);
                 info.value = error.response.data.data;
+            } finally {
+                isLoading.value = false;
             }
         };
 
@@ -118,6 +123,7 @@ export default {
             showPassword,
             status,
             info,
+            isLoading,
             doRememberMe,
             forgetPassword,
             doLogin,
