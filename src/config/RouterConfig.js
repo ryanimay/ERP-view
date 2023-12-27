@@ -52,7 +52,8 @@ const router = [
         components: {
             header: () => import('../components/header/LeftHeader.vue'),
             body: () => import('../components/body/UserInfo.vue'),
-        }
+        },
+        meta: { requiresAuth: true },
     }
 ]
 
