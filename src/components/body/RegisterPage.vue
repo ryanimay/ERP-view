@@ -101,15 +101,7 @@
 import { ref, onMounted, getCurrentInstance } from 'vue';
 import backBtn from '@/components/body/BackBtn.vue';
 import path from '@/config/RouterPath';
-import { defineRule } from 'vee-validate';
 const isLoading = ref(false);
-
-const createValidationRule = (regex, errorMessage) => (value) => regex.test(value) || errorMessage;
-// 自定義規則
-defineRule('atLeastOneLowercase', createValidationRule(/.*[a-z].*/, 'Password must contain at least one lowercase letter.'));
-defineRule('atLeastOneUppercase', createValidationRule(/.*[A-Z].*/, 'Password must contain at least one uppercase letter.'));
-defineRule('atLeastOneNumber', createValidationRule(/.*\d.*/, 'Password must contain at least one number.'));
-defineRule('noSpecialChars', createValidationRule(/^[^\s!@#$%^&*()_+={}[\]:;<>,.?~\\/-]+$/, 'Password must not contain special characters.'));
 
 const { proxy } = getCurrentInstance();//獲取全局組件
 
