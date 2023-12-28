@@ -3,7 +3,7 @@
         <VForm @submit="handleSubmit" class="bodyframe" v-if="isEdit">
             <div class="textblock" style="margin-top: 3%; justify-content: space-between;">
                 <h1>EditUser</h1>
-                <p>{{ info }}</p>
+                <p style="color: #c50000; font-size: 14px; margin-right: 50%;">{{ info }}</p>
             </div>
             <div class="textblock">
                 <font-awesome-icon icon="address-card" />
@@ -14,16 +14,39 @@
                 <p>User Name: {{ user.username }}</p>
             </div>
             <div class="textblock">
-                <ErrorMessage name="password" />
-                <div style="display: flex;">
-                    <label for="password">
-                        <p>Password: </p>
+                <font-awesome-icon icon="key" />
+                <p>Password:</p>
+                <img src="@/assets/icon/svg/editPasswordBtn.svg" id="editPwdbtn" @click="editPwdbtn">
+            </div>
+            <!-- <div class="textblock canchange">
+                <span v-if="!formData.oldpassword">Please enter your password</span>
+                <div style="display: flex; align-items: center;">
+                    <font-awesome-icon icon="key" />
+                    <label for="oldpassword" style="margin-left: 4%;">
+                        <p style="margin-left: 0;">Old Password: </p>
+                    </label>
+                    <div class="inputArea">
+                        <VField v-model="formData.oldpassword" :type="showPassword ? 'text' : 'password'" name="oldpassword"
+                            id="oldpassword" rules="required" placeholder="Enter your password" />
+                        <img v-if="showPassword" class="showPasswordBtn" @click="showpassword"
+                            src="@/assets/icon/svg/loginPage/visible.svg">
+                        <img v-else class="showPasswordBtn" @click="showpassword"
+                            src="@/assets/icon/svg/loginPage/invisible.svg">
+                    </div>
+                </div>
+            </div>
+
+            <div class="textblock canchange">
+                <ErrorMessage v-if="formData.password" name="password" />
+                <span v-else>If no changes are made, leave it blank.</span>
+                <div style="display: flex; align-items: center;">
+                    <font-awesome-icon icon="key" />
+                    <label for="password" style="margin-left: 4%;">
+                        <p style="margin-left: 0;">New Password: </p>
                     </label>
                     <div class="inputArea">
                         <VField v-model="formData.password" :type="showPassword ? 'text' : 'password'" name="password"
-                            id="password"
-                            rules="required|min:8|max:20|atLeastOneLowercase|atLeastOneUppercase|atLeastOneNumber|noSpecialChars"
-                            placeholder="Enter your password" />
+                            id="password" :rules="passwordRules" placeholder="Enter your password" />
                         <img v-if="showPassword" class="showPasswordBtn" @click="showpassword"
                             src="@/assets/icon/svg/loginPage/visible.svg">
                         <img v-else class="showPasswordBtn" @click="showpassword"
@@ -32,28 +55,30 @@
                 </div>
             </div>
 
-            <div class="textblock">
+            <div class="textblock canchange">
                 <ErrorMessage name="confirmPassword" />
-                <div style="display: flex;">
-                    <label for="confirmPassword">
-                        <p>ConfirmPassword:</p>
+                <div style="display: flex; align-items: center;">
+                    <font-awesome-icon icon="key" />
+                    <label for="confirmPassword" style="margin-left: 3%;">
+                        <p style="margin-left: 0;">Confirm New Password:</p>
                     </label>
                     <div class="inputArea">
                         <VField :type="showPassword ? 'text' : 'password'" name="confirmPassword" id="confirmPassword"
-                            rules="required|confirmed:@password" placeholder="Confirm your password" />
+                            rules="confirmed:@password" placeholder="Confirm your password" />
                         <img v-if="showPassword" class="showPasswordBtn" @click="showpassword"
                             src="@/assets/icon/svg/loginPage/visible.svg">
                         <img v-else class="showPasswordBtn" @click="showpassword"
                             src="@/assets/icon/svg/loginPage/invisible.svg">
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="textblock">
+            <div class="textblock canchange">
                 <ErrorMessage name="email" />
-                <div style="display: flex;">
-                    <label for="email">
-                        <p>Email:</p>
+                <div style="display: flex; align-items: center;">
+                    <font-awesome-icon icon="envelope" />
+                    <label for="email" style="margin-left: 4.5%;">
+                        <p style="margin-left: 0;">Email:</p>
                     </label>
                     <VField v-model="formData.email" name="email" id="email" rules="required|email"
                         placeholder="Enter your email" />
@@ -109,26 +134,64 @@
             </div>
         </div>
     </BasicBody>
+    <VLoading :active="isLoading"></VLoading>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watchEffect, getCurrentInstance } from 'vue';
+import config from '@/config/RouterPath';
+const { proxy } = getCurrentInstance();//獲取全局組件
 const user = ref(JSON.parse(localStorage.getItem('user')));
 const isEdit = ref(false);
+const formData = ref({
+    username: user.value.username,
+    email: user.value.email
+});
+let info = ref(undefined);
 const editbtn = () => {
     isEdit.value = !isEdit.value;
+    formData.value.email = user.value.email;
 }
-const formData = {
-    password: user.value.password,
-    email: user.value.email
-};
-const showPassword = ref(false);
-const showpassword = () => {
-    showPassword.value = !showPassword.value;
-};
+// const showPassword = ref(false);
+// const showpassword = () => {
+//     showPassword.value = !showPassword.value;
+// };
+let passwordRules = ref(undefined);
+//動態設置規則
+watchEffect(() => {
+    passwordRules.value = formData.value.password
+        ? 'min:8|max:20|atLeastOneLowercase|atLeastOneUppercase|atLeastOneNumber|noSpecialChars'
+        : undefined;
+});
+
+const isLoading = ref(false);
+const handleSubmit = async () => {
+    formData.value
+    try {
+        isLoading.value = true;
+        const response = await proxy.$axios.put(config.api.client.update.path, formData.value);
+        localStorage.setItem('user', JSON.stringify(response.data.data));
+        user.value = response.data.data;
+        isEdit.value = !isEdit.value;
+    } catch (error) {
+        console.error('API request failed:', error);
+        info.value = error.response.data.data;
+    } finally {
+        isLoading.value = false;
+    }
+}
 </script>
 
 <style scoped>
+#editPwdbtn {
+    margin-left: 1%;
+    cursor: pointer;
+}
+
+#editPwdbtn:hover {
+    content: url('@/assets/icon/svg/editPasswordBtn_hover.svg');
+}
+
 input {
     width: 100%;
     padding: 0 3%;
@@ -151,7 +214,7 @@ input {
     position: absolute;
     height: 50%;
     cursor: pointer;
-    right:3%
+    right: 3%
 }
 
 #savebtn {
@@ -182,7 +245,7 @@ input {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -200,6 +263,22 @@ input {
 .textblock p {
     margin: 0;
     margin-left: 2%;
+}
+
+.canchange {
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+.canchange span {
+    color: #c50000;
+    font-size: 14px;
+    line-height: 15px;
+}
+
+.canchange input::placeholder {
+    font-size: 16px;
 }
 
 .bodyframe {
