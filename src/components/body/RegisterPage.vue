@@ -118,7 +118,7 @@ const info = ref('');
 onMounted(async () => {
   try {
     isLoading.value = true;
-    const response = await proxy.$axios.get(path.api.role.list);
+    const response = await proxy.$axios.get(path.api.role.list.path);
     roles.value = response.data.data;
   } catch (e) {
     console.error('loading roles error:' + e);
@@ -130,7 +130,7 @@ onMounted(async () => {
 const handleSubmit = async () => {
   try {
     isLoading.value = true;
-    const response = await proxy.$axios.post(path.api.client.register, formData.value);
+    const response = await proxy.$axios.post(path.api.client.register.path, formData.value);
     proxy.$store.dispatch('setPromptMessage', response.data.data);
     proxy.$router.push({
       name: "messagePage"

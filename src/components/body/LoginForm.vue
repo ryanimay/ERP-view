@@ -86,7 +86,7 @@ export default {
         const doLogin = async () => {
             try {
                 isLoading.value = true;
-                const response = await proxy.$axios.post(config.api.client.login, formData.value);
+                const response = await proxy.$axios.post(config.api.client.login.path, formData.value);
                 localStorage.setItem('user', JSON.stringify(response.data.data));
                 doRememberMe(); // 如果成功就保存登入資料
                 proxy.$router.push({ name: 'home' });

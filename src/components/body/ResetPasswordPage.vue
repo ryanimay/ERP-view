@@ -52,7 +52,7 @@ export default {
     const doReset = async () => {
       try {
         isLoading.value = true;
-        const response = await proxy.$axios.put(config.api.client.resetPassword, formData.value);
+        const response = await proxy.$axios.put(config.api.client.resetPassword.path, formData.value);
         proxy.$store.dispatch('setPromptMessage', response.data.data);
         proxy.$router.push({
           name: "messagePage"
