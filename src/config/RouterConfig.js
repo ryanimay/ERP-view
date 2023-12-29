@@ -54,6 +54,24 @@ const router = [
             body: () => import('../components/body/UserInfo.vue'),
         },
         meta: { requiresAuth: true },
+    },
+    {
+        path: '/userList',
+        name: 'UserList',
+        components: {
+            header: () => import('../components/header/LeftHeader.vue'),
+            body: () => import('../components/body/userList.vue'),
+        },
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/permissionList',
+        name: 'PermissionList',
+        components: {
+            header: () => import('../components/header/LeftHeader.vue'),
+            body: () => import('../components/body/permissionList.vue'),
+        },
+        meta: { requiresAuth: true },
     }
 ]
 

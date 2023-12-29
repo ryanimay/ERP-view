@@ -23,10 +23,14 @@
     <template v-slot:slot2>
       <el-collapse accordion id="headerB">
         <el-collapse-item title="User Management">
-          <p><font-awesome-icon icon="users" /> UserList</p>
+          <router-link :to="{ name: 'UserList' }">
+            <p><font-awesome-icon icon="users" /> UserList</p>
+          </router-link>
         </el-collapse-item>
         <el-collapse-item title="Permission Management">
-          <p><font-awesome-icon icon="receipt" /> PermissionList</p>
+          <router-link :to="{ name: 'PermissionList' }">
+            <p><font-awesome-icon icon="receipt" /> PermissionList</p>
+          </router-link>
         </el-collapse-item>
       </el-collapse>
     </template>
@@ -52,6 +56,9 @@ const logout = () => {
 }
 </script>
 <style>
+a {
+  text-decoration: none;
+}
 .userbtn {
   flex: 1;
   border-radius: 3px;
@@ -63,20 +70,21 @@ const logout = () => {
   align-items: center;
   justify-content: center;
   line-height: 30px;
-  text-decoration: none;
 }
 
 .userbtn:hover {
   background-color: #707070;
 }
 
-.el-collapse-item__content{
+.el-collapse-item__content {
   padding-bottom: 0;
 }
-.el-collapse-item__wrap{
+
+.el-collapse-item__wrap {
   border-bottom: none;
 }
-.el-collapse{
+
+.el-collapse {
   border: 0;
 }
 
