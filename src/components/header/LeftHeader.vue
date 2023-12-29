@@ -34,7 +34,6 @@
 </template>
 <script setup>
 import { ref, getCurrentInstance } from 'vue';
-import { ElCollapse, ElCollapseItem } from 'element-plus';
 const { proxy } = getCurrentInstance();
 let showUserMenu = ref(false);
 const clickUser = () => {
@@ -71,6 +70,16 @@ const logout = () => {
   background-color: #707070;
 }
 
+.el-collapse-item__content{
+  padding-bottom: 0;
+}
+.el-collapse-item__wrap{
+  border-bottom: none;
+}
+.el-collapse{
+  border: 0;
+}
+
 .el-collapse-item__content p {
   font-size: 15px;
   background-color: #777777;
@@ -82,20 +91,11 @@ const logout = () => {
 
 .el-collapse-item__content p:hover {
   background-color: #707070;
+  cursor: pointer;
 }
 
 .el-collapse-item__arrow .is-active svg {
   transform: rotateZ(270deg);
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  margin-top: -7px;
-  transition: transform .3s, -webkit-transform .3s;
-  width: 12px;
-}
-
-.el-collapse-item__arrow svg {
-  transform: rotateZ(90deg);
   position: absolute;
   top: 50%;
   right: 20px;
@@ -115,7 +115,6 @@ const logout = () => {
 
 .el-collapse-item.is-active {
   height: auto;
-  /* 展開時高度自動擴展 */
 }
 
 .el-collapse-item__header {
@@ -130,6 +129,7 @@ const logout = () => {
   border-bottom: 1px solid #5f5f5f;
   border-left: 0px;
   border-right: 0px;
+  padding-left: 5%;
 }
 
 #header {
