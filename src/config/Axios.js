@@ -2,7 +2,7 @@ import axios from "axios";
 import routers from './RouterPath.js'
 const instance = axios.create({
     baseURL: '',
-    timeout: 10000,
+    timeout: 15000,
     headers: {
         'Content-Type': 'application/json',
     },
