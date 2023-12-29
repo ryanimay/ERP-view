@@ -16,63 +16,8 @@
             <div class="textblock">
                 <font-awesome-icon icon="key" />
                 <p>Password:</p>
-                <img src="@/assets/icon/svg/editPasswordBtn.svg" id="editPwdbtn" @click="editPwdbtn">
+                <img src="@/assets/icon/svg/editPasswordBtn.svg" id="editPwdbtn" @click="isdialogVisible">
             </div>
-            <!-- <div class="textblock canchange">
-                <span v-if="!formData.oldpassword">Please enter your password</span>
-                <div style="display: flex; align-items: center;">
-                    <font-awesome-icon icon="key" />
-                    <label for="oldpassword" style="margin-left: 4%;">
-                        <p style="margin-left: 0;">Old Password: </p>
-                    </label>
-                    <div class="inputArea">
-                        <VField v-model="formData.oldpassword" :type="showPassword ? 'text' : 'password'" name="oldpassword"
-                            id="oldpassword" rules="required" placeholder="Enter your password" />
-                        <img v-if="showPassword" class="showPasswordBtn" @click="showpassword"
-                            src="@/assets/icon/svg/loginPage/visible.svg">
-                        <img v-else class="showPasswordBtn" @click="showpassword"
-                            src="@/assets/icon/svg/loginPage/invisible.svg">
-                    </div>
-                </div>
-            </div>
-
-            <div class="textblock canchange">
-                <ErrorMessage v-if="formData.password" name="password" />
-                <span v-else>If no changes are made, leave it blank.</span>
-                <div style="display: flex; align-items: center;">
-                    <font-awesome-icon icon="key" />
-                    <label for="password" style="margin-left: 4%;">
-                        <p style="margin-left: 0;">New Password: </p>
-                    </label>
-                    <div class="inputArea">
-                        <VField v-model="formData.password" :type="showPassword ? 'text' : 'password'" name="password"
-                            id="password" :rules="passwordRules" placeholder="Enter your password" />
-                        <img v-if="showPassword" class="showPasswordBtn" @click="showpassword"
-                            src="@/assets/icon/svg/loginPage/visible.svg">
-                        <img v-else class="showPasswordBtn" @click="showpassword"
-                            src="@/assets/icon/svg/loginPage/invisible.svg">
-                    </div>
-                </div>
-            </div>
-
-            <div class="textblock canchange">
-                <ErrorMessage name="confirmPassword" />
-                <div style="display: flex; align-items: center;">
-                    <font-awesome-icon icon="key" />
-                    <label for="confirmPassword" style="margin-left: 3%;">
-                        <p style="margin-left: 0;">Confirm New Password:</p>
-                    </label>
-                    <div class="inputArea">
-                        <VField :type="showPassword ? 'text' : 'password'" name="confirmPassword" id="confirmPassword"
-                            rules="confirmed:@password" placeholder="Confirm your password" />
-                        <img v-if="showPassword" class="showPasswordBtn" @click="showpassword"
-                            src="@/assets/icon/svg/loginPage/visible.svg">
-                        <img v-else class="showPasswordBtn" @click="showpassword"
-                            src="@/assets/icon/svg/loginPage/invisible.svg">
-                    </div>
-                </div>
-            </div> -->
-
             <div class="textblock canchange">
                 <ErrorMessage name="email" />
                 <div style="display: flex; align-items: center;">
@@ -104,6 +49,7 @@
         <div class="bodyframe" v-else>
             <div class="textblock" style="margin-top: 3%;">
                 <h1>UserInfo</h1>
+                <p style="color: #c50000; font-size: 14px; margin-left: 5%;">{{ info }}</p>
             </div>
             <div class="textblock">
                 <font-awesome-icon icon="address-card" />
@@ -135,11 +81,86 @@
         </div>
     </BasicBody>
     <VLoading :active="isLoading"></VLoading>
+    <VForm @submit="submitUpdatePassword">
+        <el-dialog v-model="dialogVisible" width="500px" draggable>
+            <template #header="{ titleId, titleClass }">
+                <div class="my-header">
+                    <h1 :id="titleId" :class="titleClass" style="margin-bottom: 0;"><b>Update Password</b></h1>
+                    <p style="color: #c50000; font-size: 16px; margin-left: 3%;">{{ updatePasswordError }}</p>
+                </div>
+            </template>
+            <span id="dialogbody">
+                <div class="textblock canchange" style="margin: 2% 0; ">
+                    <ErrorMessage name="oldpassword" />
+                    <div style="display: flex; align-items: center; ">
+                        <font-awesome-icon icon="key" />
+                        <label for="oldpassword" style="margin-left: 2%;">
+                            <p style="margin-left: 0;">Old Password: </p>
+                        </label>
+                        <div class="inputArea">
+                            <VField v-model="passwordForm.oldPassword" :type="showPassword ? 'text' : 'password'"
+                                name="oldpassword" id="oldpassword" rules="required" placeholder="Enter your password" />
+                            <img v-if="showPassword" class="showPasswordBtn" @click="showpassword"
+                                src="@/assets/icon/svg/loginPage/visible.svg">
+                            <img v-else class="showPasswordBtn" @click="showpassword"
+                                src="@/assets/icon/svg/loginPage/invisible.svg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="textblock canchange" style="margin: 2% 0;">
+                    <ErrorMessage name="password" />
+                    <div style="display: flex; align-items: center;">
+                        <font-awesome-icon icon="key" />
+                        <label for="password" style="margin-left: 2%;">
+                            <p style="margin-left: 0;">New Password: </p>
+                        </label>
+                        <div class="inputArea">
+                            <VField v-model="passwordForm.password" :type="showPassword ? 'text' : 'password'" name="password"
+                                id="password" :rules="'required|min:8|max:20|atLeastOneLowercase|atLeastOneUppercase|atLeastOneNumber|noSpecialChars'" placeholder="Enter your password" />
+                            <img v-if="showPassword" class="showPasswordBtn" @click="showpassword"
+                                src="@/assets/icon/svg/loginPage/visible.svg">
+                            <img v-else class="showPasswordBtn" @click="showpassword"
+                                src="@/assets/icon/svg/loginPage/invisible.svg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="textblock canchange" style="margin: 2% 0;">
+                    <ErrorMessage name="confirmPassword" />
+                    <div style="display: flex; align-items: center;">
+                        <font-awesome-icon icon="key" />
+                        <label for="confirmPassword" style="margin-left: 2%;">
+                            <p style="margin-left: 0;">Confirm Password:</p>
+                        </label>
+                        <div class="inputArea">
+                            <VField v-model="passwordForm.confirmPassword" :type="showPassword ? 'text' : 'password'" name="confirmPassword" id="confirmPassword"
+                                rules="required|confirmed:@password" placeholder="Confirm your password" />
+                            <img v-if="showPassword" class="showPasswordBtn" @click="showpassword"
+                                src="@/assets/icon/svg/loginPage/visible.svg">
+                            <img v-else class="showPasswordBtn" @click="showpassword"
+                                src="@/assets/icon/svg/loginPage/invisible.svg">
+                        </div>
+                    </div>
+                </div>
+            </span>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button type="primary" native-type="submit">
+                        Save
+                    </el-button>
+                    <el-button @click="isdialogVisible">Cancel</el-button>
+                </span>
+            </template>
+        </el-dialog>
+    </VForm>
 </template>
 
 <script setup>
-import { ref, watchEffect, getCurrentInstance } from 'vue';
+import { ref, getCurrentInstance } from 'vue';
 import config from '@/config/RouterPath';
+import crypto from '@/config/Crypto';
+const dialogVisible = ref(false);
 const { proxy } = getCurrentInstance();//獲取全局組件
 const user = ref(JSON.parse(localStorage.getItem('user')));
 const isEdit = ref(false);
@@ -147,32 +168,33 @@ const formData = ref({
     username: user.value.username,
     email: user.value.email
 });
+const passwordForm = ref({
+    username: user.value.username,
+    oldPassword: undefined,
+    password: undefined,
+    confirmPassword: undefined,
+});
 let info = ref(undefined);
+let updatePasswordError = ref(undefined);
 const editbtn = () => {
     isEdit.value = !isEdit.value;
     formData.value.email = user.value.email;
+    info.value = undefined;
 }
-// const showPassword = ref(false);
-// const showpassword = () => {
-//     showPassword.value = !showPassword.value;
-// };
-let passwordRules = ref(undefined);
-//動態設置規則
-watchEffect(() => {
-    passwordRules.value = formData.value.password
-        ? 'min:8|max:20|atLeastOneLowercase|atLeastOneUppercase|atLeastOneNumber|noSpecialChars'
-        : undefined;
-});
+const showPassword = ref(false);
+const showpassword = () => {
+    showPassword.value = !showPassword.value;
+};
 
 const isLoading = ref(false);
 const handleSubmit = async () => {
-    formData.value
     try {
         isLoading.value = true;
         const response = await proxy.$axios.put(config.api.client.update.path, formData.value);
         localStorage.setItem('user', JSON.stringify(response.data.data));
         user.value = response.data.data;
         isEdit.value = !isEdit.value;
+        info.value = 'update success';
     } catch (error) {
         console.error('API request failed:', error);
         info.value = error.response.data.data;
@@ -180,9 +202,54 @@ const handleSubmit = async () => {
         isLoading.value = false;
     }
 }
+const isdialogVisible = () => {
+    dialogVisible.value = !dialogVisible.value;
+    passwordForm.value.oldPassword = undefined;
+    passwordForm.value.password = undefined;
+    passwordForm.value.confirmPassword = undefined;
+    updatePasswordError.value = undefined;
+}
+const submitUpdatePassword = async () => {
+    try {
+        isLoading.value = true;
+        const response = await proxy.$axios.put(config.api.client.updatePassword.path, passwordForm.value);
+        const encodePwd = crypto.encryptData(passwordForm.value.password);
+        localStorage.setItem('rememberPassword', encodePwd);
+        isdialogVisible();
+        editbtn();
+        info.value = response.data.data;
+    } catch (error) {
+        console.error('API request failed:', error);
+        updatePasswordError.value = error.response.data.data;
+    } finally {
+        isLoading.value = false;
+    }
+}
 </script>
 
 <style scoped>
+.vld-overlay.is-active {
+  z-index: 9999 !important;
+}
+#dialogbody{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.my-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.dialog-footer button:first-child  {
+    width: 58px;
+    margin-right: 5px;
+}
+.dialog-footer button:last-child {
+    width: 58px;
+    margin-left: 5px;
+}
+
 #editPwdbtn {
     margin-left: 1%;
     cursor: pointer;
