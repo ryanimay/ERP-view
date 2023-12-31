@@ -20,13 +20,13 @@
             </div>
             <div class="textblock canchange">
                 <ErrorMessage name="email" />
-                <div style="display: flex; align-items: center;">
+                <div style="display: flex; align-items: center; width: 100%;">
                     <font-awesome-icon icon="envelope" />
                     <label for="email" style="margin-left: 4.5%;">
                         <p style="margin-left: 0;">Email:</p>
                     </label>
                     <VField v-model="formData.email" name="email" id="email" rules="required|email"
-                        placeholder="Enter your email" />
+                        placeholder="Enter your email" style="width: 100%;"/>
                 </div>
             </div>
             <div class="textblock">
