@@ -7,7 +7,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import { ElContainer } from 'element-plus';
 const loading = ref(true);
 
 setTimeout(() => {

@@ -2,7 +2,7 @@
     <div id="header-container"></div>
 </template>
 
-<style>
+<style scoped>
 #header-container{
     width: 100%;
     height: 100vh;

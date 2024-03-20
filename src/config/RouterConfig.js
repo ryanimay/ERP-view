@@ -45,16 +45,20 @@ function isAuthenticated() {
 
 function tokenExpired() {
     const token = localStorage.getItem('token');
-    try {
-        const decodedToken = jwt_encode.decode(token);
-        if (decodedToken && decodedToken.exp) {
-            const currentTimestamp = Math.floor(Date.now() / 1000);
-            return decodedToken.exp < currentTimestamp;
+    if(token){
+        try {
+            const decodedToken = jwt_encode.decode(token);
+            if (decodedToken && decodedToken.exp) {
+                const currentTimestamp = Math.floor(Date.now() / 1000);
+                return decodedToken.exp < currentTimestamp;
+            }
+        } catch (error) {
+            console.log('ErrorToken:' + error);
         }
-    } catch (error) {
-        console.log('ErrorToken:' + error);
+        return true;
+    }else{
+        return false;
     }
-    return true;
 }
 
 export default { r, router };
