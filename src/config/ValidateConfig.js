@@ -7,19 +7,14 @@ import * as AllRules from '@vee-validate/rules';
 // VeeValidate 的 i18n 功能
 import { localize, setLocale } from '@vee-validate/i18n';
 
+//語系只分中英
 const getUserLocale = () => {
     let userLanguage = navigator.language || navigator.userLanguage;
     let userLocale;
-    if (userLanguage.startsWith('zh')) {
-        userLocale = 'zh_TW';
-    } else if (userLanguage.startsWith('en')) {
+    if (userLanguage.startsWith('en')) {
         userLocale = 'en';
-    } else if (userLanguage.startsWith('es')) {
-        userLocale = 'es';
-    } else if (userLanguage.startsWith('fr')) {
-        userLocale = 'fr';
     } else {
-        userLocale = 'en';
+        userLocale = 'zh_TW';
     }
     return userLocale;
 };

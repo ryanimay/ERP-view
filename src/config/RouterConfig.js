@@ -9,69 +9,9 @@ const router = [
         path: '/home',
         name: 'home',
         components: {
-            header: () => import('../components/header/LeftHeader.vue'),
-            body: () => import('../components/body/HomePage.vue'),
-        },
-        meta: { requiresAuth: true },
-    },
-    {
-        path: '/login',
-        name: 'login',
-        components: {
-            header: () => import('../components/header/HalfHeader.vue'),
-            body: () => import('../components/body/LoginForm.vue'),
+            header: () => import('../components/header/IndexHeader.vue'),
+            body: () => import('../components/body/IndexBody.vue'),
         }
-    },
-    {
-        path: '/resetPassword',
-        name: 'resetPassword',
-        components: {
-            header: () => import('../components/header/HalfHeader.vue'),
-            body: () => import('../components/body/ResetPasswordPage.vue'),
-        }
-    },
-    {
-        path: '/register',
-        name: 'register',
-        components: {
-            header: () => import('../components/header/HalfHeader.vue'),
-            body: () => import('../components/body/RegisterPage.vue'),
-        }
-    },
-    {
-        path: '/message',
-        name: 'messagePage',
-        components: {
-            header: () => import('../components/header/HalfHeader.vue'),
-            body: () => import('../components/body/MessagePage.vue'),
-        }
-    },
-    {
-        path: '/userInfo',
-        name: 'UserInfo',
-        components: {
-            header: () => import('../components/header/LeftHeader.vue'),
-            body: () => import('../components/body/UserInfo.vue'),
-        },
-        meta: { requiresAuth: true },
-    },
-    {
-        path: '/userList',
-        name: 'UserList',
-        components: {
-            header: () => import('../components/header/LeftHeader.vue'),
-            body: () => import('../components/body/userList.vue'),
-        },
-        meta: { requiresAuth: true },
-    },
-    {
-        path: '/permissionList',
-        name: 'PermissionList',
-        components: {
-            header: () => import('../components/header/LeftHeader.vue'),
-            body: () => import('../components/body/permissionList.vue'),
-        },
-        meta: { requiresAuth: true },
     }
 ]
 
