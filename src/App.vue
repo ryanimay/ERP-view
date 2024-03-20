@@ -1,24 +1,19 @@
 <template>
-  <div id="container">
+  <el-container v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
     <router-view name="header"/>
     <router-view name="body"/>
-  </div>
+  </el-container>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
+import { ElContainer } from 'element-plus';
+const loading = ref(true);
+
+setTimeout(() => {
+  loading.value = false;
+}, 2000);
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#container{
-  display: flex;
-  height: 100%;
-}
 </style>
