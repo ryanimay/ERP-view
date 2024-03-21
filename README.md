@@ -12,6 +12,7 @@ erp的前端部分
 多利用套件做畫面效果  
 figma熟練  
 Router配置的部分整合到後端讀資料庫  
+新筆記: https://hackmd.io/@S1MNxjTORYSfAfivxMlEQw/Bkf-N7Y0a
 
 ## 流程  
 專案啟動呼叫後端API
