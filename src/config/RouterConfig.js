@@ -9,8 +9,17 @@ const router = [
         path: '/home',
         name: 'home',
         components: {
-            header: () => import('../components/header/IndexHeader.vue'),
-            body: () => import('../components/body/IndexBody.vue'),
+            header: () => import('../components/header/HomeHeader.vue'),
+            body: () => import('../components/body/HomeBody.vue'),
+        },
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/login',
+        name: 'login',
+        components: {
+            header: () => import('../components/header/LoginHeader.vue'),
+            body: () => import('../components/body/LoginBody.vue'),
         }
     }
 ]
@@ -23,7 +32,7 @@ const r = createRouter({
 r.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
     const isNotAuthenticated = !isAuthenticated();
-    const tokenExpiredv = tokenExpired();
+    const tokenExpiredv = tokenExpired(requiresAuth);
     //如果是須驗驗證 且 未登入 或 token過期，導向到login頁面
     if (requiresAuth && (isNotAuthenticated || tokenExpiredv)) {
         next({
@@ -43,7 +52,7 @@ function isAuthenticated() {
     return user !== null && user !== undefined;
 }
 
-function tokenExpired() {
+function tokenExpired(requiresAuth) {
     const token = localStorage.getItem('token');
     if(token){
         try {
@@ -57,7 +66,11 @@ function tokenExpired() {
         }
         return true;
     }else{
-        return false;
+        if(requiresAuth == false){//不須驗證的url就放行
+            return false;
+        }else{
+            return true;
+        }
     }
 }
 
