@@ -21,6 +21,14 @@ const router = [
             header: () => import('../components/header/LoginHeader.vue'),
             body: () => import('../components/body/LoginBody.vue'),
         }
+    },
+    {
+        path: '/forgetPassword',
+        name: 'forgetPassword',
+        components: {
+            header: () => import('../components/header/LoginHeader.vue'),
+            body: () => import('../components/body/ResetPasswordBody.vue'),
+        }
     }
 ]
 
