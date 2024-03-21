@@ -1,23 +1,34 @@
 <template>
     <div id="body-container" v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
-        <div class="centerFrame" id="messageFrame">
-            <p v-if="message" id="message">{{ message }}</p>
-            <p v-else></p>
-        </div>
-        <el-form :model="loginForm" label-position="left" label-width="auto" size="large">
+        <el-row style="width: 100%;">
+            <el-col :span="11">
+                <h2>UpdateEmail</h2>
+            </el-col>
+            <el-col :span="13">
+                <div id="messageFrame">
+                    <p v-if="message" id="message">{{ message }}</p>
+                    <p v-else></p>
+                </div>
+            </el-col>
+        </el-row>
+        <el-form :model="formData" label-position="left" label-width="auto" size="large">
             <el-form-item label="Username:">
-                <el-input v-model="loginForm.username" class="input-area" />
+                <el-input v-model="formData.username" class="input-area" />
             </el-form-item>
-            <el-form-item label="Password:">
-                <el-input v-model="loginForm.password" type="password" show-password class="input-area" />
+            <el-form-item label="Email:">
+                <el-input v-model="formData.email" class="input-area" />
             </el-form-item>
-            <el-checkbox v-model="loginForm.rememberMe" label="RememberMe" />
             <el-form-item>
-                <el-button type="primary" @click="doLogin" id="btn">Login</el-button>
+                <el-row style="width: 100%;">
+                    <el-col :span="4">
+                        <el-button type="primary" @click="lastPage" id="btn">Cancel</el-button>
+                    </el-col>
+                    <el-col :span="2"></el-col>
+                    <el-col :span="18">
+                        <el-button type="primary" @click="resetPassword" id="btn">Submit</el-button>
+                    </el-col>
+                </el-row>
             </el-form-item>
-            <div class="centerFrame">
-                <router-link :to="{ name: 'forgetPassword' }" id="forgetPassword">ForgetPassword</router-link>
-            </div>
         </el-form>
     </div>
 </template>
@@ -25,35 +36,30 @@
 <script setup>
 import config from '@/config/RouterPath';
 import { reactive, ref, getCurrentInstance } from 'vue';
+import { useRouter } from 'vue-router';
 const loading = ref(false);
-const loginForm = reactive({
+const formData = reactive({
     username: '',
-    password: '',
-    rememberMe: ''
+    email: ''
 })
 const { proxy } = getCurrentInstance();//獲取全局組件
 const message = ref(proxy.$route.query.message);
+const router = useRouter();
+const lastPage = () => {
 
-const doLogin = async () => {
+
+
+    router.go(-1);
+}
+
+const resetPassword = async () => {
     try {
         loading.value = true;
-        const response = await proxy.$axios.post(config.api.client.login.path, loginForm);
+        const response = await proxy.$axios.put(config.api.client.resetPassword.path, formData);
         if (response.data.code != 200) {
             message.value = response.data.data;
         } else {
-            localStorage.setItem('user', JSON.stringify(response.data.data));
-            console.log(response);
-            //須重設密碼
-            if(response.data.data.mustUpdatePassword){
-                proxy.$router.push({ name: 'updatePassword' });
-            }else{
-                //檢查是否需要設置email
-                if(response.data.data.email){
-                    proxy.$router.push({ name: 'home' });
-                }else{
-                    proxy.$router.push({ name: 'updateEmail' });
-                }
-            }
+            // proxy.$router.push({ name: 'home' });
         }
     } catch (error) {
         console.error('API request failed:', error);
@@ -95,6 +101,7 @@ const doLogin = async () => {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 #forgetPassword {
@@ -110,11 +117,13 @@ const doLogin = async () => {
 
 #message {
     color: red;
-    margin-top: 0px;
-    margin-bottom: 10px;
+    margin: 0;
 }
 
 #messageFrame {
-    height: 28px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>

@@ -29,6 +29,22 @@ const router = [
             header: () => import('../components/header/LoginHeader.vue'),
             body: () => import('../components/body/ResetPasswordBody.vue'),
         }
+    },
+    {
+        path: '/updatePassword',
+        name: 'updatePassword',
+        components: {
+            header: () => import('../components/header/LoginHeader.vue'),
+            body: () => import('../components/body/UpdatePasswordBody.vue'),
+        }
+    },
+    {
+        path: '/updateEmail',
+        name: 'updateEmail',
+        components: {
+            header: () => import('../components/header/LoginHeader.vue'),
+            body: () => import('../components/body/UpdateEmailBody.vue'),
+        }
     }
 ]
 
