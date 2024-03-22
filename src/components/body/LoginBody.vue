@@ -32,14 +32,17 @@ const loginForm = reactive({
     rememberMe: ''
 })
 const { proxy } = getCurrentInstance();//獲取全局組件
-const message = ref(proxy.$route.query.message);
-
+const message = proxy.$route.query.message;
+if (message) {
+    proxy.$msg.warn(message);
+    proxy.$router.replace({ query: { ...proxy.$route.query, message: null } });
+}
 const doLogin = async () => {
     try {
         loading.value = true;
         const response = await proxy.$axios.post(config.api.client.login.path, loginForm);
         if (response.data.code != 200) {
-            message.value = response.data.data;
+            proxy.$msg.error(response.data.data);
         } else {
             localStorage.setItem('user', JSON.stringify(response.data.data));
             console.log(response);
