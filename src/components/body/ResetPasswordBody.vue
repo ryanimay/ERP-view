@@ -1,14 +1,8 @@
 <template>
     <div id="body-container" v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
         <el-row style="width: 100%;">
-            <el-col :span="11">
+            <el-col>
                 <h2>ResetPassword</h2>
-            </el-col>
-            <el-col :span="13">
-                <div id="messageFrame">
-                    <p v-if="message" id="message">{{ message }}</p>
-                    <p v-else></p>
-                </div>
             </el-col>
         </el-row>
         <el-form :model="formData" label-position="left" label-width="auto" size="large">
@@ -43,12 +37,8 @@ const formData = reactive({
     email: ''
 })
 const { proxy } = getCurrentInstance();//獲取全局組件
-const message = ref(proxy.$route.query.message);
 const router = useRouter();
 const lastPage = () => {
-
-
-
     router.go(-1);
 }
 
@@ -57,11 +47,13 @@ const resetPassword = async () => {
         loading.value = true;
         const response = await proxy.$axios.put(config.api.client.resetPassword.path, formData);
         if (response.data.code != 200) {
-            message.value = response.data.data;
+            proxy.$msg.error(response.data.data);
         } else {
-            // proxy.$router.push({ name: 'home' });
+            proxy.$msg.success('ResetPassword success');
+            proxy.$router.push({ name: 'login' });
         }
     } catch (error) {
+        proxy.$msg.error('Unknown Error');
         console.error('API request failed:', error);
     } finally {
         loading.value = false;
@@ -113,17 +105,5 @@ const resetPassword = async () => {
 
 #forgetPassword:hover {
     color: #79bbff;
-}
-
-#message {
-    color: red;
-    margin: 0;
-}
-
-#messageFrame {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 </style>

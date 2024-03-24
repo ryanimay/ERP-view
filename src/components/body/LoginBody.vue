@@ -1,8 +1,7 @@
 <template>
     <div id="body-container" v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
-        <div class="centerFrame" id="messageFrame">
-            <p v-if="message" id="message">{{ message }}</p>
-            <p v-else></p>
+        <div class="centerFrame">
+            <h2 id="title">Login</h2>
         </div>
         <el-form :model="loginForm" label-position="left" label-width="auto" size="large">
             <el-form-item label="Username:">
@@ -45,20 +44,22 @@ const doLogin = async () => {
             proxy.$msg.error(response.data.data);
         } else {
             localStorage.setItem('user', JSON.stringify(response.data.data));
+            proxy.$msg.success('Login success');
             console.log(response);
             //須重設密碼
-            if(response.data.data.mustUpdatePassword){
+            if (response.data.data.mustUpdatePassword) {
                 proxy.$router.push({ name: 'updatePassword' });
-            }else{
+            } else {
                 //檢查是否需要設置email
-                if(response.data.data.email){
+                if (response.data.data.email) {
                     proxy.$router.push({ name: 'home' });
-                }else{
+                } else {
                     proxy.$router.push({ name: 'updateEmail' });
                 }
             }
         }
     } catch (error) {
+        proxy.$msg.error('Unknown Error');
         console.error('API request failed:', error);
     } finally {
         loading.value = false;
@@ -75,9 +76,9 @@ const doLogin = async () => {
     padding: 10px 30px 10px 30px;
     border-radius: 15px;
     width: 346px;
-    height: 236px;
+    height: 274px;
     margin-left: -203px;
-    margin-top: -128px;
+    margin-top: -142px;
 }
 
 #btn {
@@ -117,7 +118,7 @@ const doLogin = async () => {
     margin-bottom: 10px;
 }
 
-#messageFrame {
+#title {
     height: 28px;
 }
 </style>
