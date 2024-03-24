@@ -36,7 +36,8 @@ const router = [
         components: {
             header: () => import('../components/header/LoginHeader.vue'),
             body: () => import('../components/body/UpdatePasswordBody.vue'),
-        }
+        },
+        meta: { requiresAuth: true }
     },
     {
         path: '/updateEmail',
@@ -44,7 +45,8 @@ const router = [
         components: {
             header: () => import('../components/header/LoginHeader.vue'),
             body: () => import('../components/body/UpdateEmailBody.vue'),
-        }
+        },
+        meta: { requiresAuth: true }
     }
 ]
 

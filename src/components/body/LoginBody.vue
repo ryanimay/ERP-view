@@ -45,7 +45,6 @@ const doLogin = async () => {
         } else {
             localStorage.setItem('user', JSON.stringify(response.data.data));
             proxy.$msg.success('Login success');
-            console.log(response);
             //須重設密碼
             if (response.data.data.mustUpdatePassword) {
                 proxy.$router.push({ name: 'updatePassword' });

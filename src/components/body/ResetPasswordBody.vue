@@ -15,11 +15,11 @@
             <el-form-item>
                 <el-row style="width: 100%;">
                     <el-col :span="4">
-                        <el-button type="info" @click="lastPage" id="btn">Cancel</el-button>
+                        <el-button type="info" @click="lastPage" class="btn">Cancel</el-button>
                     </el-col>
                     <el-col :span="2"></el-col>
                     <el-col :span="18">
-                        <el-button type="primary" @click="resetPassword" id="btn">Submit</el-button>
+                        <el-button type="primary" @click="resetPassword" class="btn">Submit</el-button>
                     </el-col>
                 </el-row>
             </el-form-item>
@@ -75,7 +75,7 @@ const resetPassword = async () => {
     margin-top: -128px;
 }
 
-#btn {
+.btn {
     width: 100%;
 }
 
