@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import jwt_encode from 'vue-jwt-decode';
+import { tokenExpired } from '@/config/JwtTool';
 const router = [
     {
         path: '/',
@@ -57,18 +57,26 @@ const r = createRouter({
 
 r.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
-    const isNotAuthenticated = !isAuthenticated();
-    const tokenExpiredv = tokenExpired(requiresAuth);
+    const userExist = isAuthenticated();
+    const tokenExpiredv = tokenExpired(localStorage.getItem('token'));
     //如果是須驗驗證 且 未登入 或 token過期，導向到login頁面
-    if (requiresAuth && (isNotAuthenticated || tokenExpiredv)) {
+    if (requiresAuth && (!userExist || tokenExpiredv)) {
         next({
-            path:'/login',
-            query:{
-                //如果正常登出isNotAuthenticated會被刪除，就不用顯示提示字
-                message: isNotAuthenticated ? undefined : 'Please re-login.'
+            name: 'login',
+            query: {
+                //如果正常登出user會被刪除，就不用顯示提示字
+                message: userExist ? 'Please re-login.' : undefined
             }
         });
     } else {
+        if (to.name === 'login'
+            && userExist
+            && localStorage.getItem('rememberMe')
+            && !tokenExpiredv) {
+            next({
+                name: 'home'
+            });
+        }
         next();
     }
 });
@@ -76,28 +84,6 @@ r.beforeEach((to, from, next) => {
 function isAuthenticated() {
     const user = localStorage.getItem('user');
     return user !== null && user !== undefined;
-}
-
-function tokenExpired(requiresAuth) {
-    const token = localStorage.getItem('token');
-    if(token){
-        try {
-            const decodedToken = jwt_encode.decode(token);
-            if (decodedToken && decodedToken.exp) {
-                const currentTimestamp = Math.floor(Date.now() / 1000);
-                return decodedToken.exp < currentTimestamp;
-            }
-        } catch (error) {
-            console.log('ErrorToken:' + error);
-        }
-        return true;
-    }else{
-        if(requiresAuth == false){//不須驗證的url就放行
-            return false;
-        }else{
-            return true;
-        }
-    }
 }
 
 export default { r, router };
