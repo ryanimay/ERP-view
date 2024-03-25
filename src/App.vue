@@ -1,5 +1,5 @@
 <template>
-  <el-container v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
+  <el-container id="mainContainer">
     <router-view name="header" />
     <router-view v-slot="{ Component }" name="body">
       <transition name="fade" mode="out-in">
@@ -10,11 +10,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-const loading = ref(true);
-setTimeout(() => {
-  loading.value = false;
-}, 1000);
 </script>
 
 <style>
@@ -26,5 +21,19 @@ setTimeout(() => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+#mainContainer{
+  height: 100%;
+}
+
+#homeHeaderContainer{
+  width: 250px;
+  height: 100%;
+}
+
+.homeBodyContainer{
+  height: 100%;
+  width: 100%;
 }
 </style>
