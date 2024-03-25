@@ -24,13 +24,14 @@
 <script setup>
 import config from '@/config/RouterPath';
 import { reactive, ref, getCurrentInstance } from 'vue';
+const rememberMeCheck = localStorage.getItem('rememberMe');
+const { proxy } = getCurrentInstance();//獲取全局組件
 const loading = ref(false);
 const loginForm = reactive({
-    username: '',
+    username: rememberMeCheck ? rememberMeCheck : '',
     password: '',
-    rememberMe: ''
+    rememberMe: rememberMeCheck ? true : ''
 })
-const { proxy } = getCurrentInstance();//獲取全局組件
 const message = proxy.$route.query.message;
 if (message) {
     proxy.$msg.warn(message);
@@ -38,6 +39,7 @@ if (message) {
 }
 const doLogin = async () => {
     try {
+        setRememberMe();
         loading.value = true;
         const response = await proxy.$axios.post(config.api.client.login.path, loginForm);
         if (response.data.code != 200) {
@@ -64,6 +66,13 @@ const doLogin = async () => {
         loading.value = false;
     }
 };
+function setRememberMe(){
+    if (loginForm.rememberMe === true) {
+        localStorage.setItem('rememberMe', loginForm.username);
+    } else {
+        localStorage.removeItem('rememberMe');
+    }
+}
 </script>
 
 <style scoped>
