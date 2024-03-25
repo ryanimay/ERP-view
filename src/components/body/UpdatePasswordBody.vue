@@ -7,13 +7,13 @@
         </el-row>
         <el-form :model="formData" label-position="left" label-width="auto" size="large">
             <el-form-item label="Old Password:">
-                <el-input v-model="formData.oldPassword" class="input-area" type="password" show-password/>
+                <el-input v-model="formData.oldPassword" class="input-area" type="password" show-password />
             </el-form-item>
             <el-form-item label="New Password:">
-                <el-input v-model="formData.password" class="input-area" type="password" show-password/>
+                <el-input v-model="formData.password" class="input-area" type="password" show-password />
             </el-form-item>
             <el-form-item label="Confirm New Password:">
-                <el-input v-model="formData.confirmPassword" class="input-area" type="password" show-password/>
+                <el-input v-model="formData.confirmPassword" class="input-area" type="password" show-password />
             </el-form-item>
             <el-form-item>
                 <el-row style="width: 100%;">
@@ -49,9 +49,9 @@ const lastPage = () => {
 }
 
 const resetPassword = async () => {
-    if(formData.confirmPassword != formData.password){
-            proxy.$msg.error('Passwords do not match');
-    }else{
+    if (formData.confirmPassword != formData.password) {
+        proxy.$msg.error('Passwords do not match');
+    } else {
         try {
             loading.value = true;
             const response = await proxy.$axios.put(config.api.client.updatePassword.path, formData);
@@ -59,7 +59,11 @@ const resetPassword = async () => {
                 proxy.$msg.error(response.data.data);
             } else {
                 proxy.$msg.success(response.data.data);
-                proxy.$router.push({ name: 'updateEmail' });
+                if (user.email) {
+                    proxy.$router.push({ name: 'home' });
+                } else {
+                    proxy.$router.push({ name: 'updateEmail' });
+                }
             }
         } catch (error) {
             proxy.$msg.error('Unknown Error');
