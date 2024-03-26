@@ -39,26 +39,10 @@ if (message) {
 }
 const doLogin = async () => {
     try {
-        setRememberMe();
         loading.value = true;
-        const response = await proxy.$axios.post(config.api.client.login.path, loginForm);
-        if (response.data.code != 200) {
-            proxy.$msg.error(response.data.data);
-        } else {
-            localStorage.setItem('user', JSON.stringify(response.data.data));
-            proxy.$msg.success('Login success');
-            //須重設密碼
-            if (response.data.data.mustUpdatePassword) {
-                proxy.$router.push({ name: 'updatePassword' });
-            } else {
-                //檢查是否需要設置email
-                if (response.data.data.email) {
-                    proxy.$router.push({ name: 'home' });
-                } else {
-                    proxy.$router.push({ name: 'updateEmail' });
-                }
-            }
-        }
+        setRememberMe();
+        const response = await loginRequest();
+        await handleResponse(response);
     } catch (error) {
         proxy.$msg.error('Unknown Error');
         console.error('API request failed:', error);
@@ -66,11 +50,33 @@ const doLogin = async () => {
         loading.value = false;
     }
 };
-function setRememberMe(){
+function setRememberMe() {
     if (loginForm.rememberMe === true) {
         localStorage.setItem('rememberMe', loginForm.username);
     } else {
         localStorage.removeItem('rememberMe');
+    }
+}
+async function loginRequest() {
+    return await proxy.$axios.post(config.api.client.login.path, loginForm);
+}
+async function handleRouterRole(roleId) {
+    const response = await proxy.$axios.get(config.api.router.role.path, { params: { roleIds: roleId.join(',') } });
+    if (response.data.code === 200) {
+        localStorage.setItem('routerRole', JSON.stringify(response.data.data));
+    } else {
+        proxy.$msg.error('Unknown Error');
+        console.error('RouterRole request failed:', response.data.data);
+    }
+}
+async function handleResponse(response) {
+    if (response.data.code != 200) {
+        proxy.$msg.error(response.data.data);
+    } else {
+        localStorage.setItem('user', JSON.stringify(response.data.data));
+        await handleRouterRole(response.data.data.roleId);
+        proxy.$msg.success('Login success');
+        proxy.$router.push({ name: 'home' });
     }
 }
 </script>

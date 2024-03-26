@@ -5,15 +5,16 @@
                 <h2>UpdatePassword</h2>
             </el-col>
         </el-row>
-        <el-form :model="formData" label-position="left" label-width="auto" size="large">
-            <el-form-item label="Old Password:">
-                <el-input v-model="formData.oldPassword" class="input-area" type="password" show-password />
+        <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef"
+            :rules="formRules" status-icon>
+            <el-form-item prop="oldPassword" label="Old Password:">
+                <el-input v-model="formData.oldPassword" class="input-area" type="password" />
             </el-form-item>
-            <el-form-item label="New Password:">
-                <el-input v-model="formData.password" class="input-area" type="password" show-password />
+            <el-form-item prop="password" label="New Password:">
+                <el-input v-model="formData.password" class="input-area" type="password" />
             </el-form-item>
-            <el-form-item label="Confirm New Password:">
-                <el-input v-model="formData.confirmPassword" class="input-area" type="password" show-password />
+            <el-form-item prop="confirmPassword" label="Confirm:">
+                <el-input v-model="formData.confirmPassword" class="input-area" type="password" />
             </el-form-item>
             <el-form-item>
                 <el-row style="width: 100%;">
@@ -33,7 +34,6 @@
 <script setup>
 import config from '@/config/RouterPath';
 import { reactive, ref, getCurrentInstance } from 'vue';
-import { useRouter } from 'vue-router';
 const user = JSON.parse(localStorage.getItem('user'));
 const loading = ref(false);
 const formData = reactive({
@@ -43,36 +43,90 @@ const formData = reactive({
     confirmPassword: '',
 })
 const { proxy } = getCurrentInstance();//獲取全局組件
-const router = useRouter();
 const lastPage = () => {
-    router.go(-1);
+    proxy.$router.push({ name: 'login' });
 }
 
 const resetPassword = async () => {
-    if (formData.confirmPassword != formData.password) {
-        proxy.$msg.error('Passwords do not match');
-    } else {
+    if (await validate()) {
         try {
             loading.value = true;
-            const response = await proxy.$axios.put(config.api.client.updatePassword.path, formData);
-            if (response.data.code != 200) {
-                proxy.$msg.error(response.data.data);
-            } else {
-                proxy.$msg.success(response.data.data);
-                if (user.email) {
-                    proxy.$router.push({ name: 'home' });
-                } else {
-                    proxy.$router.push({ name: 'updateEmail' });
-                }
-            }
+            const response = await updatePasswordRequest();
+            handleResponse(response);
         } catch (error) {
             proxy.$msg.error('Unknown Error');
             console.error('API request failed:', error);
         } finally {
             loading.value = false;
         }
+    } else {
+        return false;
     }
 };
+async function updatePasswordRequest() {
+    return await proxy.$axios.put(config.api.client.updatePassword.path, formData);
+}
+function handleResponse(response) {
+    if (response.data.code != 200) {
+        proxy.$msg.error(response.data.data);
+    } else {
+        proxy.$msg.success(response.data.data);
+        user.mustUpdatePassword = false;
+        localStorage.setItem('user', JSON.stringify(user))
+        proxy.$router.push({ name: 'home' });
+    }
+}
+const formRef = ref(null);
+const formRules = reactive({
+    oldPassword: [{ validator: requiredRule, trigger: 'blur' }],
+    password: [{ validator: validatePassword, trigger: 'blur' }],
+    confirmPassword: [{ validator: confirmPwd, trigger: 'blur' }]
+})
+function validate() {
+    return formRef.value.validate((valid) => {
+        return valid;
+    })
+}
+function requiredRule(rule, value, callback) {
+    if (!value) {
+        callback(new Error('Please input old password'));
+    } else {
+        callback();
+    }
+
+}
+function validatePassword(rule, value, callback) {
+    const lowerCaseRegex = /.*[a-z].*/;
+    const upperCaseRegex = /.*[A-Z].*/;
+    const numberRegex = /.*\d.*/;
+    const specialCharRegex = /^[^\s!@#$%^&*()_+={}[\]:;<>,.?~\\/-]+$/;
+    if (!value) {
+        callback(new Error('Please input password'));
+    } else {
+        if (!lowerCaseRegex.test(value)) {
+            proxy.$msg.error('Password must contain at least one lowercase letter.');
+        } else if (!upperCaseRegex.test(value)) {
+            proxy.$msg.error('Password must contain at least one uppercase letter.');
+        } else if (!numberRegex.test(value)) {
+            proxy.$msg.error('Password must contain at least one number.');
+        } else if (!specialCharRegex.test(value)) {
+            proxy.$msg.error('Password must not contain special characters.');
+        } else {
+            callback();
+        }
+        callback(new Error('Invalid input'));
+    }
+}
+function confirmPwd(rule, value, callback) {
+    const password = formData.password;
+    if (!value) {
+        callback(new Error('Please input confirm'));
+    } else if (value !== password) {
+        callback(new Error('The passwords entered do not match'));
+    } else {
+        callback();
+    }
+}
 </script>
 
 <style scoped>
@@ -84,9 +138,9 @@ const resetPassword = async () => {
     padding: 10px 30px 10px 30px;
     border-radius: 15px;
     width: 346px;
-    height: 270px;
+    height: 300px;
     margin-left: -203px;
-    margin-top: -145px;
+    margin-top: -160px;
 }
 
 .btn {
@@ -100,7 +154,7 @@ const resetPassword = async () => {
 .el-form-item--large {
     font-weight: bolder;
     --font-size: 18px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .centerFrame {

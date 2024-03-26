@@ -5,8 +5,8 @@
                 <h2>UpdateEmail</h2>
             </el-col>
         </el-row>
-        <el-form :model="formData" label-position="left" label-width="auto" size="large">
-            <el-form-item label="Email:">
+        <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef">
+            <el-form-item prop="email" label="Email:" :rules="emailRules">
                 <el-input v-model="formData.email" class="input-area" />
             </el-form-item>
             <el-form-item>
@@ -16,7 +16,7 @@
                     </el-col>
                     <el-col :span="2"></el-col>
                     <el-col :span="18">
-                        <el-button type="primary" @click="resetPassword" class="btn">Submit</el-button>
+                        <el-button type="primary" @click="doUpdate" class="btn">Submit</el-button>
                     </el-col>
                 </el-row>
             </el-form-item>
@@ -39,24 +39,52 @@ const lastPage = () => {
     proxy.$router.push({ name: 'login' });
 }
 
-const resetPassword = async () => {
-    try {
-        loading.value = true;
-        const response = await proxy.$axios.put(config.api.client.update.path, formData);
-        if (response.data.code != 200) {
-            proxy.$msg.error(response.data.data);
-        } else {
-            localStorage.setItem('user', JSON.stringify(response.data.data));
-            proxy.$msg.success('Update success');
-            proxy.$router.push({ name: 'home' });
+const doUpdate = async () => {
+    if (await validate()) {
+        try {
+            loading.value = true;
+            const response = await updateEmailRequest();
+            handleResponse(response);
+        } catch (error) {
+            proxy.$msg.error('Unknown Error');
+            console.error('API request failed:', error);
+        } finally {
+            loading.value = false;
         }
-    } catch (error) {
-        proxy.$msg.error('Unknown Error');
-        console.error('API request failed:', error);
-    } finally {
-        loading.value = false;
+    } else {
+        return false;
     }
 };
+async function updateEmailRequest() {
+    return await proxy.$axios.put(config.api.client.update.path, formData);
+}
+function handleResponse(response) {
+    if (response.data.code != 200) {
+        proxy.$msg.error(response.data.data);
+    } else {
+        localStorage.setItem('user', JSON.stringify(response.data.data));
+        proxy.$msg.success('Update success');
+        proxy.$router.push({ name: 'home' });
+    }
+}
+const formRef = ref(null);
+const emailRules = [
+    {
+        required: true,
+        message: 'Please input email address',
+        trigger: 'blur',
+    },
+    {
+        type: 'email',
+        message: 'Please input correct email address',
+        trigger: 'blur',
+    },
+];
+function validate() {
+    return formRef.value.validate((valid) => {
+        return valid;
+    })
+}
 </script>
 
 <style scoped>
@@ -117,7 +145,7 @@ const resetPassword = async () => {
     justify-content: center;
 }
 
-#btnFrame{
+#btnFrame {
     width: 100%;
     margin-top: 10px;
 }

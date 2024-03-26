@@ -5,11 +5,11 @@
                 <h2>ResetPassword</h2>
             </el-col>
         </el-row>
-        <el-form :model="formData" label-position="left" label-width="auto" size="large">
-            <el-form-item label="Username:">
+        <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef">
+            <el-form-item prop="username" label="Username:" :rules="requiredRule">
                 <el-input v-model="formData.username" class="input-area" />
             </el-form-item>
-            <el-form-item label="Email:">
+            <el-form-item prop="email" label="Email:" :rules="emailRules">
                 <el-input v-model="formData.email" class="input-area" />
             </el-form-item>
             <el-form-item>
@@ -19,7 +19,7 @@
                     </el-col>
                     <el-col :span="2"></el-col>
                     <el-col :span="18">
-                        <el-button type="primary" @click="resetPassword" class="btn">Submit</el-button>
+                        <el-button type="primary" @click="resetPassword(formRef)" class="btn">Submit</el-button>
                     </el-col>
                 </el-row>
             </el-form-item>
@@ -30,35 +30,62 @@
 <script setup>
 import config from '@/config/RouterPath';
 import { reactive, ref, getCurrentInstance } from 'vue';
-import { useRouter } from 'vue-router';
 const loading = ref(false);
 const formData = reactive({
     username: '',
     email: ''
 })
 const { proxy } = getCurrentInstance();//獲取全局組件
-const router = useRouter();
 const lastPage = () => {
-    router.go(-1);
+    proxy.$router.push({ name: 'login' });
 }
 
 const resetPassword = async () => {
-    try {
-        loading.value = true;
-        const response = await proxy.$axios.put(config.api.client.resetPassword.path, formData);
-        if (response.data.code != 200) {
-            proxy.$msg.error(response.data.data);
-        } else {
-            proxy.$msg.success('ResetPassword success');
-            proxy.$router.push({ name: 'login' });
+    if (await validate()) {
+        try {
+            loading.value = true;
+            const response = await proxy.$axios.put(config.api.client.resetPassword.path, formData);
+            if (response.data.code != 200) {
+                proxy.$msg.error(response.data.data);
+            } else {
+                proxy.$msg.success('ResetPassword success');
+                proxy.$router.push({ name: 'login' });
+            }
+        } catch (error) {
+            proxy.$msg.error('Unknown Error');
+            console.error('API request failed:', error);
+        } finally {
+            loading.value = false;
         }
-    } catch (error) {
-        proxy.$msg.error('Unknown Error');
-        console.error('API request failed:', error);
-    } finally {
-        loading.value = false;
+    } else {
+        return false;
     }
 };
+const formRef = ref(null);
+const emailRules = [
+    {
+        required: true,
+        message: 'Please input email address',
+        trigger: 'blur',
+    },
+    {
+        type: 'email',
+        message: 'Please input correct email address',
+        trigger: 'blur',
+    },
+];
+const requiredRule = [
+    {
+        required: true,
+        message: 'Please input Username',
+        trigger: 'blur',
+    }
+];
+function validate() {
+    return formRef.value.validate((valid) => {
+        return valid;
+    })
+}
 </script>
 
 <style scoped>
@@ -105,5 +132,9 @@ const resetPassword = async () => {
 
 #forgetPassword:hover {
     color: #79bbff;
+}
+
+.el-form-item--large[data-v-55c09de2] {
+    margin-bottom: 20px;
 }
 </style>

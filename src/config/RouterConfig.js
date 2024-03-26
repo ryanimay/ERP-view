@@ -57,33 +57,46 @@ const r = createRouter({
 
 r.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
-    const userExist = isAuthenticated();
+    const user = localStorage.getItem('user');
+    const userExist = isAuthenticated(user);
     const tokenExpiredv = tokenExpired(localStorage.getItem('token'));
-    //如果是須驗驗證 且 未登入 或 token過期，導向到login頁面
-    if (requiresAuth && (!userExist || tokenExpiredv)) {
-        next({
-            name: 'login',
-            query: {
-                //如果正常登出user會被刪除，就不用顯示提示字
-                message: userExist ? 'Please re-login.' : undefined
-            }
-        });
-    } else {
-        if (to.name === 'login'
-            && userExist
-            && localStorage.getItem('rememberMe')
-            && !tokenExpiredv) {
+    //如果是須驗驗證
+    if (requiresAuth) {
+        //未登入||token過期，導向到login頁面
+        if (!userExist || tokenExpiredv) {
             next({
-                name: 'home'
+                name: 'login',
+                query: {
+                    //如果正常登出user會被刪除，就不用顯示提示字
+                    message: userExist ? 'Please re-login.' : undefined
+                }
             });
+        } else {
+            const parseUser = JSON.parse(user);
+            const mustUpdatePassword = parseUser.mustUpdatePassword;
+            const email = parseUser.email;
+            if (to.name !== 'updatePassword' && mustUpdatePassword) { //需要更新密碼
+                next({ name: 'updatePassword' });
+            } else if (to.name !== 'updateEmail' && to.name !== 'updatePassword' && !email) { //需要更新郵件
+                next({ name: 'updateEmail' });
+            } else {
+                next();
+            }
         }
+    //勾選記住我，並且登入未過期，直接導向首頁
+    } else if (to.name === 'login' && userExist && localStorage.getItem('rememberMe') && !tokenExpiredv) {
+        next({ name: 'home' });
+    } else {
         next();
     }
 });
 
-function isAuthenticated() {
-    const user = localStorage.getItem('user');
-    return user !== null && user !== undefined;
+function isAuthenticated(user) {
+    if (user) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 export default { r, router };
