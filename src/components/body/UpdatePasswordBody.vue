@@ -104,13 +104,15 @@ function validatePassword(rule, value, callback) {
         callback(new Error('Please input password'));
     } else {
         if (!lowerCaseRegex.test(value)) {
-            proxy.$msg.error('Password must contain at least one lowercase letter.');
+            proxy.$msg.error('Password must contain lowercase letters.');
         } else if (!upperCaseRegex.test(value)) {
-            proxy.$msg.error('Password must contain at least one uppercase letter.');
+            proxy.$msg.error('Password must contain uppercase letters.');
         } else if (!numberRegex.test(value)) {
-            proxy.$msg.error('Password must contain at least one number.');
+            proxy.$msg.error('Password must contain a number.');
         } else if (!specialCharRegex.test(value)) {
             proxy.$msg.error('Password must not contain special characters.');
+        } else if (value.length < 8 || value.length > 20) {
+            proxy.$msg.error('Password length must be between 8 and 20 characters.');
         } else {
             callback();
         }
