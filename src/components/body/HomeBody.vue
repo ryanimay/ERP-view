@@ -1,5 +1,5 @@
 <template>
-    <el-main class="homeBodyContainer" style="background-color: cadetblue;">
+    <el-main class="homeBodyContainer">
         <div>testBody</div>
     </el-main>
 </template>

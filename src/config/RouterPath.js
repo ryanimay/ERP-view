@@ -37,6 +37,7 @@ const config = {
       },
       router: {
         configList: { path: router + '/configList', requiresAuth: false},
+        list: { path: router + '/list', requiresAuth: true},
         role: { path: router + '/role', requiresAuth: true }
       }
     };
