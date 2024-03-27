@@ -60,6 +60,7 @@ function setRememberMe() {
 async function loginRequest() {
     return await proxy.$axios.post(config.api.client.login.path, loginForm);
 }
+//用戶依權限顯示的首頁菜單
 async function handleRouterRole(roleId) {
     const response = await proxy.$axios.get(config.api.router.role.path, { params: { roleIds: roleId.join(',') } });
     if (response.data.code === 200) {

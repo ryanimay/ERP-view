@@ -1,5 +1,5 @@
 import axios from "axios";
-import routers from './RouterPath.js'
+import routers from '@/config/RouterPath.js'
 const instance = axios.create({
     baseURL: '',
     timeout: 15000,

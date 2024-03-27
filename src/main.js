@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
-import App from './App.vue'
-import store from './config/Store'
-import axios from './config/Axios.js';
-import { r, getRouters } from './config/RouterConfig'
+import App from '@/App.vue'
+import store from '@/config/Store'
+import axios from '@/config/Axios.js';
+import { r, getRouters } from '@/config/RouterConfig'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import msg from './config/AlterConfig.js'
+import msg from '@/config/AlterConfig.js'
 
 const app = createApp(App);
 app.config.globalProperties.$axios = axios;

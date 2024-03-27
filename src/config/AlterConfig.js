@@ -1,5 +1,5 @@
 import { createVNode, render } from 'vue';
-import message from '../components/tool/AlterMessage.vue';
+import message from '@/components/tool/AlterMessage.vue';
 
 const div = document.createElement('div');
 div.setAttribute('class', 'message-container');
