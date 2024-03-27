@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { tokenExpired } from '@/config/JwtTool';
+import config from '@/config/RouterPath';
+const params = { key : 'Pf^SbyKZz&dxOA0@cX*4' }
 const router = [
     {
         path: '/',
@@ -50,10 +52,20 @@ const router = [
     }
 ]
 
-const r = createRouter({
+export async function getRouters(axios) {
+    try {
+        const response = await axios.get(config.api.router.configList.path, { params });
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+export const r = createRouter({
     history: createWebHistory(),
-    routes: router,
-})
+    routes: router
+});
 
 r.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
@@ -83,7 +95,7 @@ r.beforeEach((to, from, next) => {
                 next();
             }
         }
-    //勾選記住我，並且登入未過期，直接導向首頁
+        //勾選記住我，並且登入未過期，直接導向首頁
     } else if (to.name === 'login' && userExist && localStorage.getItem('rememberMe') && !tokenExpiredv) {
         next({ name: 'home' });
     } else {
@@ -98,5 +110,3 @@ function isAuthenticated(user) {
         return false;
     }
 }
-
-export default { r, router };

@@ -36,6 +36,7 @@ const config = {
         // securityConfirm: { path: permission + '/securityConfirm', requiresAuth: true },
       },
       router: {
+        configList: { path: router + '/configList', requiresAuth: false},
         role: { path: router + '/role', requiresAuth: true }
       }
     };
