@@ -4,10 +4,12 @@ import config from '@/config/RouterPath';
 const params = { key : 'Pf^SbyKZz&dxOA0@cX*4' }
 const router = [
     {
+        id:0,
         path: '/',
         redirect: '/home',
     },
     {
+        id:1,
         path: '/home',
         name: 'home',
         components: {
@@ -17,6 +19,7 @@ const router = [
         meta: { requiresAuth: true }
     },
     {
+        id:2,
         path: '/login',
         name: 'login',
         components: {
@@ -25,6 +28,7 @@ const router = [
         }
     },
     {
+        id:3,
         path: '/forgetPassword',
         name: 'forgetPassword',
         components: {
@@ -33,6 +37,7 @@ const router = [
         }
     },
     {
+        id:4,
         path: '/updatePassword',
         name: 'updatePassword',
         components: {
@@ -42,6 +47,7 @@ const router = [
         meta: { requiresAuth: true }
     },
     {
+        id:5,
         path: '/updateEmail',
         name: 'updateEmail',
         components: {
