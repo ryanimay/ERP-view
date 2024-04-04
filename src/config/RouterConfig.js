@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { tokenExpired } from '@/config/JwtTool';
-import config from '@/config/RouterPath';
-const params = { key : 'Pf^SbyKZz&dxOA0@cX*4' }
 const router = [
     {
         id:0,
@@ -57,16 +55,6 @@ const router = [
         meta: { requiresAuth: true }
     }
 ]
-
-export async function getRouters(axios) {
-    try {
-        const response = await axios.get(config.api.router.configList.path, { params });
-        return response.data.data;
-    } catch (error) {
-        console.error(error);
-        return [];
-    }
-}
 
 export const r = createRouter({
     history: createWebHistory(),
