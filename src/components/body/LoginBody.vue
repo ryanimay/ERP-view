@@ -60,22 +60,11 @@ function setRememberMe() {
 async function loginRequest() {
     return await proxy.$axios.post(config.api.client.login.path, loginForm);
 }
-//用戶依權限顯示的首頁菜單
-async function handleRouterRole(roleId) {
-    const response = await proxy.$axios.get(config.api.router.role.path, { params: { roleIds: roleId.join(',') } });
-    if (response.data.code === 200) {
-        localStorage.setItem('routerRole', JSON.stringify(response.data.data));
-    } else {
-        proxy.$msg.error('Unknown Error');
-        console.error('RouterRole request failed:', response.data.data);
-    }
-}
 async function handleResponse(response) {
     if (response.data.code != 200) {
         proxy.$msg.error(response.data.data);
     } else {
         localStorage.setItem('user', JSON.stringify(response.data.data));
-        await handleRouterRole(response.data.data.roleId);
         proxy.$msg.success('Login success');
         proxy.$router.push({ name: 'home' });
     }

@@ -46,11 +46,12 @@ const { proxy } = getCurrentInstance();
 const list = ref([]);
 const logo = icon;
 onMounted(async () => {
-    list.value = await routerList();
+    list.value = await getMenu();
 });
-async function routerList() {
+async function getMenu() {
     try {
-        const response = await proxy.$axios.get(config.api.router.list.path);
+        const user = JSON.parse(localStorage.getItem('user'));
+        const response = await proxy.$axios.get(config.api.menu.pMenu.path, { params: { roleIds: user.roleId.join(',') } });
         if (response.data.code === 200) {
             return handleResponse(response);
         } else {

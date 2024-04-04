@@ -1,6 +1,10 @@
 <template>
   <el-container id="mainContainer">
-    <router-view name="header" />
+    <router-view v-slot="{ Component }" name="header">
+      <transition name="fade" mode="out-in">
+        <component :is="Component"/>
+      </transition>
+    </router-view>
     <router-view v-slot="{ Component }" name="body">
       <transition name="fade" mode="out-in">
         <component :is="Component"/>

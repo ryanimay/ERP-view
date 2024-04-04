@@ -6,7 +6,7 @@ const config = {
     const client = context_path + '/client';
     // const role = context_path + '/role';
     // const permission = context_path + '/permission';
-    const router = context_path + '/router';
+    const menu = context_path + '/menu';
     return {
       cache: {
         // refresh: { path: cache + '/refresh', requiresAuth: true },
@@ -35,10 +35,9 @@ const config = {
         // ban: { path: permission + '/ban', requiresAuth: true },
         // securityConfirm: { path: permission + '/securityConfirm', requiresAuth: true },
       },
-      router: {
-        configList: { path: router + '/configList', requiresAuth: false},
-        list: { path: router + '/list', requiresAuth: true},
-        role: { path: router + '/role', requiresAuth: true }
+      menu: {
+        all: { path: menu + '/all', requiresAuth: true},
+        pMenu: { path: menu + '/pMenu', requiresAuth: true}
       }
     };
   })(),
