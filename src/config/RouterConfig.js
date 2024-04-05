@@ -2,12 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { tokenExpired } from '@/config/JwtTool';
 const router = [
     {
-        id:0,
         path: '/',
         redirect: '/home',
     },
     {
-        id:1,
         path: '/home',
         name: 'home',
         components: {
@@ -17,7 +15,6 @@ const router = [
         meta: { requiresAuth: true }
     },
     {
-        id:2,
         path: '/login',
         name: 'login',
         components: {
@@ -26,7 +23,6 @@ const router = [
         }
     },
     {
-        id:3,
         path: '/forgetPassword',
         name: 'forgetPassword',
         components: {
@@ -35,7 +31,6 @@ const router = [
         }
     },
     {
-        id:4,
         path: '/updatePassword',
         name: 'updatePassword',
         components: {
@@ -45,12 +40,20 @@ const router = [
         meta: { requiresAuth: true }
     },
     {
-        id:5,
         path: '/updateEmail',
         name: 'updateEmail',
         components: {
             header: () => import('../components/header/LoginHeader.vue'),
             body: () => import('../components/body/UpdateEmailBody.vue'),
+        },
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/client',
+        name: 'client',
+        components: {
+            header: () => import('../components/header/HomeHeader.vue'),
+            body: () => import('../components/body/ClinetBody.vue'),
         },
         meta: { requiresAuth: true }
     }
