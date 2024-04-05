@@ -16,7 +16,7 @@
         </el-row>
         <el-row>
             <el-col :span="24">
-                <el-menu active-text-color="#ffd04b" background-color="#16415c" class="el-menu"
+                <el-menu active-text-color="#fff" background-color="#16415c" class="el-menu"
                     default-active="2" text-color="#fff">
                     <template v-for="(menu, index) in list" :key="index">
                         <el-sub-menu :index="menu.id.toString()" v-if="menu.child">
@@ -76,7 +76,7 @@ function menuClick(path) {
 
 <style scoped>
 #homeHeaderContainer{
-    background-color: #1c4e6e;
+    background-color: #16415c;
 }
 .centerFrame {
     width: 100%;
@@ -102,5 +102,11 @@ function menuClick(path) {
 }
 .el-menu{
     border-right:none;
+}
+.is-opened, .el-menu-item{
+    background-color: #12354b;
+}
+.el-menu-item:hover{
+    background-color: #0f2b3d;
 }
 </style>
