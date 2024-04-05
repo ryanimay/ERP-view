@@ -3,12 +3,12 @@
         <div class="centerFrame">
             <h2 id="title">Login</h2>
         </div>
-        <el-form :model="loginForm" label-position="left" label-width="auto" size="large">
+        <el-form :model="loginForm" label-position="left" label-width="auto" size="large" @submit.prevent>
             <el-form-item label="Username:">
-                <el-input v-model="loginForm.username" class="input-area" />
+                <el-input v-model="loginForm.username" class="input-area" @keyup.enter="doLogin"/>
             </el-form-item>
             <el-form-item label="Password:">
-                <el-input v-model="loginForm.password" type="password" show-password class="input-area" />
+                <el-input v-model="loginForm.password" type="password" show-password class="input-area" @keyup.enter="doLogin"/>
             </el-form-item>
             <el-checkbox v-model="loginForm.rememberMe" label="RememberMe" />
             <el-form-item>
