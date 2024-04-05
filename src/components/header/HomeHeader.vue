@@ -2,13 +2,13 @@
     <el-aside id="homeHeaderContainer">
         <el-row id="logoFrame">
             <el-col :span="9">
-                <router-link :to="{ name: 'home' }">
+                <router-link @click="changeActive('home')" :to="{ name: 'home' }">
                     <img :src="logo" id="logo" alt="" />
                 </router-link>
             </el-col>
             <el-col :span="15" class="centerFrame">
                 <h3>
-                    <router-link :to="{ name: 'home' }" class="homeBtn">
+                    <router-link @click="changeActive('home')" :to="{ name: 'home' }" class="homeBtn">
                         CompanyName
                     </router-link>
                 </h3>
@@ -17,7 +17,7 @@
         <el-row>
             <el-col :span="24">
                 <el-menu active-text-color="#fff" background-color="#16415c" class="el-menu"
-                    default-active="2" text-color="#fff">
+                    :default-active="defaultActive" text-color="#fff" router="true">
                     <template v-for="(menu, index) in list" :key="index">
                         <el-sub-menu :index="menu.id.toString()" v-if="menu.child">
                             <template #title>
@@ -26,8 +26,8 @@
                                 </el-icon>
                                 <span>{{ menu.name }}</span>
                             </template>
-                            <el-menu-item v-for="child in menu.child" :index="child.id.toString()"
-                                :key="child.id.toString()" @click="menuClick(child.path)">
+                            <el-menu-item v-for="child in menu.child" :index="child.path"
+                                :key="child.id.toString()" @click="changeActive(child.path)" :style="{backgroundColor: defaultActive === child.path ? activeColor : normalColor}">
                                 <el-icon>
                                     <component :is="child.icon" />
                                 </el-icon>
@@ -47,6 +47,9 @@ import { ref, onMounted, getCurrentInstance } from 'vue';
 import icon from '@/assets/icon/icons8-logo.svg';
 const { proxy } = getCurrentInstance();
 const list = ref([]);
+const defaultActive = ref('home');
+const activeColor = '#0f2b3d';
+const normalColor = '#12354b';
 const logo = icon;
 onMounted(async () => {
     list.value = await getMenu();
@@ -69,8 +72,8 @@ async function getMenu() {
 function handleResponse(response) {
     return response.data.data;
 }
-function menuClick(path) {
-    proxy.$router.push({ name: path });
+function changeActive(routerName){
+    defaultActive.value = routerName;
 }
 </script>
 

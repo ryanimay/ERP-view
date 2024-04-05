@@ -2,7 +2,9 @@
   <el-container id="mainContainer">
     <router-view v-slot="{ Component }" name="header">
       <transition name="fade" mode="out-in">
-        <component :is="Component"/>
+        <keep-alive>
+          <component :is="Component"/>
+        </keep-alive>
       </transition>
     </router-view>
     <router-view v-slot="{ Component }" name="body">
