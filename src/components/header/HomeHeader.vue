@@ -19,16 +19,19 @@
                 <el-menu active-text-color="#ffd04b" background-color="#16415c" class="el-menu"
                     default-active="2" text-color="#fff">
                     <template v-for="(menu, index) in list" :key="index">
-                        <el-sub-menu :index="menu.key" v-if="menu.key != 'all' && menu.items.length > 0">
+                        <el-sub-menu :index="menu.id.toString()" v-if="menu.child">
                             <template #title>
                                 <el-icon>
                                     <component :is="menu.icon" />
                                 </el-icon>
-                                <span>{{ menu.key }}</span>
+                                <span>{{ menu.name }}</span>
                             </template>
-                            <el-menu-item v-for="item in menu.items" :index="item.id.toString()"
-                                :key="item.id.toString()" @click="menuClick(item)">
-                                {{ item.name }}
+                            <el-menu-item v-for="child in menu.child" :index="child.id.toString()"
+                                :key="child.id.toString()" @click="menuClick(child.path)">
+                                <el-icon>
+                                    <component :is="child.icon" />
+                                </el-icon>
+                                <span>{{ child.name }}</span>
                             </el-menu-item>
                         </el-sub-menu>
                     </template>
@@ -64,36 +67,15 @@ async function getMenu() {
     }
 }
 function handleResponse(response) {
-    console.log(response);
-    return [
-        {
-            key: "all",
-            icon: "document",
-            items: [
-                { id: 1, name: "home" },
-                { id: 2, name: "login" },
-                { id: 3, name: "forgetPassword" },
-                { id: 4, name: "updatePassword" },
-                { id: 5, name: "updateEmail" },
-            ]
-        },
-        {
-            key: "client",
-            icon: "setting",
-            items: [
-                { id: 6, name: "client" }
-            ]
-        }
-    ];
+    return response.data.data;
 }
-function menuClick(item) {
-    console.log('Clicked on menu item:', item);
+function menuClick(path) {
+    proxy.$router.push({ name: path });
 }
 </script>
 
 <style scoped>
 #homeHeaderContainer{
-    /* #1c4e6e */
     background-color: #1c4e6e;
 }
 .centerFrame {
