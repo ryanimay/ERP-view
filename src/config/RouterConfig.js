@@ -72,7 +72,7 @@ r.beforeEach((to, from, next) => {
     //如果是須驗驗證
     if (requiresAuth) {
         //未登入||token過期，導向到login頁面
-        if (!userExist || tokenExpiredv) {
+        if (tokenExpiredv || !userExist) {
             next({
                 name: 'login',
                 query: {

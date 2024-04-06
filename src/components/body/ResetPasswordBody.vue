@@ -52,8 +52,7 @@ const resetPassword = async () => {
                 proxy.$router.push({ name: 'login' });
             }
         } catch (error) {
-            proxy.$msg.error('Unknown Error');
-            console.error('API request failed:', error);
+            proxy.$handleError(error);
         } finally {
             loading.value = false;
         }

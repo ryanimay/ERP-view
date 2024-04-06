@@ -64,8 +64,7 @@ async function getMenu() {
             return [];
         }
     } catch (error) {
-        proxy.$msg.error('Unknown Error');
-        console.error('API request failed:', error);
+        proxy.$handleError(error);
         return [];
     }
 }
