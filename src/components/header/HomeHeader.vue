@@ -17,7 +17,7 @@
         <el-row>
             <el-col :span="24">
                 <el-menu active-text-color="#fff" background-color="#16415c" class="el-menu"
-                    :default-active="defaultActive" text-color="#fff" router="true">
+                    :default-active="defaultActive" text-color="#fff" :router="true">
                     <template v-for="(menu, index) in list" :key="index">
                         <el-sub-menu :index="menu.id.toString()" v-if="menu.child">
                             <template #title>
