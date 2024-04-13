@@ -2,16 +2,13 @@ import { createStore } from 'vuex';
 
 export default createStore({
     state: {
-        promptMessage: 'Somethings Wrong, Please Re-Login',
+        publicKey: '',
     },
     mutations: {
-        setPromptMessage(state, data) {
-            state.promptMessage = data;
+        setPublicKey(state, key) {
+            state.publicKey = key;
         },
     },
     actions: {
-        setPromptMessage({ commit }, data) {
-            commit('setPromptMessage', data);
-        },
     },
 });

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { tokenExpired } from '@/config/JwtTool';
+import { verifyJWT } from '@/config/JwtTool';
 const router = [
     {
         path: '/',
@@ -68,11 +68,11 @@ r.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
     const user = localStorage.getItem('user');
     const userExist = isAuthenticated(user);
-    const tokenExpiredv = tokenExpired(localStorage.getItem('token'));
+    const approvedJwt = verifyJWT(localStorage.getItem('token'));
     //如果是須驗驗證
     if (requiresAuth) {
         //未登入||token過期，導向到login頁面
-        if (tokenExpiredv || !userExist) {
+        if (!approvedJwt || !userExist) {
             next({
                 name: 'login',
                 query: {
@@ -93,7 +93,7 @@ r.beforeEach((to, from, next) => {
             }
         }
         //勾選記住我，並且登入未過期，直接導向首頁
-    } else if (to.name === 'login' && userExist && localStorage.getItem('rememberMe') && !tokenExpiredv) {
+    } else if (to.name === 'login' && userExist && localStorage.getItem('rememberMe') && approvedJwt) {
         next({ name: 'home' });
     } else {
         next();

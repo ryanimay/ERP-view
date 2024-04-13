@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from '@/App.vue'
-import store from '@/config/Store'
 import {instance, handleError} from '@/config/Axios.js';
+import store from '@/config/Store'
 import { r } from '@/config/RouterConfig'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
