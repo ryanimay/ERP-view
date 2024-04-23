@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from '@/App.vue'
 import {instance, handleError} from '@/config/Axios.js';
-import store from '@/config/Store'
+import getVuex from '@/config/Store'
 import { r } from '@/config/RouterConfig'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
@@ -18,5 +18,5 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 app.use(ElementPlus);
 app.use(r);
-app.use(store);
+app.use(getVuex(instance));
 app.mount('#app');
