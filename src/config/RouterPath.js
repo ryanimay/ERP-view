@@ -4,7 +4,6 @@ const config = {
     const context_path = base + '/erp_base';//後端api字段
     const client = context_path + '/client';
     const menu = context_path + '/menu';
-    const permission = context_path + '/permission';
     return {
       cache: {
       },
@@ -19,7 +18,6 @@ const config = {
       role: {
       },
       permission: {
-        getKey: { path: permission + '/getKey', requiresAuth: false }
       },
       menu: {
         all: { path: menu + '/all', requiresAuth: true},
