@@ -67,12 +67,16 @@ export const r = createRouter({
 r.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
     const user = localStorage.getItem('user');
+    const accessToken = localStorage.getItem('token');
+    const refreshToken = localStorage.getItem('refreshToken');
+    //accessToken未通過&&refreshToken不存在
+    //或是accessToken未通過&&refreshToken未通過
+    const notApprovedJwt = !verifyJWT(accessToken) && (!refreshToken || !verifyJWT(refreshToken));
     const userExist = isAuthenticated(user);
-    const approvedJwt = verifyJWT(localStorage.getItem('token'));
     //如果是須驗驗證
     if (requiresAuth) {
-        //未登入||token過期，導向到login頁面
-        if (!approvedJwt || !userExist) {
+        //token未通過驗證 || 未登入，導向到login頁面
+        if (notApprovedJwt || !userExist) {
             next({
                 name: 'login',
                 query: {
@@ -93,7 +97,7 @@ r.beforeEach((to, from, next) => {
             }
         }
         //勾選記住我，並且登入未過期，直接導向首頁
-    } else if (to.name === 'login' && userExist && localStorage.getItem('rememberMe') && approvedJwt) {
+    } else if (to.name === 'login' && userExist && localStorage.getItem('rememberMe') && !notApprovedJwt) {
         next({ name: 'home' });
     } else {
         next();

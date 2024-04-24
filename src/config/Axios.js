@@ -35,16 +35,16 @@ function findRoute(path) {
 instance.interceptors.request.use(
     (config) => {
         const matchedRoute = findRoute(config.url);
+        //如果是要驗證的api再放token
         if (matchedRoute.requiresAuth) {
             const token = localStorage.getItem('token');
-            //未通過token驗證，轉跳登入頁
-            if (!token || !verifyJWT(token)) {
+            const refreshToken = localStorage.getItem('refreshToken');
+            //accessToken和refreshToken都未通過token驗證，才會轉跳登入頁
+            if (!verifyJWT(token) && (!refreshToken || !verifyJWT(refreshToken))) {
                 instance.defaults.router.push({ name: 'login' });
                 return Promise.reject({type: 'RequestRejectedError', message:'登入過期，請重新登入'});
             }
-            //如果是要驗證的api再放token
             config.headers['Authorization'] = `Bearer ${token}`;
-            const refreshToken = localStorage.getItem('refreshToken');
             if (refreshToken) {
                 config.headers['X-Refresh-Token'] = refreshToken;
             }
