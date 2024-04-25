@@ -3,14 +3,22 @@ import routers from '@/config/RouterPath.js'
 import { verifyJWT } from '@/config/JwtTool';
 import { r } from '@/config/RouterConfig'
 import msg from '@/config/AlterConfig.js'
-export const instance = axios.create({
-    baseURL: '',
-    timeout: 15000,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    router: r,
-})
+
+let axiosInstance = null;
+
+export function instance(){
+    if (!axiosInstance) {
+        axiosInstance = axios.create({
+            baseURL: '',
+            timeout: 15000,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            router: r,
+        });
+    }
+    return axiosInstance;
+}
 
 export function handleError(error){
     if(error.type === 'RequestRejectedError'){
@@ -32,7 +40,7 @@ function findRoute(path) {
     }
 }
 
-instance.interceptors.request.use(
+instance().interceptors.request.use(
     (config) => {
         const matchedRoute = findRoute(config.url);
         //如果是要驗證的api再放token
@@ -53,7 +61,7 @@ instance.interceptors.request.use(
     }
 )
 
-instance.interceptors.response.use(
+instance().interceptors.response.use(
     (response) => {
         const token = response.headers['authorization'];
         if (token) {
