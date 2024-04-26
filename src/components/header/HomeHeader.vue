@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import config from '@/config/RouterPath';
+import config from '@/api/RouterPath';
 import { ref, onMounted, getCurrentInstance } from 'vue';
 import icon from '@/assets/icon/icons8-logo.svg';
 const { proxy } = getCurrentInstance();

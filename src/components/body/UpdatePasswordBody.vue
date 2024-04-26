@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import config from '@/config/RouterPath';
+import config from '@/api/RouterPath';
 import { reactive, ref, getCurrentInstance } from 'vue';
 const user = JSON.parse(localStorage.getItem('user'));
 const loading = ref(false);

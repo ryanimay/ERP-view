@@ -1,12 +1,11 @@
 import axios from "axios";
-import routers from '@/config/RouterPath.js'
+import routers from '@/api/RouterPath.js';
 import { verifyJWT } from '@/config/JwtTool';
-import { r } from '@/config/RouterConfig'
-import msg from '@/config/AlterConfig.js'
+import { r } from '@/config/RouterConfig';
 
 let axiosInstance = null;
 
-export function instance(){
+export default function instance(){
     if (!axiosInstance) {
         axiosInstance = axios.create({
             baseURL: '',
@@ -18,15 +17,6 @@ export function instance(){
         });
     }
     return axiosInstance;
-}
-
-export function handleError(error){
-    if(error.type === 'RequestRejectedError'){
-        msg.error(error.message);
-    }else{
-        msg.error('Unknown Error');
-    }
-    console.error('API request failed:', error);
 }
 
 function findRoute(path) {

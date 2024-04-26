@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import config from '@/config/RouterPath';
+import config from '@/api/RouterPath';
 import { reactive, ref, getCurrentInstance } from 'vue';
 const rememberMeCheck = localStorage.getItem('rememberMe');
 const { proxy } = getCurrentInstance();//獲取全局組件

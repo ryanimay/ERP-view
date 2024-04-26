@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import config from '@/config/RouterPath';
+import config from '@/api/RouterPath';
 import { reactive, ref, getCurrentInstance } from 'vue';
 const loading = ref(false);
 const formData = reactive({

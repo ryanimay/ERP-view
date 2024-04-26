@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from '@/App.vue'
-import {instance, handleError} from '@/config/Axios.js';
+import instance from '@/config/Axios.js';
 import { createPinia } from 'pinia';
 import { r } from '@/config/RouterConfig'
 import ElementPlus from 'element-plus'
