@@ -1,3 +1,12 @@
+/*
+固定格式為
+{
+  path:路徑,
+  method:請求方式,
+  requiresAuth:是否需驗證
+}
+*/
+
 const config = {
   api: (() => {
     const base = '/api';//proxy轉換
@@ -8,20 +17,52 @@ const config = {
       cache: {
       },
       client: {
-        opValid: { path: client + '/opValid', requiresAuth: false },
-        register: { path: client + '/register', requiresAuth: false },
-        login: { path: client + '/login', requiresAuth: false },
-        resetPassword: { path: client + '/resetPassword', requiresAuth: false },
-        update: { path: client + '/update', requiresAuth: true },
-        updatePassword: { path: client + '/updatePassword', requiresAuth: true },
+        opValid: {
+          path: client + '/opValid',
+          method:'get',
+          requiresAuth: false
+        },
+        register: {
+          path: client + '/register',
+          method:'post',
+          requiresAuth: false
+        },
+        login: {
+          path: client + '/login',
+          method:'post',
+          requiresAuth: false
+        },
+        resetPassword: {
+          path: client + '/resetPassword',
+          method:'put',
+          requiresAuth: false
+        },
+        update: {
+          path: client + '/update',
+          method:'put',
+          requiresAuth: true
+        },
+        updatePassword: {
+          path: client + '/updatePassword',
+          method:'put',
+          requiresAuth: true
+        },
       },
       role: {
       },
       permission: {
       },
       menu: {
-        all: { path: menu + '/all', requiresAuth: true},
-        pMenu: { path: menu + '/pMenu', requiresAuth: true}
+        all: {
+          path: menu + '/all',
+          method:'get',
+          requiresAuth: true
+        },
+        pMenu: {
+          path: menu + '/pMenu',
+          method:'get',
+          requiresAuth: true
+        }
       }
     };
   })(),

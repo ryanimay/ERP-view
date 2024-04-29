@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import config from '@/api/RouterPath';
+import request from '@/api/request.js';
 import { reactive, ref, getCurrentInstance } from 'vue';
 const user = JSON.parse(localStorage.getItem('user'));
 const loading = ref(false);
@@ -49,22 +49,15 @@ const lastPage = () => {
 
 const resetPassword = async () => {
     if (await validate()) {
-        try {
-            loading.value = true;
-            const response = await updatePasswordRequest();
-            handleResponse(response);
-        } catch (error) {
-            proxy.$handleError(error);
-        } finally {
-            loading.value = false;
-        }
+        loading.value = true;
+        const response = await request.updatePassword(formData);
+        handleResponse(response);
+        loading.value = false;
     } else {
         return false;
     }
 };
-async function updatePasswordRequest() {
-    return await proxy.$axios.put(config.api.client.updatePassword.path, formData);
-}
+
 function handleResponse(response) {
     if (response.data.code != 200) {
         proxy.$msg.error(response.data.data);

@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import config from '@/api/RouterPath';
+import request from '@/api/request.js';
 import { reactive, ref, getCurrentInstance } from 'vue';
 const loading = ref(false);
 const formData = reactive({
@@ -42,24 +42,23 @@ const lastPage = () => {
 
 const resetPassword = async () => {
     if (await validate()) {
-        try {
-            loading.value = true;
-            const response = await proxy.$axios.put(config.api.client.resetPassword.path, formData);
-            if (response.data.code != 200) {
-                proxy.$msg.error(response.data.data);
-            } else {
-                proxy.$msg.success('ResetPassword success');
-                proxy.$router.push({ name: 'login' });
-            }
-        } catch (error) {
-            proxy.$handleError(error);
-        } finally {
-            loading.value = false;
-        }
+        loading.value = true;
+        const response = await request.resetPassword(formData);
+        handleResponse(response);
+        loading.value = false;
     } else {
         return false;
     }
 };
+
+function handleResponse(response) {
+    if (response.data.code != 200) {
+        proxy.$msg.error(response.data.data);
+    } else {
+        proxy.$msg.success('ResetPassword success');
+        proxy.$router.push({ name: 'login' });
+    }
+}
 const formRef = ref(null);
 const emailRules = [
     {

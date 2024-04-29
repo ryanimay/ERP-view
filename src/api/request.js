@@ -2,6 +2,7 @@ import msg from '@/config/AlterConfig.js'
 import instance from '@/config/Axios.js';
 import path from '@/api/RouterPath.js';
 
+//封裝所有網絡請求
 export default {
     opValid: request(path.api.client.opValid),
     register: request(path.api.client.register),
@@ -13,11 +14,13 @@ export default {
     pMenu: request(path.api.menu.pMenu),
 }
 
+const axios = instance();
+
 const methodMap = new Map([
-    ['get', instance.get],
-    ['post', instance.post],
-    ['put', instance.put],
-    ['delete', instance.delete]
+    ['get', axios.get],
+    ['post', axios.post],
+    ['put', axios.put],
+    ['delete', axios.delete]
 ]);
 
 function request(api){
@@ -26,10 +29,10 @@ function request(api){
     }
 }
 
-async function call(api, data){
+function call(api, data){
     let response;
     try{
-        response = await requestMethod(api, data);
+        response = requestMethod(api, data);
     }catch(error){
         handleError(error);
     }
@@ -38,12 +41,14 @@ async function call(api, data){
 
 function requestMethod(api, data){
     const method = methodMap.get(api.method);
+    let response;
     if (method) {
-        if(date){
-            return method(api.path, data);
+        if(data){
+            response = method(api.path, data);
         }else{
-            return method(api.path)
+            response = method(api.path)
         }
+        return response;
     } else {
         throw new Error(`Unsupported method: ${api.method}`);
     }

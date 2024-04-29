@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import config from '@/api/RouterPath';
+import request from '@/api/request.js';
 import { reactive, ref, getCurrentInstance } from 'vue';
 const user = JSON.parse(localStorage.getItem('user'));
 const loading = ref(false);
@@ -41,22 +41,15 @@ const lastPage = () => {
 
 const doUpdate = async () => {
     if (await validate()) {
-        try {
-            loading.value = true;
-            const response = await updateEmailRequest();
-            handleResponse(response);
-        } catch (error) {
-            proxy.$handleError(error);
-        } finally {
-            loading.value = false;
-        }
+        loading.value = true;
+        const response = await request.update(formData);
+        handleResponse(response);
+        loading.value = false;
     } else {
         return false;
     }
 };
-async function updateEmailRequest() {
-    return await proxy.$axios.put(config.api.client.update.path, formData);
-}
+
 function handleResponse(response) {
     if (response.data.code != 200) {
         proxy.$msg.error(response.data.data);

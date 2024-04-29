@@ -42,10 +42,9 @@
 </template>
 
 <script setup>
-import config from '@/api/RouterPath';
-import { ref, onMounted, getCurrentInstance } from 'vue';
+import request from '@/api/request.js';
+import { ref, onMounted } from 'vue';
 import icon from '@/assets/icon/icons8-logo.svg';
-const { proxy } = getCurrentInstance();
 const list = ref([]);
 const defaultActive = ref('home');
 const activeColor = '#0f2b3d';
@@ -55,21 +54,16 @@ onMounted(async () => {
     list.value = await getMenu();
 });
 async function getMenu() {
-    try {
-        const user = JSON.parse(localStorage.getItem('user'));
-        const response = await proxy.$axios.get(config.api.menu.pMenu.path, { params: { roleIds: user.roleId.join(',') } });
-        if (response.data.code === 200) {
-            return handleResponse(response);
-        } else {
-            return [];
-        }
-    } catch (error) {
-        proxy.$handleError(error);
-        return [];
-    }
+    const user = JSON.parse(localStorage.getItem('user'));
+    const response = await request.pMenu({ params: { roleIds: user.roleId.join(',') } });
+    return handleResponse(response);
 }
 function handleResponse(response) {
-    return response.data.data;
+    if (response && response.data.code === 200) {
+        return response.data.data;
+    } else {
+        return [];
+    }
 }
 function changeActive(routerName){
     defaultActive.value = routerName;

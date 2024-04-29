@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import config from '@/api/RouterPath';
+import request from '@/api/request.js';
 import { reactive, ref, getCurrentInstance } from 'vue';
 const rememberMeCheck = localStorage.getItem('rememberMe');
 const { proxy } = getCurrentInstance();//獲取全局組件
@@ -38,16 +38,11 @@ if (message) {
     proxy.$router.replace({ query: { ...proxy.$route.query, message: null } });
 }
 const doLogin = async () => {
-    try {
-        loading.value = true;
-        setRememberMe();
-        const response = await loginRequest();
-        await handleResponse(response);
-    } catch (error) {
-        proxy.$handleError(error);
-    } finally {
-        loading.value = false;
-    }
+    loading.value = true;
+    setRememberMe();
+    const response = await request.login(loginForm);
+    handleResponse(response);
+    loading.value = false;
 };
 function setRememberMe() {
     if (loginForm.rememberMe === true) {
@@ -56,10 +51,8 @@ function setRememberMe() {
         localStorage.removeItem('rememberMe');
     }
 }
-async function loginRequest() {
-    return await proxy.$axios.post(config.api.client.login.path, loginForm);
-}
-async function handleResponse(response) {
+
+function handleResponse(response) {
     if (response.data.code != 200) {
         proxy.$msg.error(response.data.data);
     } else {
