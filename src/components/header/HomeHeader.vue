@@ -50,12 +50,16 @@ const defaultActive = ref('home');
 const activeColor = '#0f2b3d';
 const normalColor = '#12354b';
 const logo = icon;
+const param = ref({
+    roleIds:''
+});
 onMounted(async () => {
     list.value = await getMenu();
 });
 async function getMenu() {
     const user = JSON.parse(localStorage.getItem('user'));
-    const response = await request.pMenu({ params: { roleIds: user.roleId.join(',') } });
+    param.value.roleIds = user.roleId.join(',');
+    const response = await request.pMenu(param.value);
     return handleResponse(response);
 }
 function handleResponse(response) {

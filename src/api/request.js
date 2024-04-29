@@ -16,42 +16,32 @@ export default {
 
 const axios = instance();
 
-const methodMap = new Map([
-    ['get', axios.get],
-    ['post', axios.post],
-    ['put', axios.put],
-    ['delete', axios.delete]
-]);
-
 function request(api){
     return function passData(data){
         return call(api, data);
     }
 }
 
-function call(api, data){
+async function call(api, data){
     let response;
     try{
-        response = requestMethod(api, data);
+        if (api.method === 'get' || api.method === 'delete') {
+            response = await axios({
+                url: api.path,
+                method: api.method,
+                params: data
+            });
+        } else {
+            response = await axios({
+                url: api.path,
+                method: api.method,
+                data: data
+            });
+        }
     }catch(error){
         handleError(error);
     }
     return response;
-}
-
-function requestMethod(api, data){
-    const method = methodMap.get(api.method);
-    let response;
-    if (method) {
-        if(data){
-            response = method(api.path, data);
-        }else{
-            response = method(api.path)
-        }
-        return response;
-    } else {
-        throw new Error(`Unsupported method: ${api.method}`);
-    }
 }
 
 function handleError(error){
