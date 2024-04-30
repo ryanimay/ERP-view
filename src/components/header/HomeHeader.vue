@@ -1,21 +1,23 @@
 <template>
     <el-aside id="homeHeaderContainer">
-        <el-row id="logoFrame">
-            <el-col :span="9">
-                <router-link @click="changeActive('home')" :to="{ name: 'home' }">
-                    <img :src="logo" id="logo" alt="" />
-                </router-link>
-            </el-col>
-            <el-col :span="15" class="centerFrame">
-                <h3>
-                    <router-link @click="changeActive('home')" :to="{ name: 'home' }" class="homeBtn">
-                        CompanyName
-                    </router-link>
-                </h3>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="24">
+        <el-container id="container">
+            <el-header id="headerHeight">
+                <el-row id="logoFrame">
+                    <el-col :span="9">
+                        <router-link @click="changeActive('home')" :to="{ name: 'home' }">
+                            <img :src="logo" id="logo" alt="" />
+                        </router-link>
+                    </el-col>
+                    <el-col :span="15" class="centerFrame">
+                        <h3>
+                            <router-link @click="changeActive('home')" :to="{ name: 'home' }" class="homeBtn">
+                                CompanyName
+                            </router-link>
+                        </h3>
+                    </el-col>
+                </el-row>
+            </el-header>
+            <el-main>
                 <el-menu active-text-color="#fff" background-color="#16415c" class="el-menu"
                     :default-active="defaultActive" text-color="#fff" :router="true">
                     <template v-for="(menu, index) in list" :key="index">
@@ -36,8 +38,22 @@
                         </el-sub-menu>
                     </template>
                 </el-menu>
-            </el-col>
-        </el-row>
+            </el-main>
+            <el-footer>
+                <el-row>
+                    <el-col :span="8">
+                        <el-badge :value="5" :max="10">
+                            <el-button type="info" icon="Bell" circle class="btnFrame"/>
+                        </el-badge>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-button type="primary" icon="Avatar" circle class="btnFrame"/>
+                    </el-col>
+                    <el-col :span="8">
+                    </el-col>
+                </el-row>
+            </el-footer>
+        </el-container>
     </el-aside>
 </template>
 
@@ -109,5 +125,26 @@ function changeActive(routerName){
 }
 .el-menu-item:hover{
     background-color: #0f2b3d;
+}
+.el-header, .el-main{
+    padding: 0;
+}
+#container{
+    height: 100%;
+}
+#headerHeight{
+    height: 117.75px;
+}
+.btnFrame{
+    height: 45px;
+    width: 45px;
+    font-size: 30px;
+    transition: all 0.15s ease;
+}
+.btnFrame:hover{
+    height: 48px;
+    width: 48px;
+    font-size: 32px;
+    box-shadow: 1px 1px rgb(53, 53, 53);
 }
 </style>
