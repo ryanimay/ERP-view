@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import request from '@/api/request.js';
+import userStore from '@/store/User.js';
 import { reactive, ref, getCurrentInstance } from 'vue';
 const rememberMeCheck = localStorage.getItem('rememberMe');
 const { proxy } = getCurrentInstance();//獲取全局組件
@@ -40,7 +40,7 @@ if (message) {
 const doLogin = async () => {
     loading.value = true;
     setRememberMe();
-    const response = await request.login(loginForm);
+    const response = await userStore().login(loginForm);
     handleResponse(response);
     loading.value = false;
 };
@@ -53,12 +53,13 @@ function setRememberMe() {
 }
 
 function handleResponse(response) {
-    if (response.data.code != 200) {
-        proxy.$msg.error(response.data.data);
-    } else {
-        localStorage.setItem('user', JSON.stringify(response.data.data));
-        proxy.$msg.success('Login success');
-        proxy.$router.push({ name: 'home' });
+    if(response !== undefined){
+        if (response.data.code === 200) {
+            proxy.$msg.success('Login success');
+            proxy.$router.push({ name: 'home' });
+        } else {
+            proxy.$msg.error(response.data.data);
+        }
     }
 }
 </script>
