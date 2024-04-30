@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import userStore from '@/store/User.js';
+import userStore from '@/config/store/user.js';
 import { reactive, ref, getCurrentInstance } from 'vue';
 const rememberMeCheck = localStorage.getItem('rememberMe');
 const { proxy } = getCurrentInstance();//獲取全局組件

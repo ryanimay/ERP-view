@@ -6,7 +6,7 @@ import '@/config/router/interceptor.js';
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import msg from '@/config/AlterConfig.js'
+import msg from '@/config/alterConfig.js'
 
 const app = createApp(App);
 app.config.globalProperties.$msg = msg;

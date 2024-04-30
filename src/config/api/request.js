@@ -1,6 +1,6 @@
-import msg from '@/config/AlterConfig.js'
-import instance from '@/config/Axios.js';
-import path from '@/api/RouterPath.js';
+import msg from '@/config/alterConfig.js'
+import instance from '@/config/axios.js';
+import path from '@/config/api/apiConfig.js';
 
 //封裝所有網絡請求
 export default {

@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import request from '@/api/request.js';
+import request from '@/config/api/request.js';
 import { ref, onMounted } from 'vue';
 import icon from '@/assets/icon/icons8-logo.svg';
 const list = ref([]);

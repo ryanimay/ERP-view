@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import request from '@/api/request.js';
+import request from '@/config/api/request.js';
 import { reactive, ref, getCurrentInstance } from 'vue';
 const loading = ref(false);
 const formData = reactive({

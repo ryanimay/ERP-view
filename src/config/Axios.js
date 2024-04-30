@@ -1,6 +1,6 @@
 import axios from "axios";
-import routers from '@/api/RouterPath.js';
-import { verifyJWT } from '@/config/JwtTool';
+import api from '@/config/api/apiConfig.js';
+import { verifyJWT } from '@/config/tool/jwtTool';
 import router from '@/config/router/routerConfig';
 
 let axiosInstance = null;
@@ -20,8 +20,8 @@ export default function instance(){
 }
 
 function findRoute(path) {
-    for (const router in routers.api) {
-        const apiRouter = routers.api[router];
+    for (const router in api.api) {
+        const apiRouter = api.api[router];
         for (const r in apiRouter) {
             if (apiRouter[r].path === path) {
                 return apiRouter[r];

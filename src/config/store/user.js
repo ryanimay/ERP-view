@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import request from '@/api/request.js';
+import request from '@/config/api/request.js';
 
 const userStore = defineStore(
     'user',

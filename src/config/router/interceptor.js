@@ -1,6 +1,6 @@
 import router from '@/config/router/routerConfig'
-import { verifyJWT } from '@/config/JwtTool';
-import userStore from '@/store/User';
+import { verifyJWT } from '@/config/tool/jwtTool';
+import userStore from '@/config/store/user';
 
 router.beforeEach((to, from, next) => {
     const nextName = to.name;
