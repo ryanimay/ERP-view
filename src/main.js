@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from '@/App.vue'
 import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import router from '@/config/router/routerConfig';
 import '@/config/router/interceptor.js';
 import ElementPlus from 'element-plus'
@@ -13,9 +14,11 @@ app.config.globalProperties.$msg = msg;
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 
 app.use(ElementPlus);
 app.use(router);
-app.use(createPinia());
+app.use(pinia);
 
 app.mount('#app');

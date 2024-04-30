@@ -43,7 +43,8 @@ const userStore = defineStore(
                 } 
                 return response;
             }
-        }
+        },
+        persist: true,
     }
 )
 

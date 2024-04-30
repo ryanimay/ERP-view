@@ -45,6 +45,7 @@
 import request from '@/config/api/request.js';
 import { ref, onMounted } from 'vue';
 import icon from '@/assets/icon/icons8-logo.svg';
+import userStore from '@/config/store/user';
 const list = ref([]);
 const defaultActive = ref('home');
 const activeColor = '#0f2b3d';
@@ -57,7 +58,7 @@ onMounted(async () => {
     list.value = await getMenu();
 });
 async function getMenu() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = userStore();
     param.value.roleIds = user.roleId.join(',');
     const response = await request.pMenu(param.value);
     return handleResponse(response);
