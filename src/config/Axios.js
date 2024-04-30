@@ -1,7 +1,7 @@
 import axios from "axios";
 import routers from '@/api/RouterPath.js';
 import { verifyJWT } from '@/config/JwtTool';
-import { r } from '@/config/RouterConfig';
+import router from '@/config/router/routerConfig';
 
 let axiosInstance = null;
 
@@ -13,7 +13,7 @@ export default function instance(){
             headers: {
                 'Content-Type': 'application/json',
             },
-            router: r,
+            router: router,
         });
     }
     return axiosInstance;

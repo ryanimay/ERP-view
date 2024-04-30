@@ -48,7 +48,6 @@ function handleError(error){
     if(error.type === 'RequestRejectedError'){
         msg.error(error.message);
     }else{
-        msg.error('Unknown Error');
+        throw error;
     }
-    console.error('API request failed:', error);
 }

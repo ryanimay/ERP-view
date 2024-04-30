@@ -18,6 +18,7 @@ const userStore = defineStore(
             departmentName: '',
             active: '',
             lock: '',
+            isLogin: false,
         }),
         actions: {
             async login(data){
@@ -37,6 +38,8 @@ const userStore = defineStore(
                     this.departmentName = user.departmentName;
                     this.active = user.active;
                     this.lock = user.lock;
+
+                    this.isLogin = true;
                 } 
                 return response;
             }
