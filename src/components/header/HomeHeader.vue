@@ -42,14 +42,31 @@
             <el-footer>
                 <el-row>
                     <el-col :span="8">
-                        <el-badge :value="5" :max="10">
-                            <el-button type="info" icon="Bell" circle class="btnFrame"/>
-                        </el-badge>
+                        <el-popover placement="top-start" :width="200" trigger="click" popper-style="border: 2px solid #606266">
+                            <template #reference>
+                                <el-badge :value="5" :max="10">
+                                    <el-button type="info" icon="Bell" circle class="btnFrame"/>
+                                </el-badge>
+                            </template>
+                        </el-popover>
                     </el-col>
                     <el-col :span="8">
-                        <el-button type="primary" icon="Avatar" circle class="btnFrame"/>
+                        <el-popover placement="top-start" :width="260" trigger="click" popper-style="border: 2px solid #12354b">
+                            <template #reference>
+                                <el-button type="primary" icon="Avatar" circle class="btnFrame"/>
+                            </template>
+                            <el-descriptions title="User Info" :column="1">
+                                <el-descriptions-item label="Username:">{{user.username}}</el-descriptions-item>
+                                <el-descriptions-item label="Email:">{{user.email}}</el-descriptions-item>
+                                <el-descriptions-item label="Department:">{{user.departmentName}}</el-descriptions-item>
+                                <el-descriptions-item label="Sign:">
+                                    <el-tag :type="signType" >{{signText}}</el-tag>
+                                </el-descriptions-item>
+                            </el-descriptions>
+                        </el-popover>
                     </el-col>
                     <el-col :span="8">
+                        <el-button type="success" icon="Checked" circle class="btnFrame"/>
                     </el-col>
                 </el-row>
             </el-footer>
@@ -67,6 +84,9 @@ const defaultActive = ref('home');
 const activeColor = '#0f2b3d';
 const normalColor = '#12354b';
 const logo = icon;
+const user = userStore();
+let signType = user.attendStatus === '1' ? 'success' : 'danger';
+let signText = user.attendStatus === '1' ? 'Punch' : 'No Punch';
 const param = ref({
     roleIds:''
 });
@@ -74,7 +94,6 @@ onMounted(async () => {
     list.value = await getMenu();
 });
 async function getMenu() {
-    const user = userStore();
     param.value.roleIds = user.roleId.join(',');
     const response = await request.pMenu(param.value);
     return handleResponse(response);
