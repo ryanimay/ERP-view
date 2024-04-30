@@ -34,7 +34,8 @@
 <script setup>
 import request from '@/config/api/request.js';
 import { reactive, ref, getCurrentInstance } from 'vue';
-const user = JSON.parse(localStorage.getItem('user'));
+import userStore from '@/config/store/user';
+const user = userStore();
 const loading = ref(false);
 const formData = reactive({
     id: user.id,
@@ -63,8 +64,7 @@ function handleResponse(response) {
         proxy.$msg.error(response.data.data);
     } else {
         proxy.$msg.success(response.data.data);
-        user.mustUpdatePassword = false;
-        localStorage.setItem('user', JSON.stringify(user))
+        user.$patch({ mustUpdatePassword : false});
         proxy.$router.push({ name: 'home' });
     }
 }

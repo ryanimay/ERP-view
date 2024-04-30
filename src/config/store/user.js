@@ -42,6 +42,22 @@ const userStore = defineStore(
                     this.isLogin = true;
                 } 
                 return response;
+            },
+            update(user){
+                this.id = user.id;
+                this.username = user.username;
+                this.roleId = user.roleId;
+                this.email = user.email;
+                this.lastLoginTime = user.lastLoginTime;
+                this.createTime = user.createTime;
+                this.createBy = user.createBy;
+                this.mustUpdatePassword = user.mustUpdatePassword;
+                this.attendStatus = user.attendStatus;
+                this.departmentId = user.departmentId;
+                this.departmentName = user.departmentName;
+                this.active = user.active;
+                this.lock = user.lock;
+                this.isLogin = true;
             }
         },
         persist: true,

@@ -27,7 +27,8 @@
 <script setup>
 import request from '@/config/api/request.js';
 import { reactive, ref, getCurrentInstance } from 'vue';
-const user = JSON.parse(localStorage.getItem('user'));
+import userStore from '@/config/store/user';
+const user = userStore();
 const loading = ref(false);
 const formData = reactive({
     id: user.id,
@@ -54,7 +55,7 @@ function handleResponse(response) {
     if (response.data.code != 200) {
         proxy.$msg.error(response.data.data);
     } else {
-        localStorage.setItem('user', JSON.stringify(response.data.data));
+        user.update(response.data.data);
         proxy.$msg.success('Update success');
         proxy.$router.push({ name: 'home' });
     }
