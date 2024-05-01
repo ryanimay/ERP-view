@@ -47,6 +47,11 @@ const config = {
           method:'put',
           requiresAuth: true
         },
+        logout: {
+          path: client + '/logout',
+          method:'post',
+          requiresAuth: true
+        },
       },
       role: {
       },

@@ -58,6 +58,16 @@ const userStore = defineStore(
                 this.active = user.active;
                 this.lock = user.lock;
                 this.isLogin = true;
+            },
+            async logout(){
+                const response = await request.logout();
+                if (response && response.data.code == 200) {
+                    this.$reset();
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("refreshToken");
+                    return response;
+                }
             }
         },
         persist: true,

@@ -32,10 +32,12 @@ const loginForm = reactive({
     password: '',
     rememberMe: rememberMeCheck ? true : ''
 })
+const type = proxy.$route.query.type;
 const message = proxy.$route.query.message;
 if (message) {
-    proxy.$msg.warn(message);
-    proxy.$router.replace({ query: { ...proxy.$route.query, message: null } });
+    const msg = messageTypeSwitch(type);
+    msg(message);
+    proxy.$router.replace(proxy.$route.path);
 }
 const doLogin = async () => {
     loading.value = true;
@@ -60,6 +62,16 @@ function handleResponse(response) {
         } else {
             proxy.$msg.error(response.data.data);
         }
+    }
+}
+function messageTypeSwitch(type){
+    switch (type) {
+        case 'success':
+            return proxy.$msg.success;
+        case 'danger':
+            return proxy.$msg.error;
+        default:
+            return proxy.$msg.warn;
     }
 }
 </script>

@@ -111,11 +111,12 @@
 
 <script setup>
 import request from '@/config/api/request.js';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, getCurrentInstance } from 'vue';
 import icon from '@/assets/icon/icons8-logo.svg';
 import userStore from '@/config/store/user';
 import { ElMessageBox } from 'element-plus'
 
+const { proxy } = getCurrentInstance();
 const list = ref([]);
 const defaultActive = ref('home');
 const activeColor = '#0f2b3d';
@@ -153,8 +154,17 @@ function handleResponse(response) {
 function changeActive(routerName){
     defaultActive.value = routerName;
 }
-function logout(){
-    user.logout();
+async function logout(){
+    const response = await user.logout();
+    if (response && response.data.code == 200) {
+        proxy.$router.push({ 
+            name: 'login', 
+            query: {
+                message: 'Logout success',
+                type: 'success'
+            } 
+        });
+    }
 }
 function editUser(){
     editDialog.value = false

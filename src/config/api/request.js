@@ -7,6 +7,7 @@ export default {
     opValid: request(path.api.client.opValid),
     register: request(path.api.client.register),
     login: request(path.api.client.login),
+    logout: request(path.api.client.logout),
     resetPassword: request(path.api.client.resetPassword),
     update: request(path.api.client.update),
     updatePassword: request(path.api.client.updatePassword),
