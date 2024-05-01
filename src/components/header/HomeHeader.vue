@@ -63,15 +63,50 @@
                                     <el-tag :type="signType" >{{signText}}</el-tag>
                                 </el-descriptions-item>
                             </el-descriptions>
+                            <el-row>
+                                <el-col :span="24">
+                                    <el-button type="primary" plain @click="editDialog = true" class="fullWidth ">
+                                        Edit
+                                    </el-button>
+                                </el-col>
+                            </el-row>
+                            <el-row>
+                                <el-col :span="24">
+                                    <el-button type="danger" plain @click="logout" class="fullWidth margin-top">
+                                        Logout
+                                    </el-button>
+                                </el-col>
+                            </el-row>
                         </el-popover>
                     </el-col>
                     <el-col :span="8">
-                        <el-button type="success" icon="Checked" circle class="btnFrame"/>
+                        <el-button :type="signType" icon="Checked" circle class="btnFrame"/>
                     </el-col>
                 </el-row>
             </el-footer>
         </el-container>
     </el-aside>
+
+    <!--編輯用戶彈窗-->
+    <el-dialog v-model="editDialog" title="Edit User" width="350">
+        <el-form :model="form" label-position="right">
+            <el-form-item label="Username:">
+                <el-input v-model="userForm.username" />
+            </el-form-item>
+            <el-form-item label="Email:">
+                <el-input v-model="userForm.email" />
+            </el-form-item>
+            <el-form-item label="Department:">
+                <span>{{ userForm.department }}</span>
+            </el-form-item>
+        </el-form>
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button type="primary" @click="editUser">Submit</el-button>
+                <el-button @click="editDialog = false">Cancel</el-button>
+            </div>
+        </template>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -84,9 +119,17 @@ const defaultActive = ref('home');
 const activeColor = '#0f2b3d';
 const normalColor = '#12354b';
 const logo = icon;
+const editDialog = ref(false);
 const user = userStore();
-let signType = user.attendStatus === '1' ? 'success' : 'danger';
-let signText = user.attendStatus === '1' ? 'Punch' : 'No Punch';
+const userForm = {
+    username:user.username,
+    email:user.email,
+    department:user.departmentName
+}
+let attendStatus = user.attendStatus;
+//1.未打卡 2.已簽到 3.已簽退
+let signType = attendStatus == '1' ? 'danger' : attendStatus == '2' ? 'success' : 'warning';
+let signText = attendStatus == '1' ? 'No Punch' : attendStatus == '2' ? 'Punch' : 'Clock out';
 const param = ref({
     roleIds:''
 });
@@ -107,6 +150,12 @@ function handleResponse(response) {
 }
 function changeActive(routerName){
     defaultActive.value = routerName;
+}
+function logout(){
+    console.log('logout');
+}
+function editUser(){
+    editDialog.value = false
 }
 </script>
 
@@ -165,5 +214,11 @@ function changeActive(routerName){
     width: 48px;
     font-size: 32px;
     box-shadow: 1px 1px rgb(53, 53, 53);
+}
+.fullWidth{
+    width: 100%
+}
+.margin-top{
+    margin-top: 5px;
 }
 </style>
