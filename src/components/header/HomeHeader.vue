@@ -85,28 +85,28 @@
                 </el-row>
             </el-footer>
         </el-container>
-    </el-aside>
 
-    <!--編輯用戶彈窗-->
-    <el-dialog v-model="editDialog" title="Edit User" width="350" :before-close="handleClose">
-        <el-form :model="form" label-position="right">
-            <el-form-item label="Username:">
-                <el-input v-model="userForm.username" />
-            </el-form-item>
-            <el-form-item label="Email:">
-                <el-input v-model="userForm.email" />
-            </el-form-item>
-            <el-form-item label="Department:">
-                <span>{{ userForm.department }}</span>
-            </el-form-item>
-        </el-form>
-        <template #footer>
-            <div class="dialog-footer">
-                <el-button @click="handleClose">Cancel</el-button>
-                <el-button type="primary" @click="editUser">Submit</el-button>
-            </div>
-        </template>
-  </el-dialog>
+        <!--編輯用戶彈窗-->
+        <el-dialog v-model="editDialog" title="Edit User" width="350" :before-close="handleClose">
+            <el-form :model="userForm" label-position="right">
+                <el-form-item label="Username:">
+                    <el-input v-model="userForm.username" />
+                </el-form-item>
+                <el-form-item label="Email:">
+                    <el-input v-model="userForm.email" />
+                </el-form-item>
+                <el-form-item label="Department:">
+                    <span>{{ userForm.department }}</span>
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button @click="handleClose">Cancel</el-button>
+                    <el-button type="primary" @click="editUser">Submit</el-button>
+                </div>
+            </template>
+        </el-dialog>
+    </el-aside>
 </template>
 
 <script setup>
@@ -154,7 +154,7 @@ function changeActive(routerName){
     defaultActive.value = routerName;
 }
 function logout(){
-    console.log('logout');
+    user.logout();
 }
 function editUser(){
     editDialog.value = false
