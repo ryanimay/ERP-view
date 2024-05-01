@@ -88,7 +88,7 @@
     </el-aside>
 
     <!--編輯用戶彈窗-->
-    <el-dialog v-model="editDialog" title="Edit User" width="350">
+    <el-dialog v-model="editDialog" title="Edit User" width="350" :before-close="handleClose">
         <el-form :model="form" label-position="right">
             <el-form-item label="Username:">
                 <el-input v-model="userForm.username" />
@@ -102,8 +102,8 @@
         </el-form>
         <template #footer>
             <div class="dialog-footer">
+                <el-button @click="handleClose">Cancel</el-button>
                 <el-button type="primary" @click="editUser">Submit</el-button>
-                <el-button @click="editDialog = false">Cancel</el-button>
             </div>
         </template>
   </el-dialog>
@@ -114,6 +114,8 @@ import request from '@/config/api/request.js';
 import { ref, onMounted } from 'vue';
 import icon from '@/assets/icon/icons8-logo.svg';
 import userStore from '@/config/store/user';
+import { ElMessageBox } from 'element-plus'
+
 const list = ref([]);
 const defaultActive = ref('home');
 const activeColor = '#0f2b3d';
@@ -157,6 +159,15 @@ function logout(){
 function editUser(){
     editDialog.value = false
 }
+const handleClose = () => {
+  ElMessageBox.confirm('Are you sure to close edit page?')
+    .then(() => {
+        editDialog.value = false
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
 </script>
 
 <style scoped>
