@@ -90,7 +90,7 @@
         <el-dialog v-model="editDialog" title="Edit User" width="350" :before-close="handleClose">
             <el-form :model="userForm" label-position="right">
                 <el-form-item label="Username:">
-                    <el-input v-model="userForm.username" />
+                    <span>{{ userForm.username }}</span>
                 </el-form-item>
                 <el-form-item label="Email:">
                     <el-input v-model="userForm.email" />
