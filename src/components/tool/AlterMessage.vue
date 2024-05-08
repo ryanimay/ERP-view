@@ -69,7 +69,7 @@ onMounted(() => {
 }
 
 .warn-message {
-    color: rgb(255, 215, 0);
+    color: rgb(223, 189, 0);
 }
 
 .error-message {
