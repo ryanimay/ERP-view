@@ -68,6 +68,9 @@ const userStore = defineStore(
                     localStorage.removeItem("refreshToken");
                     return response;
                 }
+            },
+            updateAttendStatus(status){
+                this.attendStatus = status;
             }
         },
         persist: true,

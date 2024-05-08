@@ -13,6 +13,7 @@ const config = {
     const context_path = base + '/erp_base';//後端api字段
     const client = context_path + '/client';
     const menu = context_path + '/menu';
+    const attend = context_path + '/attend';
     return {
       cache: {
       },
@@ -66,6 +67,18 @@ const config = {
         pMenu: {
           path: menu + '/pMenu',
           method:'get',
+          requiresAuth: true
+        }
+      },
+      attend: {
+        signIn: {
+          path: attend + '/signIn',
+          method:'put',
+          requiresAuth: true
+        },
+        signOut: {
+          path: attend + '/signOut',
+          method:'put',
           requiresAuth: true
         }
       }

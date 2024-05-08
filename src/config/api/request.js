@@ -13,6 +13,8 @@ export default {
     updatePassword: request(path.api.client.updatePassword),
     allMenu: request(path.api.menu.all),
     pMenu: request(path.api.menu.pMenu),
+    signIn: request(path.api.attend.signIn),
+    signOut: request(path.api.attend.signOut),
 }
 
 const axios = instance();

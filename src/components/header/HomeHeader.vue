@@ -60,7 +60,7 @@
                                 <el-descriptions-item label="Email:">{{user.email}}</el-descriptions-item>
                                 <el-descriptions-item label="Department:">{{user.departmentName}}</el-descriptions-item>
                                 <el-descriptions-item label="Sign:">
-                                    <el-tag :type="signType" >{{signText}}</el-tag>
+                                    <el-tag :type="signType" >{{ signText }}</el-tag>
                                 </el-descriptions-item>
                             </el-descriptions>
                             <el-row>
@@ -80,7 +80,7 @@
                         </el-popover>
                     </el-col>
                     <el-col :span="8">
-                        <el-button :type="signType" icon="Checked" circle class="btnFrame"/>
+                        <el-button :type="signType" icon="Checked" circle class="btnFrame" @click="sign"/>
                     </el-col>
                 </el-row>
             </el-footer>
@@ -111,7 +111,7 @@
 
 <script setup>
 import request from '@/config/api/request.js';
-import { ref, onMounted, getCurrentInstance } from 'vue';
+import { ref, onMounted, getCurrentInstance, reactive, computed } from 'vue';
 import icon from '@/assets/icon/icons8-logo.svg';
 import userStore from '@/config/store/user';
 import { ElMessageBox } from 'element-plus'
@@ -124,15 +124,35 @@ const normalColor = '#12354b';
 const logo = icon;
 const editDialog = ref(false);
 const user = userStore();
-const userForm = {
+const userForm = reactive({
     username:user.username,
     email:user.email,
     department:user.departmentName
-}
-let attendStatus = user.attendStatus;
-//1.未打卡 2.已簽到 3.已簽退
-let signType = attendStatus == '1' ? 'danger' : attendStatus == '2' ? 'success' : 'warning';
-let signText = attendStatus == '1' ? 'No Punch' : attendStatus == '2' ? 'Punch' : 'Clock out';
+})
+const signText = computed(() => {
+    switch (user.attendStatus) {
+        case 1:
+            return 'No Punch';
+        case 2:
+            return 'Punch';
+        case 3:
+            return 'Clock out';
+        default:
+            return '';
+    }
+});
+const signType = computed(() => {
+    switch (user.attendStatus) {
+        case 1:
+            return 'danger';
+        case 2:
+            return 'success';
+        case 3:
+            return 'warning';
+        default:
+            return '';
+    }
+});
 const param = ref({
     roleIds:''
 });
@@ -178,6 +198,28 @@ const handleClose = () => {
       console.log(e);
     });
 };
+async function sign(){
+    if(user.attendStatus == '1'){
+        const response = await request.signIn();
+        handleSignResponse(response, 2);
+    }else if((user.attendStatus == '2')){
+        const response = await request.signOut();
+        handleSignResponse(response, 3);
+    }else if((user.attendStatus == '3')){
+        proxy.$msg.warn('ヽ(✿ﾟ▽ﾟ)ノ下班下班~~~');
+    }else{
+        proxy.$msg.error('Somethings wrong');
+    }
+}
+
+function handleSignResponse(response, status) {
+    if (response.data.code != 200) {
+        proxy.$msg.error(response.data.data);
+    } else {
+        proxy.$msg.success('Success');
+        user.updateAttendStatus(status);
+    }
+}
 </script>
 
 <style scoped>
