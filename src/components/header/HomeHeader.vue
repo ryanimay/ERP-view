@@ -157,7 +157,9 @@ const param = ref({
     roleIds:''
 });
 onMounted(async () => {
+    loading.value = true;
     list.value = await getMenu();
+    loading.value = false;
 });
 async function getMenu() {
     param.value.roleIds = user.roleId.join(',');
