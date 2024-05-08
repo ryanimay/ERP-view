@@ -1,5 +1,5 @@
 <template>
-    <el-aside id="homeHeaderContainer">
+    <el-aside id="homeHeaderContainer"  v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
         <el-container id="container">
             <el-header id="headerHeight">
                 <el-row id="logoFrame">
@@ -90,13 +90,13 @@
         <el-dialog v-model="editDialog" title="Edit User" width="350" :before-close="handleClose">
             <el-form :model="userForm" label-position="right">
                 <el-form-item label="Username:">
-                    <span>{{ userForm.username }}</span>
+                    <span>{{ user.username }}</span>
                 </el-form-item>
                 <el-form-item label="Email:">
                     <el-input v-model="userForm.email" />
                 </el-form-item>
                 <el-form-item label="Department:">
-                    <span>{{ userForm.department }}</span>
+                    <span>{{ user.departmentName }}</span>
                 </el-form-item>
             </el-form>
             <template #footer>
@@ -117,6 +117,7 @@ import userStore from '@/config/store/user';
 import { ElMessageBox } from 'element-plus'
 
 const { proxy } = getCurrentInstance();
+const loading = ref(false);
 const list = ref([]);
 const defaultActive = ref('home');
 const activeColor = '#0f2b3d';
@@ -125,9 +126,8 @@ const logo = icon;
 const editDialog = ref(false);
 const user = userStore();
 const userForm = reactive({
-    username:user.username,
-    email:user.email,
-    department:user.departmentName
+    id:user.id,
+    email:user.email
 })
 const signText = computed(() => {
     switch (user.attendStatus) {
@@ -186,8 +186,20 @@ async function logout(){
         });
     }
 }
-function editUser(){
-    editDialog.value = false
+async function editUser(){
+    loading.value = true;
+    const response = await request.update(userForm);
+    handleEditResponse(response);
+    loading.value = false;
+}
+function handleEditResponse(response){
+    if (response.data.code != 200) {
+        proxy.$msg.error(response.data.data);
+    } else {
+        proxy.$msg.success('Success');
+        user.update(response.data.data);
+        editDialog.value = false
+    }
 }
 const handleClose = () => {
   ElMessageBox.confirm('Are you sure to close edit page?')
