@@ -4,10 +4,10 @@ import ch from "@/i18n/zh-TW.json";
 
 export default new createI18n({
     legacy: false,
-    locale: localStorage.getItem("lang") ?? "zh-TW",
+    locale: localStorage.getItem("lang") ?? "zh_TW",
     messages: {
-        'zh-TW': ch,
-        'en-US': en
+        'zh_TW': ch,
+        'en_US': en
     },
-    fallbackLocale: "en-US",
+    fallbackLocale: "en_US",
 });

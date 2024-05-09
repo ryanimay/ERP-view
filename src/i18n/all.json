@@ -1,10 +1,10 @@
 {
     "tw":{
         "label":"繁體中文",
-        "value":"zh-TW"
+        "value":"zh_TW"
     },
     "us":{
         "label":"English",
-        "value":"en-US"
+        "value":"en_US"
     }
 }

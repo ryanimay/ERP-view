@@ -30,8 +30,16 @@ function findRoute(path) {
     }
 }
 
+function setUserLang(config){
+    const locale = localStorage.getItem("lang") ?? "zh_TW";
+    config.headers['User-Lang'] = locale;
+}
+
 instance().interceptors.request.use(
     (config) => {
+        //標頭帶上語系
+        setUserLang(config);
+
         const matchedRoute = findRoute(config.url);
         //如果是要驗證的api再放token
         if (matchedRoute.requiresAuth) {
