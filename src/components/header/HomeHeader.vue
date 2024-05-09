@@ -56,6 +56,22 @@
                                 <el-button type="primary" icon="Avatar" circle class="btnFrame"/>
                             </template>
                             <el-descriptions title="User Info" :column="1">
+                                <template #extra>
+                                    <el-select
+                                        v-model="locale"
+                                        :placeholder="locale.value"
+                                        size="small"
+                                        style="width: 100px"
+                                        @change="changeLocale"
+                                        >
+                                        <el-option
+                                            v-for="item in allLocale"
+                                            :label="item.label"
+                                            :value="item.value"
+                                            :key="item.value"
+                                        />
+                                    </el-select>
+                                </template>
                                 <el-descriptions-item label="Username:">{{user.username}}</el-descriptions-item>
                                 <el-descriptions-item label="Email:">{{user.email}}</el-descriptions-item>
                                 <el-descriptions-item label="Department:">{{user.departmentName}}</el-descriptions-item>
@@ -114,7 +130,10 @@ import request from '@/config/api/request.js';
 import { ref, onMounted, getCurrentInstance, reactive, computed } from 'vue';
 import icon from '@/assets/icon/icons8-logo.svg';
 import userStore from '@/config/store/user';
-import { ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus';
+import allLocale from '@/i18n/all.json';
+import { useI18n } from 'vue-i18n';
+const { locale } = useI18n();
 
 const { proxy } = getCurrentInstance();
 const loading = ref(false);
@@ -233,6 +252,13 @@ function handleSignResponse(response, status) {
         proxy.$msg.success('Success');
         user.updateAttendStatus(status);
     }
+}
+function changeLocale(){
+    loading.value = true;
+    localStorage.setItem('lang', locale.value);
+    setTimeout(() => {
+        loading.value = false;
+    }, 2000);
 }
 </script>
 

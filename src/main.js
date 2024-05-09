@@ -8,6 +8,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import msg from '@/config/alterConfig.js'
+import i18n from '@/config/i18nConfig.js'
 
 const app = createApp(App);
 app.config.globalProperties.$msg = msg;
@@ -20,5 +21,6 @@ pinia.use(piniaPluginPersistedstate)
 app.use(ElementPlus);
 app.use(router);
 app.use(pinia);
+app.use(i18n);
 
 app.mount('#app');
