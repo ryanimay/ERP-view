@@ -57,20 +57,7 @@
                             </template>
                             <el-descriptions title="User Info" :column="1">
                                 <template #extra>
-                                    <el-select
-                                        v-model="locale"
-                                        :placeholder="locale.value"
-                                        size="small"
-                                        style="width: 100px"
-                                        @change="changeLocale"
-                                        >
-                                        <el-option
-                                            v-for="item in allLocale"
-                                            :label="item.label"
-                                            :value="item.value"
-                                            :key="item.value"
-                                        />
-                                    </el-select>
+                                    <component :is="i18nSelector"/>
                                 </template>
                                 <el-descriptions-item label="Username:">{{user.username}}</el-descriptions-item>
                                 <el-descriptions-item label="Email:">{{user.email}}</el-descriptions-item>
@@ -131,9 +118,7 @@ import { ref, onMounted, getCurrentInstance, reactive, computed } from 'vue';
 import icon from '@/assets/icon/icons8-logo.svg';
 import userStore from '@/config/store/user';
 import { ElMessageBox } from 'element-plus';
-import allLocale from '@/i18n/all.json';
-import { useI18n } from 'vue-i18n';
-const { locale } = useI18n();
+import i18nSelector from '@/components/tool/I18nSelector.vue';
 
 const { proxy } = getCurrentInstance();
 const loading = ref(false);
@@ -252,13 +237,6 @@ function handleSignResponse(response, status) {
         proxy.$msg.success('Success');
         user.updateAttendStatus(status);
     }
-}
-function changeLocale(){
-    loading.value = true;
-    localStorage.setItem('lang', locale.value);
-    setTimeout(() => {
-        loading.value = false;
-    }, 2000);
 }
 </script>
 
