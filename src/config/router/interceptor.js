@@ -1,6 +1,7 @@
 import router from '@/config/router/routerConfig'
 import { verifyJWT } from '@/config/tool/jwtTool';
 import userStore from '@/config/store/user';
+import i18n from '@/config/i18nConfig.js'
 
 router.beforeEach((to, from, next) => {
     const nextName = to.name;
@@ -22,7 +23,7 @@ router.beforeEach((to, from, next) => {
                 name: 'login',
                 query: {
                     //未正常登出才需要顯示提示字
-                    message: isLogin ? 'Please re-login.' : undefined
+                    message: isLogin ? i18n.global.t('router.reLogin') : undefined
                 }
             });
         }

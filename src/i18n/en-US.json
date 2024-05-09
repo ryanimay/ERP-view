@@ -1,6 +1,83 @@
 {
-    "test":"test",
-    "header":"header",
-    "main":"main",
-    "footer":"footer"
+    "loginBody":{
+        "login":"Login",
+        "username":"Username",
+        "password":"Password",
+        "rememberMe":"RememberMe",
+        "forgetPassword":"ForgetPassword",
+        "loginSuccess":"Login Success"
+    },
+    "resetPasswordBody":{
+        "title":"ResetPassword",
+        "username":"Username:",
+        "email":"Email:",
+        "cancel":"Cancel",
+        "submit":"Submit",
+        "resetPasswordSuccess":"ResetPassword Success",
+        "requiredEmail":"Please input email address",
+        "errorEmail":"Please input correct email address",
+        "requiredUserName":"Please input Username"
+    },
+    "updateEmailBody":{
+        "title":"UpdateEmail",
+        "email":"Email:",
+        "cancel":"Cancel",
+        "submit":"Submit",
+        "updateSuccess":"Update Success",
+        "requiredEmail":"Please input email address",
+        "errorEmail":"Please input correct email address"
+    },
+    "updatePasswordBody":{
+        "title":"UpdatePassword",
+        "oldPassword":"Old Password:",
+        "password":"New Password:",
+        "confirmPassword":"Confirm:",
+        "cancel":"Cancel",
+        "submit":"Submit",
+        "validate":{
+            "requiredOldPassword":"Please input old password",
+            "requiredPassword":"Please input password",
+            "lowercase":"Password must contain lowercase letters.",
+            "uppercase":"Password must contain uppercase letters.",
+            "number":"Password must contain a number.",
+            "special":"Password must not contain special characters.",
+            "between":"Password length must be between 8 and 20 characters.",
+            "invalid":"Invalid input",
+            "requiredConfirmPassword":"Please input confirm",
+            "noMatch":"The passwords entered do not match"
+        }
+    },
+    "homeHeader":{
+        "userInfo":"User Information",
+        "username":"Username:",
+        "email":"Email:",
+        "department":"Department:",
+        "sign":"Sign:",
+        "signText":{
+            "noPunch":"No Punch",
+            "punch":"Punch",
+            "clockOut":"Clock out"
+        },
+        "edit":"Edit",
+        "logout":"Logout",
+        "editUser":"Edit User",
+        "cancel":"Cancel",
+        "submit":"Submit",
+        "logoutSuccess":"Logout Success",
+        "success":"Success",
+        "confirmClose":"Are you sure to close edit page?",
+        "clockOutMessage":"Great job today, it's time to chill!",
+        "unknowError":"UnknowError"
+    },
+
+
+
+
+
+    "router":{
+        "reLogin":"Please re-login."
+    },
+    "axios":{
+        "reLogin":"Session expired, please log in again."
+    }
 }

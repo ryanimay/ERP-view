@@ -1,21 +1,21 @@
 <template>
     <div id="body-container" v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
         <div class="centerFrame">
-            <h2 id="title">Login</h2>
+            <h2 id="title">{{ $t('loginBody.login') }}</h2>
         </div>
         <el-form :model="loginForm" label-position="left" label-width="auto" size="large" @submit.prevent>
-            <el-form-item label="Username:">
+            <el-form-item :label="$t('loginBody.username')">
                 <el-input v-model="loginForm.username" class="input-area" @keyup.enter="doLogin"/>
             </el-form-item>
-            <el-form-item label="Password:">
+            <el-form-item :label="$t('loginBody.password')">
                 <el-input v-model="loginForm.password" type="password" show-password class="input-area" @keyup.enter="doLogin"/>
             </el-form-item>
-            <el-checkbox v-model="loginForm.rememberMe" label="RememberMe" />
+            <el-checkbox v-model="loginForm.rememberMe" :label="$t('loginBody.rememberMe')" />
             <el-form-item>
-                <el-button type="primary" @click="doLogin" id="btn">Login</el-button>
+                <el-button type="primary" @click="doLogin" id="btn">{{ $t('loginBody.login') }}</el-button>
             </el-form-item>
             <div class="centerFrame">
-                <router-link :to="{ name: 'forgetPassword' }" id="forgetPassword">ForgetPassword</router-link>
+                <router-link :to="{ name: 'forgetPassword' }" id="forgetPassword">{{ $t('loginBody.forgetPassword') }}</router-link>
             </div>
         </el-form>
     </div>
@@ -24,6 +24,8 @@
 <script setup>
 import userStore from '@/config/store/user.js';
 import { reactive, ref, getCurrentInstance } from 'vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 const rememberMeCheck = localStorage.getItem('rememberMe');
 const { proxy } = getCurrentInstance();//獲取全局組件
 const loading = ref(false);
@@ -57,7 +59,7 @@ function setRememberMe() {
 function handleResponse(response) {
     if(response !== undefined){
         if (response.data.code === 200) {
-            proxy.$msg.success('Login success');
+            proxy.$msg.success(t('loginBody.loginSuccess'));
             proxy.$router.push({ name: 'home' });
         } else {
             proxy.$msg.error(response.data.data);
@@ -115,6 +117,8 @@ function messageTypeSwitch(type){
     text-decoration: underline;
     font-weight: bold;
     color: #409eff;
+    display: inline-flex;
+    justify-content: center;
 }
 
 #forgetPassword:hover {

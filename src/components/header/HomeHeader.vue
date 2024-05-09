@@ -26,14 +26,14 @@
                                 <el-icon>
                                     <component :is="menu.icon" />
                                 </el-icon>
-                                <span>{{ menu.name }}</span>
+                                <span>{{ $t(menu.name) }}</span>
                             </template>
                             <el-menu-item v-for="child in menu.child" :index="child.path"
                                 :key="child.id.toString()" @click="changeActive(child.path)" :style="{backgroundColor: defaultActive === child.path ? activeColor : normalColor}">
                                 <el-icon>
                                     <component :is="child.icon" />
                                 </el-icon>
-                                <span>{{ child.name }}</span>
+                                <span>{{ $t(child.name) }}</span>
                             </el-menu-item>
                         </el-sub-menu>
                     </template>
@@ -55,28 +55,28 @@
                             <template #reference>
                                 <el-button type="primary" icon="Avatar" circle class="btnFrame"/>
                             </template>
-                            <el-descriptions title="User Info" :column="1">
+                            <el-descriptions :title="$t('homeHeader.userInfo')" :column="1">
                                 <template #extra>
                                     <component :is="i18nSelector"/>
                                 </template>
-                                <el-descriptions-item label="Username:">{{user.username}}</el-descriptions-item>
-                                <el-descriptions-item label="Email:">{{user.email}}</el-descriptions-item>
-                                <el-descriptions-item label="Department:">{{user.departmentName}}</el-descriptions-item>
-                                <el-descriptions-item label="Sign:">
-                                    <el-tag :type="signType" >{{ signText }}</el-tag>
+                                <el-descriptions-item :label="$t('homeHeader.username')">{{user.username}}</el-descriptions-item>
+                                <el-descriptions-item :label="$t('homeHeader.email')">{{user.email}}</el-descriptions-item>
+                                <el-descriptions-item :label="$t('homeHeader.department')">{{user.departmentName}}</el-descriptions-item>
+                                <el-descriptions-item :label="$t('homeHeader.sign')">
+                                    <el-tag :type="signType" >{{ $t(signText) }}</el-tag>
                                 </el-descriptions-item>
                             </el-descriptions>
                             <el-row>
                                 <el-col :span="24">
                                     <el-button type="primary" plain @click="editDialog = true" class="fullWidth ">
-                                        Edit
+                                        {{ $t('homeHeader.edit') }}
                                     </el-button>
                                 </el-col>
                             </el-row>
                             <el-row>
                                 <el-col :span="24">
                                     <el-button type="danger" plain @click="logout" class="fullWidth margin-top">
-                                        Logout
+                                        {{ $t('homeHeader.logout') }}
                                     </el-button>
                                 </el-col>
                             </el-row>
@@ -90,22 +90,22 @@
         </el-container>
 
         <!--編輯用戶彈窗-->
-        <el-dialog v-model="editDialog" title="Edit User" width="350" :before-close="handleClose">
+        <el-dialog v-model="editDialog" :title="$t('homeHeader.editUser')" width="350" :before-close="handleClose">
             <el-form :model="userForm" label-position="right">
-                <el-form-item label="Username:">
+                <el-form-item :label="$t('homeHeader.username')">
                     <span>{{ user.username }}</span>
                 </el-form-item>
-                <el-form-item label="Email:">
+                <el-form-item :label="$t('homeHeader.email')">
                     <el-input v-model="userForm.email" />
                 </el-form-item>
-                <el-form-item label="Department:">
+                <el-form-item :label="$t('homeHeader.department')">
                     <span>{{ user.departmentName }}</span>
                 </el-form-item>
             </el-form>
             <template #footer>
                 <div class="dialog-footer">
-                    <el-button @click="handleClose">Cancel</el-button>
-                    <el-button type="primary" @click="editUser">Submit</el-button>
+                    <el-button @click="handleClose">{{ $t('homeHeader.cancel') }}</el-button>
+                    <el-button type="primary" @click="editUser">{{ $t('homeHeader.submit') }}</el-button>
                 </div>
             </template>
         </el-dialog>
@@ -119,6 +119,8 @@ import icon from '@/assets/icon/icons8-logo.svg';
 import userStore from '@/config/store/user';
 import { ElMessageBox } from 'element-plus';
 import i18nSelector from '@/components/tool/I18nSelector.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 
 const { proxy } = getCurrentInstance();
 const loading = ref(false);
@@ -136,11 +138,11 @@ const userForm = reactive({
 const signText = computed(() => {
     switch (user.attendStatus) {
         case 1:
-            return 'No Punch';
+            return 'homeHeader.signText.noPunch';
         case 2:
-            return 'Punch';
+            return 'homeHeader.signText.punch';
         case 3:
-            return 'Clock out';
+            return 'homeHeader.signText.clockOut';
         default:
             return '';
     }
@@ -186,7 +188,7 @@ async function logout(){
         proxy.$router.push({ 
             name: 'login', 
             query: {
-                message: 'Logout success',
+                message: t('homeHeader.logoutSuccess'),
                 type: 'success'
             } 
         });
@@ -202,13 +204,13 @@ function handleEditResponse(response){
     if (response.data.code != 200) {
         proxy.$msg.error(response.data.data);
     } else {
-        proxy.$msg.success('Success');
+        proxy.$msg.success(t('homeHeader.success'));
         user.update(response.data.data);
         editDialog.value = false
     }
 }
 const handleClose = () => {
-  ElMessageBox.confirm('Are you sure to close edit page?')
+  ElMessageBox.confirm(t('homeHeader.confirmClose'))
     .then(() => {
         editDialog.value = false
     })
@@ -224,9 +226,9 @@ async function sign(){
         const response = await request.signOut();
         handleSignResponse(response, 3);
     }else if((user.attendStatus == '3')){
-        proxy.$msg.warn('ヽ(✿ﾟ▽ﾟ)ノ下班下班~~~');
+        proxy.$msg.warn(t('homeHeader.clockOutMessage'));
     }else{
-        proxy.$msg.error('Somethings wrong');
+        proxy.$msg.error(t('homeHeader.unknowError'));
     }
 }
 
@@ -234,7 +236,7 @@ function handleSignResponse(response, status) {
     if (response.data.code != 200) {
         proxy.$msg.error(response.data.data);
     } else {
-        proxy.$msg.success('Success');
+        proxy.$msg.success(t('homeHeader.success'));
         user.updateAttendStatus(status);
     }
 }

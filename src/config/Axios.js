@@ -2,6 +2,7 @@ import axios from "axios";
 import api from '@/config/api/apiConfig.js';
 import { verifyJWT } from '@/config/tool/jwtTool';
 import router from '@/config/router/routerConfig';
+import i18n from '@/config/i18nConfig.js'
 
 let axiosInstance = null;
 
@@ -48,7 +49,7 @@ instance().interceptors.request.use(
             //accessToken和refreshToken都未通過token驗證，才會轉跳登入頁
             if (!verifyJWT(token) && (!refreshToken || !verifyJWT(refreshToken))) {
                 instance.defaults.router.push({ name: 'login' });
-                return Promise.reject({type: 'RequestRejectedError', message:'登入過期，請重新登入'});
+                return Promise.reject({type: 'RequestRejectedError', message: i18n.global.t('axios.reLogin')});
             }
             config.headers['Authorization'] = `Bearer ${token}`;
             if (refreshToken) {

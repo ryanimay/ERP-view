@@ -2,21 +2,21 @@
     <div id="body-container" v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
         <el-row style="width: 100%;">
             <el-col>
-                <h2>UpdateEmail</h2>
+                <h2>{{ $t('updateEmailBody.title') }}</h2>
             </el-col>
         </el-row>
         <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef">
-            <el-form-item prop="email" label="Email:" :rules="emailRules">
+            <el-form-item prop="email" :label="$t('updateEmailBody.email')" :rules="emailRules">
                 <el-input v-model="formData.email" class="input-area" />
             </el-form-item>
             <el-form-item>
                 <el-row id="btnFrame">
                     <el-col :span="4">
-                        <el-button type="info" @click="lastPage" class="btn">Cancel</el-button>
+                        <el-button type="info" @click="lastPage" class="btn">{{ $t('updateEmailBody.cancel') }}</el-button>
                     </el-col>
                     <el-col :span="2"></el-col>
                     <el-col :span="18">
-                        <el-button type="primary" @click="doUpdate" class="btn">Submit</el-button>
+                        <el-button type="primary" @click="doUpdate" class="btn">{{ $t('updateEmailBody.submit') }}</el-button>
                     </el-col>
                 </el-row>
             </el-form-item>
@@ -26,8 +26,10 @@
 
 <script setup>
 import request from '@/config/api/request.js';
-import { reactive, ref, getCurrentInstance } from 'vue';
+import { reactive, ref, getCurrentInstance, watch } from 'vue';
 import userStore from '@/config/store/user';
+import { useI18n } from 'vue-i18n';
+const { t, locale } = useI18n();
 const user = userStore();
 const loading = ref(false);
 const formData = reactive({
@@ -56,7 +58,7 @@ function handleResponse(response) {
         proxy.$msg.error(response.data.data);
     } else {
         user.update(response.data.data);
-        proxy.$msg.success('Update success');
+        proxy.$msg.success(t('updateEmailBody.updateSuccess'));
         proxy.$router.push({ name: 'home' });
     }
 }
@@ -64,15 +66,19 @@ const formRef = ref(null);
 const emailRules = [
     {
         required: true,
-        message: 'Please input email address',
+        message: t('updateEmailBody.requiredEmail'),
         trigger: 'blur',
     },
     {
         type: 'email',
-        message: 'Please input correct email address',
+        message: t('updateEmailBody.errorEmail'),
         trigger: 'blur',
     },
 ];
+watch(locale, () => {
+    emailRules[0].message = t('updateEmailBody.requiredEmail');
+    emailRules[1].message = t('updateEmailBody.errorEmail');
+});
 function validate() {
     return formRef.value.validate((valid) => {
         return valid;

@@ -1,6 +1,83 @@
 {
-    "test":"測試",
-    "header":"標頭",
-    "main":"主體",
-    "footer":"頁尾"
+    "loginBody":{
+        "Login":"登入",
+        "Username":"用戶名稱",
+        "Password":"用戶密碼",
+        "RememberMe":"記住我",
+        "ForgetPassword":"忘記密碼",
+        "LoginSuccess":"登入成功"
+    },
+    "resetPasswordBody":{
+        "title":"密碼重置",
+        "Username":"用戶名稱:",
+        "Email":"Email:",
+        "Cancel":"取消",
+        "Submit":"送出",
+        "ResetPasswordSuccess":"重置密碼成功",
+        "requiredEmail":"請輸入email",
+        "errorEmail":"Email格式錯誤",
+        "requiredUserName":"請輸入用戶名"
+    },
+    "updateEmailBody":{
+        "title":"更新Email",
+        "email":"Email:",
+        "cancel":"取消",
+        "submit":"送出",
+        "updateSuccess":"更新成功",
+        "requiredEmail":"請輸入email",
+        "errorEmail":"Email格式錯誤"
+    },
+    "updatePasswordBody":{
+        "title":"更新密碼",
+        "oldPassword":"舊密碼:",
+        "password":"新密碼:",
+        "confirmPassword":"確認新密碼:",
+        "cancel":"取消",
+        "submit":"送出",
+        "validate":{
+            "requiredOldPassword":"請輸入舊密碼",
+            "requiredPassword":"請輸入新密碼",
+            "lowercase":"密碼必須包含小寫字母",
+            "uppercase":"密碼必須包含大寫字母",
+            "number":"密碼必須包含數字",
+            "special":"密碼不得包含空格或特殊字符",
+            "between":"用戶密碼長度不得小於8, 不得大於20",
+            "invalid":"無效輸入",
+            "requiredConfirmPassword":"請確認新密碼",
+            "noMatch":"確認新密碼錯誤"
+        }
+    },
+    "homeHeader":{
+        "userInfo":"用戶資訊",
+        "username":"用戶名稱:",
+        "email":"Email:",
+        "department":"部門:",
+        "sign":"簽到:",
+        "signText":{
+            "noPunch":"未打卡",
+            "punch":"已打卡",
+            "clockOut":"下班"
+        },
+        "edit":"編輯",
+        "logout":"登出",
+        "editUser":"編輯用戶",
+        "cancel":"取消",
+        "submit":"提交",
+        "logoutSuccess":"登出成功",
+        "success":"操作成功",
+        "confirmClose":"確定要關閉尚未儲存視窗嗎?",
+        "clockOutMessage":"ヽ(✿ﾟ▽ﾟ)ノ下班下班~~~",
+        "unknowError":"發生未知錯誤, 請聯繫管理員"
+    },
+
+
+
+
+
+    "router":{
+        "reLogin":"請重新登入"
+    },
+    "axios":{
+        "reLogin":"登入過期，請重新登入"
+    }
 }

@@ -2,24 +2,24 @@
     <div id="body-container" v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
         <el-row style="width: 100%;">
             <el-col>
-                <h2>ResetPassword</h2>
+                <h2>{{ $t('resetPasswordBody.title') }}</h2>
             </el-col>
         </el-row>
         <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef">
-            <el-form-item prop="username" label="Username:" :rules="requiredRule">
+            <el-form-item prop="username" :label="$t('resetPasswordBody.username')" :rules="requiredRule">
                 <el-input v-model="formData.username" class="input-area" />
             </el-form-item>
-            <el-form-item prop="email" label="Email:" :rules="emailRules">
+            <el-form-item prop="email" :label="$t('resetPasswordBody.email')" :rules="emailRules">
                 <el-input v-model="formData.email" class="input-area" />
             </el-form-item>
             <el-form-item>
                 <el-row style="width: 100%;">
                     <el-col :span="4">
-                        <el-button type="info" @click="lastPage" class="btn">Cancel</el-button>
+                        <el-button type="info" @click="lastPage" class="btn">{{ $t('resetPasswordBody.cancel') }}</el-button>
                     </el-col>
                     <el-col :span="2"></el-col>
                     <el-col :span="18">
-                        <el-button type="primary" @click="resetPassword(formRef)" class="btn">Submit</el-button>
+                        <el-button type="primary" @click="resetPassword(formRef)" class="btn">{{ $t('resetPasswordBody.submit') }}</el-button>
                     </el-col>
                 </el-row>
             </el-form-item>
@@ -29,7 +29,9 @@
 
 <script setup>
 import request from '@/config/api/request.js';
-import { reactive, ref, getCurrentInstance } from 'vue';
+import { reactive, ref, getCurrentInstance, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+const { t, locale } = useI18n();
 const loading = ref(false);
 const formData = reactive({
     username: '',
@@ -55,7 +57,7 @@ function handleResponse(response) {
     if (response.data.code != 200) {
         proxy.$msg.error(response.data.data);
     } else {
-        proxy.$msg.success('ResetPassword success');
+        proxy.$msg.success(t('resetPasswordBody.resetPasswordSuccess'));
         proxy.$router.push({ name: 'login' });
     }
 }
@@ -63,22 +65,27 @@ const formRef = ref(null);
 const emailRules = [
     {
         required: true,
-        message: 'Please input email address',
+        message: t('resetPasswordBody.requiredEmail'),
         trigger: 'blur',
     },
     {
         type: 'email',
-        message: 'Please input correct email address',
+        message: t('resetPasswordBody.errorEmail'),
         trigger: 'blur',
     },
 ];
 const requiredRule = [
     {
         required: true,
-        message: 'Please input Username',
+        message: t('resetPasswordBody.requiredUserName'),
         trigger: 'blur',
     }
 ];
+watch(locale, () => {
+    emailRules[0].message = t('resetPasswordBody.requiredEmail');
+    emailRules[1].message = t('resetPasswordBody.errorEmail');
+    requiredRule[0].message = t('resetPasswordBody.requiredUserName');
+});
 function validate() {
     return formRef.value.validate((valid) => {
         return valid;

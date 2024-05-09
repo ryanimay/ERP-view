@@ -2,28 +2,28 @@
     <div id="body-container" v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
         <el-row style="width: 100%;">
             <el-col class="centerFrame">
-                <h2>UpdatePassword</h2>
+                <h2>{{ $t('updatePasswordBody.title') }}</h2>
             </el-col>
         </el-row>
         <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef"
             :rules="formRules" status-icon>
-            <el-form-item prop="oldPassword" label="Old Password:">
+            <el-form-item prop="oldPassword" :label="$t('updatePasswordBody.oldPassword')">
                 <el-input v-model="formData.oldPassword" class="input-area" type="password" />
             </el-form-item>
-            <el-form-item prop="password" label="New Password:">
+            <el-form-item prop="password" :label="$t('updatePasswordBody.password')">
                 <el-input v-model="formData.password" class="input-area" type="password" />
             </el-form-item>
-            <el-form-item prop="confirmPassword" label="Confirm:">
+            <el-form-item prop="confirmPassword" :label="$t('updatePasswordBody.confirmPassword')">
                 <el-input v-model="formData.confirmPassword" class="input-area" type="password" />
             </el-form-item>
             <el-form-item>
                 <el-row style="width: 100%;">
                     <el-col :span="4">
-                        <el-button type="info" @click="lastPage" class="btn">Cancel</el-button>
+                        <el-button type="info" @click="lastPage" class="btn">{{ $t('updatePasswordBody.cancel') }}</el-button>
                     </el-col>
                     <el-col :span="2"></el-col>
                     <el-col :span="18">
-                        <el-button type="primary" @click="resetPassword" class="btn">Submit</el-button>
+                        <el-button type="primary" @click="resetPassword" class="btn">{{ $t('updatePasswordBody.submit') }}</el-button>
                     </el-col>
                 </el-row>
             </el-form-item>
@@ -35,6 +35,8 @@
 import request from '@/config/api/request.js';
 import { reactive, ref, getCurrentInstance } from 'vue';
 import userStore from '@/config/store/user';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 const user = userStore();
 const loading = ref(false);
 const formData = reactive({
@@ -81,7 +83,7 @@ function validate() {
 }
 function requiredRule(rule, value, callback) {
     if (!value) {
-        callback(new Error('Please input old password'));
+        callback(new Error(t('updatePasswordBody.validate.requiredOldPassword')));
     } else {
         callback();
     }
@@ -93,30 +95,30 @@ function validatePassword(rule, value, callback) {
     const numberRegex = /.*\d.*/;
     const specialCharRegex = /^[^\s!@#$%^&*()_+={}[\]:;<>,.?~\\/-]+$/;
     if (!value) {
-        callback(new Error('Please input password'));
+        callback(new Error(t('updatePasswordBody.validate.requiredPassword')));
     } else {
         if (!lowerCaseRegex.test(value)) {
-            proxy.$msg.error('Password must contain lowercase letters.');
+            proxy.$msg.error(t('updatePasswordBody.validate.lowercase'));
         } else if (!upperCaseRegex.test(value)) {
-            proxy.$msg.error('Password must contain uppercase letters.');
+            proxy.$msg.error(t('updatePasswordBody.validate.uppercase'));
         } else if (!numberRegex.test(value)) {
-            proxy.$msg.error('Password must contain a number.');
+            proxy.$msg.error(t('updatePasswordBody.validate.number'));
         } else if (!specialCharRegex.test(value)) {
-            proxy.$msg.error('Password must not contain special characters.');
+            proxy.$msg.error(t('updatePasswordBody.validate.special'));
         } else if (value.length < 8 || value.length > 20) {
-            proxy.$msg.error('Password length must be between 8 and 20 characters.');
+            proxy.$msg.error(t('updatePasswordBody.validate.between'));
         } else {
             callback();
         }
-        callback(new Error('Invalid input'));
+        callback(new Error(t('updatePasswordBody.validate.invalid')));
     }
 }
 function confirmPwd(rule, value, callback) {
     const password = formData.password;
     if (!value) {
-        callback(new Error('Please input confirm'));
+        callback(new Error(t('updatePasswordBody.validate.requiredConfirmPassword')));
     } else if (value !== password) {
-        callback(new Error('The passwords entered do not match'));
+        callback(new Error(t('updatePasswordBody.validate.noMatch')));
     } else {
         callback();
     }
