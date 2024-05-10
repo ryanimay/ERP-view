@@ -1,19 +1,19 @@
 {
     "loginBody":{
-        "Login":"登入",
-        "Username":"用戶名稱",
-        "Password":"用戶密碼",
-        "RememberMe":"記住我",
-        "ForgetPassword":"忘記密碼",
-        "LoginSuccess":"登入成功"
+        "login":"登入",
+        "username":"用戶名稱",
+        "password":"用戶密碼",
+        "rememberMe":"記住我",
+        "forgetPassword":"忘記密碼",
+        "loginSuccess":"登入成功"
     },
     "resetPasswordBody":{
         "title":"密碼重置",
-        "Username":"用戶名稱:",
-        "Email":"Email:",
-        "Cancel":"取消",
-        "Submit":"送出",
-        "ResetPasswordSuccess":"重置密碼成功",
+        "username":"用戶名稱:",
+        "email":"Email:",
+        "cancel":"取消",
+        "submit":"送出",
+        "resetPasswordSuccess":"重置密碼成功",
         "requiredEmail":"請輸入email",
         "errorEmail":"Email格式錯誤",
         "requiredUserName":"請輸入用戶名"
