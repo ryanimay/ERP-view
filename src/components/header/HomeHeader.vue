@@ -120,8 +120,10 @@ import userStore from '@/config/store/user';
 import { ElMessageBox } from 'element-plus';
 import i18nSelector from '@/components/tool/I18nSelector.vue';
 import { useI18n } from 'vue-i18n';
+import buildSocket from '@/config/socket.js';
 const { t } = useI18n();
-
+const ws = ref(buildSocket());
+console.log(ws);
 const { proxy } = getCurrentInstance();
 const loading = ref(false);
 const list = ref([]);
