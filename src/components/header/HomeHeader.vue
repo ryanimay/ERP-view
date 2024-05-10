@@ -68,7 +68,7 @@
                             </el-descriptions>
                             <el-row>
                                 <el-col :span="24">
-                                    <el-button type="primary" plain @click="editDialog = true" class="fullWidth ">
+                                    <el-button type="primary" plain @click="openEditDialog" class="fullWidth ">
                                         {{ $t('homeHeader.edit') }}
                                     </el-button>
                                 </el-col>
@@ -91,12 +91,12 @@
 
         <!--編輯用戶彈窗-->
         <el-dialog v-model="editDialog" :title="$t('homeHeader.editUser')" width="350" :before-close="handleClose">
-            <el-form :model="userForm" label-position="right">
+            <el-form :model="userForm" label-position="right" @submit.prevent >
                 <el-form-item :label="$t('homeHeader.username')">
                     <span>{{ user.username }}</span>
                 </el-form-item>
-                <el-form-item :label="$t('homeHeader.email')">
-                    <el-input v-model="userForm.email" />
+                <el-form-item :label="$t('homeHeader.email')" >
+                    <el-input v-model="userForm.email" @keyup.enter="editUser" />
                 </el-form-item>
                 <el-form-item :label="$t('homeHeader.department')">
                     <span>{{ user.departmentName }}</span>
@@ -219,6 +219,7 @@ const handleClose = () => {
     });
 };
 async function sign(){
+    loading.value = true;
     if(user.attendStatus == '1'){
         const response = await request.signIn();
         handleSignResponse(response, 2);
@@ -230,6 +231,7 @@ async function sign(){
     }else{
         proxy.$msg.error(t('homeHeader.unknowError'));
     }
+    loading.value = false;
 }
 
 function handleSignResponse(response, status) {
@@ -239,6 +241,10 @@ function handleSignResponse(response, status) {
         proxy.$msg.success(t('homeHeader.success'));
         user.updateAttendStatus(status);
     }
+}
+function openEditDialog(){
+    userForm.email = user.email;
+    editDialog.value = true;
 }
 </script>
 
