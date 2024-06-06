@@ -120,10 +120,9 @@ import userStore from '@/config/store/user';
 import { ElMessageBox } from 'element-plus';
 import i18nSelector from '@/components/tool/I18nSelector.vue';
 import { useI18n } from 'vue-i18n';
-import buildSocket from '@/config/socket.js';
+import { websocketStore } from '@/store/websocket';
 const { t } = useI18n();
-const ws = ref(buildSocket());
-console.log(ws);
+const ws = websocketStore();
 const { proxy } = getCurrentInstance();
 const loading = ref(false);
 const list = ref([]);
@@ -167,6 +166,10 @@ const param = ref({
 onMounted(async () => {
     loading.value = true;
     list.value = await getMenu();
+    ws.connect();
+    ws.subscribe('/topic/notification', (message) => {
+        console.log('Received notification:', message);
+    });
     loading.value = false;
 });
 async function getMenu() {
