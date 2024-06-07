@@ -1,5 +1,6 @@
 <template>
-    <el-aside id="homeHeaderContainer"  v-loading.fullscreen.lock="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
+    <el-aside id="homeHeaderContainer" v-loading.fullscreen.lock="loading"
+        element-loading-background="rgba(0, 0, 0, 0.5)">
         <el-container id="container">
             <el-header id="headerHeight">
                 <el-row id="logoFrame">
@@ -28,8 +29,9 @@
                                 </el-icon>
                                 <span>{{ $t(menu.name) }}</span>
                             </template>
-                            <el-menu-item v-for="child in menu.child" :index="child.path"
-                                :key="child.id.toString()" @click="changeActive(child.path)" :style="{backgroundColor: defaultActive === child.path ? activeColor : normalColor}">
+                            <el-menu-item v-for="child in menu.child" :index="child.path" :key="child.id.toString()"
+                                @click="changeActive(child.path)"
+                                :style="{ backgroundColor: defaultActive === child.path ? activeColor : normalColor }">
                                 <el-icon>
                                     <component :is="child.icon" />
                                 </el-icon>
@@ -42,28 +44,33 @@
             <el-footer>
                 <el-row>
                     <el-col :span="8">
-                        <el-popover placement="top-start" :width="200" trigger="click" popper-style="border: 2px solid #606266">
+                        <el-popover placement="top-start" :width="200" trigger="click"
+                            popper-style="border: 2px solid #606266">
                             <template #reference>
                                 <el-badge :value="5" :max="10">
-                                    <el-button type="info" icon="Bell" circle class="btnFrame"/>
+                                    <el-button type="info" icon="Bell" circle class="btnFrame" />
                                 </el-badge>
                             </template>
                         </el-popover>
                     </el-col>
                     <el-col :span="8">
-                        <el-popover placement="top-start" :width="260" trigger="click" popper-style="border: 2px solid #12354b">
+                        <el-popover placement="top-start" :width="260" trigger="click"
+                            popper-style="border: 2px solid #12354b">
                             <template #reference>
-                                <el-button type="primary" icon="Avatar" circle class="btnFrame"/>
+                                <el-button type="primary" icon="Avatar" circle class="btnFrame" />
                             </template>
                             <el-descriptions :title="$t('homeHeader.userInfo')" :column="1">
                                 <template #extra>
-                                    <component :is="i18nSelector"/>
+                                    <component :is="i18nSelector" />
                                 </template>
-                                <el-descriptions-item :label="$t('homeHeader.username')">{{user.username}}</el-descriptions-item>
-                                <el-descriptions-item :label="$t('homeHeader.email')">{{user.email}}</el-descriptions-item>
-                                <el-descriptions-item :label="$t('homeHeader.department')">{{user.departmentName}}</el-descriptions-item>
+                                <el-descriptions-item
+                                    :label="$t('homeHeader.username')">{{ user.username }}</el-descriptions-item>
+                                <el-descriptions-item
+                                    :label="$t('homeHeader.email')">{{ user.email }}</el-descriptions-item>
+                                <el-descriptions-item
+                                    :label="$t('homeHeader.department')">{{ user.departmentName }}</el-descriptions-item>
                                 <el-descriptions-item :label="$t('homeHeader.sign')">
-                                    <el-tag :type="signType" >{{ $t(signText) }}</el-tag>
+                                    <el-tag :type="signType">{{ $t(signText) }}</el-tag>
                                 </el-descriptions-item>
                             </el-descriptions>
                             <el-row>
@@ -83,7 +90,7 @@
                         </el-popover>
                     </el-col>
                     <el-col :span="8">
-                        <el-button :type="signType" icon="Checked" circle class="btnFrame" @click="sign"/>
+                        <el-button :type="signType" icon="Checked" circle class="btnFrame" @click="sign" />
                     </el-col>
                 </el-row>
             </el-footer>
@@ -91,11 +98,11 @@
 
         <!--編輯用戶彈窗-->
         <el-dialog v-model="editDialog" :title="$t('homeHeader.editUser')" width="350" :before-close="handleClose">
-            <el-form :model="userForm" label-position="right" @submit.prevent >
+            <el-form :model="userForm" label-position="right" @submit.prevent>
                 <el-form-item :label="$t('homeHeader.username')">
                     <span>{{ user.username }}</span>
                 </el-form-item>
-                <el-form-item :label="$t('homeHeader.email')" >
+                <el-form-item :label="$t('homeHeader.email')">
                     <el-input v-model="userForm.email" @keyup.enter="editUser" />
                 </el-form-item>
                 <el-form-item :label="$t('homeHeader.department')">
@@ -120,7 +127,7 @@ import userStore from '@/config/store/user';
 import { ElMessageBox } from 'element-plus';
 import i18nSelector from '@/components/tool/I18nSelector.vue';
 import { useI18n } from 'vue-i18n';
-import { websocketStore } from '@/store/websocket';
+import { websocketStore } from '@/config/store/websocket';
 const { t } = useI18n();
 const ws = websocketStore();
 const { proxy } = getCurrentInstance();
@@ -133,8 +140,8 @@ const logo = icon;
 const editDialog = ref(false);
 const user = userStore();
 const userForm = reactive({
-    id:user.id,
-    email:user.email
+    id: user.id,
+    email: user.email
 })
 const signText = computed(() => {
     switch (user.attendStatus) {
@@ -161,17 +168,20 @@ const signType = computed(() => {
     }
 });
 const param = ref({
-    roleIds:''
+    roleIds: ''
 });
 onMounted(async () => {
     loading.value = true;
     list.value = await getMenu();
-    ws.connect();
-    ws.subscribe('/topic/notification', (message) => {
-        console.log('Received notification:', message);
-    });
+    await ws.connect();
+    ws.subscribe('/topic/notification', handleNotification);
     loading.value = false;
 });
+
+const handleNotification = (message) => {
+    console.log('Received notification:'+ message);
+};
+
 async function getMenu() {
     param.value.roleIds = user.roleId.join(',');
     const response = await request.pMenu(param.value);
@@ -184,28 +194,28 @@ function handleResponse(response) {
         return [];
     }
 }
-function changeActive(routerName){
+function changeActive(routerName) {
     defaultActive.value = routerName;
 }
-async function logout(){
+async function logout() {
     const response = await user.logout();
     if (response && response.data.code == 200) {
-        proxy.$router.push({ 
-            name: 'login', 
+        proxy.$router.push({
+            name: 'login',
             query: {
                 message: t('homeHeader.logoutSuccess'),
                 type: 'success'
-            } 
+            }
         });
     }
 }
-async function editUser(){
+async function editUser() {
     loading.value = true;
     const response = await request.update(userForm);
     handleEditResponse(response);
     loading.value = false;
 }
-function handleEditResponse(response){
+function handleEditResponse(response) {
     if (response.data.code != 200) {
         proxy.$msg.error(response.data.data);
     } else {
@@ -215,25 +225,25 @@ function handleEditResponse(response){
     }
 }
 const handleClose = () => {
-  ElMessageBox.confirm(t('homeHeader.confirmClose'))
-    .then(() => {
-        editDialog.value = false
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+    ElMessageBox.confirm(t('homeHeader.confirmClose'))
+        .then(() => {
+            editDialog.value = false
+        })
+        .catch((e) => {
+            console.log(e);
+        });
 };
-async function sign(){
+async function sign() {
     loading.value = true;
-    if(user.attendStatus == '1'){
+    if (user.attendStatus == '1') {
         const response = await request.signIn();
         handleSignResponse(response, 2);
-    }else if((user.attendStatus == '2')){
+    } else if ((user.attendStatus == '2')) {
         const response = await request.signOut();
         handleSignResponse(response, 3);
-    }else if((user.attendStatus == '3')){
+    } else if ((user.attendStatus == '3')) {
         proxy.$msg.warn(t('homeHeader.clockOutMessage'));
-    }else{
+    } else {
         proxy.$msg.error(t('homeHeader.unknowError'));
     }
     loading.value = false;
@@ -247,16 +257,17 @@ function handleSignResponse(response, status) {
         user.updateAttendStatus(status);
     }
 }
-function openEditDialog(){
+function openEditDialog() {
     userForm.email = user.email;
     editDialog.value = true;
 }
 </script>
 
 <style scoped>
-#homeHeaderContainer{
+#homeHeaderContainer {
     background-color: #16415c;
 }
+
 .centerFrame {
     width: 100%;
     display: flex;
@@ -267,52 +278,67 @@ function openEditDialog(){
 #logoFrame {
     margin: 10px 0 10px 0;
 }
+
 @font-face {
     font-family: logo;
     src: url('@/assets/font/MelaroundRegular-OGGOo.otf') format('opentype');
 }
-.homeBtn{
+
+.homeBtn {
     text-decoration: blink;
     color: white;
     font-family: logo, sans-serif;
 }
-#logo{
+
+#logo {
     width: 93.75px;
 }
-.el-menu{
-    border-right:none;
+
+.el-menu {
+    border-right: none;
 }
-.is-opened, .el-menu-item{
+
+.is-opened,
+.el-menu-item {
     background-color: #12354b;
 }
-.el-menu-item:hover{
+
+.el-menu-item:hover {
     background-color: #0f2b3d;
 }
-.el-header, .el-main{
+
+.el-header,
+.el-main {
     padding: 0;
 }
-#container{
+
+#container {
     height: 100%;
 }
-#headerHeight{
+
+#headerHeight {
     height: 117.75px;
 }
-.btnFrame{
+
+.btnFrame {
     height: 45px;
     width: 45px;
     font-size: 30px;
     transition: all 0.15s ease;
 }
-.btnFrame:hover{
+
+.btnFrame:hover {
     height: 48px;
     width: 48px;
     font-size: 32px;
     box-shadow: 1px 1px rgb(53, 53, 53);
 }
-.fullWidth{
+
+.fullWidth {
     width: 100%
 }
-.margin-top{
+
+.margin-top {
     margin-top: 5px;
 }
 </style>
