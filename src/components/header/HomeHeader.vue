@@ -175,6 +175,7 @@ onMounted(async () => {
     list.value = await getMenu();
     await ws.connect();
     ws.subscribe('/topic/notification', handleNotification);
+    ws.send('/sendNotification', null, null);
     loading.value = false;
 });
 

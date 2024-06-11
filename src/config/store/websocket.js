@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
-import userStore from '@/config/store/user.js';
+
+const applicationDestinationPrefixes = "/app";
 
 export const websocketStore = defineStore(
     'websocket',
@@ -17,9 +18,8 @@ export const websocketStore = defineStore(
                     return Promise.resolve();
                 }
                 const url = 'http://localhost:8081/erp_base/ws'
-                const userId = userStore().id;
                 const token = localStorage.getItem('token');
-                const socket = new SockJS(url + '?userId=' + userId + '&token=' + token);
+                const socket = new SockJS(url + '?token=' + token);
                 const options = { protocols: ['v12.stomp'] }
                 this.client = Stomp.over(socket, options);
                 return new Promise((resolve, reject) => {
@@ -50,7 +50,12 @@ export const websocketStore = defineStore(
                 } else {
                     console.warn('Client is not connected');
                 }
+            },send(destination, headers, body){
+                this.client.send(applicationDestinationPrefixes + destination, 
+                    headers == null ? {} : headers, 
+                    body == null ? JSON.stringify({}) : body);
             }
+
         },
     }
 )
