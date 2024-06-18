@@ -1,0 +1,8 @@
+@font-face {
+    font-family: font;
+    src: url('@/assets/font/MelaroundRegular-OGGOo.otf') format('opentype');
+}
+
+body, body .el-button {
+    font-family: font, sans-serif !important; 
+}

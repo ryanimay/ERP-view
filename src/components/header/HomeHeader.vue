@@ -51,11 +51,14 @@
                                     <el-button type="info" icon="Bell" circle class="btnFrame" />
                                 </el-badge>
                             </template>
+                            <div class="notificationTitle">
+                                {{ $t('homeHeader.notification') }}
+                            </div>
                             <el-table :data="notification.data" style="width: 100%" :show-header="false"
                             :highlight-current-row="true" :row-style="notificationStyle" max-height="300"
                             @row-click="notificationJump">
-                                <el-table-column prop="info" width="106"/>
-                                <el-table-column prop="createTime" width="90" :formatter="formatCreateTime"/>
+                                <el-table-column prop="info" width="98"/>
+                                <el-table-column prop="createTime" width="98" :formatter="formatCreateTime"/>
                             </el-table>
                         </el-popover>
                     </el-col>
@@ -152,7 +155,18 @@ const userForm = reactive({
 })
 const notification = reactive({
     size: 0,
-    data: []
+    data: [
+        { info: 'Notification 1', createTime: '2024-06-18T12:00:00' },
+        { info: 'Notification 2', createTime: '2024-06-17T15:30:00' },
+        { info: 'Notification 1', createTime: '2024-06-18T12:00:00' },
+        { info: 'Notification 2', createTime: '2024-06-17T15:30:00' },
+        { info: 'Notification 1', createTime: '2024-06-18T12:00:00' },
+        { info: 'Notification 2', createTime: '2024-06-17T15:30:00' },
+        { info: 'Notification 1', createTime: '2024-06-18T12:00:00' },
+        { info: 'Notification 2', createTime: '2024-06-17T15:30:00' },
+        { info: 'Notification 1', createTime: '2024-06-18T12:00:00' },
+        { info: 'Notification 2', createTime: '2024-06-17T15:30:00' },
+    ]
 })
 const signText = computed(() => {
     switch (user.attendStatus) {
@@ -280,7 +294,7 @@ function formatCreateTime(row, column, cellValue) {
 function notificationStyle() {
     return {
         cursor: 'pointer',
-        backgroundColor: "#d9d9d9",
+        backgroundColor: "#ececec",
         userSelect: "none"
       };
 }
@@ -315,15 +329,9 @@ function notificationJump(row){
     margin: 10px 0 10px 0;
 }
 
-@font-face {
-    font-family: logo;
-    src: url('@/assets/font/MelaroundRegular-OGGOo.otf') format('opentype');
-}
-
 .homeBtn {
     text-decoration: blink;
     color: white;
-    font-family: logo, sans-serif;
 }
 
 #logo {
@@ -376,5 +384,13 @@ function notificationJump(row){
 
 .margin-top {
     margin-top: 5px;
+}
+
+.notificationTitle{
+    color: var(--el-text-color-primary);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px;
+    background-color: #73a6c5;
 }
 </style>

@@ -67,7 +67,8 @@
         "success":"Success",
         "confirmClose":"Are you sure to close edit page?",
         "clockOutMessage":"Great job today, it's time to chill!",
-        "unknowError":"UnknowError"
+        "unknowError":"UnknowError",
+        "notification":"Notification"
     },
 
 

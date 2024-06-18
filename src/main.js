@@ -9,6 +9,7 @@ import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import msg from '@/config/alterConfig.js'
 import i18n from '@/config/i18nConfig.js'
+import '@/assets/font/fontStyle.css';
 
 const app = createApp(App);
 app.config.globalProperties.$msg = msg;
