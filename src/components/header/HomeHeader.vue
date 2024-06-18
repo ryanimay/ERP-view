@@ -45,12 +45,18 @@
                 <el-row>
                     <el-col :span="8">
                         <el-popover placement="top-start" :width="200" trigger="click"
-                            popper-style="border: 2px solid #606266">
+                            popper-style="border: 2px solid #606266; padding: 0;">
                             <template #reference>
-                                <el-badge :value="5" :max="10">
+                                <el-badge :value="notification.size" :max="10" :show-zero="false">
                                     <el-button type="info" icon="Bell" circle class="btnFrame" />
                                 </el-badge>
                             </template>
+                            <el-table :data="notification.data" style="width: 100%" :show-header="false"
+                            :highlight-current-row="true" :row-style="notificationStyle" max-height="300"
+                            @row-click="notificationJump">
+                                <el-table-column prop="info" width="106"/>
+                                <el-table-column prop="createTime" width="90" :formatter="formatCreateTime"/>
+                            </el-table>
                         </el-popover>
                     </el-col>
                     <el-col :span="8">
@@ -128,6 +134,7 @@ import { ElMessageBox } from 'element-plus';
 import i18nSelector from '@/components/tool/I18nSelector.vue';
 import { useI18n } from 'vue-i18n';
 import { websocketStore } from '@/config/store/websocket';
+
 const { t } = useI18n();
 const ws = websocketStore();
 const { proxy } = getCurrentInstance();
@@ -142,6 +149,10 @@ const user = userStore();
 const userForm = reactive({
     id: user.id,
     email: user.email
+})
+const notification = reactive({
+    size: 0,
+    data: []
 })
 const signText = computed(() => {
     switch (user.attendStatus) {
@@ -174,13 +185,14 @@ onMounted(async () => {
     loading.value = true;
     list.value = await getMenu();
     await ws.connect();
-    ws.subscribe('/topic/notification', handleNotification);
-    ws.send('/sendNotification', null, null);
+    ws.subscribe('/user/topic/notification', handleNotification);
     loading.value = false;
 });
 
 const handleNotification = (message) => {
-    console.log('Received notification:'+ message);
+    var data = JSON.parse(message).data;
+    notification.data = data;
+    checkNotificationSize();
 };
 
 async function getMenu() {
@@ -261,6 +273,29 @@ function handleSignResponse(response, status) {
 function openEditDialog() {
     userForm.email = user.email;
     editDialog.value = true;
+}
+function formatCreateTime(row, column, cellValue) {
+    return cellValue.split("T")[0];
+}
+function notificationStyle() {
+    return {
+        cursor: 'pointer',
+        backgroundColor: "#d9d9d9",
+        userSelect: "none"
+      };
+}
+function checkNotificationSize(){
+    let count = 0;
+    notification.data.forEach((element) => {
+        if(element.status == false) count++;
+    });
+    notification.size = count;
+}
+function notificationJump(row){
+    var routerPath = row.router;
+    if(routerPath){
+        proxy.$router.push({name: routerPath});
+    }
 }
 </script>
 
