@@ -51,7 +51,7 @@
                                     <el-button type="info" icon="Bell" circle class="btnFrame" />
                                 </el-badge>
                             </template>
-                            <div class="notificationTitle">
+                            <div class="notificationTitle font14">
                                 {{ $t('homeHeader.notification') }}
                             </div>
                             <el-table :data="notification.data" style="width: 100%" :show-header="false"
@@ -66,7 +66,7 @@
                                         </el-row>
                                         <el-row justify="end">
                                             <el-col :span="10">
-                                                <div class="dateFont">{{ formatCreateTime(scope.row.createTime) }}</div>
+                                                <div class="font12">{{ formatCreateTime(scope.row.createTime) }}</div>
                                             </el-col>
                                         </el-row>
                                     </template>
@@ -80,18 +80,32 @@
                             <template #reference>
                                 <el-button type="primary" icon="Avatar" circle class="btnFrame" />
                             </template>
-                            <el-descriptions :title="$t('homeHeader.userInfo')" :column="1">
+                            <el-descriptions :column="1">
+                                <template #title>
+                                    <span class="font14">{{$t('homeHeader.userInfo')}}</span>
+                                </template>
                                 <template #extra>
                                     <component :is="i18nSelector" />
                                 </template>
-                                <el-descriptions-item
-                                    :label="$t('homeHeader.username')">{{ user.username }}</el-descriptions-item>
-                                <el-descriptions-item
-                                    :label="$t('homeHeader.email')">{{ user.email }}</el-descriptions-item>
-                                <el-descriptions-item
-                                    :label="$t('homeHeader.department')">{{ user.departmentName }}</el-descriptions-item>
-                                <el-descriptions-item :label="$t('homeHeader.sign')">
-                                    <el-tag :type="signType">{{ $t(signText) }}</el-tag>
+                                <el-descriptions-item>
+                                    <template #default>
+                                        <div class="descriptionInfo">
+                                            <span>{{$t('homeHeader.username')}}</span>
+                                            <span>{{ user.username }}</span>
+                                        </div>
+                                        <div class="descriptionInfo">
+                                            <span>{{$t('homeHeader.email')}}</span>
+                                            <span>{{ user.email }}</span>
+                                        </div>
+                                        <div class="descriptionInfo">
+                                            <span>{{$t('homeHeader.department')}}</span>
+                                            <span>{{ user.departmentName }}</span>
+                                        </div>
+                                        <div>
+                                            <span>{{$t('homeHeader.sign')}}</span>
+                                            <span><el-tag :type="signType">{{ $t(signText) }}</el-tag></span>
+                                        </div>
+                                    </template>
                                 </el-descriptions-item>
                             </el-descriptions>
                             <el-row>
@@ -399,13 +413,24 @@ function getNow(){
 
 .notificationTitle{
     color: var(--el-text-color-primary);
-    font-size: 16px;
     font-weight: 700;
     padding: 12px;
     background-color: #73a6c5;
 }
 
-.dateFont{
+.descriptionInfo {
+  max-width: 230px; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
+.font12{
     font-size: 12px;
+}
+
+.font14{
+    font-size: 14px;
 }
 </style>

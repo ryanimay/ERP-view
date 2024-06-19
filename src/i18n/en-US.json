@@ -48,11 +48,11 @@
         }
     },
     "homeHeader":{
-        "userInfo":"UserInformation",
-        "username":"Username:",
-        "email":"Email:",
-        "department":"Department:",
-        "sign":"Sign:",
+        "userInfo":"User Information",
+        "username":"Username: ",
+        "email":"Email: ",
+        "department":"Department: ",
+        "sign":"Sign: ",
         "signText":{
             "noPunch":"No Punch",
             "punch":"Punch",

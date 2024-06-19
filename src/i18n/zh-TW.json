@@ -49,10 +49,10 @@
     },
     "homeHeader":{
         "userInfo":"用戶資訊",
-        "username":"用戶名稱:",
-        "email":"Email:",
-        "department":"部門:",
-        "sign":"簽到:",
+        "username":"用戶名稱: ",
+        "email":"Email: ",
+        "department":"部門: ",
+        "sign":"簽到: ",
         "signText":{
             "noPunch":"未打卡",
             "punch":"已打卡",
