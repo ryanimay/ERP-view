@@ -48,7 +48,7 @@
         }
     },
     "homeHeader":{
-        "userInfo":"User Information",
+        "userInfo":"UserInformation",
         "username":"Username:",
         "email":"Email:",
         "department":"Department:",
@@ -68,7 +68,8 @@
         "confirmClose":"Are you sure to close edit page?",
         "clockOutMessage":"Great job today, it's time to chill!",
         "unknowError":"UnknowError",
-        "notification":"Notification"
+        "notification":"Notification",
+        "errorConnecting":"Connection failed, please refresh the page."
     },
 
 

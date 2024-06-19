@@ -57,8 +57,20 @@
                             <el-table :data="notification.data" style="width: 100%" :show-header="false"
                             :highlight-current-row="true" :row-style="notificationStyle" max-height="300"
                             @row-click="notificationJump">
-                                <el-table-column prop="info" width="98"/>
-                                <el-table-column prop="createTime" width="98" :formatter="formatCreateTime"/>
+                                <el-table-column>
+                                    <template #default="scope">
+                                        <el-row>
+                                            <el-col>
+                                                <div>{{ scope.row.info }}</div>
+                                            </el-col>
+                                        </el-row>
+                                        <el-row justify="end">
+                                            <el-col :span="10">
+                                                <div class="dateFont">{{ formatCreateTime(scope.row.createTime) }}</div>
+                                            </el-col>
+                                        </el-row>
+                                    </template>
+                                </el-table-column>
                             </el-table>
                         </el-popover>
                     </el-col>
@@ -156,16 +168,7 @@ const userForm = reactive({
 const notification = reactive({
     size: 0,
     data: [
-        { info: 'Notification 1', createTime: '2024-06-18T12:00:00' },
-        { info: 'Notification 2', createTime: '2024-06-17T15:30:00' },
-        { info: 'Notification 1', createTime: '2024-06-18T12:00:00' },
-        { info: 'Notification 2', createTime: '2024-06-17T15:30:00' },
-        { info: 'Notification 1', createTime: '2024-06-18T12:00:00' },
-        { info: 'Notification 2', createTime: '2024-06-17T15:30:00' },
-        { info: 'Notification 1', createTime: '2024-06-18T12:00:00' },
-        { info: 'Notification 2', createTime: '2024-06-17T15:30:00' },
-        { info: 'Notification 1', createTime: '2024-06-18T12:00:00' },
-        { info: 'Notification 2', createTime: '2024-06-17T15:30:00' },
+        { info: t('homeHeader.errorConnecting'), createTime: getNow()}
     ]
 })
 const signText = computed(() => {
@@ -288,8 +291,12 @@ function openEditDialog() {
     userForm.email = user.email;
     editDialog.value = true;
 }
-function formatCreateTime(row, column, cellValue) {
-    return cellValue.split("T")[0];
+function formatCreateTime(val) {
+    if (typeof val === 'string' && val.includes('T')) {
+        return val.split('T')[0];
+    } else {
+        return val;
+    }
 }
 function notificationStyle() {
     return {
@@ -310,6 +317,10 @@ function notificationJump(row){
     if(routerPath){
         proxy.$router.push({name: routerPath});
     }
+}
+function getNow(){
+    let date = new Date();
+    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
 }
 </script>
 
@@ -392,5 +403,9 @@ function notificationJump(row){
     font-weight: 700;
     padding: 12px;
     background-color: #73a6c5;
+}
+
+.dateFont{
+    font-size: 12px;
 }
 </style>

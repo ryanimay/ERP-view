@@ -68,7 +68,8 @@
         "confirmClose":"確定要關閉尚未儲存視窗嗎?",
         "clockOutMessage":"ヽ(✿ﾟ▽ﾟ)ノ下班下班~~~",
         "unknowError":"發生未知錯誤, 請聯繫管理員",
-        "notification":"通知"
+        "notification":"通知",
+        "errorConnecting":"連線失敗，請重新整理頁面"
     },
 
 
