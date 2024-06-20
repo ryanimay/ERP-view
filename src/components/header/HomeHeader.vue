@@ -1,5 +1,5 @@
 <template>
-    <el-aside id="homeHeaderContainer" v-loading.fullscreen.lock="loading"
+    <el-aside v-loading.fullscreen.lock="loading"
         element-loading-background="rgba(0, 0, 0, 0.5)">
         <el-container id="container">
             <el-header id="headerHeight">
@@ -63,97 +63,100 @@
                 </div>
             </template>
         </el-dialog>
-    </el-aside>
-    <div id="titleFrame">
-        <div id="titleInfo">
-            <span class="marginR">
-                <component :is="i18nSelector" />
+        <div id="titleFrame">
+            <span id="titleLeft">
+                <span id="path">test</span>
             </span>
-            <span>
-                <el-popover placement="top-start" :width="200" trigger="click"
-                    popper-style="padding: 0;" popper-class="notificationPop">
-                    <template #reference>
-                        <el-badge :value="notification.size" :max="10" :show-zero="true" :offset="[-10, 40]">
-                            <el-button type="info" icon="Bell" class="btnFrame" />
-                        </el-badge>
-                    </template>
-                    <div class="notificationTitle font14">
-                        {{ $t('homeHeader.notification') }}
-                    </div>
-                    <el-table :data="notification.data" style="width: 100%" :show-header="false"
-                    :highlight-current-row="true" :row-style="notificationStyle" max-height="300"
-                    @row-click="notificationJump">
-                        <el-table-column class-name="elTable">
-                            <template #default="scope">
-                                <el-row>
-                                    <el-col>
-                                        <div>{{ scope.row.info }}</div>
-                                    </el-col>
-                                </el-row>
-                                <el-row justify="end">
-                                    <el-col :span="10">
-                                        <div class="font12">{{ formatCreateTime(scope.row.createTime) }}</div>
-                                    </el-col>
-                                </el-row>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </el-popover>
-            </span>
-            <span>
-                <el-button :type="signType" icon="Checked" class="btnFrame" @click="sign" />
-            </span>
-            <span class="marginR">
-                <el-popover placement="top-start" :width="260" trigger="click"
-                    popper-style="margin-top: 10px;" popper-class="notificationPop">
-                    <template #reference>
-                        <el-button type="primary" icon="Avatar" class="btnFrame" />
-                    </template>
-                    <el-descriptions :column="1">
-                        <template #title>
-                            <span class="font14">{{$t('homeHeader.userInfo')}}</span>
+            <div id="titleRight">
+                <span class="marginR">
+                    <component :is="i18nSelector" />
+                </span>
+                <span>
+                    <el-popover placement="top-start" :width="200" trigger="click"
+                        popper-style="padding: 0;" popper-class="notificationPop">
+                        <template #reference>
+                            <el-badge :value="notification.size" :max="10" :show-zero="false" :offset="[-10, 40]">
+                                <el-button type="info" icon="Bell" class="btnFrame" />
+                            </el-badge>
                         </template>
-                        <el-descriptions-item>
-                            <template #default>
-                                <div class="descriptionInfo">
-                                    <span>{{$t('homeHeader.username')}}</span>
-                                    <span>{{ user.username }}</span>
-                                </div>
-                                <div class="descriptionInfo">
-                                    <span>{{$t('homeHeader.email')}}</span>
-                                    <span>{{ user.email }}</span>
-                                </div>
-                                <div class="descriptionInfo">
-                                    <span>{{$t('homeHeader.department')}}</span>
-                                    <span>{{ user.departmentName }}</span>
-                                </div>
-                                <div>
-                                    <span>{{$t('homeHeader.sign')}}</span>
-                                    <span v-if="signType !== ''">
-                                        <el-tag :type="signType">{{ $t(signText) }}</el-tag>
-                                    </span>
-                                </div>
+                        <div class="notificationTitle font14">
+                            {{ $t('homeHeader.notification') }}
+                        </div>
+                        <el-table :data="notification.data" style="width: 100%" :show-header="false"
+                        :highlight-current-row="true" :row-style="notificationStyle" max-height="300"
+                        @row-click="notificationJump">
+                            <el-table-column class-name="elTable">
+                                <template #default="scope">
+                                    <el-row>
+                                        <el-col>
+                                            <div>{{ scope.row.info }}</div>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row justify="end">
+                                        <el-col :span="10">
+                                            <div class="font12">{{ formatCreateTime(scope.row.createTime) }}</div>
+                                        </el-col>
+                                    </el-row>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-popover>
+                </span>
+                <span>
+                    <el-button :type="signType" icon="Checked" class="btnFrame" @click="sign" />
+                </span>
+                <span class="marginR">
+                    <el-popover placement="top-start" :width="260" trigger="click"
+                        popper-style="margin-top: 10px;" popper-class="notificationPop">
+                        <template #reference>
+                            <el-button type="primary" icon="Avatar" class="btnFrame" />
+                        </template>
+                        <el-descriptions :column="1">
+                            <template #title>
+                                <span class="font14">{{$t('homeHeader.userInfo')}}</span>
                             </template>
-                        </el-descriptions-item>
-                    </el-descriptions>
-                    <el-row>
-                        <el-col :span="24">
-                            <el-button type="primary" plain @click="openEditDialog" class="fullWidth ">
-                                {{ $t('homeHeader.edit') }}
-                            </el-button>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="24">
-                            <el-button type="danger" plain @click="logout" class="fullWidth margin-top">
-                                {{ $t('homeHeader.logout') }}
-                            </el-button>
-                        </el-col>
-                    </el-row>
-                </el-popover>
-            </span>
+                            <el-descriptions-item>
+                                <template #default>
+                                    <div class="descriptionInfo">
+                                        <span>{{$t('homeHeader.username')}}</span>
+                                        <span>{{ user.username }}</span>
+                                    </div>
+                                    <div class="descriptionInfo">
+                                        <span>{{$t('homeHeader.email')}}</span>
+                                        <span>{{ user.email }}</span>
+                                    </div>
+                                    <div class="descriptionInfo">
+                                        <span>{{$t('homeHeader.department')}}</span>
+                                        <span>{{ user.departmentName }}</span>
+                                    </div>
+                                    <div>
+                                        <span>{{$t('homeHeader.sign')}}</span>
+                                        <span v-if="signType !== ''">
+                                            <el-tag :type="signType">{{ $t(signText) }}</el-tag>
+                                        </span>
+                                    </div>
+                                </template>
+                            </el-descriptions-item>
+                        </el-descriptions>
+                        <el-row>
+                            <el-col :span="24">
+                                <el-button type="primary" plain @click="openEditDialog" class="fullWidth ">
+                                    {{ $t('homeHeader.edit') }}
+                                </el-button>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                                <el-button type="danger" plain @click="logout" class="fullWidth margin-top">
+                                    {{ $t('homeHeader.logout') }}
+                                </el-button>
+                            </el-col>
+                        </el-row>
+                    </el-popover>
+                </span>
+            </div>
         </div>
-    </div>
+    </el-aside>
 </template>
 
 <script setup>
@@ -341,11 +344,6 @@ function getNow(){
 </script>
 
 <style scoped>
-#homeHeaderContainer {
-    background-color: #16415c;
-    z-index: 1;
-}
-
 .centerFrame {
     width: 100%;
     display: flex;
@@ -386,6 +384,7 @@ function getNow(){
 
 #container {
     height: 100%;
+    background-color: #16415c;
 }
 
 #headerHeight {
@@ -435,17 +434,27 @@ function getNow(){
 }
 #titleFrame{
     position: fixed;
+    margin-left: 300px;
     width: 100%;
-    z-index: 0;
+    z-index: 99;
     background-color: #cccccc;
     border-bottom: 2px solid #c0c0c0;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
 }
-#titleInfo{
+#titleRight{
     display: flex; 
     justify-content: flex-end;
     align-items: center;
+    margin-right: 300px;
 }
 .marginR{
     margin-right: 10px;
+}
+#titleLeft{
+    display: flex; 
+    align-items: center;
 }
 </style>

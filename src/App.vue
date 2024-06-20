@@ -39,7 +39,7 @@
 }
 
 .homeBodyContainer{
-  height: 100%;
+  margin-top: 52px;
   width: 100%;
 }
 </style>
