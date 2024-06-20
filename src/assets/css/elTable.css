@@ -1,0 +1,9 @@
+.elTable{
+    padding-bottom: 0px !important;
+}
+.el-table--enable-row-hover .el-table__body tr:hover>td.el-table__cell {
+    background-color: #e0e0e0 !important;
+}
+.el-table__body tr.current-row>td.el-table__cell {
+    background-color: #d3d3d3 !important;
+}

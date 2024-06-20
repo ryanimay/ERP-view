@@ -1,0 +1,6 @@
+.el-popover.notificationPop.el-popper.is-light{
+    border: 2px solid #7c7c7c; 
+}
+.notificationPop.el-popper.is-light .el-popper__arrow::before{
+    border: 2px solid #7c7c7c; 
+}

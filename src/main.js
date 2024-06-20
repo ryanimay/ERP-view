@@ -10,6 +10,8 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import msg from '@/config/alterConfig.js'
 import i18n from '@/config/i18nConfig.js'
 import '@/assets/css/fontStyle.css';
+import '@/assets/css/popover.css';
+import '@/assets/css/elTable.css';
 import '@/config/resizeObserverFix.js';
 
 const app = createApp(App);
