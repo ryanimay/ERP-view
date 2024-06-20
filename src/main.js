@@ -9,7 +9,7 @@ import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import msg from '@/config/alterConfig.js'
 import i18n from '@/config/i18nConfig.js'
-import '@/assets/font/fontStyle.css';
+import '@/assets/css/fontStyle.css';
 import '@/config/resizeObserverFix.js';
 
 const app = createApp(App);
