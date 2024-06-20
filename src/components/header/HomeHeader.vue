@@ -5,13 +5,13 @@
             <el-header id="headerHeight">
                 <el-row id="logoFrame">
                     <el-col :span="9">
-                        <router-link @click="changeActive('home')" :to="{ name: 'home' }">
+                        <router-link @click="changeActive('home'); clickLoadNavigaion('home')" :to="{ name: 'home' }">
                             <img :src="logo" id="logo" alt="" />
                         </router-link>
                     </el-col>
                     <el-col :span="15" class="centerFrame">
                         <h3>
-                            <router-link @click="changeActive('home')" :to="{ name: 'home' }" class="homeBtn">
+                            <router-link @click="changeActive('home'); clickLoadNavigaion('home')" :to="{ name: 'home' }" class="homeBtn">
                                 CompanyName
                             </router-link>
                         </h3>
@@ -30,7 +30,7 @@
                                 <span>{{ $t(menu.name) }}</span>
                             </template>
                             <el-menu-item v-for="child in menu.child" :index="child.path" :key="child.id.toString()"
-                                @click="changeActive(child.path)"
+                                @click="changeActive(child.path); clickLoadNavigaion(child.path)"
                                 :style="{ backgroundColor: defaultActive === child.path ? activeColor : normalColor }">
                                 <el-icon>
                                     <component :is="child.icon" />
@@ -65,7 +65,22 @@
         </el-dialog>
         <div id="titleFrame">
             <span id="titleLeft">
-                <span id="path">test</span>
+                <el-icon :size="20">
+                    <Compass />
+                </el-icon>
+                <span id="navigation">
+                    <span v-for="(name, index) in navigation" :key="index">
+                        》
+                        <span v-if="index !== navigation.length - 1">
+                            <router-link @click="changeActive(name); clickLoadNavigaion(name)" :to="{ name: name }" class="naviA">
+                                {{ $t('router.' + name) }}
+                            </router-link>
+                        </span>
+                        <span v-else style="font-weight: bold">
+                            {{ $t('router.' + name) }}
+                        </span>
+                    </span>
+                </span>
             </span>
             <div id="titleRight">
                 <span class="marginR">
@@ -174,6 +189,9 @@ const ws = websocketStore();
 const { proxy } = getCurrentInstance();
 const loading = ref(false);
 const list = ref([]);
+const navigation = ref([
+    'home'
+]);
 const defaultActive = ref('home');
 const activeColor = '#0f2b3d';
 const normalColor = '#12354b';
@@ -222,6 +240,7 @@ onMounted(async () => {
     list.value = await getMenu();
     await ws.connect();
     ws.subscribe('/user/topic/notification', handleNotification);
+    loadNavigaion();
     loading.value = false;
 });
 
@@ -243,6 +262,7 @@ function handleResponse(response) {
         return [];
     }
 }
+//點擊某個路徑，用來'改已選顏色'和'當前路徑導航'
 function changeActive(routerName) {
     defaultActive.value = routerName;
 }
@@ -340,6 +360,21 @@ function notificationJump(row){
 function getNow(){
     let date = new Date();
     return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+}
+//確保重新整理可以讀到當前導航
+function loadNavigaion(){
+    var name = proxy.$route.name;
+    if(name !== 'home'){
+        navigation.value = ['home', name];
+    }
+}
+//點擊路由時變更當前導航
+function clickLoadNavigaion(name){
+    if(name !== 'home'){
+        navigation.value = ['home', name];
+    }else{
+        navigation.value = ['home']
+    }
 }
 </script>
 
@@ -456,5 +491,16 @@ function getNow(){
 #titleLeft{
     display: flex; 
     align-items: center;
+    padding-left: 20px;
+}
+#navigation{
+    padding-left: 5px;
+}
+.naviA{
+    color: black;
+    text-decoration: none;
+}
+.naviA:hover{
+    color: rgb(80, 80, 80);
 }
 </style>
