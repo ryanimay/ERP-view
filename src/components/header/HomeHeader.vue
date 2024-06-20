@@ -103,7 +103,9 @@
                                         </div>
                                         <div>
                                             <span>{{$t('homeHeader.sign')}}</span>
-                                            <span><el-tag :type="signType">{{ $t(signText) }}</el-tag></span>
+                                            <span v-if="signType !== ''">
+                                                <el-tag :type="signType">{{ $t(signText) }}</el-tag>
+                                            </span>
                                         </div>
                                     </template>
                                 </el-descriptions-item>
@@ -244,6 +246,7 @@ function changeActive(routerName) {
 async function logout() {
     const response = await user.logout();
     if (response && response.data.code == 200) {
+        ws.disconnect();
         proxy.$router.push({
             name: 'login',
             query: {
