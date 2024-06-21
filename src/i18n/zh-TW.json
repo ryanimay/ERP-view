@@ -71,7 +71,28 @@
         "notification":"通知",
         "errorConnecting":"連線失敗，請重新整理頁面"
     },
-
+    "clientBody":{
+        "col-username":"名稱",
+        "col-email":"電子郵件",
+        "col-departmentName":"部門",
+        "col-lastLoginTime":"上次登入時間",
+        "col-createTime":"創建時間",
+        "col-attendStatus":"打卡狀態",
+        "col-active":"帳戶狀態",
+        "col-lock":"帳戶鎖定",
+        "col-edit":"編輯",
+        "active":{
+            "true":"啟用中",
+            "false":"停用中"
+        },
+        "lock":{
+            "true":"鎖定中",
+            "false":"未鎖定"
+        },
+        "total":"總數",
+        "totalQuantifier":"條",
+        "pageQuantifier":"/頁"
+    },
 
 
 

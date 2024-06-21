@@ -71,7 +71,28 @@
         "notification":"Notification",
         "errorConnecting":"Connection failed, please refresh the page."
     },
-
+    "clientBody":{
+        "col-username":"Name",
+        "col-email":"Email",
+        "col-departmentName":"Department",
+        "col-lastLoginTime":"LastLoginTime",
+        "col-createTime":"CreateTime",
+        "col-attendStatus":"Attend",
+        "col-active":"Active",
+        "col-lock":"Lock",
+        "col-edit":"Edit",
+        "active":{
+            "true":"Active",
+            "false":"InActive"
+        },
+        "lock":{
+            "true":"Lock",
+            "false":"UnLock"
+        },
+        "total":"Total",
+        "totalQuantifier":"",
+        "pageQuantifier":"/page"
+    },
 
 
 

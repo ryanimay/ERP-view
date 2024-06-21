@@ -53,6 +53,11 @@ const config = {
           method:'post',
           requiresAuth: true
         },
+        list: {
+          path: client + '/list',
+          method:'get',
+          requiresAuth: true
+        },
       },
       role: {
       },
