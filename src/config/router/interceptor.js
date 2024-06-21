@@ -5,13 +5,13 @@ import i18n from '@/config/i18nConfig.js'
 import navigationStore from '@/config/store/navigation';
 
 router.beforeEach((to, from, next) => {
-    navigationStore().updatePath(to);
     const nextName = to.name;
     const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
     const user = userStore();
     const isLogin = user.isLogin;
     
     if (requiresAuth) {
+        navigationStore().updatePath(to);
         if (verify(isLogin)) {
             if (mustUpdatePassword(nextName, user)) { 
                 next({ name: 'updatePassword' });
