@@ -72,6 +72,7 @@
         "errorConnecting":"連線失敗，請重新整理頁面"
     },
     "clientBody":{
+        "col-id":"ID",
         "col-username":"名稱",
         "col-email":"電子郵件",
         "col-departmentName":"部門",
@@ -91,7 +92,10 @@
         },
         "total":"總數",
         "totalQuantifier":"條",
-        "pageQuantifier":"/頁"
+        "pageQuantifier":"/頁",
+        "search":"搜尋",
+        "edit":"編輯",
+        "applyNewUser":"申請新用戶"
     },
 
 

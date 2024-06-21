@@ -1,8 +1,38 @@
 <template>
     <el-main class="homeBodyContainer" v-loading.lock="loading">
         <el-container>
-            <el-header>
-                <div>header</div>
+            <el-header id="searchHeader">
+                <span>
+                    <span class="searchHeaderBlock">{{ $t('clientBody.search') }}</span>
+                    <span class="searchHeaderBlock">
+                        <el-select
+                        v-model="requestParam.type"
+                        style="width: 100px"
+                        @change="changeCondition">
+                        <el-option
+                        v-for="item in searchCondition"
+                            :key="item.value"
+                            :label="$t(item.name)"
+                            :value="item.value"
+                            />
+                        </el-select>
+                    </span>
+                    <span class="searchHeaderBlock">
+                        <el-input v-if="requestParam.type == 1" v-model="requestParam.id" style="width: 200px"/>
+                        <el-input v-else-if="requestParam.type == 2" v-model="requestParam.name" style="width: 200px"/>
+                        <el-input v-else v-model="requestParam.id" style="width: 200px" disabled/>
+                    </span>
+                    <span class="searchHeaderBlock">
+                        <el-button type="primary" @click="searchClient()">
+                            {{ $t('clientBody.search') }}
+                        </el-button>
+                    </span>
+                </span>
+                <span>
+                    <el-button type="danger" @click="openApplyUser()">
+                        {{ $t('clientBody.applyNewUser') }}
+                    </el-button>
+                </span>
             </el-header>
             <el-main>
                 <el-table
@@ -34,7 +64,7 @@
                     <el-table-column :label="$t('clientBody.col-edit')" width="90" :align="'center'">
                         <template #default="scope">
                             <el-button type="primary" @click="openEdit(scope.row)">
-                                Eidt
+                                {{$t('clientBody.edit')}}
                             </el-button>
                         </template>
                     </el-table-column>
@@ -71,6 +101,7 @@
 <script setup>
 import request from '@/config/api/request.js';
 import { ref, onMounted, reactive } from 'vue';
+
 const loading = ref(false);
 const clientList = ref([]);
 const requestParam = reactive({
@@ -84,11 +115,19 @@ const requestParam = reactive({
     totalElements:null,
     totalPage:null
 })
+const searchCondition = [
+    {
+        "name": "clientBody.col-id",
+        "value": 1
+    },{
+        "name": "clientBody.col-username",
+        "value": 2
+    }
+]
 const sizeOptions = [15, 30, 50, 100]
 onMounted(async () => {
     loading.value = true;
     var response = await requestClientList();
-    clientList.value = response.data;
     updatePage(response);
     loading.value = false;
 });
@@ -104,10 +143,13 @@ function handleResponse(response) {
     }
 }
 function updatePage(response){
-    requestParam.pageNum = response.pageNum;
-    requestParam.pageSize = response.pageSize;
-    requestParam.totalElements = response.totalElements;
-    requestParam.totalPage = response.totalPage;
+    if(response){
+        clientList.value = response.data;
+        requestParam.pageNum = response.pageNum;
+        requestParam.pageSize = response.pageSize;
+        requestParam.totalElements = response.totalElements;
+        requestParam.totalPage = response.totalPage;
+    }
 }
 function formatTime(time){
     return time.replace("T", " ")
@@ -167,7 +209,6 @@ async function handleCurrentChange(page){
     loading.value = true;
     requestParam.pageNum = page;
     var response = await requestClientList();
-    clientList.value = response.data;
     updatePage(response);
     loading.value = false;
 }
@@ -175,7 +216,6 @@ async function handleSizeChange(size){
     loading.value = true;
     requestParam.pageSize = size;
     var response = await requestClientList();
-    clientList.value = response.data;
     updatePage(response);
     loading.value = false;
 }
@@ -184,7 +224,6 @@ async function handleSortChange(data){
     requestParam.sort = getOrder(data.order);
     requestParam.sortBy = data.column.columnKey;
     var response = await requestClientList();
-    clientList.value = response.data;
     updatePage(response);
     loading.value = false;
 }
@@ -193,6 +232,16 @@ function getOrder(order){
         return 2;
     }else{
         return 1;
+    }
+}
+function changeCondition(val){
+    if(val === 1){
+        requestParam.name = null;
+    }else if(val === 2){
+        requestParam.id = null;
+    }else{
+        requestParam.id = null;
+        requestParam.name = null;
     }
 }
 </script>
@@ -207,5 +256,13 @@ function getOrder(order){
 }
 #marginLeft12{
     margin-left: 12px;
+}
+#searchHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.searchHeaderBlock{
+    padding-right: 10px;
 }
 </style>

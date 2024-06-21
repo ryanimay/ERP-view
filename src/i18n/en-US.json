@@ -72,6 +72,7 @@
         "errorConnecting":"Connection failed, please refresh the page."
     },
     "clientBody":{
+        "col-id":"ID",
         "col-username":"Name",
         "col-email":"Email",
         "col-departmentName":"Department",
@@ -91,7 +92,10 @@
         },
         "total":"Total",
         "totalQuantifier":"",
-        "pageQuantifier":"/page"
+        "pageQuantifier":"/page",
+        "search":"Search",
+        "edit":"Edit",
+        "applyNewUser":"ApplyNewUser"
     },
 
 
