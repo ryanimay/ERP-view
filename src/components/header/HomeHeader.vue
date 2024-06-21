@@ -76,7 +76,7 @@
                                 {{ $t('router.' + name) }}
                             </router-link>
                         </span>
-                        <span v-else style="font-weight: bold">
+                        <span v-else style="font-weight: bold; padding: 5px;">
                             {{ $t('router.' + name) }}
                         </span>
                     </span>
@@ -483,8 +483,11 @@ function getNow(){
 .naviA{
     color: black;
     text-decoration: none;
+    transition: all 0.5s ease;
+    padding: 5px;
 }
 .naviA:hover{
     color: rgb(80, 80, 80);
+    box-shadow: 1px 2px 2px 1px rgb(53, 53, 53);
 }
 </style>
