@@ -177,7 +177,7 @@
 <script setup>
 import request from '@/config/api/request.js';
 import { ref, onMounted, getCurrentInstance, reactive, computed } from 'vue';
-import icon from '@/assets/icon/icons8-logo.svg';
+import icon from '@/assets/icon/icons9-logo.svg';
 import userStore from '@/config/store/user';
 import navigationStore from '@/config/store/navigation';
 import websocketStore  from '@/config/store/websocket';
@@ -380,7 +380,8 @@ function getNow(){
 }
 
 #logo {
-    width: 93.75px;
+    padding-left: 20px;
+    width: 90px;
 }
 
 .el-menu {
