@@ -4,7 +4,7 @@ import Stomp from 'webstomp-client';
 
 const applicationDestinationPrefixes = "/app";
 
-export const websocketStore = defineStore(
+const websocketStore = defineStore(
     'websocket',
     {
         state: () => ({
@@ -59,3 +59,5 @@ export const websocketStore = defineStore(
         },
     }
 )
+
+export default websocketStore;

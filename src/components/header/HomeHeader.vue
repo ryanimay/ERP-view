@@ -5,13 +5,13 @@
             <el-header id="headerHeight">
                 <el-row id="logoFrame">
                     <el-col :span="9">
-                        <router-link @click="changeActive('home'); clickLoadNavigaion('home')" :to="{ name: 'home' }">
+                        <router-link @click="changeActive('home')" :to="{ name: 'home' }">
                             <img :src="logo" id="logo" alt="" />
                         </router-link>
                     </el-col>
                     <el-col :span="15" class="centerFrame">
                         <h3>
-                            <router-link @click="changeActive('home'); clickLoadNavigaion('home')" :to="{ name: 'home' }" class="homeBtn">
+                            <router-link @click="changeActive('home')" :to="{ name: 'home' }" class="homeBtn">
                                 CompanyName
                             </router-link>
                         </h3>
@@ -30,7 +30,7 @@
                                 <span>{{ $t(menu.name) }}</span>
                             </template>
                             <el-menu-item v-for="child in menu.child" :index="child.path" :key="child.id.toString()"
-                                @click="changeActive(child.path); clickLoadNavigaion(child.path)"
+                                @click="changeActive(child.path)"
                                 :style="{ backgroundColor: defaultActive === child.path ? activeColor : normalColor }">
                                 <el-icon>
                                     <component :is="child.icon" />
@@ -72,7 +72,7 @@
                     <span v-for="(name, index) in navigation" :key="index">
                         》
                         <span v-if="index !== navigation.length - 1">
-                            <router-link @click="changeActive(name); clickLoadNavigaion(name)" :to="{ name: name }" class="naviA">
+                            <router-link @click="changeActive(name)" :to="{ name: name }" class="naviA">
                                 {{ $t('router.' + name) }}
                             </router-link>
                         </span>
@@ -179,19 +179,19 @@ import request from '@/config/api/request.js';
 import { ref, onMounted, getCurrentInstance, reactive, computed } from 'vue';
 import icon from '@/assets/icon/icons8-logo.svg';
 import userStore from '@/config/store/user';
+import navigationStore from '@/config/store/navigation';
+import websocketStore  from '@/config/store/websocket';
 import { ElMessageBox } from 'element-plus';
 import i18nSelector from '@/components/tool/I18nSelector.vue';
 import { useI18n } from 'vue-i18n';
-import { websocketStore } from '@/config/store/websocket';
 
 const { t } = useI18n();
 const ws = websocketStore();
 const { proxy } = getCurrentInstance();
 const loading = ref(false);
 const list = ref([]);
-const navigation = ref([
-    'home'
-]);
+const navi = navigationStore();
+const navigation = computed(() => navi.path);
 const defaultActive = ref('home');
 const activeColor = '#0f2b3d';
 const normalColor = '#12354b';
@@ -240,7 +240,6 @@ onMounted(async () => {
     list.value = await getMenu();
     await ws.connect();
     ws.subscribe('/user/topic/notification', handleNotification);
-    loadNavigaion();
     loading.value = false;
 });
 
@@ -360,21 +359,6 @@ function notificationJump(row){
 function getNow(){
     let date = new Date();
     return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
-}
-//確保重新整理可以讀到當前導航
-function loadNavigaion(){
-    var name = proxy.$route.name;
-    if(name !== 'home'){
-        navigation.value = ['home', name];
-    }
-}
-//點擊路由時變更當前導航
-function clickLoadNavigaion(name){
-    if(name !== 'home'){
-        navigation.value = ['home', name];
-    }else{
-        navigation.value = ['home']
-    }
 }
 </script>
 
