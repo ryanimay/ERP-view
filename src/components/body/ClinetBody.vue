@@ -1,5 +1,5 @@
 <template>
-    <el-main class="homeBodyContainer" v-loading.fullscreen.lock="loading">
+    <el-main class="homeBodyContainer" v-loading.lock="loading">
         <el-container>
             <el-header>
                 <div>header</div>
@@ -10,23 +10,23 @@
                     :default-sort="{ prop: 'id', order: 'ascending' }"
                     style="width: 100%" :border="true"
                     @sort-change="handleSortChange">
-                    <el-table-column prop="id" label="ID" sortable='custom' width="65"/>
+                    <el-table-column column-key="id" prop="id" label="ID" sortable='custom' width="65"/>
                     <el-table-column prop="username" :label="$t('clientBody.col-username')" width="200"/>
                     <el-table-column prop="email" :label="$t('clientBody.col-email')" min-width="220"/>
-                    <el-table-column prop="department.name" :label="$t('clientBody.col-departmentName')" sortable='custom' width="170" />
-                    <el-table-column prop="lastLoginTime" :label="$t('clientBody.col-lastLoginTime')" sortable='custom' width="170" :formatter="formatTime2"/>
-                    <el-table-column prop="createTime" :label="$t('clientBody.col-createTime')" sortable='custom' width="170" :formatter="formatTime1"/>
-                    <el-table-column prop="attendStatus" :label="$t('clientBody.col-attendStatus')" width="120" sortable='custom' :align="'center'" sort-by="attendStatus">
+                    <el-table-column column-key="department" prop="department.name" :label="$t('clientBody.col-departmentName')" sortable='custom' width="170" />
+                    <el-table-column column-key="lastLoginTime" prop="lastLoginTime" :label="$t('clientBody.col-lastLoginTime')" sortable='custom' width="170" :formatter="formatTime2"/>
+                    <el-table-column column-key="createTime" prop="createTime" :label="$t('clientBody.col-createTime')" sortable='custom' width="170" :formatter="formatTime1"/>
+                    <el-table-column column-key="attendStatus" prop="attendStatus" :label="$t('clientBody.col-attendStatus')" width="120" sortable='custom' :align="'center'" sort-by="attendStatus">
                         <template #default="scope">
                             <el-tag :type="signType(scope.row.attendStatus)">{{ $t(signText(scope.row.attendStatus)) }}</el-tag>    
                         </template>
                     </el-table-column>
-                    <el-table-column prop="active" :label="$t('clientBody.col-active')" sortable='custom' width="120" :align="'center'" sort-by="active" >
+                    <el-table-column column-key="isActive" prop="active" :label="$t('clientBody.col-active')" sortable='custom' width="120" :align="'center'" sort-by="active" >
                         <template #default="scope">
                             <el-tag :type="statusType(scope.row.active)">{{ $t(statusText1(scope.row.active)) }}</el-tag>    
                         </template>
                     </el-table-column>
-                    <el-table-column prop="lock" :label="$t('clientBody.col-lock')" sortable='custom' width="120" :align="'center'" sort-by="lock" >
+                    <el-table-column column-key="isLock" prop="lock" :label="$t('clientBody.col-lock')" sortable='custom' width="120" :align="'center'" sort-by="lock" >
                         <template #default="scope">
                             <el-tag :type="statusType(!scope.row.lock)">{{ $t(statusText2(scope.row.lock)) }}</el-tag>    
                         </template>
@@ -182,7 +182,7 @@ async function handleSizeChange(size){
 async function handleSortChange(data){
     loading.value = true;
     requestParam.sort = getOrder(data.order);
-    requestParam.sortBy = data.prop.split('.')[0];
+    requestParam.sortBy = data.column.columnKey;
     var response = await requestClientList();
     clientList.value = response.data;
     updatePage(response);
