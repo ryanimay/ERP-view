@@ -5,7 +5,7 @@
                 <h2>{{ $t('updateEmailBody.title') }}</h2>
             </el-col>
         </el-row>
-        <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef">
+        <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef" @submit.prevent>
             <el-form-item prop="email" :label="$t('updateEmailBody.email')" :rules="emailRules">
                 <el-input v-model="formData.email" class="input-area" @keyup.enter="doUpdate"/>
             </el-form-item>

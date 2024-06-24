@@ -5,7 +5,7 @@
                 <h2>{{ $t('resetPasswordBody.title') }}</h2>
             </el-col>
         </el-row>
-        <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef">
+        <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef" @submit.prevent>
             <el-form-item prop="username" :label="$t('resetPasswordBody.username')" :rules="requiredRule">
                 <el-input v-model="formData.username" class="input-area" @keyup.enter="resetPassword(formRef)" />
             </el-form-item>

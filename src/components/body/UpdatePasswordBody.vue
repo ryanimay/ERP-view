@@ -6,7 +6,7 @@
             </el-col>
         </el-row>
         <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef"
-            :rules="formRules" status-icon>
+            :rules="formRules" status-icon @submit.prevent>
             <el-form-item prop="oldPassword" :label="$t('updatePasswordBody.oldPassword')">
                 <el-input v-model="formData.oldPassword" class="input-area" type="password" @keyup.enter="resetPassword"/>
             </el-form-item>
