@@ -18,12 +18,12 @@
                         </el-select>
                     </span>
                     <span class="searchHeaderBlock">
-                        <el-input v-if="requestParam.type == 1" v-model="requestParam.id" style="width: 200px"/>
-                        <el-input v-else-if="requestParam.type == 2" v-model="requestParam.name" style="width: 200px"/>
+                        <el-input v-if="requestParam.type == 1" class="no-number" @keydown="numberInput" @input="numSize" type="number" v-model="requestParam.id" style="width: 200px" clearable/>
+                        <el-input v-else-if="requestParam.type == 2" v-model="requestParam.name" style="width: 200px" clearable/>
                         <el-input v-else v-model="requestParam.id" style="width: 200px" disabled/>
                     </span>
                     <span class="searchHeaderBlock">
-                        <el-button type="primary" @click="searchClient()">
+                        <el-button type="primary" @click="requestClientList()">
                             <el-icon>
                                 <Search />
                             </el-icon>
@@ -209,6 +209,17 @@ function statusText2(status){
         return 'clientBody.lock.true';
     }else{
         return 'clientBody.lock.false';
+    }
+}
+//擋掉科學記號
+function numberInput(val){
+    if(val.key === 'e' || val.key === 'E' || val.key === '-' || val.key === '+'){
+        val.preventDefault();
+    }
+}
+function numSize(val){
+    if(val > 9999){
+        requestParam.id = 9999;
     }
 }
 function handleCurrentChange(page){
