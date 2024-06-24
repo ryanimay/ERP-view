@@ -34,8 +34,10 @@ const userStore = defineStore(
                     this.createBy = user.createBy;
                     this.mustUpdatePassword = user.mustUpdatePassword;
                     this.attendStatus = user.attendStatus;
-                    this.departmentId = user.department.id;
-                    this.departmentName = user.department.name;
+                    if(user.department){
+                        this.departmentId = user.department.id;
+                        this.departmentName = user.department.name;
+                    }
                     this.active = user.active;
                     this.lock = user.lock;
 
@@ -53,8 +55,10 @@ const userStore = defineStore(
                 this.createBy = user.createBy;
                 this.mustUpdatePassword = user.mustUpdatePassword;
                 this.attendStatus = user.attendStatus;
-                this.departmentId = user.department.id;
-                this.departmentName = user.department.name;
+                if(user.department){
+                    this.departmentId = user.department.id;
+                    this.departmentName = user.department.name;
+                }
                 this.active = user.active;
                 this.lock = user.lock;
                 this.isLogin = true;
