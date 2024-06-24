@@ -44,7 +44,12 @@
                     style="width: 100%" :border="true"
                     @sort-change="handleSortChange">
                     <el-table-column column-key="id" prop="id" label="ID" sortable='custom' width="65"/>
-                    <el-table-column prop="username" :label="$t('clientBody.col-username')" width="200"/>
+                    <el-table-column :label="$t('clientBody.col-username')" width="200">
+                        <template #default="scope">
+                            {{ scope.row.username }}
+                            <el-tag v-if="!scope.row.email" type="danger" effect="plain">{{ $t('clientBody.new') }}</el-tag>    
+                        </template>    
+                    </el-table-column>
                     <el-table-column prop="email" :label="$t('clientBody.col-email')" min-width="220"/>
                     <el-table-column column-key="department" prop="department.name" :label="$t('clientBody.col-departmentName')" sortable='custom' width="170" />
                     <el-table-column column-key="lastLoginTime" prop="lastLoginTime" :label="$t('clientBody.col-lastLoginTime')" sortable='custom' width="170" :formatter="formatTime2"/>
