@@ -24,6 +24,9 @@
                     </span>
                     <span class="searchHeaderBlock">
                         <el-button type="primary" @click="searchClient()">
+                            <el-icon>
+                                <Search />
+                            </el-icon>
                             {{ $t('clientBody.search') }}
                         </el-button>
                     </span>
@@ -64,6 +67,9 @@
                     <el-table-column :label="$t('clientBody.col-edit')" width="90" :align="'center'">
                         <template #default="scope">
                             <el-button type="primary" @click="openEdit(scope.row)">
+                                <el-icon>
+                                    <EditPen />
+                                </el-icon>
                                 {{$t('clientBody.edit')}}
                             </el-button>
                         </template>
@@ -125,15 +131,15 @@ const searchCondition = [
     }
 ]
 const sizeOptions = [15, 30, 50, 100]
-onMounted(async () => {
-    loading.value = true;
-    var response = await requestClientList();
-    updatePage(response);
-    loading.value = false;
+onMounted(() => {
+    requestClientList();
 });
 async function requestClientList() {
+    loading.value = true;
     const response = await request.clientList(requestParam);
-    return handleResponse(response);
+    const data = handleResponse(response);
+    updatePage(data);
+    loading.value = false;
 }
 function handleResponse(response) {
     if (response && response.data.code === 200) {
@@ -205,27 +211,18 @@ function statusText2(status){
         return 'clientBody.lock.false';
     }
 }
-async function handleCurrentChange(page){
-    loading.value = true;
+function handleCurrentChange(page){
     requestParam.pageNum = page;
-    var response = await requestClientList();
-    updatePage(response);
-    loading.value = false;
+    requestClientList();
 }
-async function handleSizeChange(size){
-    loading.value = true;
+function handleSizeChange(size){
     requestParam.pageSize = size;
-    var response = await requestClientList();
-    updatePage(response);
-    loading.value = false;
+    requestClientList();
 }
-async function handleSortChange(data){
-    loading.value = true;
+function handleSortChange(data){
     requestParam.sort = getOrder(data.order);
     requestParam.sortBy = data.column.columnKey;
-    var response = await requestClientList();
-    updatePage(response);
-    loading.value = false;
+    requestClientList();
 }
 function getOrder(order){
     if(order === 'descending'){
