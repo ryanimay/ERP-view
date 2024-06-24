@@ -205,9 +205,7 @@ const searchCondition = [
 const sizeOptions = [10, 30, 50, 100]
 onMounted(async () => {
     loading.value = true;
-    const response = await request.clientList(requestParam);
-    const data = handleResponse(response);
-    updatePage(data);
+    loadClientList();
     await loadDepartmentList();
     loading.value = false;
 });
@@ -220,10 +218,13 @@ async function loadDepartmentList(){
 }
 async function requestClientList() {
     loading.value = true;
+    loadClientList(requestParam);
+    loading.value = false;
+}
+async function loadClientList(requestParam){
     const response = await request.clientList(requestParam);
     const data = handleResponse(response);
     updatePage(data);
-    loading.value = false;
 }
 function handleResponse(response) {
     if (response && response.data.code === 200) {
@@ -351,19 +352,16 @@ async function applyUser(){
         proxy.$msg.success(response.data.data);
         applyUserData.username = null;
         applyUserData.departmentId = null;
-        const clientResponse = await request.clientList();//新增完重載清單
-        const data = handleResponse(clientResponse);
-        updatePage(data);
+        loadClientList();//新增完重載清單
         
         requestParam.type =  null;
         requestParam.id =  null;
         requestParam.name =  null;
         applyUserDialog.value = false;
-        fullLoading.value = false;
     }else{
         proxy.$msg.error(response.data.data);
-        fullLoading.value = false;
     }
+    fullLoading.value = false;
 }
 function openEdit(row){
     statusDialog.clientId = row.id;
@@ -378,14 +376,11 @@ async function changeActive(val){
     const response = await request.clientStatus(statusDialog);
     if(response.data.code === 200){
         proxy.$msg.success(response.data.data);
-        const clientResponse = await request.clientList(requestParam);//更新完重載
-        const data = handleResponse(clientResponse);
-        updatePage(data);
-        fullLoading.value = false;
+        loadClientList(requestParam);//更新完重載
     }else{
         proxy.$msg.error(response.data.data);
-        fullLoading.value = false;
     }
+    fullLoading.value = false;
 }
 async function changeLock(val){
     fullLoading.value = true;
@@ -393,14 +388,11 @@ async function changeLock(val){
     const response = await request.clientLock(statusDialog);
     if(response.data.code === 200){
         proxy.$msg.success(response.data.data);
-        const clientResponse = await request.clientList(requestParam);//更新完重載
-        const data = handleResponse(clientResponse);
-        updatePage(data);
-        fullLoading.value = false;
+        loadClientList(requestParam);//更新完重載
     }else{
         proxy.$msg.error(response.data.data);
-        fullLoading.value = false;
     }
+    fullLoading.value = false;
 }
 </script>
 
