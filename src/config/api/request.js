@@ -16,6 +16,7 @@ export default {
     pMenu: request(path.api.menu.pMenu),
     signIn: request(path.api.attend.signIn),
     signOut: request(path.api.attend.signOut),
+    departmentList: request(path.api.department.list),
 }
 
 const axios = instance();

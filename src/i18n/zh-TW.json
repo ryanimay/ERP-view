@@ -95,7 +95,9 @@
         "pageQuantifier":"/頁",
         "search":"搜尋",
         "edit":"編輯",
-        "applyNewUser":"申請新用戶"
+        "applyNewUser":"申請新用戶",
+        "cancel":"取消",
+        "submit":"提交"
     },
 
 

@@ -1,5 +1,5 @@
 <template>
-    <el-main class="homeBodyContainer" v-loading.lock="loading">
+    <el-main class="homeBodyContainer" v-loading.lock="loading" v-loading.fullscreen.lock="fullLoading">
         <el-container>
             <el-header id="searchHeader">
                 <span>
@@ -32,7 +32,7 @@
                     </span>
                 </span>
                 <span>
-                    <el-button type="danger" @click="openApplyUser()">
+                    <el-button type="danger" @click="openApplyUser">
                         {{ $t('clientBody.applyNewUser') }}
                     </el-button>
                 </span>
@@ -64,7 +64,7 @@
                             <el-tag :type="statusType(!scope.row.lock)">{{ $t(statusText2(scope.row.lock)) }}</el-tag>    
                         </template>
                     </el-table-column>
-                    <el-table-column :label="$t('clientBody.col-edit')" width="90" :align="'center'">
+                    <el-table-column :label="$t('clientBody.col-edit')" width="100" :align="'center'">
                         <template #default="scope">
                             <el-button type="primary" @click="openEdit(scope.row)">
                                 <el-icon>
@@ -100,16 +100,47 @@
                 </span>
                 </el-pagination>
             </el-footer>
+
+            <!--申請新用戶彈窗-->
+            <el-dialog v-model="applyUserDialog" :title="$t('clientBody.applyNewUser')" width="350" :before-close="handleClose">
+                <el-form :model="applyUserData" label-position="right" @submit.prevent>
+                    <el-form-item :label="$t('clientBody.col-username')+':'">
+                        <el-input v-model="applyUserData.username" />
+                    </el-form-item>
+                    <el-form-item :label="$t('clientBody.col-departmentName')+':'">
+                        <el-select v-model="applyUserData.departmentId" style="width: 150px" placeholder="none">
+                            <el-option v-for="val in departmentList"
+                            :key="val.id"
+                            :label="val.name"
+                            :value="val.id"
+                            />
+                        </el-select>
+                    </el-form-item>
+                </el-form>
+                <template #footer>
+                    <div class="dialog-footer">
+                        <el-button @click="handleClose">{{ $t('clientBody.cancel') }}</el-button>
+                        <el-button type="primary" @click="applyUser">{{ $t('clientBody.submit') }}</el-button>
+                    </div>
+                </template>
+            </el-dialog>
         </el-container>
     </el-main>
 </template>
 
 <script setup>
 import request from '@/config/api/request.js';
-import { ref, onMounted, reactive } from 'vue';
-
+import { ref, onMounted, reactive, getCurrentInstance } from 'vue';
+const { proxy } = getCurrentInstance();
+const applyUserData = reactive({
+    username: null,
+    departmentId: null
+})
+const applyUserDialog = ref(false);
 const loading = ref(false);
+const fullLoading = ref(false);
 const clientList = ref([]);
+const departmentList = ref([]);
 const requestParam = reactive({
     type: null,
     id: null,
@@ -130,10 +161,22 @@ const searchCondition = [
         "value": 2
     }
 ]
-const sizeOptions = [15, 30, 50, 100]
-onMounted(() => {
-    requestClientList();
+const sizeOptions = [10, 30, 50, 100]
+onMounted(async () => {
+    loading.value = true;
+    const response = await request.clientList(requestParam);
+    const data = handleResponse(response);
+    updatePage(data);
+    await loadDepartmentList();
+    loading.value = false;
 });
+async function loadDepartmentList(){
+    const response = await request.departmentList();
+    const data = handleResponse(response);
+    if(data){
+        departmentList.value = data.data;
+    }
+}
 async function requestClientList() {
     loading.value = true;
     const response = await request.clientList(requestParam);
@@ -158,7 +201,7 @@ function updatePage(response){
     }
 }
 function formatTime(time){
-    return time.replace("T", " ")
+    return time ? time.replace("T", " ") : time;
 }
 function formatTime1(cellValue){
     return formatTime(cellValue.createTime);
@@ -218,8 +261,8 @@ function numberInput(val){
     }
 }
 function numSize(val){
-    if(val > 9999){
-        requestParam.id = 9999;
+    if(val > 99999){
+        requestParam.id = 99999;
     }
 }
 function handleCurrentChange(page){
@@ -250,6 +293,35 @@ function changeCondition(val){
     }else{
         requestParam.id = null;
         requestParam.name = null;
+    }
+}
+function openApplyUser(){
+    applyUserDialog.value = true;
+}
+function handleClose(){
+    applyUserData.username = null;
+    applyUserData.departmentId = null;
+    applyUserDialog.value = false;
+}
+async function applyUser(){
+    fullLoading.value = true;
+    const response = await request.register(applyUserData);
+    if(response.data.code === 200){
+        proxy.$msg.success(response.data.data);
+        applyUserData.username = null;
+        applyUserData.departmentId = null;
+        const clientResponse = await request.clientList();//新增完重載清單
+        const data = handleResponse(clientResponse);
+        updatePage(data);
+        
+        requestParam.type =  null;
+        requestParam.id =  null;
+        requestParam.name =  null;
+        applyUserDialog.value = false;
+        fullLoading.value = false;
+    }else{
+        proxy.$msg.error(response.data.data);
+        fullLoading.value = false;
     }
 }
 </script>

@@ -14,6 +14,7 @@ const config = {
     const client = context_path + '/client';
     const menu = context_path + '/menu';
     const attend = context_path + '/attend';
+    const department = context_path + '/department';
     return {
       cache: {
       },
@@ -84,6 +85,13 @@ const config = {
         signOut: {
           path: attend + '/signOut',
           method:'put',
+          requiresAuth: true
+        }
+      },
+      department: {
+        list:{
+          path: department + '/list',
+          method:'get',
           requiresAuth: true
         }
       }

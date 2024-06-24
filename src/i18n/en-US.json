@@ -95,7 +95,9 @@
         "pageQuantifier":"/page",
         "search":"Search",
         "edit":"Edit",
-        "applyNewUser":"ApplyNewUser"
+        "applyNewUser":"Apply New User",
+        "cancel":"Cancel",
+        "submit":"Submit"
     },
 
 
