@@ -81,7 +81,7 @@
         "col-attendStatus":"Attend",
         "col-active":"Active",
         "col-lock":"Lock",
-        "col-edit":"Edit",
+        "col-config":"Config",
         "active":{
             "true":"Active",
             "false":"InActive"
@@ -94,13 +94,10 @@
         "totalQuantifier":"",
         "pageQuantifier":"/page",
         "search":"Search",
-        "edit":"Edit",
         "applyNewUser":"Apply New User",
         "cancel":"Cancel",
         "submit":"Submit",
-        "new":"New",
-        "editUser":"Edit Client",
-        "confirmClose":"Are you sure to close edit page?"
+        "new":"New"
     },
 
 

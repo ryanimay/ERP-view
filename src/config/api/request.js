@@ -12,6 +12,8 @@ export default {
     update: request(path.api.client.update),
     updatePassword: request(path.api.client.updatePassword),
     clientList: request(path.api.client.list),
+    clientStatus: request(path.api.client.clientStatus),
+    clientLock: request(path.api.client.clientLock),
     allMenu: request(path.api.menu.all),
     pMenu: request(path.api.menu.pMenu),
     signIn: request(path.api.attend.signIn),

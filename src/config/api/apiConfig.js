@@ -59,6 +59,16 @@ const config = {
           method:'get',
           requiresAuth: true
         },
+        clientStatus: {
+          path: client + '/clientStatus',
+          method:'put',
+          requiresAuth: true
+        },
+        clientLock: {
+          path: client + '/clientLock',
+          method:'put',
+          requiresAuth: true
+        },
       },
       role: {
       },

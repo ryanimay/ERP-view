@@ -380,7 +380,7 @@ function getNow(){
 }
 
 #logo {
-    padding-left: 20px;
+    margin-left: 20px;
     width: 90px;
 }
 

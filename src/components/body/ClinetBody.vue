@@ -69,13 +69,12 @@
                             <el-tag :type="statusType(!scope.row.lock)">{{ $t(statusText2(scope.row.lock)) }}</el-tag>    
                         </template>
                     </el-table-column>
-                    <el-table-column :label="$t('clientBody.col-edit')" width="100" :align="'center'">
+                    <el-table-column :label="$t('clientBody.col-config')" width="70" :align="'center'">
                         <template #default="scope">
-                            <el-button type="primary" @click="openEdit(scope.row)">
+                            <el-button type="primary" @click="openEdit(scope.row)" size="small">
                                 <el-icon>
                                     <EditPen />
                                 </el-icon>
-                                {{$t('clientBody.edit')}}
                             </el-button>
                         </template>
                     </el-table-column>
@@ -107,7 +106,7 @@
             </el-footer>
 
             <!--申請新用戶彈窗-->
-            <el-dialog v-model="applyUserDialog" :title="$t('clientBody.applyNewUser')" width="350" :before-close="handleClose">
+            <el-dialog v-model="applyUserDialog" :title="$t('clientBody.applyNewUser')" width="350">
                 <el-form :model="applyUserData" label-position="right" @submit.prevent>
                     <el-form-item :label="$t('clientBody.col-username')+':'">
                         <el-input v-model="applyUserData.username" />
@@ -129,17 +128,32 @@
                     </div>
                 </template>
             </el-dialog>
-            <!--編輯用戶彈窗-->
-            <el-dialog v-model="editUserDialog" :title="$t('clientBody.editUser')" width="350" :before-close="handleCloseEdit">
-                <el-form :model="applyUserData" label-position="right" @submit.prevent>
-                    
-                </el-form>
-                <template #footer>
-                    <div class="dialog-footer">
-                        <el-button @click="handleCloseEdit">{{ $t('clientBody.cancel') }}</el-button>
-                        <el-button type="primary" @click="applyUser">{{ $t('clientBody.submit') }}</el-button>
+            <!--設置用戶狀態彈窗-->
+            <el-dialog v-model="editUserDialog" :title="$t('clientBody.col-config')" width="350" destroy-on-close>
+                <div id="bordorTop">
+                    <div class="alignCenter">
+                        <el-text size="large" tag="b">{{$t('clientBody.col-active')}}:</el-text>
+                        <el-switch v-model="statusDialog.active" inline-prompt size="large" style="margin-left: 10px; --el-switch-on-color: #67c23a; --el-switch-off-color: #f56c6c" @change="changeActive">
+                            <template #active-action>
+                                <el-icon><Select></Select></el-icon>
+                            </template>
+                            <template #inactive-action>
+                                <el-icon><CloseBold /></el-icon>
+                            </template>
+                        </el-switch>
                     </div>
-                </template>
+                    <div class="alignCenter">
+                        <el-text size="large" tag="b">{{$t('clientBody.col-lock')}}:</el-text>
+                        <el-switch v-model="statusDialog.lock" inline-prompt size="large" style="margin-left: 10px; --el-switch-on-color: #f56c6c; --el-switch-off-color: #67c23a" @change="changeLock">
+                            <template #active-action>
+                                <el-icon><Select></Select></el-icon>
+                            </template>
+                            <template #inactive-action>
+                                <el-icon><CloseBold /></el-icon>
+                            </template>
+                        </el-switch>
+                    </div>
+                </div>
             </el-dialog>
         </el-container>
     </el-main>
@@ -148,12 +162,15 @@
 <script setup>
 import request from '@/config/api/request.js';
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue';
-import { ElMessageBox } from 'element-plus';
-import { useI18n } from 'vue-i18n';
 import userStore from '@/config/store/user';
 const user = userStore();
-const { t } = useI18n();
 const { proxy } = getCurrentInstance();
+const statusDialog = reactive({
+    clientId: null,
+    username: null,
+    active: null,
+    lock: null,
+})
 const applyUserData = reactive({
     createBy: user.id,
     username: null,
@@ -327,15 +344,6 @@ function handleClose(){
     applyUserData.departmentId = null;
     applyUserDialog.value = false;
 }
-function handleCloseEdit(){
-    ElMessageBox.confirm(t('clientBody.confirmClose'))
-        .then(() => {
-            editUserDialog.value = false
-        })
-        .catch((e) => {
-            console.log(e);
-        });
-}
 async function applyUser(){
     fullLoading.value = true;
     const response = await request.register(applyUserData);
@@ -358,8 +366,41 @@ async function applyUser(){
     }
 }
 function openEdit(row){
-    console.log(row);
+    statusDialog.clientId = row.id;
+    statusDialog.username = row.username;
+    statusDialog.active = row.active;
+    statusDialog.lock = row.lock;
     editUserDialog.value = true;
+}
+async function changeActive(val){
+    fullLoading.value = true;
+    statusDialog['status'] = val;
+    const response = await request.clientStatus(statusDialog);
+    if(response.data.code === 200){
+        proxy.$msg.success(response.data.data);
+        const clientResponse = await request.clientList(requestParam);//更新完重載
+        const data = handleResponse(clientResponse);
+        updatePage(data);
+        fullLoading.value = false;
+    }else{
+        proxy.$msg.error(response.data.data);
+        fullLoading.value = false;
+    }
+}
+async function changeLock(val){
+    fullLoading.value = true;
+    statusDialog['status'] = val;
+    const response = await request.clientLock(statusDialog);
+    if(response.data.code === 200){
+        proxy.$msg.success(response.data.data);
+        const clientResponse = await request.clientList(requestParam);//更新完重載
+        const data = handleResponse(clientResponse);
+        updatePage(data);
+        fullLoading.value = false;
+    }else{
+        proxy.$msg.error(response.data.data);
+        fullLoading.value = false;
+    }
 }
 </script>
 
@@ -381,5 +422,12 @@ function openEdit(row){
 }
 .searchHeaderBlock{
     padding-right: 10px;
+}
+#bordorTop{
+    border-Top: 1px solid #cccccc;
+}
+.alignCenter{
+    display: flex;
+    align-items: center;
 }
 </style>
