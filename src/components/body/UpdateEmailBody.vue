@@ -7,12 +7,12 @@
         </el-row>
         <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef">
             <el-form-item prop="email" :label="$t('updateEmailBody.email')" :rules="emailRules">
-                <el-input v-model="formData.email" class="input-area" />
+                <el-input v-model="formData.email" class="input-area" @keyup.enter="doUpdate"/>
             </el-form-item>
             <el-form-item>
                 <el-row id="btnFrame">
                     <el-col :span="4">
-                        <el-button type="info" @click="lastPage" class="btn">{{ $t('updateEmailBody.cancel') }}</el-button>
+                        <el-button type="info" @click="homePage" class="btn">{{ $t('updateEmailBody.cancel') }}</el-button>
                     </el-col>
                     <el-col :span="2"></el-col>
                     <el-col :span="18">
@@ -38,8 +38,15 @@ const formData = reactive({
 })
 const { proxy } = getCurrentInstance();//獲取全局組件
 
-const lastPage = () => {
-    proxy.$router.push({ name: 'login' });
+const homePage = () => {
+    logout();
+}
+
+async function logout() {
+    const response = await user.logout();
+    if (response && response.data.code == 200) {
+        proxy.$router.push({ name: 'login' });
+    }
 }
 
 const doUpdate = async () => {

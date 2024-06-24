@@ -8,18 +8,18 @@
         <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef"
             :rules="formRules" status-icon>
             <el-form-item prop="oldPassword" :label="$t('updatePasswordBody.oldPassword')">
-                <el-input v-model="formData.oldPassword" class="input-area" type="password" />
+                <el-input v-model="formData.oldPassword" class="input-area" type="password" @keyup.enter="resetPassword"/>
             </el-form-item>
             <el-form-item prop="password" :label="$t('updatePasswordBody.password')">
-                <el-input v-model="formData.password" class="input-area" type="password" />
+                <el-input v-model="formData.password" class="input-area" type="password" @keyup.enter="resetPassword"/>
             </el-form-item>
             <el-form-item prop="confirmPassword" :label="$t('updatePasswordBody.confirmPassword')">
-                <el-input v-model="formData.confirmPassword" class="input-area" type="password" />
+                <el-input v-model="formData.confirmPassword" class="input-area" type="password" @keyup.enter="resetPassword"/>
             </el-form-item>
             <el-form-item>
                 <el-row style="width: 100%;">
                     <el-col :span="4">
-                        <el-button type="info" @click="lastPage" class="btn">{{ $t('updatePasswordBody.cancel') }}</el-button>
+                        <el-button type="info" @click="homePage" class="btn">{{ $t('updatePasswordBody.cancel') }}</el-button>
                     </el-col>
                     <el-col :span="2"></el-col>
                     <el-col :span="18">
@@ -46,8 +46,16 @@ const formData = reactive({
     confirmPassword: '',
 })
 const { proxy } = getCurrentInstance();//獲取全局組件
-const lastPage = () => {
-    proxy.$router.push({ name: 'login' });
+
+const homePage = () => {
+    logout();
+}
+
+async function logout() {
+    const response = await user.logout();
+    if (response && response.data.code == 200) {
+        proxy.$router.push({ name: 'login' });
+    }
 }
 
 const resetPassword = async () => {

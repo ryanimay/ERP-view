@@ -47,7 +47,7 @@
                     <el-table-column :label="$t('clientBody.col-username')" width="200">
                         <template #default="scope">
                             {{ scope.row.username }}
-                            <el-tag v-if="!scope.row.email" type="danger" effect="plain">{{ $t('clientBody.new') }}</el-tag>    
+                            <el-tag v-if="!scope.row.email" type="danger" round effect="plain">{{ $t('clientBody.new') }}</el-tag>    
                         </template>    
                     </el-table-column>
                     <el-table-column prop="email" :label="$t('clientBody.col-email')" min-width="220"/>

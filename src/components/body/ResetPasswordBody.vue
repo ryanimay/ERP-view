@@ -7,10 +7,10 @@
         </el-row>
         <el-form :model="formData" label-position="left" label-width="auto" size="large" ref="formRef">
             <el-form-item prop="username" :label="$t('resetPasswordBody.username')" :rules="requiredRule">
-                <el-input v-model="formData.username" class="input-area" />
+                <el-input v-model="formData.username" class="input-area" @keyup.enter="resetPassword(formRef)" />
             </el-form-item>
             <el-form-item prop="email" :label="$t('resetPasswordBody.email')" :rules="emailRules">
-                <el-input v-model="formData.email" class="input-area" />
+                <el-input v-model="formData.email" class="input-area" @keyup.enter="resetPassword(formRef)" />
             </el-form-item>
             <el-form-item>
                 <el-row style="width: 100%;">
