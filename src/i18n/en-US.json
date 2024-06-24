@@ -98,7 +98,9 @@
         "applyNewUser":"Apply New User",
         "cancel":"Cancel",
         "submit":"Submit",
-        "new":"New"
+        "new":"New",
+        "editUser":"Edit Client",
+        "confirmClose":"Are you sure to close edit page?"
     },
 
 

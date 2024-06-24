@@ -129,6 +129,18 @@
                     </div>
                 </template>
             </el-dialog>
+            <!--編輯用戶彈窗-->
+            <el-dialog v-model="editUserDialog" :title="$t('clientBody.editUser')" width="350" :before-close="handleCloseEdit">
+                <el-form :model="applyUserData" label-position="right" @submit.prevent>
+                    
+                </el-form>
+                <template #footer>
+                    <div class="dialog-footer">
+                        <el-button @click="handleCloseEdit">{{ $t('clientBody.cancel') }}</el-button>
+                        <el-button type="primary" @click="applyUser">{{ $t('clientBody.submit') }}</el-button>
+                    </div>
+                </template>
+            </el-dialog>
         </el-container>
     </el-main>
 </template>
@@ -136,12 +148,19 @@
 <script setup>
 import request from '@/config/api/request.js';
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { useI18n } from 'vue-i18n';
+import userStore from '@/config/store/user';
+const user = userStore();
+const { t } = useI18n();
 const { proxy } = getCurrentInstance();
 const applyUserData = reactive({
+    createBy: user.id,
     username: null,
     departmentId: null
 })
 const applyUserDialog = ref(false);
+const editUserDialog = ref(false);
 const loading = ref(false);
 const fullLoading = ref(false);
 const clientList = ref([]);
@@ -308,6 +327,15 @@ function handleClose(){
     applyUserData.departmentId = null;
     applyUserDialog.value = false;
 }
+function handleCloseEdit(){
+    ElMessageBox.confirm(t('clientBody.confirmClose'))
+        .then(() => {
+            editUserDialog.value = false
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+}
 async function applyUser(){
     fullLoading.value = true;
     const response = await request.register(applyUserData);
@@ -328,6 +356,10 @@ async function applyUser(){
         proxy.$msg.error(response.data.data);
         fullLoading.value = false;
     }
+}
+function openEdit(row){
+    console.log(row);
+    editUserDialog.value = true;
 }
 </script>
 

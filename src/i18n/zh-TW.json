@@ -98,7 +98,9 @@
         "applyNewUser":"申請新用戶",
         "cancel":"取消",
         "submit":"提交",
-        "new":"新用戶"
+        "new":"新用戶",
+        "editUser":"編輯用戶",
+        "confirmClose":"確定要關閉尚未儲存視窗嗎?"
     },
 
 
