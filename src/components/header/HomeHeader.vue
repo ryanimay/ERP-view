@@ -240,9 +240,25 @@ onMounted(async () => {
     list.value = await getMenu();
     await ws.connect();
     ws.subscribe('/user/topic/notification', handleNotification);
+    ws.subscribe('/user/topic/clientStatus', userKick);
     loading.value = false;
 });
-
+//觸發用戶強制踢出
+const userKick = async (msg) => {
+    const response = await user.logout();
+    const showMessage = t(JSON.parse(msg).data);
+    console.log(showMessage);
+    if (response && response.data.code == 200) {
+        ws.disconnect();
+        proxy.$router.push({
+            name: 'login',
+            query: {
+                message: t(showMessage),
+                type: 'danger'
+            }
+        });
+    }
+}
 const handleNotification = (message) => {
     var data = JSON.parse(message).data;
     notification.data = data;

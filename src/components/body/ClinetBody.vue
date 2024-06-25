@@ -91,7 +91,7 @@
                 :page-count="requestParam.totalPage"
                 @current-change="handleCurrentChange">
                 <span class="fontBold">
-                    <span>{{ $t('clientBody.total') + ' ' + requestParam.totalElements + $t('clientBody.totalQuantifier')}}</span>
+                    <span>{{ $t('clientBody.total') + ' ' + requestParam.totalElements + $t('clientBody.totalQuantifier') }}</span>
                     <span id="marginLeft12">
                         <el-select v-model="requestParam.pageSize" style="width: 110px" @change="handleSizeChange">
                             <el-option v-for="size in sizeOptions"
@@ -205,7 +205,7 @@ const searchCondition = [
 const sizeOptions = [10, 30, 50, 100]
 onMounted(async () => {
     loading.value = true;
-    loadClientList();
+    await loadClientList();
     await loadDepartmentList();
     loading.value = false;
 });
@@ -218,7 +218,7 @@ async function loadDepartmentList(){
 }
 async function requestClientList() {
     loading.value = true;
-    loadClientList(requestParam);
+    await loadClientList(requestParam);
     loading.value = false;
 }
 async function loadClientList(requestParam){
@@ -352,8 +352,7 @@ async function applyUser(){
         proxy.$msg.success(response.data.data);
         applyUserData.username = null;
         applyUserData.departmentId = null;
-        loadClientList();//新增完重載清單
-        
+        await loadClientList();//新增完重載清單
         requestParam.type =  null;
         requestParam.id =  null;
         requestParam.name =  null;
@@ -374,25 +373,23 @@ async function changeActive(val){
     fullLoading.value = true;
     statusDialog['status'] = val;
     const response = await request.clientStatus(statusDialog);
-    if(response.data.code === 200){
-        proxy.$msg.success(response.data.data);
-        loadClientList(requestParam);//更新完重載
-    }else{
-        proxy.$msg.error(response.data.data);
-    }
+    handleClientStatusResponse(response);
     fullLoading.value = false;
 }
 async function changeLock(val){
     fullLoading.value = true;
     statusDialog['status'] = val;
     const response = await request.clientLock(statusDialog);
+    handleClientStatusResponse(response);
+    fullLoading.value = false;
+}
+async function handleClientStatusResponse(response){
     if(response.data.code === 200){
         proxy.$msg.success(response.data.data);
-        loadClientList(requestParam);//更新完重載
+        await loadClientList(requestParam);//更新完重載
     }else{
         proxy.$msg.error(response.data.data);
     }
-    fullLoading.value = false;
 }
 </script>
 

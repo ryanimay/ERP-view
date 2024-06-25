@@ -110,5 +110,8 @@
     },
     "axios":{
         "reLogin":"Session expired, please log in again."
+    },
+    "message":{
+        "kickOut":"Account has been disabled. You have been logged out."
     }
 }
