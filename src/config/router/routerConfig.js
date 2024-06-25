@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+//parentName是用來生成navigation的顯示路徑，以':'開頭就不會顯示可點擊連結
 const routerPath = [
     {
         path: '/',
@@ -54,7 +55,22 @@ const routerPath = [
             header: () => import('@/components/header/HomeHeader.vue'),
             body: () => import('@/components/body/ClinetBody.vue'),
         },
-        meta: { requiresAuth: true }
+        meta: { 
+            requiresAuth: true ,
+            parentName: ':clientManagement'
+        }
+    },
+    {
+        path: '/department',
+        name: 'department',
+        components: {
+            header: () => import('@/components/header/HomeHeader.vue'),
+            body: () => import('@/components/body/DepartmentBody.vue'),
+        },
+        meta: { 
+            requiresAuth: true,
+            parentName: ':clientManagement'
+        }
     }
 ]
 

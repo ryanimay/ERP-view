@@ -69,17 +69,9 @@
                     <Compass />
                 </el-icon>
                 <span id="navigation">
-                    <span v-for="(name, index) in navigation" :key="index">
-                        》
-                        <span v-if="index !== navigation.length - 1">
-                            <router-link @click="changeActive(name)" :to="{ name: name }" class="naviA">
-                                {{ $t('router.' + name) }}
-                            </router-link>
-                        </span>
-                        <span v-else style="font-weight: bold; padding: 5px;">
-                            {{ $t('router.' + name) }}
-                        </span>
-                    </span>
+                    <el-breadcrumb separator-icon="ArrowRight">
+                        <el-breadcrumb-item v-for="(name, index) in navigation" :key="index" :to="getNavigationRoute(name)">{{ $t('router.' + name.replace(":", "")) }}</el-breadcrumb-item>
+                    </el-breadcrumb>
                 </span>
             </span>
             <div id="titleRight">
@@ -375,6 +367,13 @@ function notificationJump(row){
 function getNow(){
     let date = new Date();
     return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+}
+function getNavigationRoute(name){
+    if(name.startsWith(':')){
+        return null;
+    }else{
+        return {path : name};
+    }
 }
 </script>
 
