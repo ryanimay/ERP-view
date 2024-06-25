@@ -103,6 +103,11 @@ const config = {
           path: department + '/list',
           method:'get',
           requiresAuth: true
+        },
+        staff:{
+          path: department + '/staff',
+          method:'get',
+          requiresAuth: true
         }
       }
     };

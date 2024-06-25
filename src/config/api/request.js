@@ -19,6 +19,7 @@ export default {
     signIn: request(path.api.attend.signIn),
     signOut: request(path.api.attend.signOut),
     departmentList: request(path.api.department.list),
+    departmentStaff: request(path.api.department.staff),
 }
 
 const axios = instance();
