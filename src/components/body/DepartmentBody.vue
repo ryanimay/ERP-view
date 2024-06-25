@@ -2,7 +2,8 @@
     <el-main class="homeBodyContainer" v-loading.lock="loading">
         <el-tabs tab-position="left" type="border-card" @tab-click="loadDepartmentClient" style="height:99%; ">
             <el-tab-pane v-for="(department, index) in departmentList" :key="index" :label="department.name" :name="department.id">
-                {{clientList}}
+                <div>{{ department.roles }}</div>
+                <div>{{clientList}}</div>
             </el-tab-pane>
         </el-tabs>
     </el-main>
