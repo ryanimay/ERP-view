@@ -106,7 +106,17 @@
     "router":{
         "reLogin":"請重新登入",
         "home":"首頁",
-        "client":"用戶管理"
+        "clientManagement":"用戶管理",
+        "permissionManagement":"權限管理",
+        "salaryManagement":"薪資管理",
+        "performanceManagement":"績效管理",
+        "leaveManagement":"休假管理",
+        "projectManagement":"專案管理",
+        "procureManagement":"採購管理",
+        "jobManagement":"任務管理",
+        "scheduleManagement":"排程管理",
+        "client":"用戶清單",
+        "department":"部門管理"
     },
     "axios":{
         "reLogin":"登入過期，請重新登入"

@@ -106,7 +106,17 @@
     "router":{
         "reLogin":"Please re-login.",
         "home":"Home",
-        "client":"Client_Management"
+        "clientManagement":"Client Management",
+        "permissionManagement":"Permission Management",
+        "salaryManagement":"Salary Management",
+        "performanceManagement":"Performance Management",
+        "leaveManagement":"Leave Management",
+        "projectManagement":"Project Management",
+        "procureManagement":"Procure Management",
+        "jobManagement":"Job Management",
+        "scheduleManagement":"Schedule Management",
+        "client":"Client List",
+        "department":"Department Management"
     },
     "axios":{
         "reLogin":"Session expired, please log in again."
