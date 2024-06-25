@@ -22,7 +22,7 @@ const websocketStore = defineStore(
                 const socket = new SockJS(url + '?token=' + token);
                 const options = { protocols: ['v12.stomp'] }
                 this.client = Stomp.over(socket, options);
-                return new Promise((resolve, reject) => {
+                const connectPromise = new Promise((resolve, reject) => {
                     this.client.connect({}, () => {
                         this.isConnected = true;
                         console.log('Websocket Connected');
@@ -33,6 +33,15 @@ const websocketStore = defineStore(
                         reject(error); // Reject the promise if there is an error
                     });
                 });
+
+                connectPromise.catch(() => {
+                    setTimeout(() => {
+                        console.log('Attempting to reconnect...');
+                        this.connect(); 
+                    }, 5000);
+                });
+
+                return connectPromise;
             },
             disconnect() {
                 if (this.client) {
