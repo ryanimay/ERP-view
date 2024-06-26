@@ -99,6 +99,9 @@
         "submit":"Submit",
         "new":"New"
     },
+    "departmentBody":{
+        "clientEmpty":"No team members"
+    },
 
 
 

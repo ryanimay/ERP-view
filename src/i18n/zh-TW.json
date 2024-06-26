@@ -99,6 +99,9 @@
         "submit":"提交",
         "new":"新用戶"
     },
+    "departmentBody":{
+        "clientEmpty":"沒有組員"
+    },
 
 
 
