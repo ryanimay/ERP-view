@@ -97,7 +97,10 @@
         "applyNewUser":"申請新用戶",
         "cancel":"取消",
         "submit":"提交",
-        "new":"新用戶"
+        "new":"新用戶",
+        "save":"保存",
+        "updateSuccess":"保存成功",
+        "updateFailed":"保存失敗，請聯繫管理員"
     },
     "departmentBody":{
         "clientEmpty":"沒有組員"

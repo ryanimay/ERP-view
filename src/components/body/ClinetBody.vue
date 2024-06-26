@@ -132,8 +132,19 @@
             <el-dialog v-model="editUserDialog" :title="$t('clientBody.col-config')" width="350" destroy-on-close>
                 <div id="bordorTop">
                     <div class="alignCenter">
+                        <el-text size="large" tag="b">{{$t('clientBody.col-departmentName')}}:</el-text>
+                        <el-select v-model="editData.departmentId" style="width: 150px; margin: 10px" placeholder="none">
+                            <el-option v-for="val in departmentList"
+                            :key="val.id"
+                            :label="val.name"
+                            :value="val.id"
+                            />
+                        </el-select>
+                        <el-button type="primary" @click="editUser">{{ $t('clientBody.save') }}</el-button>
+                    </div>
+                    <div class="alignCenter">
                         <el-text size="large" tag="b">{{$t('clientBody.col-active')}}:</el-text>
-                        <el-switch v-model="statusDialog.active" inline-prompt size="large" style="margin-left: 10px; --el-switch-on-color: #67c23a; --el-switch-off-color: #f56c6c" @change="changeActive">
+                        <el-switch v-model="statusData.active" inline-prompt size="large" style="margin-left: 10px; --el-switch-on-color: #67c23a; --el-switch-off-color: #f56c6c" @change="changeActive">
                             <template #active-action>
                                 <el-icon><Select></Select></el-icon>
                             </template>
@@ -144,7 +155,7 @@
                     </div>
                     <div class="alignCenter">
                         <el-text size="large" tag="b">{{$t('clientBody.col-lock')}}:</el-text>
-                        <el-switch v-model="statusDialog.lock" inline-prompt size="large" style="margin-left: 10px; --el-switch-on-color: #f56c6c; --el-switch-off-color: #67c23a" @change="changeLock">
+                        <el-switch v-model="statusData.lock" inline-prompt size="large" style="margin-left: 10px; --el-switch-on-color: #f56c6c; --el-switch-off-color: #67c23a" @change="changeLock">
                             <template #active-action>
                                 <el-icon><Select></Select></el-icon>
                             </template>
@@ -163,9 +174,16 @@
 import request from '@/config/api/request.js';
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue';
 import userStore from '@/config/store/user';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 const user = userStore();
 const { proxy } = getCurrentInstance();
-const statusDialog = reactive({
+const editData = reactive({
+    id: null,
+    departmentId: null,
+})
+const statusData = reactive({
     clientId: null,
     username: null,
     active: null,
@@ -363,23 +381,25 @@ async function applyUser(){
     fullLoading.value = false;
 }
 function openEdit(row){
-    statusDialog.clientId = row.id;
-    statusDialog.username = row.username;
-    statusDialog.active = row.active;
-    statusDialog.lock = row.lock;
+    statusData.clientId = row.id;
+    statusData.username = row.username;
+    statusData.active = row.active;
+    statusData.lock = row.lock;
+    editData.id = row.id;
+    editData.departmentId = row.department ? row.department.id : null;
     editUserDialog.value = true;
 }
 async function changeActive(val){
     fullLoading.value = true;
-    statusDialog['status'] = val;
-    const response = await request.clientStatus(statusDialog);
+    statusData['status'] = val;
+    const response = await request.clientStatus(statusData);
     handleClientStatusResponse(response);
     fullLoading.value = false;
 }
 async function changeLock(val){
     fullLoading.value = true;
-    statusDialog['status'] = val;
-    const response = await request.clientLock(statusDialog);
+    statusData['status'] = val;
+    const response = await request.clientLock(statusData);
     handleClientStatusResponse(response);
     fullLoading.value = false;
 }
@@ -390,6 +410,18 @@ async function handleClientStatusResponse(response){
     }else{
         proxy.$msg.error(response.data.data);
     }
+}
+async function editUser(){
+    fullLoading.value = true;
+    const response = await request.update(editData);
+    const data = handleResponse(response);
+    if(data){
+        proxy.$msg.success(t('clientBody.updateSuccess'));
+        await loadClientList(requestParam);
+    }else{
+        proxy.$msg.error(t('clientBody.updateFailed'));
+    }
+    fullLoading.value = false;
 }
 </script>
 

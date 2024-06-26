@@ -97,7 +97,10 @@
         "applyNewUser":"Apply New User",
         "cancel":"Cancel",
         "submit":"Submit",
-        "new":"New"
+        "new":"New",
+        "save":"Save",
+        "updateSuccess":"Update successful",
+        "updateFailed":"Update failed, please contact the administrator"
     },
     "departmentBody":{
         "clientEmpty":"No team members"
