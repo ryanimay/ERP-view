@@ -13,6 +13,7 @@ import '@/assets/css/fontStyle.css';
 import '@/assets/css/popover.css';
 import '@/assets/css/elTable.css';
 import '@/assets/css/elInput.css';
+import '@/assets/css/elTab.css';
 import '@/config/resizeObserverFix.js';
 
 const app = createApp(App);

@@ -1,11 +1,11 @@
 <template>
     <el-main class="homeBodyContainer" v-loading.lock="loading">
         <el-tabs tab-position="left" type="border-card" @tab-click="loadDepartmentClient" style="height:99%; ">
+            <div v-if="clientList.length === 0" class="center fullFrame">
+                <el-empty :description="$t('departmentBody.clientEmpty')" />
+            </div>
             <el-tab-pane v-for="(department) in departmentList" :key="department.id" :label="department.name" :name="department.id">
-                <div v-if="clientList.length === 0">
-                    <el-empty :description="$t('departmentBody.clientEmpty')" />
-                </div>
-                <div v-else>
+                <div v-if="clientList.length !== 0">
                     <div>{{ department.roles }}</div>
                     <div>{{clientList}}</div>
                 </div>
@@ -54,5 +54,13 @@ async function loadDepartmentClient(target){
 </script>
 
 <style scope>
-
+.center{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.fullFrame{
+    width:100%;
+    height:100%;
+}
 </style>
