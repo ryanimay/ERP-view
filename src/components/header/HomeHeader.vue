@@ -90,7 +90,7 @@
                             {{ $t('homeHeader.notification') }}
                         </div>
                         <el-table :data="notification" style="width: 100%" :show-header="false"
-                        :highlight-current-row="true" :row-style="notificationStyle" max-height="300"
+                        :row-style="notificationStyle" max-height="300"
                         @row-click="notificationJump">
                             <el-table-column class-name="elTable">
                                 <template #default="scope">
