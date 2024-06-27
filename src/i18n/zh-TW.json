@@ -129,5 +129,14 @@
     },
     "message":{
         "kickOut":"帳戶已被停用，您被強制登出。"
+    },
+    "notification":{
+        "sysInit":"系統初始化",
+        "updateUser":"用戶[{0}]更新了您的個人資料",
+        "editSalaryRoot":"薪資更動通知",
+        "addPerformance":"用戶[{0}]新增了待審核績效",
+        "acceptPerformance":"績效通過審核",
+        "addLeave":"用戶[{0}]新增了待審核假單",
+        "acceptLeave":"假單通過審核"
     }
 }

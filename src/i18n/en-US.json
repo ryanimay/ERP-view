@@ -129,5 +129,14 @@
     },
     "message":{
         "kickOut":"Account has been disabled. You have been logged out."
+    },
+    "notification":{
+        "sysInit":"System Initialize.",
+        "updateUser":"User[{0}] update your personal information.",
+        "editSalaryRoot":"Salary Adjustment Notification.",
+        "addPerformance":"User[{0}] Added Pending Performance Review.",
+        "acceptPerformance":"Performance Approval Passed.",
+        "addLeave":"User [{0}] has submitted a leave request for approval.",
+        "acceptLeave":"Leave Approval Passed."
     }
 }

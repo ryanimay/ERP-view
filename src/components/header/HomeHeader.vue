@@ -96,7 +96,7 @@
                                 <template #default="scope">
                                     <el-row>
                                         <el-col>
-                                            <div>{{ scope.row.info }}</div>
+                                            <div>{{ formatNotificationInfo(scope.row.info) }}</div>
                                         </el-col>
                                     </el-row>
                                     <el-row justify="end">
@@ -382,6 +382,11 @@ function getNavigationRoute(name){
     }else{
         return {path : name};
     }
+}
+function formatNotificationInfo(info){
+    const arr1 = info.split('++');
+    if(!arr1[1]) return t(arr1[0]);
+    return t(arr1[0], arr1[1].split(','));
 }
 </script>
 
