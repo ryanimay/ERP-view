@@ -12,7 +12,10 @@ const routerPath = [
             header: () => import('@/components/header/HomeHeader.vue'),
             body: () => import('@/components/body/HomeBody.vue'),
         },
-        meta: { requiresAuth: true }
+        meta: { 
+            requiresAuth: true,
+            headerKey: 'HomeHeader'  
+        }
     },
     {
         path: '/login',
@@ -20,6 +23,9 @@ const routerPath = [
         components: {
             header: () => import('@/components/header/LoginHeader.vue'),
             body: () => import('@/components/body/LoginBody.vue'),
+        },
+        meta: { 
+            headerKey: 'LoginHeader' 
         }
     },
     {
@@ -28,6 +34,9 @@ const routerPath = [
         components: {
             header: () => import('@/components/header/LoginHeader.vue'),
             body: () => import('@/components/body/ResetPasswordBody.vue'),
+        },
+        meta: { 
+            headerKey: 'LoginHeader' 
         }
     },
     {
@@ -37,7 +46,10 @@ const routerPath = [
             header: () => import('@/components/header/LoginHeader.vue'),
             body: () => import('@/components/body/UpdatePasswordBody.vue'),
         },
-        meta: { requiresAuth: true }
+        meta: { 
+            requiresAuth: true,
+            headerKey: 'LoginHeader' 
+        }
     },
     {
         path: '/updateEmail',
@@ -46,7 +58,10 @@ const routerPath = [
             header: () => import('@/components/header/LoginHeader.vue'),
             body: () => import('@/components/body/UpdateEmailBody.vue'),
         },
-        meta: { requiresAuth: true }
+        meta: { 
+            requiresAuth: true,
+            headerKey: 'LoginHeader' 
+        }
     },
     {
         path: '/client',
@@ -57,7 +72,8 @@ const routerPath = [
         },
         meta: { 
             requiresAuth: true ,
-            parentName: ':clientManagement'
+            parentName: ':clientManagement',
+            headerKey: 'HomeHeader'
         }
     },
     {
@@ -69,7 +85,8 @@ const routerPath = [
         },
         meta: { 
             requiresAuth: true,
-            parentName: ':clientManagement'
+            parentName: ':clientManagement',
+            headerKey: 'HomeHeader'
         }
     }
 ]

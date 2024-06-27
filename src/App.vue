@@ -1,9 +1,9 @@
 <template>
   <el-container id="mainContainer">
-    <router-view v-slot="{ Component }" name="header">
+    <router-view v-slot="{ Component, route }" name="header">
       <transition name="fade" mode="out-in">
         <keep-alive>
-          <component :is="Component"/>
+          <component :is="Component" :key="route.meta.headerKey"/>
         </keep-alive>
       </transition>
     </router-view>

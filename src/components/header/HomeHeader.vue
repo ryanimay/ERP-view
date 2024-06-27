@@ -228,7 +228,7 @@ onMounted(async () => {
     loading.value = true;
     list.value = await getMenu();
     await ws.connect();
-    ws.subscribe('/user/topic/notification', handleNotification);
+    ws.subscribe('/user/topic/notification', handleNotification);//偶發loading問題
     ws.subscribe('/user/topic/clientStatus', userKick);
     loading.value = false;
 });
