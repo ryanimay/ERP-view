@@ -366,6 +366,7 @@ function checkNotificationSize(){
 function notificationJump(row){
     if(row.status === false){
         row.status = true;
+        request.notificationStatus({"id" : row.id});
     }
     var routerPath = row.router;
     if(routerPath){

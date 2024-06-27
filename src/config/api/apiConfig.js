@@ -15,6 +15,7 @@ const config = {
     const menu = context_path + '/menu';
     const attend = context_path + '/attend';
     const department = context_path + '/department';
+    const notification = context_path + '/notification';
     return {
       cache: {
       },
@@ -107,6 +108,13 @@ const config = {
         staff:{
           path: department + '/staff',
           method:'get',
+          requiresAuth: true
+        }
+      },
+      notification: {
+        status:{
+          path: notification + '/status',
+          method:'post',
           requiresAuth: true
         }
       }
