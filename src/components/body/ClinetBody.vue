@@ -418,6 +418,9 @@ async function editUser(){
     if(data){
         proxy.$msg.success(t('clientBody.updateSuccess'));
         await loadClientList(requestParam);
+        if(editData.id === user.id){
+            user.update(data);
+        }
     }else{
         proxy.$msg.error(t('clientBody.updateFailed'));
     }
