@@ -345,11 +345,19 @@ function formatCreateTime(val) {
         return val;
     }
 }
-function notificationStyle() {
-    return {
-        cursor: 'pointer',
-        userSelect: "none"
-      };
+function notificationStyle(data) {
+    if(data.row.status === false){
+        return {
+            cursor: 'pointer',
+            userSelect: "none",
+            backgroundColor: "#e3eef3"
+          };
+    }else{
+        return {
+            cursor: 'pointer',
+            userSelect: "none"
+          };
+    }
 }
 function checkNotificationSize(){
     let count = 0;
