@@ -82,14 +82,14 @@
                     <el-popover placement="top-start" :width="200" trigger="click"
                         popper-style="padding: 0;" popper-class="notificationPop">
                         <template #reference>
-                            <el-badge :value="notification.size" :max="10" :show-zero="false" :offset="[-10, 40]">
+                            <el-badge :value="checkNotificationSize()" :max="10" :show-zero="false" :offset="[-10, 40]">
                                 <el-button type="info" icon="Bell" class="btnFrame" />
                             </el-badge>
                         </template>
                         <div class="notificationTitle font14">
                             {{ $t('homeHeader.notification') }}
                         </div>
-                        <el-table :data="notification.data" style="width: 100%" :show-header="false"
+                        <el-table :data="notification" style="width: 100%" :show-header="false"
                         :highlight-current-row="true" :row-style="notificationStyle" max-height="300"
                         @row-click="notificationJump">
                             <el-table-column class-name="elTable">
@@ -194,12 +194,9 @@ const userForm = reactive({
     id: user.id,
     email: user.email
 })
-const notification = reactive({
-    size: 0,
-    data: [
-        { info: t('homeHeader.errorConnecting'), createTime: getNow()}
-    ]
-})
+const notification = ref([
+    { info: t('homeHeader.errorConnecting'), createTime: getNow()}
+])
 const signText = computed(() => {
     switch (user.attendStatus) {
         case 1:
@@ -253,8 +250,7 @@ const userKick = async (msg) => {
 }
 const handleNotification = (message) => {
     var data = JSON.parse(message).data;
-    notification.data = data;
-    checkNotificationSize();
+    notification.value = data;
 };
 
 async function getMenu() {
@@ -361,12 +357,16 @@ function notificationStyle(data) {
 }
 function checkNotificationSize(){
     let count = 0;
-    notification.data.forEach((element) => {
+    notification.value.forEach((element) => {
         if(element.status == false) count++;
     });
-    notification.size = count;
+    return count;
+    
 }
 function notificationJump(row){
+    if(row.status === false){
+        row.status = true;
+    }
     var routerPath = row.router;
     if(routerPath){
         proxy.$router.push({name: routerPath});
