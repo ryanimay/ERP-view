@@ -5,11 +5,12 @@
                 <div class="paddingBottom10 height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.defaultRole')}}:</el-text>
                     <el-select
-                    v-if="defaultRole"
-                    v-model="defaultRole"
+                    v-if="currentDepartment.defaultRoleId"
+                    v-model="currentDepartment.defaultRoleId"
                     placeholder="Select"
                     size="large"
                     style="width: 240px"
+                    @change="updateDepartment"
                     >
                     <el-option
                         v-for="role in departmentRoles"
@@ -67,15 +68,21 @@
 
 <script setup>
 import request from '@/config/api/request.js';
-import { ref, onMounted } from 'vue';
+import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
 
 const letters = '0123456789ABCDEF';
-const defaultRole = ref();
 const departmentList = ref([]);
 const departmentRoles = ref([]);
 const clientList = ref([]);
 const loading = ref(false);
 const colors = ref({});
+const { proxy } = getCurrentInstance();
+const currentDepartment = reactive({
+    id: null,
+    name: null,
+    defaultRoleId: null,
+    roles:[]
+});
 
 onMounted(async () => {
     loading.value = true;
@@ -98,15 +105,18 @@ function handleResponse(response) {
 }
 function targetChange(target){
     colors.value = {};
+    currentDepartment.roles = [];
     updateData(target);
     getRandomColors();
     loadDepartmentClient(target);
 }
 function updateData(target){
-    console.log(departmentList.value.find(t => t.id === target.props.name));
     const department = departmentList.value.find(t => t.id === target.props.name);
-    defaultRole.value = department.role;
     departmentRoles.value = department.roles;
+    currentDepartment.id = department.id;
+    currentDepartment.name = department.name;
+    currentDepartment.defaultRoleId = department.role.id;
+    department.roles.forEach(r => currentDepartment.roles.push(r.id));
 }
 async function loadDepartmentClient(target){
     loading.value = true;
@@ -116,7 +126,6 @@ async function loadDepartmentClient(target){
         clientList.value = data;
     }
     loading.value = false;
-    return true;
 }
 function getRoleColor(id){
     return colors.value[id] || 'gray';
@@ -132,6 +141,16 @@ function getRandomColor(){
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+}
+async function updateDepartment(){
+    loading.value = true;
+    const response = await request.departmentEdit(currentDepartment);
+    if(response || response.data.code === 200){
+        proxy.$msg.success(response.data.data);
+    }else{
+        proxy.$msg.error(response.data.data);
+    }
+    loading.value = false;
 }
 </script>
 

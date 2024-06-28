@@ -20,6 +20,7 @@ export default {
     signOut: request(path.api.attend.signOut),
     departmentList: request(path.api.department.list),
     departmentStaff: request(path.api.department.staff),
+    departmentEdit: request(path.api.department.edit),
     notificationStatus: request(path.api.notification.status),
 }
 

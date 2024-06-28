@@ -109,6 +109,11 @@ const config = {
           path: department + '/staff',
           method:'get',
           requiresAuth: true
+        },
+        edit:{
+          path: department + '/edit',
+          method:'post',
+          requiresAuth: true
         }
       },
       notification: {
