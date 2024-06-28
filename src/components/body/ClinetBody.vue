@@ -42,7 +42,8 @@
                     :data="clientList"
                     :default-sort="{ prop: 'id', order: 'ascending' }"
                     style="width: 100%" :border="true"
-                    @sort-change="handleSortChange">
+                    @sort-change="handleSortChange"
+                    :show-overflow-tooltip="true">
                     <el-table-column column-key="id" prop="id" label="ID" sortable='custom' width="65"/>
                     <el-table-column :label="$t('clientBody.col-username')" width="200">
                         <template #default="scope">

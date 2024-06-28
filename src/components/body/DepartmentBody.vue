@@ -26,14 +26,19 @@
                     <el-button v-for="(role) in departmentRoles" :key="role.id" :color="getRoleColor(role.id)" @click="searchByRole(role.id)" :loading="clicked === role.id ? true : false" loading-icon="StarFilled" >{{role.roleName}}</el-button>
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
-                    <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.search')}}:</el-text>
-                    <el-input v-model="searchName" style="width: 200px" class="marginRight6" clearable/>
-                    <el-button type="primary" @click="searchByName()">
-                        <el-icon>
-                            <Search />
-                        </el-icon>
-                        {{ $t('departmentBody.search') }}
-                    </el-button>
+                    <span>
+                        <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.search')}}:</el-text>
+                        <el-input v-model="searchName" style="width: 200px" class="marginRight6" clearable/>
+                        <el-button type="primary" @click="searchByName()">
+                            <el-icon>
+                                <Search />
+                            </el-icon>
+                            {{ $t('departmentBody.search') }}
+                        </el-button>
+                    </span>
+                    <span>
+                        <el-text size="large" tag="b" class="marginLeft30">{{$t('departmentBody.total')}}:{{ showClientList.length }}</el-text>
+                    </span>
                 </div>
             </div>
             <div class="maxFrame">
@@ -42,7 +47,7 @@
                 </div>
                 <el-tab-pane style="height: 100%;" v-for="(department) in departmentList" :key="department.id" :label="department.name" :name="department.id">
                     <div v-if="showClientList.length !== 0">
-                        <el-table :data="showClientList" stripe style="width: 100%" :border="true">
+                        <el-table :data="showClientList" stripe style="width: 100%" :border="true" :show-overflow-tooltip="true">
                             <el-table-column prop="id" :label="$t('departmentBody.col-id')" width="80" :align="'center'"/>
                             <el-table-column prop="username" :label="$t('departmentBody.col-username')" width="180" />
                             <el-table-column :label="$t('departmentBody.col-roles')" >
@@ -93,7 +98,7 @@ onMounted(async () => {
     loading.value = false;
 });
 async function loadDepartmentList(){
-    const response = await request.departmentList();
+    const response = await request.departmentList({"pageSize":100});
     const data = handleResponse(response);
     if(data){
         departmentList.value = data.data;
@@ -185,8 +190,9 @@ function searchByName(){
 .maxFrame{
     border: 1px solid #dcdfe6;
     width:100%;
-    height: calc(100% - 180px);
+    height: calc(100% - 190px);
     min-height: 200px;
+    overflow: auto;
 }
 .fullFrame{
     width: 100%;
@@ -197,6 +203,9 @@ function searchByName(){
 }
 .marginRight6{
     margin-right: 6px;
+}
+.marginLeft30{
+    margin-left: 30px;
 }
 .height40{
     height: 40px;

@@ -111,7 +111,8 @@
         "col-username":"Name",
         "col-roles":"Roles",
         "col-config":"Config",
-        "all":"All"
+        "all":"All",
+        "total":"Total"
     },
 
 
