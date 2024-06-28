@@ -47,7 +47,7 @@
                             <el-table-column prop="username" :label="$t('departmentBody.col-username')" width="180" />
                             <el-table-column :label="$t('departmentBody.col-roles')" >
                                 <template #default="scope">
-                                    <el-tag v-for="role in scope.row.roles" :key="role.id" :color="getRoleColor(role.id)">{{ role.roleName }}</el-tag>
+                                    <el-tag v-for="role in scope.row.roles" :key="role.id" :color="getRoleColor(role.id)" type="info"><p id="fontBlack">{{ role.roleName }}</p></el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column :label="$t('departmentBody.col-config')" width="100" :align="'center'">
@@ -71,7 +71,6 @@
 import request from '@/config/api/request.js';
 import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
 
-const letters = '0123456789ABCDEF';
 const searchName = ref('');
 const clicked = ref(null);
 const departmentList = ref([]);
@@ -142,11 +141,9 @@ function getRandomColors(){
     });
 }
 function getRandomColor(){
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+    return "hsla(" + ~~(360 * Math.random()) + "," +
+                    "50%,"+
+                    "80%,1)"
 }
 async function updateDepartment(){
     loading.value = true;
@@ -207,5 +204,8 @@ function searchByName(){
 .alignCenter{
     display: flex;
     align-items: center;
+}
+#fontBlack{
+    color: black;
 }
 </style>
