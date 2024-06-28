@@ -22,7 +22,7 @@
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.departmentRoles')}}:</el-text>
-                    <el-button v-for="(role) in departmentRoles" :key="role.id" :color="getRoleColor(role.id)" @click="updateSearchRole(role.id)">{{role.roleName}}</el-button>
+                    <el-button v-for="(role) in departmentRoles" :key="role.id" :color="getRoleColor(role.id)" @click="updateSearchRole(role.id)" :loading="clicked === role.id ? true : false" loading-icon="StarFilled" >{{role.roleName}}</el-button>
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.search')}}:</el-text>
@@ -71,6 +71,7 @@ import request from '@/config/api/request.js';
 import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
 
 const letters = '0123456789ABCDEF';
+const clicked = ref(null);
 const departmentList = ref([]);
 const departmentRoles = ref([]);
 const clientList = ref([]);
@@ -105,6 +106,7 @@ function handleResponse(response) {
     }
 }
 function targetChange(target){
+    clicked.value = null;
     colors.value = {};
     currentDepartment.roles = [];
     updateData(target);
@@ -155,6 +157,7 @@ async function updateDepartment(){
     loading.value = false;
 }
 function updateSearchRole(id){
+    clicked.value = id;
     const data = clientList.value.filter(client =>
         client.roles.some(role => role.id === id)
     );
