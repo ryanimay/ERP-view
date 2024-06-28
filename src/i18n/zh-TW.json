@@ -103,7 +103,14 @@
         "updateFailed":"保存失敗，請聯繫管理員"
     },
     "departmentBody":{
-        "clientEmpty":"沒有組員"
+        "clientEmpty":"沒有組員",
+        "defaultRole":"默認角色",
+        "departmentRoles":"部門角色",
+        "search":"搜尋",
+        "col-id":"ID",
+        "col-username":"名稱",
+        "col-roles":"角色",
+        "col-config":"設置"
     },
 
 

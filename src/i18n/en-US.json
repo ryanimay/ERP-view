@@ -103,7 +103,14 @@
         "updateFailed":"Update failed, please contact the administrator"
     },
     "departmentBody":{
-        "clientEmpty":"No team members"
+        "clientEmpty":"No team members",
+        "defaultRole":"Default Role",
+        "departmentRoles":"Department Roles",
+        "search":"Search",
+        "col-id":"ID",
+        "col-username":"Name",
+        "col-roles":"Roles",
+        "col-config":"Config"
     },
 
 
