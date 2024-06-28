@@ -110,7 +110,8 @@
         "col-id":"ID",
         "col-username":"Name",
         "col-roles":"Roles",
-        "col-config":"Config"
+        "col-config":"Config",
+        "all":"All"
     },
 
 

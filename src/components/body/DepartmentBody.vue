@@ -22,6 +22,7 @@
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.departmentRoles')}}:</el-text>
+                    <el-button color="gray" @click="updateSearchRole(null)" :loading="clicked === null ? true : false" loading-icon="StarFilled" >{{$t('departmentBody.all')}}</el-button>
                     <el-button v-for="(role) in departmentRoles" :key="role.id" :color="getRoleColor(role.id)" @click="updateSearchRole(role.id)" :loading="clicked === role.id ? true : false" loading-icon="StarFilled" >{{role.roleName}}</el-button>
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
@@ -158,10 +159,14 @@ async function updateDepartment(){
 }
 function updateSearchRole(id){
     clicked.value = id;
-    const data = clientList.value.filter(client =>
-        client.roles.some(role => role.id === id)
-    );
-    showClientList.value = data;
+    if(id === null){
+        showClientList.value = clientList.value;
+    }else{
+        const data = clientList.value.filter(client =>
+            client.roles.some(role => role.id === id)
+        );
+        showClientList.value = data;
+    }
 }
 </script>
 

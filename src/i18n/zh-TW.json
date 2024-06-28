@@ -110,7 +110,8 @@
         "col-id":"ID",
         "col-username":"名稱",
         "col-roles":"角色",
-        "col-config":"設置"
+        "col-config":"設置",
+        "all":"全部"
     },
 
 
