@@ -194,9 +194,7 @@ const userForm = reactive({
     id: user.id,
     email: user.email
 })
-const notification = ref([
-    { info: t('homeHeader.errorConnecting'), createTime: getNow()}
-])
+const notification = ref([])
 const signText = computed(() => {
     switch (user.attendStatus) {
         case 1:
@@ -250,7 +248,8 @@ const userKick = async (msg) => {
 }
 const handleNotification = (message) => {
     var data = JSON.parse(message).data;
-    notification.value = data;
+    data.forEach(msg => notification.value.push(msg));
+    
 };
 
 async function getMenu() {
@@ -372,10 +371,6 @@ function notificationJump(row){
     if(routerPath){
         proxy.$router.push({name: routerPath});
     }
-}
-function getNow(){
-    let date = new Date();
-    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
 }
 function getNavigationRoute(name){
     if(name.startsWith(':')){
