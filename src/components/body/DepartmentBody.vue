@@ -22,13 +22,13 @@
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.departmentRoles')}}:</el-text>
-                    <el-button color="gray" @click="updateSearchRole(null)" :loading="clicked === null ? true : false" loading-icon="StarFilled" >{{$t('departmentBody.all')}}</el-button>
-                    <el-button v-for="(role) in departmentRoles" :key="role.id" :color="getRoleColor(role.id)" @click="updateSearchRole(role.id)" :loading="clicked === role.id ? true : false" loading-icon="StarFilled" >{{role.roleName}}</el-button>
+                    <el-button color="gray" @click="searchByRole(null)" :loading="clicked === null ? true : false" loading-icon="StarFilled" >{{$t('departmentBody.all')}}</el-button>
+                    <el-button v-for="(role) in departmentRoles" :key="role.id" :color="getRoleColor(role.id)" @click="searchByRole(role.id)" :loading="clicked === role.id ? true : false" loading-icon="StarFilled" >{{role.roleName}}</el-button>
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.search')}}:</el-text>
                     <el-input v-model="searchName" style="width: 200px" class="marginRight6" clearable/>
-                    <el-button type="primary" @click="updateSearchName()">
+                    <el-button type="primary" @click="searchByName()">
                         <el-icon>
                             <Search />
                         </el-icon>
@@ -158,7 +158,7 @@ async function updateDepartment(){
     }
     loading.value = false;
 }
-function updateSearchRole(id){
+function searchByRole(id){
     searchName.value = '';
     clicked.value = id;
     if(id === null){
@@ -170,7 +170,7 @@ function updateSearchRole(id){
         showClientList.value = data;
     }
 }
-function updateSearchName(){
+function searchByName(){
     clicked.value = null;
     const data = clientList.value.filter(client =>
         client.username.toLowerCase().includes(searchName.value.toLowerCase())
