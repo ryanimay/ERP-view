@@ -69,6 +69,8 @@
                 </el-tab-pane>
             </div>
         </el-tabs>
+        <!--編輯部門用戶角色-->
+
     </el-main>
 </template>
 
@@ -138,17 +140,28 @@ async function loadDepartmentClient(target){
     loading.value = false;
 }
 function getRoleColor(id){
-    return colors.value[id] || 'gray';
+    return "hsla(" + colors.value[id] + ", 50%, 80%, 1)" || 'gray';
 }
 function getRandomColors(){
     departmentRoles.value.forEach(role => {
-        colors.value[role.id] = getRandomColor();
+        let newHue;
+        do {
+            newHue = getRandomHue();
+        } while (isSimilarHueExists(newHue));
+        colors.value[role.id] = newHue;
     });
 }
-function getRandomColor(){
-    return "hsla(" + ~~(360 * Math.random()) + "," +
-                    "50%,"+
-                    "80%,1)"
+function getRandomHue(){
+    return ~~(360 * Math.random());
+}
+//隨機數要30以上不然看不出差別
+function isSimilarHueExists(hue){
+    for (const key in colors.value){
+        const existingHue = colors.value[key];
+        const diff = Math.abs(hue - existingHue);
+        if(Math.min(diff, 360 - diff) < 30) return true;
+    }
+    return false;
 }
 async function updateDepartment(){
     loading.value = true;
