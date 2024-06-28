@@ -112,7 +112,11 @@
         "col-roles":"角色",
         "col-config":"設置",
         "all":"全部",
-        "total":"總數"
+        "total":"總數",
+        "clientRole":"當前角色",
+        "canAdd":"可添加角色",
+        "save":"保存",
+        "updateSuccess":"更新成功"
     },
 
 

@@ -112,7 +112,11 @@
         "col-roles":"Roles",
         "col-config":"Config",
         "all":"All",
-        "total":"Total"
+        "total":"Total",
+        "clientRole":"Client Roles",
+        "canAdd":"Can Add",
+        "save":"Save",
+        "updateSuccess":"Update Success"
     },
 
 

@@ -52,7 +52,7 @@
                             <el-table-column :resizable="false" prop="username" :label="$t('departmentBody.col-username')" width="180" />
                             <el-table-column :resizable="false" :label="$t('departmentBody.col-roles')" >
                                 <template #default="scope">
-                                    <el-tag v-for="role in scope.row.roles" :key="role.id" :color="getRoleColor(role.id)" type="info"><p id="fontBlack">{{ role.roleName }}</p></el-tag>
+                                    <el-tag v-for="role in scope.row.roles" :key="role.id" class="marginRight6" :color="getRoleColor(role.id)" type="info"><p id="fontBlack">{{ role.roleName }}</p></el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column :resizable="false" :label="$t('departmentBody.col-config')" width="100" :align="'center'">
@@ -70,14 +70,30 @@
             </div>
         </el-tabs>
         <!--編輯部門用戶角色-->
-
+        <el-dialog v-model="editUserDialog" :title="$t('departmentBody.col-config')" width="350" destroy-on-close>
+                <div>
+                    <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.canAdd')}}:</el-text>
+                    <el-button v-for="(role) in departmentRoles" :key="role.id" :color="getRoleColor(role.id)" @click="addRoleTag(role)" size="small" class="margin3">{{role.roleName}} +</el-button>
+                </div>
+                <el-divider />
+                <div>
+                    <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.clientRole')}}:</el-text>
+                    <el-tag v-for="role in userRolesRequest.roles" :key="role.id" class="margin3" :color="getRoleColor(role.id)" type="info" closable @close="removeRoleTag(role.id)"><p id="fontBlack">{{ role.roleName }}</p></el-tag>
+                </div>
+                <div class="justifyEnd padding10">
+                    <el-button type="primary" @click="editClientRole" >{{ $t('departmentBody.save') }}</el-button>
+                </div>
+        </el-dialog>
     </el-main>
 </template>
 
 <script setup>
 import request from '@/config/api/request.js';
 import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
+const editUserDialog = ref(false);
 const searchName = ref('');
 const clicked = ref(null);
 const departmentList = ref([]);
@@ -88,9 +104,13 @@ const loading = ref(false);
 const colors = ref({});
 const { proxy } = getCurrentInstance();
 const currentDepartment = reactive({
-    id: null,
+    id: null,   
     name: null,
     defaultRoleId: null,
+    roles:[]
+});
+const userRolesRequest = reactive({
+    id: null,
     roles:[]
 });
 
@@ -192,6 +212,41 @@ function searchByName(){
     );
     showClientList.value = data;
 }
+function openEdit(row){
+    userRolesRequest.id = row.id;
+    userRolesRequest.roles = JSON.parse(JSON.stringify(row.roles));
+    editUserDialog.value = true;
+}
+function removeRoleTag(id){
+    userRolesRequest.roles = userRolesRequest.roles.filter(role => role.id !== id);
+}
+function addRoleTag(role){
+    if(!(userRolesRequest.roles.some(r => r.id === role.id))){
+        userRolesRequest.roles.push(role);
+    }
+}
+async function editClientRole(){
+    loading.value = true;
+    userRolesRequest.roles = userRolesRequest.roles.map(role => role.id);
+    const response = await request.update(userRolesRequest);
+    const data = handleResponse(response);
+    if(data){
+        reloadStaff(data.department.id);
+        proxy.$msg.success(t('departmentBody.updateSuccess'));
+        editUserDialog.value = false;
+    }else{
+        proxy.$msg.error(response.data.data);
+    }
+    loading.value = false;
+}
+async function reloadStaff(id){
+    const response = await request.departmentStaff({ "id" : id });
+    const data = handleResponse(response);
+    if(data){
+        clientList.value = data;
+        showClientList.value = data;
+    }
+}
 </script>
 
 <style scope>
@@ -217,6 +272,9 @@ function searchByName(){
 .marginRight6{
     margin-right: 6px;
 }
+.margin3{
+    margin: 3px !important;
+}
 .marginLeft30{
     margin-left: 30px;
 }
@@ -229,5 +287,12 @@ function searchByName(){
 }
 #fontBlack{
     color: black;
+}
+.justifyEnd{
+    display: flex;
+    justify-content: flex-end;
+}
+.padding10{
+    padding: 5px 10px 10px 0px;
 }
 </style>
