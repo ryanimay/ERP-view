@@ -27,8 +27,8 @@
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.search')}}:</el-text>
-                    <el-input style="width: 200px" class="marginRight6" clearable/>
-                    <el-button type="primary" @click="requestClientList()">
+                    <el-input v-model="searchName" style="width: 200px" class="marginRight6" clearable/>
+                    <el-button type="primary" @click="updateSearchName()">
                         <el-icon>
                             <Search />
                         </el-icon>
@@ -72,6 +72,7 @@ import request from '@/config/api/request.js';
 import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
 
 const letters = '0123456789ABCDEF';
+const searchName = ref('');
 const clicked = ref(null);
 const departmentList = ref([]);
 const departmentRoles = ref([]);
@@ -158,6 +159,7 @@ async function updateDepartment(){
     loading.value = false;
 }
 function updateSearchRole(id){
+    searchName.value = '';
     clicked.value = id;
     if(id === null){
         showClientList.value = clientList.value;
@@ -167,6 +169,13 @@ function updateSearchRole(id){
         );
         showClientList.value = data;
     }
+}
+function updateSearchName(){
+    clicked.value = null;
+    const data = clientList.value.filter(client =>
+        client.username.toLowerCase().includes(searchName.value.toLowerCase())
+    );
+    showClientList.value = data;
 }
 </script>
 
