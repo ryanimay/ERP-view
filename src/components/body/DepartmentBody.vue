@@ -48,22 +48,22 @@
                 <el-tab-pane style="height: 100%;" v-for="(department) in departmentList" :key="department.id" :label="department.name" :name="department.id">
                     <div v-if="showClientList.length !== 0">
                         <el-table :data="showClientList" stripe style="width: 100%" :border="true" :show-overflow-tooltip="true">
-                            <el-table-column prop="id" :label="$t('departmentBody.col-id')" width="80" :align="'center'"/>
-                            <el-table-column prop="username" :label="$t('departmentBody.col-username')" width="180" />
-                            <el-table-column :label="$t('departmentBody.col-roles')" >
+                            <el-table-column :resizable="false" prop="id" :label="$t('departmentBody.col-id')" width="80" :align="'center'"/>
+                            <el-table-column :resizable="false" prop="username" :label="$t('departmentBody.col-username')" width="180" />
+                            <el-table-column :resizable="false" :label="$t('departmentBody.col-roles')" >
                                 <template #default="scope">
                                     <el-tag v-for="role in scope.row.roles" :key="role.id" :color="getRoleColor(role.id)" type="info"><p id="fontBlack">{{ role.roleName }}</p></el-tag>
                                 </template>
                             </el-table-column>
-                            <el-table-column :label="$t('departmentBody.col-config')" width="100" :align="'center'">
-                            <template #default="scope">
-                                <el-button type="primary" @click="openEdit(scope.row)" size="small">
-                                    <el-icon>
-                                        <EditPen />
-                                    </el-icon>
-                                </el-button>
-                            </template>
-                        </el-table-column>
+                            <el-table-column :resizable="false" :label="$t('departmentBody.col-config')" width="100" :align="'center'">
+                                <template #default="scope">
+                                    <el-button type="primary" @click="openEdit(scope.row)" >
+                                        <el-icon>
+                                            <EditPen />
+                                        </el-icon>
+                                    </el-button>
+                                </template>
+                            </el-table-column>
                         </el-table>
                     </div>
                 </el-tab-pane>
