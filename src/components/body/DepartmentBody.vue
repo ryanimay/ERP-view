@@ -22,7 +22,7 @@
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.departmentRoles')}}:</el-text>
-                    <el-button v-for="(role) in departmentRoles" :key="role.id" :color="getRoleColor(role.id)">{{role.roleName}}</el-button>
+                    <el-button v-for="(role) in departmentRoles" :key="role.id" :color="getRoleColor(role.id)" @click="updateSearchRole(role.id)">{{role.roleName}}</el-button>
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.search')}}:</el-text>
@@ -36,12 +36,12 @@
                 </div>
             </div>
             <div class="maxFrame">
-                <div v-if="clientList.length === 0" class="center fullFrame">
+                <div v-if="showClientList.length === 0" class="center fullFrame">
                     <el-empty :description="$t('departmentBody.clientEmpty')" />
                 </div>
                 <el-tab-pane style="height: 100%;" v-for="(department) in departmentList" :key="department.id" :label="department.name" :name="department.id">
-                    <div v-if="clientList.length !== 0">
-                        <el-table :data="clientList" stripe style="width: 100%" :border="true">
+                    <div v-if="showClientList.length !== 0">
+                        <el-table :data="showClientList" stripe style="width: 100%" :border="true">
                             <el-table-column prop="id" :label="$t('departmentBody.col-id')" width="80" :align="'center'"/>
                             <el-table-column prop="username" :label="$t('departmentBody.col-username')" width="180" />
                             <el-table-column :label="$t('departmentBody.col-roles')" >
@@ -74,6 +74,7 @@ const letters = '0123456789ABCDEF';
 const departmentList = ref([]);
 const departmentRoles = ref([]);
 const clientList = ref([]);
+const showClientList = ref([]);
 const loading = ref(false);
 const colors = ref({});
 const { proxy } = getCurrentInstance();
@@ -124,6 +125,7 @@ async function loadDepartmentClient(target){
     const data = handleResponse(response);
     if(data){
         clientList.value = data;
+        showClientList.value = data;
     }
     loading.value = false;
 }
@@ -151,6 +153,12 @@ async function updateDepartment(){
         proxy.$msg.error(response.data.data);
     }
     loading.value = false;
+}
+function updateSearchRole(id){
+    const data = clientList.value.filter(client =>
+        client.roles.some(role => role.id === id)
+    );
+    showClientList.value = data;
 }
 </script>
 
