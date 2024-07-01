@@ -114,6 +114,11 @@ const config = {
           path: department + '/edit',
           method:'post',
           requiresAuth: true
+        },
+        remove:{
+          path: department + '/remove',
+          method:'delete',
+          requiresAuth: true
         }
       },
       notification: {

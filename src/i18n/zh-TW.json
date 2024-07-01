@@ -116,7 +116,12 @@
         "clientRole":"當前角色",
         "canAdd":"可添加角色",
         "save":"保存",
-        "updateSuccess":"更新成功"
+        "updateSuccess":"更新成功",
+        "remove":"移除部門",
+        "warning":"警告",
+        "deleteDepartmentWarning":"確定要刪除當前部門嗎?",
+        "delete":"刪除",
+        "cancel":"取消"
     },
 
 

@@ -116,7 +116,12 @@
         "clientRole":"Client Roles",
         "canAdd":"Can Add",
         "save":"Save",
-        "updateSuccess":"Update Success"
+        "updateSuccess":"Update Success",
+        "remove":"Remove Department",
+        "warning":"Warning",
+        "deleteDepartmentWarning": "Are you sure you want to delete the current department?",
+        "delete":"Delete",
+        "cancel":"Cancel"
     },
 
 

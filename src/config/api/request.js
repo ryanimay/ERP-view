@@ -21,6 +21,7 @@ export default {
     departmentList: request(path.api.department.list),
     departmentStaff: request(path.api.department.staff),
     departmentEdit: request(path.api.department.edit),
+    removeDepartment: request(path.api.department.remove),
     notificationStatus: request(path.api.notification.status),
 }
 
