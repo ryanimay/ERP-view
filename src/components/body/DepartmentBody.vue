@@ -76,6 +76,10 @@
                     <el-button v-for="(role) in departmentRoles" :key="role.id" :color="getRoleColor(role.id)" @click="addRoleTag(role)" size="small" class="margin3">{{role.roleName}} +</el-button>
                 </div>
                 <el-divider />
+                <div class="paddingBottom10">
+                    <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.col-username')}}:</el-text>
+                    <el-text size="large" tag="b">{{ currentName }}</el-text>
+                </div>
                 <div>
                     <el-text size="large" tag="b" class="marginRight6">{{$t('departmentBody.clientRole')}}:</el-text>
                     <el-tag v-for="role in userRolesRequest.roles" :key="role.id" class="margin3" :color="getRoleColor(role.id)" type="info" closable @close="removeRoleTag(role.id)"><p id="fontBlack">{{ role.roleName }}</p></el-tag>
@@ -109,6 +113,7 @@ const currentDepartment = reactive({
     defaultRoleId: null,
     roles:[]
 });
+const currentName = ref('');
 const userRolesRequest = reactive({
     id: null,
     roles:[]
@@ -213,6 +218,7 @@ function searchByName(){
     showClientList.value = data;
 }
 function openEdit(row){
+    currentName.value = row.username;
     userRolesRequest.id = row.id;
     userRolesRequest.roles = JSON.parse(JSON.stringify(row.roles));
     editUserDialog.value = true;
