@@ -231,7 +231,7 @@ async function editClientRole(){
     const response = await request.update(userRolesRequest);
     const data = handleResponse(response);
     if(data){
-        reloadStaff(data.department.id);
+        reloadStaff(data);
         proxy.$msg.success(t('departmentBody.updateSuccess'));
         editUserDialog.value = false;
     }else{
@@ -239,12 +239,11 @@ async function editClientRole(){
     }
     loading.value = false;
 }
-async function reloadStaff(id){
-    const response = await request.departmentStaff({ "id" : id });
-    const data = handleResponse(response);
-    if(data){
-        clientList.value = data;
-        showClientList.value = data;
+function reloadStaff(data){
+    const newRole = departmentRoles.value.filter(item => data.roleId.includes(item.id));
+    const staff = clientList.value.find(item => item.id === data.id).roles = newRole;
+    if (staff) {
+        staff.roles = newRole;
     }
 }
 </script>
