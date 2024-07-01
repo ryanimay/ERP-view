@@ -118,10 +118,12 @@
         "save":"Save",
         "updateSuccess":"Update Success",
         "remove":"Remove Department",
+        "edit":"Edit Department",
         "warning":"Warning",
         "deleteDepartmentWarning": "Are you sure you want to delete the current department?",
         "delete":"Delete",
-        "cancel":"Cancel"
+        "cancel":"Cancel",
+        "departmentName":"Department Name"
     },
 
 

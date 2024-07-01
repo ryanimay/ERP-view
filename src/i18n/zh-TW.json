@@ -118,10 +118,12 @@
         "save":"保存",
         "updateSuccess":"更新成功",
         "remove":"移除部門",
+        "edit":"編輯部門",
         "warning":"警告",
         "deleteDepartmentWarning":"確定要刪除當前部門嗎?",
         "delete":"刪除",
-        "cancel":"取消"
+        "cancel":"取消",
+        "departmentName":"部門名稱"
     },
 
 

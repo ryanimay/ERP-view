@@ -1,25 +1,19 @@
 <template>
-    <el-main class="homeBodyContainer" v-loading.lock="loading">
+    <el-main class="homeBodyContainer" v-loading.lock="loading" v-loading.fullscreen.lock="fullLoading">
         <el-tabs tab-position="left" type="border-card" @tab-click="targetChange" style="height:99%;">
             <div>
                 <div class="paddingBottom10 height40 alignCenter spaceBetween">
                     <span>
-                        <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.defaultRole')
-                            }}:</el-text>
-                        <el-select v-if="currentDepartment.defaultRoleId" v-model="currentDepartment.defaultRoleId"
-                            placeholder="Select" size="large" style="width: 240px" @change="updateDepartment">
-                            <el-option v-for="role in departmentRoles" :key="role.id" :label="role.roleName"
-                                :value="role.id" />
-                        </el-select>
+                        <el-button v-if="currentDepartment.id" type="primary" @click="openEditDepartment">{{ $t('departmentBody.edit') }}</el-button>
+                        <el-button v-else type="primary" disabled>{{ $t('departmentBody.edit') }}</el-button>
                     </span>
                     <span>
-                        <el-button v-if="currentDepartment.id" type="danger" @click="removeWarning">{{
-        $t('departmentBody.remove') }}</el-button>
+                        <el-button v-if="currentDepartment.id" type="danger" @click="removeWarning">{{ $t('departmentBody.remove') }}</el-button>
+                        <el-button v-else type="danger" disabled>{{ $t('departmentBody.remove') }}</el-button>
                     </span>
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
-                    <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.departmentRoles')
-                        }}:</el-text>
+                    <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.departmentRoles') }}:</el-text>
                     <el-button color="gray" @click="searchByRole(null)" :loading="clicked === null ? true : false"
                         loading-icon="StarFilled">{{ $t('departmentBody.all') }}</el-button>
                     <el-button v-for="(role) in departmentRoles" :key="role.id" :color="getRoleColor(role.id)"
@@ -38,8 +32,7 @@
                         </el-button>
                     </span>
                     <span>
-                        <el-text size="large" tag="b" class="marginLeft30">{{ $t('departmentBody.total') }}:{{
-        showClientList.length }}</el-text>
+                        <el-text size="large" tag="b" class="marginLeft30">{{ $t('departmentBody.total') }}:{{ showClientList.length }}</el-text>
                     </span>
                 </div>
             </div>
@@ -79,6 +72,31 @@
                 </el-tab-pane>
             </div>
         </el-tabs>
+        <!--編輯部門-->
+        <el-dialog v-model="editDepartmentDialog" :title="$t('departmentBody.edit')" width="350" destroy-on-close>
+            <div class="paddingBottom10 alignCenter">
+                <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.col-id') }}:</el-text>
+                <el-text size="large" tag="b">{{ departmentRequest.id }}</el-text>
+            </div>
+            <div class="paddingBottom10 alignCenter">
+                <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.departmentName') }}:</el-text>
+                <el-input v-model="departmentRequest.name" style="width: 150px" />
+            </div>
+            <div class="paddingBottom10 alignCenter">
+                <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.defaultRole') }}:</el-text>
+                <el-select v-if="departmentRequest.defaultRoleId" v-model="departmentRequest.defaultRoleId"
+                    placeholder="Select" size="default" style="width: 150px" >
+                    <el-option v-for="role in departmentRoles" :key="role.id" :label="role.roleName"
+                        :value="role.id" />
+                </el-select>
+            </div>
+            <div>
+
+            </div>
+            <div class="justifyEnd padding10">
+                <el-button type="primary" @click="updateDepartment">{{ $t('departmentBody.save') }}</el-button>
+            </div>
+        </el-dialog>
         <!--編輯部門用戶角色-->
         <el-dialog v-model="editUserDialog" :title="$t('departmentBody.col-config')" width="350" destroy-on-close>
             <div>
@@ -112,6 +130,7 @@ import { useI18n } from 'vue-i18n';
 import { ElMessageBox } from 'element-plus'
 
 const { t } = useI18n();
+const editDepartmentDialog = ref(false);
 const editUserDialog = ref(false);
 const searchName = ref('');
 const clicked = ref(null);
@@ -119,9 +138,16 @@ const departmentList = ref([]);
 const departmentRoles = ref([]);
 const clientList = ref([]);
 const showClientList = ref([]);
+const fullLoading = ref(false);
 const loading = ref(false);
 const colors = ref({});
 const { proxy } = getCurrentInstance();
+const departmentRequest = reactive({
+    id: null,
+    name: null,
+    defaultRoleId: null,
+    roles: []
+});
 const currentDepartment = reactive({
     id: null,
     name: null,
@@ -156,17 +182,17 @@ function handleResponse(response) {
 function targetChange(target) {
     clicked.value = null;
     colors.value = {};
-    currentDepartment.roles = [];
-    updateData(target);
+    updateData(target.props.name);
     getRandomColors();
     loadDepartmentClient(target);
 }
-function updateData(target) {
-    const department = departmentList.value.find(t => t.id === target.props.name);
+function updateData(id) {
+    const department = departmentList.value.find(t => t.id === id);
     departmentRoles.value = department.roles;
     currentDepartment.id = department.id;
     currentDepartment.name = department.name;
     currentDepartment.defaultRoleId = department.role.id;
+    currentDepartment.roles = [];
     department.roles.forEach(r => currentDepartment.roles.push(r.id));
 }
 async function loadDepartmentClient(target) {
@@ -204,14 +230,17 @@ function isSimilarHueExists(hue) {
     return false;
 }
 async function updateDepartment() {
-    loading.value = true;
-    const response = await request.departmentEdit(currentDepartment);
+    fullLoading.value = true;
+    const response = await request.departmentEdit(departmentRequest);
     if (response && response.data.code === 200) {
         proxy.$msg.success(response.data.data);
+        editDepartmentDialog.value=false;
+        await loadDepartmentList();
+        updateData(departmentRequest.id);
     } else {
         proxy.$msg.error(response.data.data);
     }
-    loading.value = false;
+    fullLoading.value = false;
 }
 function searchByRole(id) {
     searchName.value = '';
@@ -282,7 +311,7 @@ const removeWarning = () => {
     ).catch(() => { });
 }
 async function removeDepartment(){
-    loading.value = true;
+    fullLoading.value = true;
     const response = await request.removeDepartment({ 'id' : currentDepartment.id });
     if(response && response.data.code === 200){
         proxy.$msg.success(response.data.data);
@@ -290,7 +319,14 @@ async function removeDepartment(){
     }else{
         proxy.$msg.error(response.data.data);
     }
-    loading.value = false;
+    fullLoading.value = false;
+}
+function openEditDepartment(){
+    departmentRequest.id = currentDepartment.id;
+    departmentRequest.name = currentDepartment.name;
+    departmentRequest.defaultRoleId = currentDepartment.defaultRoleId;
+    departmentRequest.roles = currentDepartment.roles;
+    editDepartmentDialog.value=true;
 }
 </script>
 
