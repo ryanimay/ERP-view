@@ -16,6 +16,7 @@ const config = {
     const attend = context_path + '/attend';
     const department = context_path + '/department';
     const notification = context_path + '/notification';
+    const role = context_path + '/role';
     return {
       cache: {
       },
@@ -72,6 +73,11 @@ const config = {
         },
       },
       role: {
+        list: {
+          path: role + '/list',
+          method:'get',
+          requiresAuth: true
+        },
       },
       permission: {
       },

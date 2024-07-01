@@ -123,7 +123,11 @@
         "deleteDepartmentWarning":"確定要刪除當前部門嗎?",
         "delete":"刪除",
         "cancel":"取消",
-        "departmentName":"部門名稱"
+        "departmentName":"部門名稱",
+        "rolesConfig":"部門角色設置",
+        "errorDefaultRole":"默認角色錯誤，部門無該角色",
+        "nowRole":"現有角色",
+        "noRole":"尚未加入"
     },
 
 

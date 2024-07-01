@@ -23,6 +23,7 @@ export default {
     departmentEdit: request(path.api.department.edit),
     removeDepartment: request(path.api.department.remove),
     notificationStatus: request(path.api.notification.status),
+    roleList: request(path.api.role.list),
 }
 
 const axios = instance();

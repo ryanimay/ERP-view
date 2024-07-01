@@ -123,7 +123,11 @@
         "deleteDepartmentWarning": "Are you sure you want to delete the current department?",
         "delete":"Delete",
         "cancel":"Cancel",
-        "departmentName":"Department Name"
+        "departmentName":"Department Name",
+        "rolesConfig":"Department Roles",
+        "errorDefaultRole": "Default role error, department does not have this role.",
+        "nowRole":"Current Roles",
+        "noRole":"Not Joined Yet"
     },
 
 

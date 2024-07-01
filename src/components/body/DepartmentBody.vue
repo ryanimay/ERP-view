@@ -73,7 +73,7 @@
             </div>
         </el-tabs>
         <!--編輯部門-->
-        <el-dialog v-model="editDepartmentDialog" :title="$t('departmentBody.edit')" width="350" destroy-on-close>
+        <el-dialog v-model="editDepartmentDialog" :title="$t('departmentBody.edit')" width="600" destroy-on-close>
             <div class="paddingBottom10 alignCenter">
                 <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.col-id') }}:</el-text>
                 <el-text size="large" tag="b">{{ departmentRequest.id }}</el-text>
@@ -86,14 +86,26 @@
                 <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.defaultRole') }}:</el-text>
                 <el-select v-if="departmentRequest.defaultRoleId" v-model="departmentRequest.defaultRoleId"
                     placeholder="Select" size="default" style="width: 150px" >
-                    <el-option v-for="role in departmentRoles" :key="role.id" :label="role.roleName"
+                    <el-option v-for="role in showDepartmentRoles" :key="role.id" :label="role.roleName"
                         :value="role.id" />
                 </el-select>
             </div>
             <div>
-
+                <el-text size="large" tag="b" >{{ $t('departmentBody.rolesConfig') }}:</el-text>
+                <el-transfer 
+                class="marginTop6"
+                filterable 
+                v-model="departmentRequest.roles" 
+                :props="{
+                    key: 'id',
+                    label: 'roleName',
+                    }" 
+                :data="roleList"
+                @change="updateDefaultRoleList" 
+                :titles="[$t('departmentBody.noRole'), $t('departmentBody.nowRole')]"
+                />
             </div>
-            <div class="justifyEnd padding10">
+            <div class="justifyEnd marginTop6">
                 <el-button type="primary" @click="updateDepartment">{{ $t('departmentBody.save') }}</el-button>
             </div>
         </el-dialog>
@@ -116,7 +128,7 @@
                     <p id="fontBlack">{{ role.roleName }}</p>
                 </el-tag>
             </div>
-            <div class="justifyEnd padding10">
+            <div class="justifyEnd marginTop6">
                 <el-button type="primary" @click="editClientRole">{{ $t('departmentBody.save') }}</el-button>
             </div>
         </el-dialog>
@@ -130,12 +142,14 @@ import { useI18n } from 'vue-i18n';
 import { ElMessageBox } from 'element-plus'
 
 const { t } = useI18n();
+const roleList = ref([]);
 const editDepartmentDialog = ref(false);
 const editUserDialog = ref(false);
 const searchName = ref('');
 const clicked = ref(null);
 const departmentList = ref([]);
 const departmentRoles = ref([]);
+const showDepartmentRoles = ref([]);
 const clientList = ref([]);
 const showClientList = ref([]);
 const fullLoading = ref(false);
@@ -163,6 +177,7 @@ const userRolesRequest = reactive({
 onMounted(async () => {
     loading.value = true;
     await loadDepartmentList();
+    await getRoleList();
     loading.value = false;
 });
 async function loadDepartmentList() {
@@ -170,6 +185,13 @@ async function loadDepartmentList() {
     const data = handleResponse(response);
     if (data) {
         departmentList.value = data.data;
+    }
+}
+async function getRoleList() {
+    const response = await request.roleList();
+    const data = handleResponse(response);
+    if (data) {
+        roleList.value = data;
     }
 }
 function handleResponse(response) {
@@ -206,15 +228,25 @@ async function loadDepartmentClient(target) {
     loading.value = false;
 }
 function getRoleColor(id) {
-    return "hsla(" + colors.value[id] + ", 50%, 80%, 1)" || 'gray';
+    let color = null;
+    if(colors.value[id]){
+        color =  colors.value[id];
+    }else{
+        color = createColor(id);
+    }
+    return "hsla(" + color + ", 50%, 80%, 1)";
+}
+function createColor(id){
+    let newHue;
+    do {
+        newHue = getRandomHue();
+    } while (isSimilarHueExists(newHue));
+    colors.value[id] = newHue;
+    return newHue;
 }
 function getRandomColors() {
     departmentRoles.value.forEach(role => {
-        let newHue;
-        do {
-            newHue = getRandomHue();
-        } while (isSimilarHueExists(newHue));
-        colors.value[role.id] = newHue;
+        createColor(role.id);
     });
 }
 function getRandomHue() {
@@ -230,6 +262,11 @@ function isSimilarHueExists(hue) {
     return false;
 }
 async function updateDepartment() {
+    if(!(showDepartmentRoles.value.some(role => role.id === departmentRequest.defaultRoleId))){
+        proxy.$msg.error(t('departmentBody.errorDefaultRole'));
+        return false;
+    }
+
     fullLoading.value = true;
     const response = await request.departmentEdit(departmentRequest);
     if (response && response.data.code === 200) {
@@ -326,7 +363,11 @@ function openEditDepartment(){
     departmentRequest.name = currentDepartment.name;
     departmentRequest.defaultRoleId = currentDepartment.defaultRoleId;
     departmentRequest.roles = currentDepartment.roles;
+    showDepartmentRoles.value = JSON.parse(JSON.stringify(departmentRoles.value));
     editDepartmentDialog.value=true;
+}
+function updateDefaultRoleList(list){
+    showDepartmentRoles.value = roleList.value.filter(role => list.includes(role.id));
 }
 </script>
 
@@ -358,6 +399,10 @@ function openEditDepartment(){
     margin-right: 6px;
 }
 
+.marginTop6 {
+    margin-top: 6px;
+}
+
 .margin3 {
     margin: 3px !important;
 }
@@ -387,9 +432,5 @@ function openEditDepartment(){
 .justifyEnd {
     display: flex;
     justify-content: flex-end;
-}
-
-.padding10 {
-    padding: 5px 10px 10px 0px;
 }
 </style>
