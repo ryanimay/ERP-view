@@ -241,7 +241,7 @@ async function editClientRole(){
 }
 function reloadStaff(data){
     const newRole = departmentRoles.value.filter(item => data.roleId.includes(item.id));
-    const staff = clientList.value.find(item => item.id === data.id).roles = newRole;
+    const staff = clientList.value.find(item => item.id === data.id);
     if (staff) {
         staff.roles = newRole;
     }
