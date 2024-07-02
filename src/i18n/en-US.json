@@ -148,7 +148,8 @@
         "jobManagement":"Job Management",
         "scheduleManagement":"Schedule Management",
         "client":"Client List",
-        "department":"Department Management"
+        "department":"Department Management",
+        "rolePermission":"Role Permission"
     },
     "axios":{
         "reLogin":"Session expired, please log in again."

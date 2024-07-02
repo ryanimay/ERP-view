@@ -148,7 +148,8 @@
         "jobManagement":"任務管理",
         "scheduleManagement":"排程管理",
         "client":"用戶清單",
-        "department":"部門管理"
+        "department":"部門管理",
+        "rolePermission":"角色權限管理"
     },
     "axios":{
         "reLogin":"登入過期，請重新登入"
