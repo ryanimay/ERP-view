@@ -1,6 +1,7 @@
 <template>
     <el-main class="homeBodyContainer" v-loading.lock="loading" v-loading.fullscreen.lock="fullLoading">
-        <el-tabs tab-position="left" type="border-card" @tab-click="targetChange" style="height:99%;">
+        <el-button type="success" @click="openAddDepartment" >{{ $t('departmentBody.addDepartment') }}</el-button>
+        <el-tabs tab-position="left" type="border-card" @tab-click="targetChange" style="height: calc(99% - 35px); min-height: 200px; margin-top: 10px;">
             <div>
                 <div class="paddingBottom10 height40 alignCenter spaceBetween">
                     <span>
@@ -73,8 +74,8 @@
             </div>
         </el-tabs>
         <!--編輯部門-->
-        <el-dialog v-model="editDepartmentDialog" :title="$t('departmentBody.edit')" width="600" destroy-on-close>
-            <div class="paddingBottom10 alignCenter">
+        <el-dialog v-model="editDepartmentDialog" :title="departmentRequest.id ? $t('departmentBody.edit') : $t('departmentBody.add')" width="600" destroy-on-close>
+            <div v-if="departmentRequest.id" class="paddingBottom10 alignCenter">
                 <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.col-id') }}:</el-text>
                 <el-text size="large" tag="b">{{ departmentRequest.id }}</el-text>
             </div>
@@ -84,7 +85,7 @@
             </div>
             <div class="paddingBottom10 alignCenter">
                 <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.defaultRole') }}:</el-text>
-                <el-select v-if="departmentRequest.defaultRoleId" v-model="departmentRequest.defaultRoleId"
+                <el-select v-model="departmentRequest.defaultRoleId"
                     placeholder="Select" size="default" style="width: 150px" >
                     <el-option v-for="role in showDepartmentRoles" :key="role.id" :label="role.roleName"
                         :value="role.id" />
@@ -210,12 +211,14 @@ function targetChange(target) {
 }
 function updateData(id) {
     const department = departmentList.value.find(t => t.id === id);
-    departmentRoles.value = department.roles;
-    currentDepartment.id = department.id;
-    currentDepartment.name = department.name;
-    currentDepartment.defaultRoleId = department.role.id;
-    currentDepartment.roles = [];
-    department.roles.forEach(r => currentDepartment.roles.push(r.id));
+    if(department){
+        departmentRoles.value = department.roles;
+        currentDepartment.id = department.id;
+        currentDepartment.name = department.name;
+        currentDepartment.defaultRoleId = department.role.id;
+        currentDepartment.roles = [];
+        department.roles.forEach(r => currentDepartment.roles.push(r.id));
+    }
 }
 async function loadDepartmentClient(target) {
     loading.value = true;
@@ -357,6 +360,14 @@ async function removeDepartment(){
         proxy.$msg.error(response.data.data);
     }
     fullLoading.value = false;
+}
+function openAddDepartment(){
+    departmentRequest.id = null;
+    departmentRequest.name = null;
+    departmentRequest.defaultRoleId = ' ';
+    departmentRequest.roles = [];
+    showDepartmentRoles.value = [];
+    editDepartmentDialog.value=true;
 }
 function openEditDepartment(){
     departmentRequest.id = currentDepartment.id;

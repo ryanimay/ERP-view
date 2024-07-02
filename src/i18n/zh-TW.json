@@ -127,7 +127,9 @@
         "rolesConfig":"部門角色設置",
         "errorDefaultRole":"默認角色錯誤，部門無該角色",
         "nowRole":"現有角色",
-        "noRole":"尚未加入"
+        "noRole":"尚未加入",
+        "addDepartment":"新增部門",
+        "add":"新增"
     },
 
 

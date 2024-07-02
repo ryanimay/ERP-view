@@ -127,7 +127,9 @@
         "rolesConfig":"Department Roles",
         "errorDefaultRole": "Default role error, department does not have this role.",
         "nowRole":"Current Roles",
-        "noRole":"Not Joined Yet"
+        "noRole":"Not Joined Yet",
+        "addDepartment":"Add Department",
+        "add":"Add"
     },
 
 
