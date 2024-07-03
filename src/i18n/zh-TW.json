@@ -131,6 +131,16 @@
         "addDepartment":"新增部門",
         "add":"新增"
     },
+    "rolePermissionBody":{
+        "addRole":"新增角色",
+        "searchRole":"搜尋角色",
+        "search":"搜尋",
+        "reset":"重製",
+        "roleId":"角色名稱",
+        "roleName":"角色名稱",
+        "save":"保存",
+        "selectPermission":"選擇角色權限"
+    },
 
 
 
@@ -165,5 +175,24 @@
         "acceptPerformance":"績效通過審核",
         "addLeave":"用戶[{0}]新增了待審核假單",
         "acceptLeave":"假單通過審核"
+    },
+    "permission":{
+        "*":"公開",
+        "PERMISSION":"權限相關",
+        "PROJECT":"專案相關",
+        "LOG":"日誌相關",
+        "PERFORMANCE":"績效相關",
+        "DEPARTMENT":"部門相關",
+        "PROCUREMENT":"採購相關",
+        "ATTEND":"簽到相關",
+        "CACHE":"緩存相關",
+        "CLIENT":"用戶相關",
+        "ROLE":"角色相關",
+        "NOTIFICATION":"通知相關",
+        "SALARY":"薪資相關",
+        "LEAVE":"請假相關",
+        "MENU":"菜單相關",
+        "JOB":"任務相關",
+        "QUARTZ":"排程相關"
     }
 }

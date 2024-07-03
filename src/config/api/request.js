@@ -24,6 +24,9 @@ export default {
     removeDepartment: request(path.api.department.remove),
     notificationStatus: request(path.api.notification.status),
     roleList: request(path.api.role.list),
+    updateRole: request(path.api.role.update),
+    permissionList: request(path.api.permission.list),
+    rolePermission: request(path.api.permission.role),
 }
 
 const axios = instance();

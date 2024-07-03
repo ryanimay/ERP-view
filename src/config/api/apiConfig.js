@@ -17,6 +17,7 @@ const config = {
     const department = context_path + '/department';
     const notification = context_path + '/notification';
     const role = context_path + '/role';
+    const permission = context_path + '/permission';
     return {
       cache: {
       },
@@ -78,8 +79,23 @@ const config = {
           method:'get',
           requiresAuth: true
         },
+        update: {
+          path: role + '/update',
+          method:'put',
+          requiresAuth: true
+        },
       },
       permission: {
+        list: {
+          path: permission + '/list',
+          method:'get',
+          requiresAuth: true
+        },
+        role: {
+          path: permission + '/role',
+          method:'get',
+          requiresAuth: true
+        },
       },
       menu: {
         all: {

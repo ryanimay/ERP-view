@@ -131,6 +131,16 @@
         "addDepartment":"Add Department",
         "add":"Add"
     },
+    "rolePermissionBody":{
+        "addRole":"Add Role",
+        "searchRole":"Role Search",
+        "search":"Search",
+        "roleId":"Role Id",
+        "roleName":"Role Name",
+        "save":"Save",
+        "reset":"Reset",
+        "selectPermission":"Select Role Permissions"
+    },
 
 
 
@@ -165,5 +175,24 @@
         "acceptPerformance":"Performance Approval Passed.",
         "addLeave":"User [{0}] has submitted a leave request for approval.",
         "acceptLeave":"Leave Approval Passed."
+    },
+    "permission": {
+        "*": "Public",
+        "PERMISSION": "Permission Related",
+        "PROJECT": "Project Related",
+        "LOG": "Log Related",
+        "PERFORMANCE": "Performance Related",
+        "DEPARTMENT": "Department Related",
+        "PROCUREMENT": "Procurement Related",
+        "ATTEND": "Attendance Related",
+        "CACHE": "Cache Related",
+        "CLIENT": "Client Related",
+        "ROLE": "Role Related",
+        "NOTIFICATION": "Notification Related",
+        "SALARY": "Salary Related",
+        "LEAVE": "Leave Related",
+        "MENU": "Menu Related",
+        "JOB": "Job Related",
+        "QUARTZ": "Schedule Related"
     }
 }
