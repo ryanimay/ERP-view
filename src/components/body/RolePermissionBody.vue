@@ -33,21 +33,17 @@
                 <el-tab-pane style="height: 100%;" v-for="(role) in showRoleList" :key="role.id"
                     :label="role.roleName" :name="role.id">
                     <div>
-                        <el-tree 
-                            ref="tree"
-                            :data="permissionList"
-                            show-checkbox
-                            node-key="id"
-                            :props="{
-                                label: (data) => formatLabel(data),
-                                children: 'children',
-                                disabled: (data) => checkDisabled(data)
-                            }"
+                        <el-tree  
+                        ref="tree"
+                        :data="permissionList"
+                        show-checkbox
+                        node-key="id"
+                        :props="{ disabled: (data) => checkDisabled(data) }"
                         >
-                            <!-- <template #default="{ node, data }">
-                                <span v-if="data.status === false"><s>{{ node.lable }}</s></span>
-                                <span v-else>{{ node.lable }}</span>
-                            </template> -->
+                            <template #default="{ data }">
+                                <span v-if="data.status === false"><s>{{ formatLabel(data) }}</s></span>
+                                <span v-else>{{ formatLabel(data) }}</span>
+                            </template>
                         </el-tree>
                     </div>
                 </el-tab-pane>
