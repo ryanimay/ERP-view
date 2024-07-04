@@ -136,10 +136,11 @@
         "searchRole":"搜尋角色",
         "search":"搜尋",
         "reset":"重製",
-        "roleId":"角色名稱",
+        "roleId":"角色ID",
         "roleName":"角色名稱",
         "save":"保存",
-        "selectPermission":"選擇角色權限"
+        "selectPermission":"選擇角色權限",
+        "selectRole":"未選擇角色"
     },
 
 

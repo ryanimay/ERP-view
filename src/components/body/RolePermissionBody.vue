@@ -1,59 +1,64 @@
 <template>
-    <el-main class="homeBodyContainer" v-loading.lock="loading" v-loading.fullscreen.lock="fullLoading">
-        <span class="marginRight20">
-            <el-button type="success" @click="openAddRole" >+{{ $t('rolePermissionBody.addRole') }}</el-button>
-        </span>
-        <span>
-            <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.searchRole') }}:</el-text>
-            <el-input v-model="searchName" style="width: 200px" class="marginRight12" clearable />
-            <el-button type="primary" @click="searchByName">
-                <el-icon>
-                    <Search />
-                </el-icon>
-                {{ $t('rolePermissionBody.search') }}
-            </el-button>
-            <el-button v-if="searchName" @click="searchReset">
-                {{ $t('rolePermissionBody.reset') }}
-            </el-button>
-        </span>
-        <el-tabs tab-position="left" type="border-card" @tab-click="targetChange" style="height: calc(99% - 35px); min-height: 200px; margin-top: 10px;">
-            <div class="paddingBottom10 height40 alignCenter">
-                <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.roleId') }}:</el-text>
-                <el-text size="large" tag="b" class="marginRight6">{{ currentRole.id }}</el-text>
-            </div>
-            <div class="paddingBottom10 height40 alignCenter">
-                <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.roleName') }}:</el-text>
-                <el-input v-if="currentRole.name" v-model="currentRole.name" style="width: 150px; margin-right: 6px;" />
-                <el-button v-if="currentRole.name" type="primary" @click="updateRoleName">{{ $t('rolePermissionBody.save') }}</el-button>
-            </div>
-            <div class="marginBottom10" >
-                <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.selectPermission') }}:</el-text>
-            </div>
-            <div class="maxFrame">
-                <el-tab-pane style="height: 100%;" v-for="(role) in showRoleList" :key="role.id"
-                    :label="role.roleName" :name="role.id">
-                    <div>
-                        <el-tree  
-                        ref="tree"
-                        :data="permissionList"
-                        show-checkbox
-                        node-key="id"
-                        :props="{ disabled: (data) => checkDisabled(data) }"
-                        >
-                            <template #default="{ data }">
-                                <span v-if="data.status === false"><s>{{ formatLabel(data) }}</s></span>
-                                <span v-else>{{ formatLabel(data) }}</span>
-                            </template>
-                        </el-tree>
-                    </div>
-                </el-tab-pane>
-            </div>
-            <div>
-                <el-button v-if="currentRole.id" type="primary" @click="saveRolePermission">
-                    {{ $t('rolePermissionBody.save') }}
+    <el-main class="homeBodyContainer justifyCenter" v-loading.lock="loading" v-loading.fullscreen.lock="fullLoading">
+        <div class="helfBody">
+            <span class="marginRight20">
+                <el-button type="success" @click="openAddRole" >+{{ $t('rolePermissionBody.addRole') }}</el-button>
+            </span>
+            <span>
+                <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.searchRole') }}:</el-text>
+                <el-input v-model="searchName" style="width: 200px" class="marginRight12" clearable />
+                <el-button type="primary" @click="searchByName">
+                    <el-icon>
+                        <Search />
+                    </el-icon>
+                    {{ $t('rolePermissionBody.search') }}
                 </el-button>
-            </div>
-        </el-tabs>
+                <el-button v-if="searchName" @click="searchReset">
+                    {{ $t('rolePermissionBody.reset') }}
+                </el-button>
+            </span>
+            <el-tabs tab-position="left" type="border-card" @tab-click="targetChange" style="height: calc(99% - 35px); min-height: 200px; margin-top: 10px;">
+                <div class="paddingBottom10 height40 alignCenter">
+                    <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.roleId') }}:</el-text>
+                    <el-text size="large" tag="b" class="marginRight6">{{ currentRole.id }}</el-text>
+                </div>
+                <div class="paddingBottom10 height40 alignCenter">
+                    <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.roleName') }}:</el-text>
+                    <el-input v-if="currentRole.name" v-model="currentRole.name" style="width: 150px; margin-right: 6px;" />
+                    <el-button v-if="currentRole.name" type="primary" @click="updateRoleName">{{ $t('rolePermissionBody.save') }}</el-button>
+                </div>
+                <div class="marginBottom10" >
+                    <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.selectPermission') }}:</el-text>
+                </div>
+                <div class="maxFrame marginBottom6">
+                    <div v-if="currentRole.index === null" class="center fullFrame">
+                        <el-empty :description="$t('rolePermissionBody.selectRole')" />
+                    </div>
+                    <el-tab-pane style="height: 100%;" v-for="(role) in showRoleList" :key="role.id"
+                        :label="role.roleName" :name="role.id">
+                        <div>
+                            <el-tree  
+                            ref="tree"
+                            :data="permissionList"
+                            show-checkbox
+                            node-key="id"
+                            :props="{ disabled: (data) => checkDisabled(data) }"
+                            >
+                                <template #default="{ data }">
+                                    <span v-if="data.status === false"><s>{{ formatLabel(data) }}</s></span>
+                                    <span v-else>{{ formatLabel(data) }}</span>
+                                </template>
+                            </el-tree>
+                        </div>
+                    </el-tab-pane>
+                </div>
+                <div class="justifyCenter">
+                    <el-button v-if="currentRole.id" type="primary" @click="saveRolePermission">
+                        {{ $t('rolePermissionBody.save') }}
+                    </el-button>
+                </div>
+            </el-tabs>
+        </div>
     </el-main>
 </template>
 
@@ -196,6 +201,10 @@ async function saveRolePermission(){
     padding-bottom: 10px;
 }
 
+.marginBottom6 {
+    margin-bottom: 6px;
+}
+
 .marginBottom10 {
     margin-bottom: 10px;
 }
@@ -209,4 +218,24 @@ async function saveRolePermission(){
     align-items: center;
 }
 
+.justifyCenter {
+    display: flex;
+    justify-content: center;
+}
+
+.helfBody{
+    width: 50%;
+    height: 100%;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fullFrame {
+    width: 100%;
+    height: 100%;
+}
 </style>
