@@ -48,6 +48,11 @@
                     </div>
                 </el-tab-pane>
             </div>
+            <div>
+                <el-button v-if="currentRole.id" type="primary" @click="saveRolePermission">
+                    {{ $t('rolePermissionBody.save') }}
+                </el-button>
+            </div>
         </el-tabs>
     </el-main>
 </template>
@@ -74,6 +79,7 @@ onMounted(async () => {
     loading.value = false;
 });
 const currentRole = reactive({
+    index: null,
     id: null,
     name: null,
 })
@@ -104,6 +110,7 @@ async function targetChange(target){
     loading.value = true;
     currentRole.id = target.props.name;
     currentRole.name = target.props.label;
+    currentRole.index = target.index;
     await getRolePermission(target.index);
     loading.value = false;
 }
@@ -147,6 +154,20 @@ function searchReset(){
     currentRole.id = null;
     currentRole.name = null;
     showRoleList.value = roleList.value;
+}
+async function saveRolePermission(){
+    loading.value = true;
+    const permissions = tree.value[currentRole.index].getCheckedKeys().filter(key => key !== undefined);
+    const response = await request.updateRolePermission({
+        'id': currentRole.id,
+        'permissionIds': permissions,
+    });
+    if (response && response.data.code === 200) {
+        proxy.$msg.success(response.data.data);
+    } else {
+        proxy.$msg.error(response.data.data);
+    }
+    loading.value = false;
 }
 </script>
 
