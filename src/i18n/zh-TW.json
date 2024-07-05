@@ -142,7 +142,11 @@
         "selectPermission":"選擇角色權限",
         "selectRole":"未選擇角色",
         "expandTrue":"全部展開",
-        "expandFalse":"全部折疊"
+        "expandFalse":"全部折疊",
+        "pleaseInputRoleName":"請輸入角色名稱",
+        "create":"創建",
+        "createFirst":"請先輸入名稱, 完成創建角色",
+        "createSuccess":"創建成功"
     },
 
 

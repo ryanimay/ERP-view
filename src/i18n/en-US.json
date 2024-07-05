@@ -142,7 +142,11 @@
         "selectPermission":"Select Role Permissions",
         "selectRole":"No role selected",
         "expandTrue":"Expand All",
-        "expandFalse":"Collapse All"
+        "expandFalse":"Collapse All",
+        "pleaseInputRoleName":"Please Input Role Name",
+        "create":"Create",
+        "createFirst":"Please enter a name first to complete role creation.",
+        "createSuccess":"Create Success"
     },
 
 

@@ -17,31 +17,39 @@
                     {{ $t('rolePermissionBody.reset') }}
                 </el-button>
             </span>
-            <el-tabs tab-position="left" type="border-card" @tab-click="targetChange" style="height: calc(99% - 35px); min-height: 200px; margin-top: 10px;">
+            <el-tabs v-model="currentRole.id" ref="tabsContainer" tab-position="left" type="border-card" @tab-click="targetChange" @tab-remove="targetRemove" style="height: calc(99% - 35px); min-height: 200px; margin-top: 10px;">
                 <div class="height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.roleId') }}:</el-text>
-                    <el-text size="large" tag="b" class="marginRight6">{{ currentRole.id }}</el-text>
+                    <el-text v-if="isValidId(currentRole.id)" size="large" tag="b" class="marginRight6">{{ currentRole.id }}</el-text>
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.roleName') }}:</el-text>
-                    <el-input v-if="currentRole.name" v-model="currentRole.name" style="width: 150px; margin-right: 6px;" />
-                    <el-button v-if="currentRole.name" type="primary" @click="updateRoleName">{{ $t('rolePermissionBody.save') }}</el-button>
+                    <el-input v-if="currentRole.id" :placeholder="$t('rolePermissionBody.pleaseInputRoleName')" v-model="currentRole.name" style="width: 200px; margin-right: 6px;" />
+                    <el-button v-if="isValidId(currentRole.id)" type="primary" @click="updateRoleName">{{ $t('rolePermissionBody.save') }}</el-button>
+                    <el-button v-if="currentRole.id && isNaN(currentRole.id)" type="success" @click="createNewRole">{{ $t('rolePermissionBody.create') }}</el-button>
                 </div>
                 <div class="marginBottom10" >
                     <el-text size="large" tag="b" class="marginRight12">{{ $t('rolePermissionBody.selectPermission') }}:</el-text>
                     <el-button type="info" @click="expandAll(true)">{{ $t('rolePermissionBody.expandTrue') }}</el-button>
                     <el-button @click="expandAll(false)">{{ $t('rolePermissionBody.expandFalse') }}</el-button>
                 </div>
-                <div class="maxFrame marginBottom10">
-                    <div v-if="currentRole.index === null" class="center fullFrame">
+                <div class="maxFrame marginBottom5">
+                    <div v-if="currentRole.id === null" class="center fullFrame">
                         <el-empty :description="$t('rolePermissionBody.selectRole')" />
                     </div>
                     <el-tab-pane style="height: 100%;" v-for="(role) in showRoleList" :key="role.id"
-                        :label="role.roleName" :name="role.id">
-                        <div>
+                        :label="role.roleName" :name="role.id" :closable="!isValidId(role.id)" >
+                        <template #label>
+                            <span>{{ role.roleName }}</span>
+                        </template>
+                        <div v-if="!isValidId(currentRole.id)" class="center fullFrame">
+                            <el-empty :description="$t('rolePermissionBody.createFirst')" />
+                        </div>
+                        <div v-else>
                             <el-tree  
                             ref="tree"
                             :data="permissionList"
+                            :default-checked-keys="publicPermissionId"
                             show-checkbox
                             node-key="id"
                             :props="{ disabled: (data) => checkDisabled(data) }"
@@ -55,7 +63,7 @@
                     </el-tab-pane>
                 </div>
                 <div class="justifyCenter">
-                    <el-button v-if="currentRole.id" type="primary" @click="saveRolePermission">
+                    <el-button v-if="isValidId(currentRole.id)" type="primary" @click="saveRolePermission">
                         {{ $t('rolePermissionBody.save') }}
                     </el-button>
                 </div>
@@ -79,6 +87,7 @@ const showRoleList = ref([]);
 const permissionList = ref([]);
 const { proxy } = getCurrentInstance();
 const tree = ref(null);
+const tabsContainer = ref(null);
 onMounted(async () => {
     loading.value = true;
     await getRoleList();
@@ -119,12 +128,23 @@ async function targetChange(target){
     currentRole.name = target.props.label;
     currentRole.index = target.index;
     expandAll(false);
-    await getRolePermission(target.index);
+    if(isValidId(currentRole.id)){
+        await getRolePermission(target.index);
+    }
     loading.value = false;
+}
+function targetRemove(id){
+    showRoleList.value = showRoleList.value.filter(role => role.id !== id);
+    currentRole.id = null;
+    currentRole.name = null;
+    currentRole.index = null;
 }
 async function getRolePermission(index) {
     const response = await request.rolePermission({'roleId': currentRole.id});
     const data = handleResponse(response);
+    checkedPublicPermission(index, data);
+}
+function checkedPublicPermission(index, data){
     if (tree.value) {
         data.push(...publicPermissionId.value);//公開API固定勾選
         tree.value[index].setCheckedKeys(data);
@@ -135,15 +155,36 @@ async function updateRoleName() {
     const response = await request.updateRole(currentRole);
     if (response && response.data.code === 200) {
         proxy.$msg.success(response.data.data);
-        updateRoleListName();
+        updateRoleList();
     } else {
         proxy.$msg.error(response.data.data);
     }
     loading.value = false;
 }
-function updateRoleListName(){
+async function createNewRole() {
+    loading.value = true;
+    const response = await request.addRole({
+        'id': null,
+        'name': currentRole.name
+    });
+    if (response && response.data.code === 200) {
+        initNewRole(response.data.data);
+        proxy.$msg.success(t('rolePermissionBody.createSuccess'));
+    } else {
+        proxy.$msg.error(response.data.data);
+    }
+    loading.value = false;
+}
+function initNewRole(data){
+    currentRole.id = data.id;
+    currentRole.name = data.roleName;
+    roleList.value[currentRole.index].id = currentRole.id;
+    roleList.value[currentRole.index].roleName = currentRole.name;
+    showRoleList.value = JSON.parse(JSON.stringify(roleList.value));
+}
+function updateRoleList(){
     roleList.value.find(role => role.id === currentRole.id).roleName = currentRole.name;
-    showRoleList.value = roleList.value;
+    showRoleList.value = JSON.parse(JSON.stringify(roleList.value));
 }
 function formatLabel(data){
     return data.children ? t('permission.' + data.info) : data.info;
@@ -155,13 +196,13 @@ function checkDisabled(data){
 function searchByName(){
     currentRole.id = null;
     currentRole.name = null;
-    showRoleList.value = roleList.value.filter(role => role.roleName.toLowerCase().includes(searchName.value.toLowerCase()));
+    showRoleList.value = roleList.value.filter(role => role.roleName ? role.roleName.toLowerCase().includes(searchName.value.toLowerCase()) : false);
 }
 function searchReset(){
     searchName.value = '';
     currentRole.id = null;
     currentRole.name = null;
-    showRoleList.value = roleList.value;
+    showRoleList.value = JSON.parse(JSON.stringify(roleList.value));
 }
 async function saveRolePermission(){
     loading.value = true;
@@ -186,6 +227,23 @@ function expandAll(isExpand){
             }
         }
     }
+}
+function openAddRole(){
+    //先拿length才push新資料，所以index不用-1
+    const index = showRoleList.value.length;
+    const newId = 'new' + index;
+    showRoleList.value.push({id: newId});
+    focusNew(newId, index);
+}
+function focusNew(newId, index){
+    currentRole.id = newId;
+    currentRole.name = null;
+    currentRole.index = index;
+    expandAll(false);
+}
+//有效ID
+function isValidId(id){
+    return id && !isNaN(id);
 }
 </script>
 
@@ -216,6 +274,10 @@ function expandAll(isExpand){
 
 .marginBottom10 {
     margin-bottom: 10px;
+}
+
+.marginBottom5 {
+    margin-bottom: 5px;
 }
 
 .height40 {

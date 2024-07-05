@@ -84,6 +84,11 @@ const config = {
           method:'put',
           requiresAuth: true
         },
+        add: {
+          path: role + '/add',
+          method:'post',
+          requiresAuth: true
+        },
         rolePermission: {
           path: role + '/rolePermission',
           method:'post',

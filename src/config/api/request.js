@@ -25,6 +25,7 @@ export default {
     notificationStatus: request(path.api.notification.status),
     roleList: request(path.api.role.list),
     updateRole: request(path.api.role.update),
+    addRole: request(path.api.role.add),
     updateRolePermission: request(path.api.role.rolePermission),
     permissionList: request(path.api.permission.list),
     rolePermission: request(path.api.permission.role),
