@@ -146,7 +146,11 @@
         "pleaseInputRoleName":"請輸入角色名稱",
         "create":"創建",
         "createFirst":"請先輸入名稱, 完成創建角色",
-        "createSuccess":"創建成功"
+        "createSuccess":"創建成功",
+        "warning":"警告",
+        "deleteRoleWarning":"確定要刪除該角色嗎?",
+        "delete":"刪除",
+        "cancel":"取消"
     },
 
 

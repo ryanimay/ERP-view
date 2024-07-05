@@ -146,7 +146,11 @@
         "pleaseInputRoleName":"Please Input Role Name",
         "create":"Create",
         "createFirst":"Please enter a name first to complete role creation.",
-        "createSuccess":"Create Success"
+        "createSuccess":"Create Success",
+        "warning": "Warning",
+        "deleteRoleWarning": "Are you sure you want to delete this role?",
+        "delete": "Delete",
+        "cancel": "Cancel"
     },
 
 

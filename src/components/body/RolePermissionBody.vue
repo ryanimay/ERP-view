@@ -39,8 +39,13 @@
                     </div>
                     <el-tab-pane style="height: 100%;" v-for="(role) in showRoleList" :key="role.id"
                         :label="role.roleName" :name="role.id" :closable="!isValidId(role.id)" >
-                        <template #label>
-                            <span>{{ role.roleName }}</span>
+                        <template #label >
+                            <span class="justifyBetween alignCenter">
+                                <span>{{ role.roleName }}</span>
+                                <el-icon v-if="isValidId(role.id)" class="closeIcon" @click="removeChecked($event, role.id)" >
+                                    <CloseBold />
+                                </el-icon>
+                            </span>
                         </template>
                         <div v-if="!isValidId(currentRole.id)" class="center fullFrame">
                             <el-empty :description="$t('rolePermissionBody.createFirst')" />
@@ -76,6 +81,7 @@
 import request from '@/config/api/request.js';
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { ElMessageBox } from 'element-plus'
 
 const { t } = useI18n();
 const publicPermissionId = ref([]);
@@ -178,8 +184,10 @@ async function createNewRole() {
 function initNewRole(data){
     currentRole.id = data.id;
     currentRole.name = data.roleName;
-    roleList.value[currentRole.index].id = currentRole.id;
-    roleList.value[currentRole.index].roleName = currentRole.name;
+    roleList.value[currentRole.index] = {
+        'id': currentRole.id,
+        'roleName' : currentRole.name
+    }
     showRoleList.value = JSON.parse(JSON.stringify(roleList.value));
 }
 function updateRoleList(){
@@ -245,6 +253,42 @@ function focusNew(newId, index){
 function isValidId(id){
     return id && !isNaN(id);
 }
+async function removeRole(id){
+    loading.value = true;
+    const response = await request.removeRole({ 'id': id });
+    if (response && response.data.code === 200) {
+        removeRoleList(id);
+        cleanCurrentRole();
+        proxy.$msg.success(response.data.data);
+    } else {
+        proxy.$msg.error(response.data.data);
+    }
+    loading.value = false;
+}
+function removeRoleList(id){
+    roleList.value = roleList.value.filter(role => role.id !== id);//移除被刪除的role
+    showRoleList.value = JSON.parse(JSON.stringify(roleList.value));
+}
+function cleanCurrentRole(){
+    currentRole.id = null;
+    currentRole.name = null;
+    currentRole.index = null;
+}
+function removeChecked(event, id){
+    event.stopPropagation();
+    ElMessageBox.confirm(
+        t('rolePermissionBody.deleteRoleWarning'),
+        t('rolePermissionBody.warning'),
+        {
+            confirmButtonText: t('rolePermissionBody.delete'),
+            cancelButtonText: t('rolePermissionBody.cancel'),
+            type: 'danger',
+        }
+    ).then(() => {
+        removeRole(id);
+    }
+    ).catch(() => { });
+}
 </script>
 
 <style scoped>
@@ -308,5 +352,23 @@ function isValidId(id){
 .fullFrame {
     width: 100%;
     height: 100%;
+}
+
+.justifyBetween{
+    width: 100%;
+    display: flex;
+    justify-content: space-between
+}
+
+.closeIcon{
+    border-radius: 50%;
+    text-align: center;
+    transition: all 0.2s;
+    color: #909399;
+}
+
+.closeIcon:hover{
+    background-color: #ee7c7c;
+    color: #dddddd;
 }
 </style>

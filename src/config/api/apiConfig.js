@@ -89,6 +89,11 @@ const config = {
           method:'post',
           requiresAuth: true
         },
+        remove: {
+          path: role + '/remove',
+          method:'delete',
+          requiresAuth: true
+        },
         rolePermission: {
           path: role + '/rolePermission',
           method:'post',
