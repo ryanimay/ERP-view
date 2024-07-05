@@ -140,7 +140,9 @@
         "roleName":"角色名稱",
         "save":"保存",
         "selectPermission":"選擇角色權限",
-        "selectRole":"未選擇角色"
+        "selectRole":"未選擇角色",
+        "expandTrue":"全部展開",
+        "expandFalse":"全部折疊"
     },
 
 

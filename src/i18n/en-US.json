@@ -140,7 +140,9 @@
         "save":"Save",
         "reset":"Reset",
         "selectPermission":"Select Role Permissions",
-        "selectRole":"No role selected"
+        "selectRole":"No role selected",
+        "expandTrue":"Expand All",
+        "expandFalse":"Collapse All"
     },
 
 

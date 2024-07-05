@@ -18,7 +18,7 @@
                 </el-button>
             </span>
             <el-tabs tab-position="left" type="border-card" @tab-click="targetChange" style="height: calc(99% - 35px); min-height: 200px; margin-top: 10px;">
-                <div class="paddingBottom10 height40 alignCenter">
+                <div class="height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.roleId') }}:</el-text>
                     <el-text size="large" tag="b" class="marginRight6">{{ currentRole.id }}</el-text>
                 </div>
@@ -28,9 +28,11 @@
                     <el-button v-if="currentRole.name" type="primary" @click="updateRoleName">{{ $t('rolePermissionBody.save') }}</el-button>
                 </div>
                 <div class="marginBottom10" >
-                    <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.selectPermission') }}:</el-text>
+                    <el-text size="large" tag="b" class="marginRight12">{{ $t('rolePermissionBody.selectPermission') }}:</el-text>
+                    <el-button type="info" @click="expandAll(true)">{{ $t('rolePermissionBody.expandTrue') }}</el-button>
+                    <el-button @click="expandAll(false)">{{ $t('rolePermissionBody.expandFalse') }}</el-button>
                 </div>
-                <div class="maxFrame marginBottom6">
+                <div class="maxFrame marginBottom10">
                     <div v-if="currentRole.index === null" class="center fullFrame">
                         <el-empty :description="$t('rolePermissionBody.selectRole')" />
                     </div>
@@ -116,6 +118,7 @@ async function targetChange(target){
     currentRole.id = target.props.name;
     currentRole.name = target.props.label;
     currentRole.index = target.index;
+    expandAll(false);
     await getRolePermission(target.index);
     loading.value = false;
 }
@@ -174,6 +177,16 @@ async function saveRolePermission(){
     }
     loading.value = false;
 }
+function expandAll(isExpand){
+    for(const index in tree.value){
+        const rootNode = tree.value[index].store.root.childNodes;
+        if(rootNode){
+            for(const node in rootNode){
+                rootNode[node].expanded = isExpand;
+            }
+        }
+    }
+}
 </script>
 
 <style scoped>
@@ -199,10 +212,6 @@ async function saveRolePermission(){
 
 .paddingBottom10 {
     padding-bottom: 10px;
-}
-
-.marginBottom6 {
-    margin-bottom: 6px;
 }
 
 .marginBottom10 {
