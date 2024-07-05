@@ -340,6 +340,7 @@ function removeChecked(event, id){
 
 .helfBody{
     width: 50%;
+    min-width:550px;
     height: 100%;
 }
 
