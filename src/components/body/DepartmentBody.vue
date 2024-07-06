@@ -1,7 +1,7 @@
 <template>
     <el-main class="homeBodyContainer" v-loading.lock="loading" v-loading.fullscreen.lock="fullLoading">
         <el-button type="success" @click="openAddDepartment" >+{{ $t('departmentBody.addDepartment') }}</el-button>
-        <el-tabs tab-position="left" type="border-card" @tab-click="targetChange" style="height: calc(99% - 35px); min-height: 200px; margin-top: 10px;">
+        <el-tabs tab-position="left" type="border-card" @tab-click="targetChange" style="height: calc(99% - 40px); min-height: 200px; margin-top: 10px;">
             <div>
                 <div class="paddingBottom10 height40 alignCenter spaceBetween">
                     <span>

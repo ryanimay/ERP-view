@@ -45,27 +45,27 @@
                     @sort-change="handleSortChange"
                     :show-overflow-tooltip="true">
                     <el-table-column column-key="id" prop="id" label="ID" sortable='custom' min-width="65"/>
-                    <el-table-column :label="$t('clientBody.col-username')" min-width="150">
+                    <el-table-column :label="$t('clientBody.col-username')" min-width="130">
                         <template #default="scope">
                             {{ scope.row.username }}
                             <el-tag v-if="!scope.row.email" type="danger" round effect="plain">{{ $t('clientBody.new') }}</el-tag>    
                         </template>    
                     </el-table-column>
-                    <el-table-column prop="email" :label="$t('clientBody.col-email')" min-width="180"/>
-                    <el-table-column column-key="department" prop="department.name" :label="$t('clientBody.col-departmentName')" sortable='custom' min-width="150" />
-                    <el-table-column column-key="lastLoginTime" prop="lastLoginTime" :label="$t('clientBody.col-lastLoginTime')" sortable='custom' min-width="170" :formatter="formatTime2"/>
-                    <el-table-column column-key="createTime" prop="createTime" :label="$t('clientBody.col-createTime')" sortable='custom' min-width="170" :formatter="formatTime1"/>
-                    <el-table-column column-key="attendStatus" prop="attendStatus" :label="$t('clientBody.col-attendStatus')" min-width="120" sortable='custom' :align="'center'" sort-by="attendStatus">
+                    <el-table-column prop="email" :label="$t('clientBody.col-email')" min-width="150"/>
+                    <el-table-column column-key="department" prop="department.name" :label="$t('clientBody.col-departmentName')" sortable='custom' min-width="130" />
+                    <el-table-column column-key="lastLoginTime" prop="lastLoginTime" :label="$t('clientBody.col-lastLoginTime')" sortable='custom' min-width="130" :formatter="formatTime2"/>
+                    <el-table-column column-key="createTime" prop="createTime" :label="$t('clientBody.col-createTime')" sortable='custom' min-width="130" :formatter="formatTime1"/>
+                    <el-table-column column-key="attendStatus" prop="attendStatus" :label="$t('clientBody.col-attendStatus')" min-width="105" sortable='custom' :align="'center'" sort-by="attendStatus">
                         <template #default="scope">
                             <el-tag :type="signType(scope.row.attendStatus)">{{ $t(signText(scope.row.attendStatus)) }}</el-tag>    
                         </template>
                     </el-table-column>
-                    <el-table-column column-key="isActive" prop="active" :label="$t('clientBody.col-active')" sortable='custom' min-width="120" :align="'center'" sort-by="active" >
+                    <el-table-column column-key="isActive" prop="active" :label="$t('clientBody.col-active')" sortable='custom' min-width="105" :align="'center'" sort-by="active" >
                         <template #default="scope">
                             <el-tag :type="statusType(scope.row.active)">{{ $t(statusText1(scope.row.active)) }}</el-tag>    
                         </template>
                     </el-table-column>
-                    <el-table-column column-key="isLock" prop="lock" :label="$t('clientBody.col-lock')" sortable='custom' min-width="120" :align="'center'" sort-by="lock" >
+                    <el-table-column column-key="isLock" prop="lock" :label="$t('clientBody.col-lock')" sortable='custom' min-width="105" :align="'center'" sort-by="lock" >
                         <template #default="scope">
                             <el-tag :type="statusType(!scope.row.lock)">{{ $t(statusText2(scope.row.lock)) }}</el-tag>    
                         </template>
