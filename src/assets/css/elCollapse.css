@@ -1,0 +1,9 @@
+.collapseParents .el-collapse-item__header{
+    transition: background-color 0.3s;
+}
+.collapseParents .is-active{
+    background-color: #bdbdbd !important;
+}
+.collapseParents .el-collapse-item__header:hover{
+    background-color: #bdbdbd !important;
+}
