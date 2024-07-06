@@ -170,7 +170,8 @@
         "scheduleManagement":"Schedule Management",
         "client":"Client List",
         "department":"Department Management",
-        "rolePermission":"Role Permission"
+        "rolePermission":"Role Permission",
+        "permissionList":"Permission List"
     },
     "axios":{
         "reLogin":"Session expired, please log in again."
