@@ -1,5 +1,5 @@
 <template>
-    <el-main class="homeBodyContainer" v-loading.lock="loading">
+    <el-main class="homeBodyContainer preScroll" v-loading.lock="loading">
         <el-collapse>
             <el-collapse-item v-for="(permission) in permissionList" :key="permission.id" :name="permission.id" class="collapseParents">
                 <template #title>
@@ -106,5 +106,8 @@ async function changeStatus(id, status){
 }
 .hoverBgc:hover{
     background-color: #dddddd !important;
+}
+.preScroll{
+    overflow-y: scroll;
 }
 </style>
