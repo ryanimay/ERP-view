@@ -414,7 +414,7 @@ function formatNotificationInfo(info){
 }
 
 .el-menu-item:hover {
-    background-color: #0f2b3d;
+    background-color: #0f2b3d !important;
 }
 
 .el-header,
