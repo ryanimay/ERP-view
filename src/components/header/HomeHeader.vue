@@ -5,13 +5,13 @@
             <el-header id="headerHeight">
                 <el-row id="logoFrame">
                     <el-col :span="9">
-                        <router-link @click="changeActive('home')" :to="{ name: 'home' }">
+                        <router-link @click="collapseAll" :to="{ name: 'home' }">
                             <img :src="logo" id="logo" alt="" />
                         </router-link>
                     </el-col>
                     <el-col :span="15" class="centerFrame">
                         <h3>
-                            <router-link @click="changeActive('home')" :to="{ name: 'home' }" class="homeBtn">
+                            <router-link @click="collapseAll" :to="{ name: 'home' }" class="homeBtn">
                                 CompanyName
                             </router-link>
                         </h3>
@@ -19,9 +19,9 @@
                 </el-row>
             </el-header>
             <el-main>
-                <el-menu active-text-color="#fff" background-color="#16415c" class="el-menu"
-                    :default-active="defaultActive" text-color="#fff" :router="true">
-                    <template v-for="(menu, index) in list" :key="index">
+                <el-menu ref="menu" active-text-color="#fff" background-color="#16415c" class="el-menu"
+                    :default-active="navigation[2]" text-color="#fff" :router="true" unique-opened>
+                    <template v-for="(menu, index) in menuList" :key="index">
                         <el-sub-menu :index="menu.id.toString()" v-if="menu.child">
                             <template #title>
                                 <el-icon>
@@ -30,8 +30,7 @@
                                 <span>{{ $t(menu.name) }}</span>
                             </template>
                             <el-menu-item v-for="child in menu.child" :index="child.path" :key="child.id.toString()"
-                                @click="changeActive(child.path)"
-                                :style="{ backgroundColor: defaultActive === child.path ? activeColor : normalColor }">
+                                :style="{ backgroundColor: navigation[2] === child.path ? activeColor : normalColor }">
                                 <el-icon>
                                     <component :is="child.icon" />
                                 </el-icon>
@@ -70,7 +69,7 @@
                 </el-icon>
                 <span id="navigation">
                     <el-breadcrumb separator-icon="ArrowRight">
-                        <el-breadcrumb-item v-for="(name, index) in navigation" :key="index" :to="getNavigationRoute(name)">{{ $t('router.' + name.replace(":", "")) }}</el-breadcrumb-item>
+                        <el-breadcrumb-item v-for="(name, index) in navigation" @click="checkMenu(name)" :key="index" :to="getNavigationRoute(name)">{{ $t('router.' + name.replace(":", "")) }}</el-breadcrumb-item>
                     </el-breadcrumb>
                 </span>
             </span>
@@ -180,11 +179,11 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const ws = websocketStore();
 const { proxy } = getCurrentInstance();
+const menu = ref(null);
 const loading = ref(false);
-const list = ref([]);
+const menuList = ref([]);
 const navi = navigationStore();
 const navigation = computed(() => navi.path);
-const defaultActive = ref('home');
 const activeColor = '#0f2b3d';
 const normalColor = '#12354b';
 const logo = icon;
@@ -224,7 +223,7 @@ const param = ref({
 });
 onMounted(async () => {
     loading.value = true;
-    list.value = await getMenu();
+    menuList.value = await getMenu();
     await ws.connect();
     ws.subscribe('/user/topic/notification', handleNotification);//偶發loading問題
     ws.subscribe('/user/topic/clientStatus', userKick);
@@ -263,10 +262,6 @@ function handleResponse(response) {
     } else {
         return [];
     }
-}
-//點擊某個路徑，用來'改已選顏色'和'當前路徑導航'
-function changeActive(routerName) {
-    defaultActive.value = routerName;
 }
 async function logout() {
     const response = await user.logout();
@@ -379,6 +374,14 @@ function formatNotificationInfo(info){
     const arr1 = info.split('++');
     if(!arr1[1]) return t(arr1[0]);
     return t(arr1[0], arr1[1].split(','));
+}
+function collapseAll(){
+    menuList.value.forEach(item => menu.value.close(item.id.toString()));
+}
+function checkMenu(name){
+    if(name === 'home'){
+        collapseAll();
+    }
 }
 </script>
 
