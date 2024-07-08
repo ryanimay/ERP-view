@@ -57,6 +57,7 @@ async function call(api, data){
                 data: data
             });
         }
+        //返回格式都由後端封裝好，只要不是200都由後端返回i18n錯誤提示
         if(response.data.code != 200){
             msg.error(response.data.data);
         }
