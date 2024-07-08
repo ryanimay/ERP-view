@@ -114,6 +114,19 @@ const routerPath = [
             parentName: ':permissionManagement',
             headerKey: 'HomeHeader'
         }
+    },
+    {
+        path: '/roleMenu',
+        name: 'roleMenu',
+        components: {
+            header: () => import('@/components/header/HomeHeader.vue'),
+            body: () => import('@/components/body/RoleMenuBody.vue'),
+        },
+        meta: { 
+            requiresAuth: true,
+            parentName: ':permissionManagement',
+            headerKey: 'HomeHeader'
+        }
     }
 ]
 

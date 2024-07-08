@@ -177,7 +177,8 @@
         "client":"Client List",
         "department":"Department Management",
         "rolePermission":"Role Permission",
-        "permissionList":"Permission List"
+        "permissionList":"Permission List",
+        "roleMenu":"Menu Management"
     },
     "axios":{
         "reLogin":"Session expired, please log in again."
