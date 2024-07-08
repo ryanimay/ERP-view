@@ -85,9 +85,7 @@ async function changeStatus(id, status){
     });
     if (response && response.data.code === 200) {
         proxy.$msg.success(response.data.data);
-    } else {
-        proxy.$msg.error(response.data.data);
-    }
+    } 
     loading.value = false;
 }
 </script>

@@ -61,9 +61,7 @@ const doUpdate = async () => {
 };
 
 function handleResponse(response) {
-    if (response.data.code != 200) {
-        proxy.$msg.error(response.data.data);
-    } else {
+    if (response.data.code === 200) {
         user.update(response.data.data);
         proxy.$msg.success(t('updateEmailBody.updateSuccess'));
         proxy.$router.push({ name: 'home' });

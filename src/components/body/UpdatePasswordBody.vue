@@ -70,9 +70,7 @@ const resetPassword = async () => {
 };
 
 function handleResponse(response) {
-    if (response.data.code != 200) {
-        proxy.$msg.error(response.data.data);
-    } else {
+    if (response.data.code === 200) {
         proxy.$msg.success(response.data.data);
         user.$patch({ mustUpdatePassword : false});
         proxy.$router.push({ name: 'home' });

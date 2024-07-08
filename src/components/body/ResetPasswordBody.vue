@@ -54,9 +54,7 @@ const resetPassword = async () => {
 };
 
 function handleResponse(response) {
-    if (response.data.code != 200) {
-        proxy.$msg.error(response.data.data);
-    } else {
+    if (response.data.code === 200) {
         proxy.$msg.success(t('resetPasswordBody.resetPasswordSuccess'));
         proxy.$router.push({ name: 'login' });
     }

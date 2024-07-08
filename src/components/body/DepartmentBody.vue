@@ -277,9 +277,7 @@ async function updateDepartment() {
         editDepartmentDialog.value=false;
         await loadDepartmentList();
         updateData(departmentRequest.id);
-    } else {
-        proxy.$msg.error(response.data.data);
-    }
+    } 
     fullLoading.value = false;
 }
 function searchByRole(id) {
@@ -324,9 +322,7 @@ async function editClientRole() {
         reloadStaff(data);
         proxy.$msg.success(t('departmentBody.updateSuccess'));
         editUserDialog.value = false;
-    } else {
-        proxy.$msg.error(response.data.data);
-    }
+    } 
     loading.value = false;
 }
 function reloadStaff(data) {
@@ -356,8 +352,6 @@ async function removeDepartment(){
     if(response && response.data.code === 200){
         proxy.$msg.success(response.data.data);
         departmentList.value = departmentList.value.filter(department => department.id !== currentDepartment.id);
-    }else{
-        proxy.$msg.error(response.data.data);
     }
     fullLoading.value = false;
 }

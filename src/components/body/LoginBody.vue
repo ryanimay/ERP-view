@@ -61,9 +61,7 @@ function handleResponse(response) {
         if (response.data.code === 200) {
             proxy.$msg.success(t('loginBody.loginSuccess'));
             proxy.$router.push({ name: 'home' });
-        } else {
-            proxy.$msg.error(response.data.data);
-        }
+        } 
     }
 }
 function messageTypeSwitch(type){

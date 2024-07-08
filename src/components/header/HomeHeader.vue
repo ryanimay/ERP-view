@@ -288,9 +288,7 @@ async function editUser() {
     loading.value = false;
 }
 function handleEditResponse(response) {
-    if (response.data.code != 200) {
-        proxy.$msg.error(response.data.data);
-    } else {
+    if (response.data.code === 200) {
         proxy.$msg.success(t('homeHeader.success'));
         user.update(response.data.data);
         editDialog.value = false
@@ -322,9 +320,7 @@ async function sign() {
 }
 
 function handleSignResponse(response, status) {
-    if (response.data.code != 200) {
-        proxy.$msg.error(response.data.data);
-    } else {
+    if (response.data.code === 200) {
         proxy.$msg.success(t('homeHeader.success'));
         user.updateAttendStatus(status);
     }

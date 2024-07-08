@@ -57,6 +57,9 @@ async function call(api, data){
                 data: data
             });
         }
+        if(response.data.code != 200){
+            msg.error(response.data.data);
+        }
     }catch(error){
         handleError(error);
     }

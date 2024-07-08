@@ -162,8 +162,6 @@ async function updateRoleName() {
     if (response && response.data.code === 200) {
         proxy.$msg.success(response.data.data);
         updateRoleList();
-    } else {
-        proxy.$msg.error(response.data.data);
     }
     loading.value = false;
 }
@@ -176,8 +174,6 @@ async function createNewRole() {
     if (response && response.data.code === 200) {
         initNewRole(response.data.data);
         proxy.$msg.success(t('rolePermissionBody.createSuccess'));
-    } else {
-        proxy.$msg.error(response.data.data);
     }
     loading.value = false;
 }
@@ -221,8 +217,6 @@ async function saveRolePermission(){
     });
     if (response && response.data.code === 200) {
         proxy.$msg.success(response.data.data);
-    } else {
-        proxy.$msg.error(response.data.data);
     }
     loading.value = false;
 }
@@ -260,8 +254,6 @@ async function removeRole(id){
         removeRoleList(id);
         cleanCurrentRole();
         proxy.$msg.success(response.data.data);
-    } else {
-        proxy.$msg.error(response.data.data);
     }
     loading.value = false;
 }

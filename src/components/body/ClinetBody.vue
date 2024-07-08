@@ -376,8 +376,6 @@ async function applyUser(){
         requestParam.id =  null;
         requestParam.name =  null;
         applyUserDialog.value = false;
-    }else{
-        proxy.$msg.error(response.data.data);
     }
     fullLoading.value = false;
 }
@@ -408,8 +406,6 @@ async function handleClientStatusResponse(response){
     if(response.data.code === 200){
         proxy.$msg.success(response.data.data);
         await loadClientList(requestParam);//更新完重載
-    }else{
-        proxy.$msg.error(response.data.data);
     }
 }
 async function editUser(){
@@ -422,8 +418,6 @@ async function editUser(){
         if(editData.id === user.id){
             user.update(data);
         }
-    }else{
-        proxy.$msg.error(t('clientBody.updateFailed'));
     }
     fullLoading.value = false;
 }

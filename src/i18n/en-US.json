@@ -99,8 +99,7 @@
         "submit":"Submit",
         "new":"New",
         "save":"Save",
-        "updateSuccess":"Update successful",
-        "updateFailed":"Update failed, please contact the administrator"
+        "updateSuccess":"Update successful"
     },
     "departmentBody":{
         "clientEmpty":"No team members",
