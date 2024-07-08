@@ -111,6 +111,11 @@ const config = {
           method:'get',
           requiresAuth: true
         },
+        ban: {
+          path: permission + '/ban',
+          method:'put',
+          requiresAuth: true
+        },
       },
       menu: {
         all: {

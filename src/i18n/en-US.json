@@ -152,6 +152,13 @@
         "delete": "Delete",
         "cancel": "Cancel"
     },
+    "permissionListBody":{
+        "permissionId":"Permission Id",
+        "permissionName":"Permission Name",
+        "permissionInfo":"Permission Info",
+        "permissionUrl":"Permission Url",
+        "permissionStatus":"Permission Status"
+    },
 
 
 

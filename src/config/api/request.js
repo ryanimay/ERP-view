@@ -30,6 +30,7 @@ export default {
     updateRolePermission: request(path.api.role.rolePermission),
     permissionList: request(path.api.permission.list),
     rolePermission: request(path.api.permission.role),
+    banPermission: request(path.api.permission.ban),
 }
 
 const axios = instance();

@@ -1,3 +1,6 @@
+.collapseParents{
+    min-width: 880px;
+}
 .collapseParents .el-collapse-item__header{
     transition: background-color 0.3s;
 }
@@ -6,4 +9,7 @@
 }
 .collapseParents .el-collapse-item__header:hover{
     background-color: #bdbdbd !important;
+}
+.el-collapse-item__content{
+    padding-bottom: 0px;
 }

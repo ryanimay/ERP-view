@@ -152,7 +152,13 @@
         "delete":"刪除",
         "cancel":"取消"
     },
-
+    "permissionListBody":{
+        "permissionId":"權限ID",
+        "permissionName":"權限名稱",
+        "permissionInfo":"權限描述",
+        "permissionUrl":"權限路徑",
+        "permissionStatus":"權限狀態"
+    },
 
 
 
