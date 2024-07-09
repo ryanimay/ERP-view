@@ -156,7 +156,8 @@
         "permissionName":"Permission Name",
         "permissionInfo":"Permission Info",
         "permissionUrl":"Permission Url",
-        "permissionStatus":"Permission Status"
+        "permissionStatus":"Permission Status",
+        "editRolePermission":"Edit Role Permission"
     },
 
 
@@ -177,7 +178,6 @@
         "client":"Client List",
         "department":"Department Management",
         "rolePermission":"Role Permission",
-        "permissionList":"Permission List",
         "roleMenu":"Menu Management"
     },
     "axios":{

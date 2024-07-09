@@ -16,6 +16,7 @@ import '@/assets/css/elInput.css';
 import '@/assets/css/elTab.css';
 import '@/assets/css/elTree.css';
 import '@/assets/css/elCollapse.css';
+import '@/assets/css/elDialog.css';
 import '@/config/resizeObserverFix.js';
 
 const app = createApp(App);

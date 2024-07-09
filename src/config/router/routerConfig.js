@@ -94,19 +94,6 @@ const routerPath = [
         name: 'rolePermission',
         components: {
             header: () => import('@/components/header/HomeHeader.vue'),
-            body: () => import('@/components/body/RolePermissionBody.vue'),
-        },
-        meta: { 
-            requiresAuth: true,
-            parentName: ':permissionManagement',
-            headerKey: 'HomeHeader'
-        }
-    },
-    {
-        path: '/permissionList',
-        name: 'permissionList',
-        components: {
-            header: () => import('@/components/header/HomeHeader.vue'),
             body: () => import('@/components/body/PermissionListBody.vue'),
         },
         meta: { 

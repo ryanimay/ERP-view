@@ -48,16 +48,30 @@
                 </el-row>
             </el-collapse-item>
         </el-collapse>
+        <el-button type="primary" @click="click">
+            <el-icon>
+                <EditPen />
+            </el-icon>
+            {{ $t('permissionListBody.editRolePermission') }}
+        </el-button>
+        <el-dialog v-model="rolePermissionDialog" width="800" style="height: 800px;" draggable>
+            <rolePermissionBody />
+        </el-dialog>
     </el-main>
 </template>
 
 <script setup>
 import request from '@/config/api/request.js';
+import rolePermissionBody from '@/components/body/RolePermissionBody.vue';
 import { ref, onMounted, getCurrentInstance } from 'vue';
 
 const permissionList = ref([]);
+const rolePermissionDialog = ref(false);
 const loading = ref(false);
 const { proxy } = getCurrentInstance();
+function click(){
+    rolePermissionDialog.value = true;
+}
 onMounted(async () => {
     loading.value = true;
     await getPermissionList();

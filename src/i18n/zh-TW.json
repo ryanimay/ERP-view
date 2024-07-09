@@ -156,7 +156,8 @@
         "permissionName":"權限名稱",
         "permissionInfo":"權限描述",
         "permissionUrl":"權限路徑",
-        "permissionStatus":"權限狀態"
+        "permissionStatus":"權限狀態",
+        "editRolePermission":"編輯角色權限"
     },
 
 
@@ -176,7 +177,6 @@
         "client":"用戶清單",
         "department":"部門管理",
         "rolePermission":"角色權限管理",
-        "permissionList":"權限清單",
         "roleMenu":"菜單管理"
     },
     "axios":{

@@ -1,5 +1,5 @@
 <template>
-    <el-main class="homeBodyContainer justifyCenter" v-loading.lock="loading" v-loading.fullscreen.lock="fullLoading">
+    <div class="justifyCenter" v-loading.lock="loading" >
         <div class="helfBody">
             <span class="marginRight20">
                 <el-button type="success" @click="openAddRole" >+{{ $t('rolePermissionBody.addRole') }}</el-button>
@@ -17,7 +17,7 @@
                     {{ $t('rolePermissionBody.reset') }}
                 </el-button>
             </span>
-            <el-tabs v-model="currentRole.id" ref="tabsContainer" tab-position="left" type="border-card" @tab-click="targetChange" @tab-remove="targetRemove" style="height: calc(99% - 35px); min-height: 200px; margin-top: 10px;">
+            <el-tabs v-model="currentRole.id" ref="tabsContainer" tab-position="left" type="border-card" @tab-click="targetChange" @tab-remove="targetRemove" style="height: 677px; margin-top: 10px;">
                 <div class="height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.roleId') }}:</el-text>
                     <el-text v-if="isValidId(currentRole.id)" size="large" tag="b" class="marginRight6">{{ currentRole.id }}</el-text>
@@ -74,7 +74,7 @@
                 </div>
             </el-tabs>
         </div>
-    </el-main>
+    </div>
 </template>
 
 <script setup>
@@ -86,7 +86,6 @@ import { ElMessageBox } from 'element-plus'
 const { t } = useI18n();
 const publicPermissionId = ref([]);
 const loading = ref(false);
-const fullLoading = ref(false);
 const searchName = ref('');
 const roleList = ref([]);
 const showRoleList = ref([]);
@@ -299,8 +298,7 @@ function removeChecked(event, id){
 .maxFrame {
     border: 1px solid #dcdfe6;
     width: 100%;
-    height: calc(100% - 190px);
-    min-height: 200px;
+    height: 485px;
     overflow: auto;
 }
 
@@ -331,7 +329,7 @@ function removeChecked(event, id){
 }
 
 .helfBody{
-    width: 50%;
+    width: 80%;
     min-width:550px;
     height: 100%;
 }
