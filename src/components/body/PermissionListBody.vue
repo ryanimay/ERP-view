@@ -1,5 +1,11 @@
 <template>
     <el-main class="homeBodyContainer preScroll" v-loading.lock="loading">
+        <el-button type="primary" @click="click" class="marginButtom10">
+            <el-icon>
+                <EditPen />
+            </el-icon>
+            {{ $t('permissionListBody.editRolePermission') }}
+        </el-button>
         <el-collapse>
             <el-collapse-item v-for="(permission) in permissionList" :key="permission.id" :name="permission.id" class="collapseParents">
                 <template #title>
@@ -48,13 +54,7 @@
                 </el-row>
             </el-collapse-item>
         </el-collapse>
-        <el-button type="primary" @click="click">
-            <el-icon>
-                <EditPen />
-            </el-icon>
-            {{ $t('permissionListBody.editRolePermission') }}
-        </el-button>
-        <el-dialog v-model="rolePermissionDialog" width="800" style="height: 800px;" draggable>
+        <el-dialog v-model="rolePermissionDialog" width="800" style="height: 800px;">
             <rolePermissionBody />
         </el-dialog>
     </el-main>
@@ -107,6 +107,9 @@ async function changeStatus(id, status){
 <style scoped>
 .marginLeft20{
     margin-left: 20px;;
+}
+.marginButtom10{
+    margin-bottom: 10px;;
 }
 .alignCenter{
     align-items: center;

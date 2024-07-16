@@ -1,6 +1,6 @@
 <template>
     <div class="justifyCenter" v-loading.lock="loading" >
-        <div class="helfBody">
+        <div class="fullFrame marginSide16">
             <span class="marginRight20">
                 <el-button type="success" @click="openAddRole" >+{{ $t('rolePermissionBody.addRole') }}</el-button>
             </span>
@@ -295,6 +295,10 @@ function removeChecked(event, id){
     margin-right: 20px;
 }
 
+.marginSide16 {
+    margin: 0px 16px;
+}
+
 .maxFrame {
     border: 1px solid #dcdfe6;
     width: 100%;
@@ -326,12 +330,6 @@ function removeChecked(event, id){
 .justifyCenter {
     display: flex;
     justify-content: center;
-}
-
-.helfBody{
-    width: 80%;
-    min-width:550px;
-    height: 100%;
 }
 
 .center {
