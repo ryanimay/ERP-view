@@ -24,7 +24,7 @@
                 </div>
                 <div class="paddingBottom10 height40 alignCenter">
                     <el-text size="large" tag="b" class="marginRight6">{{ $t('rolePermissionBody.roleName') }}:</el-text>
-                    <el-input v-if="currentRole.id" :placeholder="$t('rolePermissionBody.pleaseInputRoleName')" v-model="currentRole.name" style="width: 200px; margin-right: 6px;" />
+                    <el-input ref="inputRoleName" v-if="currentRole.id" :placeholder="$t('rolePermissionBody.pleaseInputRoleName')" v-model="currentRole.name" style="width: 200px; margin-right: 6px;" />
                     <el-button v-if="isValidId(currentRole.id)" type="primary" @click="updateRoleName">{{ $t('rolePermissionBody.save') }}</el-button>
                     <el-button v-if="currentRole.id && isNaN(currentRole.id)" type="success" @click="createNewRole">{{ $t('rolePermissionBody.create') }}</el-button>
                 </div>
@@ -84,6 +84,7 @@ import { useI18n } from 'vue-i18n';
 import { ElMessageBox } from 'element-plus'
 
 const { t } = useI18n();
+const inputRoleName = ref([]);
 const publicPermissionId = ref([]);
 const loading = ref(false);
 const searchName = ref('');
@@ -156,6 +157,11 @@ function checkedPublicPermission(index, data){
     }
 }
 async function updateRoleName() {
+    if(!currentRole.name || currentRole.name.trim() === ''){
+        proxy.$msg.error(t('rolePermissionBody.roleNameEmpty'));
+        inputRoleName.value.focus();
+        return false;
+    }
     loading.value = true;
     const response = await request.updateRole(currentRole);
     if (response && response.data.code === 200) {
@@ -165,6 +171,11 @@ async function updateRoleName() {
     loading.value = false;
 }
 async function createNewRole() {
+    if(!currentRole.name || currentRole.name.trim() === ''){
+        proxy.$msg.error(t('rolePermissionBody.roleNameEmpty'));
+        inputRoleName.value.focus();
+        return false;
+    }
     loading.value = true;
     const response = await request.addRole({
         'id': null,

@@ -110,7 +110,7 @@
             <el-dialog v-model="applyUserDialog" :title="$t('clientBody.applyNewUser')" width="350">
                 <el-form :model="applyUserData" label-position="right" @submit.prevent>
                     <el-form-item :label="$t('clientBody.col-username')+':'">
-                        <el-input v-model="applyUserData.username" />
+                        <el-input v-model="applyUserData.username" ref="registerUserName"/>
                     </el-form-item>
                     <el-form-item :label="$t('clientBody.col-departmentName')+':'">
                         <el-select v-model="applyUserData.departmentId" style="width: 150px" placeholder="none">
@@ -195,6 +195,7 @@ const applyUserData = reactive({
     username: null,
     departmentId: null
 })
+const registerUserName = ref(false);
 const applyUserDialog = ref(false);
 const editUserDialog = ref(false);
 const loading = ref(false);
@@ -366,18 +367,26 @@ function handleClose(){
 }
 async function applyUser(){
     fullLoading.value = true;
-    const response = await request.register(applyUserData);
-    if(response.data.code === 200){
-        proxy.$msg.success(response.data.data);
-        applyUserData.username = null;
-        applyUserData.departmentId = null;
-        await loadClientList();//新增完重載清單
-        requestParam.type =  null;
-        requestParam.id =  null;
-        requestParam.name =  null;
-        applyUserDialog.value = false;
+    if(dataInvalid()){
+        proxy.$msg.error(t('clientBody.pleaseInputUserName'));
+        registerUserName.value.focus();
+    }else{
+        const response = await request.register(applyUserData);
+        if(response.data.code === 200){
+            proxy.$msg.success(response.data.data);
+            applyUserData.username = null;
+            applyUserData.departmentId = null;
+            await loadClientList();//新增完重載清單
+            requestParam.type =  null;
+            requestParam.id =  null;
+            requestParam.name =  null;
+            applyUserDialog.value = false;
+        }
     }
     fullLoading.value = false;
+}
+function dataInvalid(){
+    return !applyUserData.username || applyUserData.username.trim() === '';
 }
 function openEdit(row){
     statusData.clientId = row.id;

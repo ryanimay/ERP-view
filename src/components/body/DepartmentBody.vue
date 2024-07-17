@@ -81,7 +81,7 @@
             </div>
             <div class="paddingBottom10 alignCenter">
                 <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.departmentName') }}:</el-text>
-                <el-input v-model="departmentRequest.name" style="width: 150px" />
+                <el-input v-model="departmentRequest.name" ref="registerDepartmentName" style="width: 150px" />
             </div>
             <div class="paddingBottom10 alignCenter">
                 <el-text size="large" tag="b" class="marginRight6">{{ $t('departmentBody.defaultRole') }}:</el-text>
@@ -144,6 +144,7 @@ import { ElMessageBox } from 'element-plus'
 
 const { t } = useI18n();
 const roleList = ref([]);
+const registerDepartmentName = ref(false);
 const editDepartmentDialog = ref(false);
 const editUserDialog = ref(false);
 const searchName = ref('');
@@ -265,6 +266,12 @@ function isSimilarHueExists(hue) {
     return false;
 }
 async function updateDepartment() {
+    if(!departmentRequest.name || departmentRequest.name.trim() === ''){
+        proxy.$msg.error(t('departmentBody.departmentNameEmpty'));
+        registerDepartmentName.value.focus();
+        return false;
+    }
+
     if(!(showDepartmentRoles.value.some(role => role.id === departmentRequest.defaultRoleId))){
         proxy.$msg.error(t('departmentBody.errorDefaultRole'));
         return false;

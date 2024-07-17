@@ -99,7 +99,8 @@
         "submit":"提交",
         "new":"新用戶",
         "save":"保存",
-        "updateSuccess":"保存成功"
+        "updateSuccess":"保存成功",
+        "pleaseInputUserName":"請輸入用戶名"
     },
     "departmentBody":{
         "clientEmpty":"沒有組員",
@@ -128,7 +129,8 @@
         "nowRole":"現有角色",
         "noRole":"尚未加入",
         "addDepartment":"新增部門",
-        "add":"新增"
+        "add":"新增",
+        "departmentNameEmpty":"部門名稱不可為空"
     },
     "rolePermissionBody":{
         "addRole":"新增角色",
@@ -149,7 +151,8 @@
         "warning":"警告",
         "deleteRoleWarning":"確定要刪除該角色嗎?",
         "delete":"刪除",
-        "cancel":"取消"
+        "cancel":"取消",
+        "roleNameEmpty":"角色名不可為空"
     },
     "permissionListBody":{
         "permissionId":"權限ID",
@@ -178,7 +181,8 @@
         "warning":"警告",
         "deleteRoleWarning":"確定要刪除該角色嗎?",
         "delete":"刪除",
-        "cancel":"取消"
+        "cancel":"取消",
+        "roleNameEmpty":"角色名不可為空"
     },
 
 

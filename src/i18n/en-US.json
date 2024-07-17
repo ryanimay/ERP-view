@@ -99,7 +99,8 @@
         "submit":"Submit",
         "new":"New",
         "save":"Save",
-        "updateSuccess":"Update successful"
+        "updateSuccess":"Update successful",
+        "pleaseInputUserName":"Please Input UserName."
     },
     "departmentBody":{
         "clientEmpty":"No team members",
@@ -128,7 +129,8 @@
         "nowRole":"Current Roles",
         "noRole":"Not Joined Yet",
         "addDepartment":"Add Department",
-        "add":"Add"
+        "add":"Add",
+        "departmentNameEmpty":"Please input department name."
     },
     "rolePermissionBody":{
         "addRole":"Add Role",
@@ -149,7 +151,8 @@
         "warning": "Warning",
         "deleteRoleWarning": "Are you sure you want to delete this role?",
         "delete": "Delete",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "roleNameEmpty":"Please input role name."
     },
     "permissionListBody":{
         "permissionId":"Permission Id",
@@ -178,7 +181,8 @@
         "warning": "Warning",
         "deleteRoleWarning": "Are you sure you want to delete this role?",
         "delete": "Delete",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "roleNameEmpty":"Please input role name."
     },
 
 
