@@ -28,6 +28,7 @@ export default {
     addRole: request(path.api.role.add),
     removeRole: request(path.api.role.remove),
     updateRolePermission: request(path.api.role.rolePermission),
+    updateRoleMenu: request(path.api.role.roleMenu),
     permissionList: request(path.api.permission.list),
     rolePermission: request(path.api.permission.role),
     banPermission: request(path.api.permission.ban),

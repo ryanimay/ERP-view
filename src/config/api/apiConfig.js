@@ -99,6 +99,11 @@ const config = {
           method:'post',
           requiresAuth: true
         },
+        roleMenu: {
+          path: role + '/roleMenu',
+          method:'post',
+          requiresAuth: true
+        },
       },
       permission: {
         list: {

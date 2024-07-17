@@ -159,6 +159,27 @@
         "permissionStatus":"Permission Status",
         "editRolePermission":"Edit Role Permission"
     },
+    "roleMenuBody":{
+        "addRole":"Add Role",
+        "searchRole":"Role Search",
+        "search":"Search",
+        "roleId":"Role Id",
+        "roleName":"Role Name",
+        "save":"Save",
+        "reset":"Reset",
+        "selectMenu":"Select Role Menu",
+        "selectRole":"No role selected",
+        "expandTrue":"Expand All",
+        "expandFalse":"Collapse All",
+        "pleaseInputRoleName":"Please Input Role Name",
+        "create":"Create",
+        "createFirst":"Please enter a name first to complete role creation.",
+        "createSuccess":"Create Success",
+        "warning": "Warning",
+        "deleteRoleWarning": "Are you sure you want to delete this role?",
+        "delete": "Delete",
+        "cancel": "Cancel"
+    },
 
 
 

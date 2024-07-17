@@ -159,6 +159,27 @@
         "permissionStatus":"權限狀態",
         "editRolePermission":"編輯角色權限"
     },
+    "roleMenuBody":{
+        "addRole":"新增角色",
+        "searchRole":"搜尋角色",
+        "search":"搜尋",
+        "reset":"重製",
+        "roleId":"角色ID",
+        "roleName":"角色名稱",
+        "save":"保存",
+        "selectMenu":"選擇角色菜單",
+        "selectRole":"未選擇角色",
+        "expandTrue":"全部展開",
+        "expandFalse":"全部折疊",
+        "pleaseInputRoleName":"請輸入角色名稱",
+        "create":"創建",
+        "createFirst":"請先輸入名稱, 完成創建角色",
+        "createSuccess":"創建成功",
+        "warning":"警告",
+        "deleteRoleWarning":"確定要刪除該角色嗎?",
+        "delete":"刪除",
+        "cancel":"取消"
+    },
 
 
 
