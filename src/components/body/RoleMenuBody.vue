@@ -67,7 +67,7 @@
                         </div>
                     </el-tab-pane>
                 </div>
-                <div class="justifyCenter">
+                <div class="justifyCenter padding10">
                     <el-button v-if="isValidId(currentRole.id)" type="primary" @click="saveRoleMenu">
                         {{ $t('roleMenuBody.save') }}
                     </el-button>
@@ -304,6 +304,10 @@ const defaultProps = {
 </script>
 
 <style scoped>
+.padding10 {
+    padding: 10px;
+}
+
 .marginRight6 {
     margin-right: 6px;
 }
@@ -323,7 +327,7 @@ const defaultProps = {
 .maxFrame {
     border: 1px solid #dcdfe6;
     width: 100%;
-    height: 485px;
+    height: 600px;
     overflow: auto;
 }
 
