@@ -22,7 +22,7 @@ const routerPath = [
         name: 'login',
         components: {
             header: () => import('@/components/header/LoginHeader.vue'),
-            body: () => import('@/components/body/LoginBody.vue'),
+            body: () => import('@/components/body/prefix/LoginBody.vue'),
         },
         meta: { 
             headerKey: 'LoginHeader' 
@@ -33,7 +33,7 @@ const routerPath = [
         name: 'forgetPassword',
         components: {
             header: () => import('@/components/header/LoginHeader.vue'),
-            body: () => import('@/components/body/ResetPasswordBody.vue'),
+            body: () => import('@/components/body/prefix/ResetPasswordBody.vue'),
         },
         meta: { 
             headerKey: 'LoginHeader' 
@@ -44,7 +44,7 @@ const routerPath = [
         name: 'updatePassword',
         components: {
             header: () => import('@/components/header/LoginHeader.vue'),
-            body: () => import('@/components/body/UpdatePasswordBody.vue'),
+            body: () => import('@/components/body/prefix/UpdatePasswordBody.vue'),
         },
         meta: { 
             requiresAuth: true,
@@ -56,7 +56,7 @@ const routerPath = [
         name: 'updateEmail',
         components: {
             header: () => import('@/components/header/LoginHeader.vue'),
-            body: () => import('@/components/body/UpdateEmailBody.vue'),
+            body: () => import('@/components/body/prefix/UpdateEmailBody.vue'),
         },
         meta: { 
             requiresAuth: true,
@@ -68,7 +68,7 @@ const routerPath = [
         name: 'client',
         components: {
             header: () => import('@/components/header/HomeHeader.vue'),
-            body: () => import('@/components/body/ClinetBody.vue'),
+            body: () => import('@/components/body/client/ClinetBody.vue'),
         },
         meta: { 
             requiresAuth: true ,
@@ -81,7 +81,7 @@ const routerPath = [
         name: 'department',
         components: {
             header: () => import('@/components/header/HomeHeader.vue'),
-            body: () => import('@/components/body/DepartmentBody.vue'),
+            body: () => import('@/components/body/permission/DepartmentBody.vue'),
         },
         meta: { 
             requiresAuth: true,
@@ -94,7 +94,7 @@ const routerPath = [
         name: 'rolePermission',
         components: {
             header: () => import('@/components/header/HomeHeader.vue'),
-            body: () => import('@/components/body/PermissionListBody.vue'),
+            body: () => import('@/components/body/permission/PermissionListBody.vue'),
         },
         meta: { 
             requiresAuth: true,
@@ -107,7 +107,7 @@ const routerPath = [
         name: 'roleMenu',
         components: {
             header: () => import('@/components/header/HomeHeader.vue'),
-            body: () => import('@/components/body/RoleMenuBody.vue'),
+            body: () => import('@/components/body/permission/RoleMenuBody.vue'),
         },
         meta: { 
             requiresAuth: true,
@@ -120,7 +120,7 @@ const routerPath = [
         name: 'salaryList',
         components: {
             header: () => import('@/components/header/HomeHeader.vue'),
-            body: () => import('@/components/body/SalaryListBody.vue'),
+            body: () => import('@/components/body/salary/SalaryListBody.vue'),
         },
         meta: { 
             requiresAuth: true,
@@ -133,7 +133,7 @@ const routerPath = [
         name: 'salarySetting',
         components: {
             header: () => import('@/components/header/HomeHeader.vue'),
-            body: () => import('@/components/body/SalarySettingBody.vue'),
+            body: () => import('@/components/body/salary/SalarySettingBody.vue'),
         },
         meta: { 
             requiresAuth: true,

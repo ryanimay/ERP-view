@@ -62,7 +62,7 @@
 
 <script setup>
 import request from '@/config/api/request.js';
-import rolePermissionBody from '@/components/body/RolePermissionBody.vue';
+import rolePermissionBody from '@/components/body/permission/RolePermissionBody.vue';
 import { ref, onMounted, getCurrentInstance } from 'vue';
 
 const permissionList = ref([]);
