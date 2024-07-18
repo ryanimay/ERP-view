@@ -18,6 +18,7 @@ const config = {
     const notification = context_path + '/notification';
     const role = context_path + '/role';
     const permission = context_path + '/permission';
+    const salary = context_path + '/salary';
     return {
       cache: {
       },
@@ -172,6 +173,13 @@ const config = {
         status:{
           path: notification + '/status',
           method:'post',
+          requiresAuth: true
+        }
+      },
+      salary: {
+        get:{
+          path: salary + '/get',
+          method:'get',
           requiresAuth: true
         }
       }

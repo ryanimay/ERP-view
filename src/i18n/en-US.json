@@ -188,6 +188,14 @@
         "icon":"Menu Icon",
         "path":"Menu Path"
     },
+    "salaryBody":{
+        "col-time":"Salary Time",
+        "col-bonus":"Bonus",
+        "col-total":"Total",
+        "year":"Year {0}",
+        "month":"Month {0}",
+        "dataEmpty":"Data Empty"
+    },
 
 
 

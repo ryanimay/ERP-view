@@ -188,6 +188,14 @@
         "icon":"菜單圖標",
         "path":"菜單路徑"
     },
+    "salaryBody":{
+        "col-time":"薪資時間",
+        "col-bonus":"加給",
+        "col-total":"總額",
+        "year":"{0} 年",
+        "month":"{0} 月",
+        "dataEmpty":"查無資料"
+    },
 
 
 
