@@ -182,7 +182,11 @@
         "deleteRoleWarning":"確定要刪除該角色嗎?",
         "delete":"刪除",
         "cancel":"取消",
-        "roleNameEmpty":"角色名不可為空"
+        "roleNameEmpty":"角色名不可為空",
+        "name":"菜單名稱",
+        "id":"菜單編號",
+        "icon":"菜單圖標",
+        "path":"菜單路徑"
     },
 
 

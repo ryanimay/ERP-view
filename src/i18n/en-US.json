@@ -182,7 +182,11 @@
         "deleteRoleWarning": "Are you sure you want to delete this role?",
         "delete": "Delete",
         "cancel": "Cancel",
-        "roleNameEmpty":"Please input role name."
+        "roleNameEmpty":"Please input role name.",
+        "name":"Menu Name",
+        "id":"Menu Id",
+        "icon":"Menu Icon",
+        "path":"Menu Path"
     },
 
 

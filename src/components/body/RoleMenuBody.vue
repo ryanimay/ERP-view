@@ -33,6 +33,13 @@
                     <el-button type="info" @click="expandAll(true)">{{ $t('roleMenuBody.expandTrue') }}</el-button>
                     <el-button @click="expandAll(false)">{{ $t('roleMenuBody.expandFalse') }}</el-button>
                 </div>
+                <el-row class="border-top border-left border-right alignCenter">
+                    <div style="width: 64px;"></div> 
+                    <div class="border-right alignCenter justifyCenter font-color border-left" style="flex: 1;"><b>{{ $t('roleMenuBody.name') }}</b></div>
+                    <div class="border-right alignCenter justifyCenter font-color" style="flex: 1;"><b>{{ $t('roleMenuBody.id') }}</b></div>
+                    <div class="border-right alignCenter justifyCenter font-color" style="flex: 1;"><b>{{ $t('roleMenuBody.icon') }}</b></div>
+                    <div class="alignCenter justifyCenter font-color" style="flex: 1;"><b>{{ $t('roleMenuBody.path') }}</b></div>
+                </el-row>   
                 <div class="maxFrame marginBottom5">
                     <div v-if="currentRole.id === null" class="center fullFrame">
                         <el-empty :description="$t('roleMenuBody.selectRole')" />
@@ -60,8 +67,19 @@
                             :props="defaultProps"
                             >
                                 <template #default="{ data }">
-                                    <span v-if="data.status === false"><s>{{ $t(data.name) }}</s></span>
-                                    <span v-else>{{ $t(data.name) }}</span>
+                                    <el-row :style="{ width: '100%', paddingLeft: data.parentsId === 0 ? '18px' : '0' }">
+                                        <el-col class="alignCenter justifyCenter" :span="6">
+                                            <span v-if="data.status === false"><s>{{ $t(data.name) }}</s></span>
+                                            <span v-else>{{ $t(data.name) }}</span>
+                                        </el-col>
+                                        <el-col class="alignCenter justifyCenter" :span="6">{{ data.id }}</el-col>
+                                        <el-col class="alignCenter justifyCenter" :span="6">
+                                            <el-icon>
+                                                <component :is="data.icon" />
+                                            </el-icon>
+                                        </el-col>
+                                        <el-col class="alignCenter justifyCenter" :span="6">{{ data.path }}</el-col>
+                                    </el-row>
                                 </template>
                             </el-tree>
                         </div>
@@ -326,7 +344,7 @@ const defaultProps = {
 
 .maxFrame {
     border: 1px solid #dcdfe6;
-    width: 100%;
+    width: calc(100% -2px);
     height: 600px;
     overflow: auto;
 }
@@ -384,5 +402,21 @@ const defaultProps = {
 .closeIcon:hover{
     background-color: #ee7c7c;
     color: #dddddd;
+}
+
+.border-top{
+    border-top: 1px solid #dcdfe6;
+}
+
+.border-left{
+    border-left: 1px solid #dcdfe6;
+}
+
+.border-right{
+    border-right: 1px solid #dcdfe6;
+}
+
+.font-color{
+    color: #606266;
 }
 </style>
