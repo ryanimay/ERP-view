@@ -206,7 +206,9 @@
         "client":"用戶清單",
         "department":"部門管理",
         "rolePermission":"角色權限管理",
-        "roleMenu":"菜單管理"
+        "roleMenu":"菜單管理",
+        "salaryList":"薪資清單",
+        "salarySetting":"薪資設置"
     },
     "axios":{
         "reLogin":"登入過期，請重新登入"

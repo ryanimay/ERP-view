@@ -207,7 +207,9 @@
         "client":"Client List",
         "department":"Department Management",
         "rolePermission":"Role Permission",
-        "roleMenu":"Menu Management"
+        "roleMenu":"Menu Management",
+        "salaryList":"Salary List",
+        "salarySetting":"Salary Setting"
     },
     "axios":{
         "reLogin":"Session expired, please log in again."
