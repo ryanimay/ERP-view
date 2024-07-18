@@ -194,7 +194,10 @@
         "col-total":"Total",
         "year":"Year {0}",
         "month":"Month {0}",
-        "dataEmpty":"Data Empty"
+        "dataEmpty":"Data Empty",
+        "salaryDetail":"Salary Detail",
+        "username":"Name",
+        "createTime":"Create Time"
     },
 
 
