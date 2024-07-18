@@ -345,7 +345,7 @@ const defaultProps = {
 .maxFrame {
     border: 1px solid #dcdfe6;
     width: calc(100% -2px);
-    height: 600px;
+    height: 580px;
     overflow: auto;
 }
 
