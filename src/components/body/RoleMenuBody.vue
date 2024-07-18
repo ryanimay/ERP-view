@@ -162,7 +162,7 @@ function getIdList(data){
 }
 async function updateRoleName() {
     if(!currentRole.name || currentRole.name.trim() === ''){
-        proxy.$msg.error(t('rolePermissionBody.roleNameEmpty'));
+        proxy.$msg.error(t('roleMenuBody.roleNameEmpty'));
         inputRoleName.value.focus();
         return false;
     }
@@ -176,7 +176,7 @@ async function updateRoleName() {
 }
 async function createNewRole() {
     if(!currentRole.name || currentRole.name.trim() === ''){
-        proxy.$msg.error(t('rolePermissionBody.roleNameEmpty'));
+        proxy.$msg.error(t('roleMenuBody.roleNameEmpty'));
         inputRoleName.value.focus();
         return false;
     }
