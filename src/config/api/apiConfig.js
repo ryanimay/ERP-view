@@ -73,6 +73,11 @@ const config = {
           method:'put',
           requiresAuth: true
         },
+        refreshT: {
+          path: client + '/refreshT',
+          method:'post',
+          requiresAuth: true
+        },
       },
       role: {
         list: {

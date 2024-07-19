@@ -24,6 +24,7 @@ const userStore = defineStore(
             async login(data){
                 const response = await request.login(data);
                 if (response && response.data.code == 200) {
+                    saveToken(response);
                     let user = response.data.data;
                     this.id = user.id;
                     this.username = user.username;
@@ -80,5 +81,16 @@ const userStore = defineStore(
         persist: true,
     }
 )
+
+function saveToken(response){
+    const token = response.headers['authorization'];
+    if (token) {
+        localStorage.setItem('token', token.replace('Bearer ', ''))
+    }
+    const refreshToken = response.headers['x-refresh-token'];
+    if (refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken)
+    }
+}
 
 export default userStore;

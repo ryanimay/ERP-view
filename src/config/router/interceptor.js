@@ -1,10 +1,10 @@
 import router from '@/config/router/routerConfig'
-import { verifyJWT } from '@/config/tool/jwtTool';
+import { checkOrRefreshToken } from '@/config/tool/jwtTool';
 import userStore from '@/config/store/user';
 import i18n from '@/config/i18nConfig.js'
 import navigationStore from '@/config/store/navigation';
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     const nextName = to.name;
     const requiresAuth = to.matched.some(router => router.meta.requiresAuth) === true;
     const user = userStore();
@@ -12,7 +12,7 @@ router.beforeEach((to, from, next) => {
     
     if (requiresAuth) {
         navigationStore().updatePath(to);
-        if (verify(isLogin)) {
+        if (await verify(isLogin)) {
             if (mustUpdatePassword(nextName, user)) { 
                 next({ name: 'updatePassword' });
             } else if (mustUpdateEmail(nextName, user)) { 
@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
             });
         }
         //勾選記住我，並且登入未過期，直接導向首頁
-    } else if (nextName === 'login' && localStorage.getItem('rememberMe') && verify(isLogin)) {
+    } else if (nextName === 'login' && localStorage.getItem('rememberMe') && await verify(isLogin)) {
         next({ name: 'home' });
     } else {
         next();
@@ -45,12 +45,7 @@ function mustUpdateEmail(nextName, user){
     return nextName !== 'updateEmail' && nextName !== 'updatePassword' && !user.email;
 }
 
-function verify(isLogin){
-    const accessToken = localStorage.getItem('token');
-    const refreshToken = localStorage.getItem('refreshToken');
-    //accessToken通過
-    //或是accessToken未通過&&refreshToken通過
-    const approvedJwt = verifyJWT(accessToken) ||
-    (refreshToken && verifyJWT(refreshToken));
+async function verify(isLogin){
+    const approvedJwt = await checkOrRefreshToken();
     return isLogin && approvedJwt;
 }

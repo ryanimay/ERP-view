@@ -1,6 +1,6 @@
 import axios from "axios";
 import api from '@/config/api/apiConfig.js';
-import { verifyJWT } from '@/config/tool/jwtTool';
+import { checkOrRefreshToken } from '@/config/tool/jwtTool';
 import router from '@/config/router/routerConfig';
 import i18n from '@/config/i18nConfig.js'
 
@@ -37,39 +37,33 @@ function setUserLang(config){
 }
 
 instance().interceptors.request.use(
-    (config) => {
+    async (config) => {
         //標頭帶上語系
         setUserLang(config);
-
         const matchedRoute = findRoute(config.url);
-        //如果是要驗證的api再放token
         if (matchedRoute.requiresAuth) {
-            const token = localStorage.getItem('token');
-            const refreshToken = localStorage.getItem('refreshToken');
-            //accessToken和refreshToken都未通過token驗證，才會轉跳登入頁
-            if (!verifyJWT(token) && (!refreshToken || !verifyJWT(refreshToken))) {
-                instance.defaults.router.push({ name: 'login' });
-                return Promise.reject({type: 'RequestRejectedError', message: i18n.global.t('axios.reLogin')});
-            }
-            config.headers['Authorization'] = `Bearer ${token}`;
-            if (refreshToken) {
-                config.headers['X-Refresh-Token'] = refreshToken;
+            //refreshToken的請求只管放refreshToken
+            if(matchedRoute === api.api.client.refreshT){
+                const refreshToken = localStorage.getItem('refreshToken');
+                if (refreshToken) {
+                    config.headers['X-Refresh-Token'] = refreshToken;
+                }
+            }else{
+                const validToken = await checkOrRefreshToken();
+                if (validToken) {
+                    //如果是要驗證的api再放token
+                    const token = localStorage.getItem('token');
+                    const refreshToken = localStorage.getItem('refreshToken');
+                    config.headers['Authorization'] = `Bearer ${token}`;
+                    if (refreshToken) {
+                        config.headers['X-Refresh-Token'] = refreshToken;
+                    }
+                }else{
+                    instance.defaults.router.push({ name: 'login' });
+                    return Promise.reject({type: 'RequestRejectedError', message: i18n.global.t('axios.reLogin')});
+                }
             }
         }
         return config;
     }
 )
-
-instance().interceptors.response.use(
-    (response) => {
-        const token = response.headers['authorization'];
-        if (token) {
-            localStorage.setItem('token', token.replace('Bearer ', ''))
-        }
-        const refreshToken = response.headers['x-refresh-token'];
-        if (refreshToken) {
-            localStorage.setItem('refreshToken', refreshToken)
-        }
-        return response;
-    }
-);
