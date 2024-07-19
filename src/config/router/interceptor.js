@@ -25,6 +25,7 @@ router.beforeEach(async (to, from, next) => {
                 name: 'login',
                 query: {
                     //未正常登出才需要顯示提示字
+                    type: 'danger',
                     message: isLogin ? i18n.global.t('router.reLogin') : undefined
                 }
             });

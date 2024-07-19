@@ -203,7 +203,7 @@
 
 
     "router":{
-        "reLogin":"請重新登入",
+        "reLogin":"登入過期，請重新登入",
         "home":"首頁",
         "clientManagement":"用戶管理",
         "permissionManagement":"權限管理",

@@ -1,6 +1,7 @@
 import msg from '@/config/alterConfig.js'
 import instance from '@/config/axios.js';
 import path from '@/config/api/apiConfig.js';
+import router from '@/config/router/routerConfig'
 
 //封裝所有網絡請求
 export default {
@@ -72,6 +73,7 @@ async function call(api, data){
 
 function handleError(error){
     if(error.type === 'RequestRejectedError'){
+        router.push({ name: 'login' });
         msg.error(error.message);
     }else{
         throw error;

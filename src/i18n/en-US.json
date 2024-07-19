@@ -204,7 +204,7 @@
 
 
     "router":{
-        "reLogin":"Please re-login.",
+        "reLogin":"Your session has expired. Please log in again.",
         "home":"Home",
         "clientManagement":"Client Management",
         "permissionManagement":"Permission Management",
@@ -223,7 +223,7 @@
         "salarySetting":"Salary Setting"
     },
     "axios":{
-        "reLogin":"Session expired, please log in again."
+        "reLogin":"Your session has expired. Please log in again."
     },
     "message":{
         "kickOut":"Account has been disabled. You have been logged out."

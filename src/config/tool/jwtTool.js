@@ -50,6 +50,8 @@ async function refresh(){
             if (token) {
                 localStorage.setItem('token', token.replace('Bearer ', ''));
             }
+        }else{
+            throw new Error(response.data.message || 'Failed to refresh token.');
         }
     } catch (error) {
         console.error('Error refreshing token:', error);

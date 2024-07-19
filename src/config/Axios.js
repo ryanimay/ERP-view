@@ -59,7 +59,7 @@ instance().interceptors.request.use(
                         config.headers['X-Refresh-Token'] = refreshToken;
                     }
                 }else{
-                    instance.defaults.router.push({ name: 'login' });
+                    //中斷請求，拋出異常
                     return Promise.reject({type: 'RequestRejectedError', message: i18n.global.t('axios.reLogin')});
                 }
             }
