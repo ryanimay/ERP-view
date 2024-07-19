@@ -1,5 +1,5 @@
 <template>
-    <el-main class="homeBodyContainer" style="display:flex; " v-loading.lock="loading">
+    <el-main class="homeBodyContainer" style="display:flex;" v-loading.lock="loading">
         <span style="flex: 1;" class="border mergin5">
             <el-table
                 height="100%"
@@ -8,7 +8,8 @@
                 :show-overflow-tooltip="true"
                 :scrollbar-always-on="true"
                 @row-click="rowClick"
-                :highlight-current-row="true">
+                :highlight-current-row="true"
+                :row-style="rowStyle">
                 <template #empty>
                     <el-empty :description="$t('salaryBody.dataEmpty')" />
                 </template>
@@ -17,7 +18,7 @@
                 <el-table-column prop="grandTotal" :label="$t('salaryBody.col-total')" sortable min-width="150"/>
             </el-table>
         </span>
-        <span style="flex: 1;" class="border mergin5 padding20">
+        <span style="flex: 1;" class="border mergin5 padding20" v-loading.lock="blockLoading">
             <h1>{{ $t('salaryBody.salaryDetail') }}</h1>
             <el-row class="marginBottom10">
                 <el-col>
@@ -136,6 +137,7 @@ import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 const loading = ref(false);
+const blockLoading = ref(false);
 const salaryList = ref([]);
 const salaryDetail = reactive({
     username: '',
@@ -176,7 +178,7 @@ function timeFormatter(row){
     return t('salaryBody.year', [year]) + ' - ' + t('salaryBody.month', [month]);
 }
 function rowClick(row){
-    loading.value = true;
+    blockLoading.value = true;
     salaryDetail.username = row.user.username;
     salaryDetail.time = row.time;
     salaryDetail.baseSalary = row.baseSalary;
@@ -191,8 +193,11 @@ function rowClick(row){
     salaryDetail.reduceTotal = row.reduceTotal;
     salaryDetail.grandTotal = row.grandTotal;
     setTimeout(() => {
-        loading.value = false;
+        blockLoading.value = false;
     }, 500);
+}
+function rowStyle(){
+    return "cursor:pointer;"
 }
 </script>
 
