@@ -199,6 +199,38 @@
         "username":"Name",
         "createTime":"Create Time"
     },
+    "salarySettingBody":{
+        "col-userId":"UserId",
+        "col-username":"UserName",
+        "col-baseSalary":"BaseSalary",
+        "col-mealAllowance":"MealAllowance",
+        "col-laborInsurance":"LaborInsurance",
+        "col-nationalHealthInsurance":"NationalHealthInsurance",
+        "col-time":"LastEditTime",
+        "col-active":"Active",
+        "col-lock":"Lock",
+        "col-config":"Config",
+        "active":{
+            "true":"Active",
+            "false":"InActive"
+        },
+        "lock":{
+            "true":"Lock",
+            "false":"UnLock"
+        },
+        "total":"Total",
+        "totalQuantifier":"",
+        "pageQuantifier":"/page",
+        "search":"Search",
+        "addNewRoot":"Add New Setting",
+        "cancel":"Cancel",
+        "submit":"Submit",
+        "new":"New",
+        "save":"Save",
+        "updateSuccess":"Update successful",
+        "pleaseInputUserName":"Please Input UserName.",
+        "pleaseInputUserId":"Please Input UserId"
+    },
 
 
 

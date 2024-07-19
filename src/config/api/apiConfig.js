@@ -186,6 +186,11 @@ const config = {
           path: salary + '/get',
           method:'get',
           requiresAuth: true
+        },
+        roots:{
+          path: salary + '/roots',
+          method:'get',
+          requiresAuth: true
         }
       }
     };
