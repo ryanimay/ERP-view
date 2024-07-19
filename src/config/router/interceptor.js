@@ -48,8 +48,9 @@ function mustUpdateEmail(nextName, user){
 function verify(isLogin){
     const accessToken = localStorage.getItem('token');
     const refreshToken = localStorage.getItem('refreshToken');
-    //accessToken通過&&refreshToken不存在
-    //或是accessToken通過&&refreshToken通過
-    const approvedJwt = verifyJWT(accessToken) && (!refreshToken || verifyJWT(refreshToken));
+    //accessToken通過
+    //或是accessToken未通過&&refreshToken通過
+    const approvedJwt = verifyJWT(accessToken) ||
+    (refreshToken && verifyJWT(refreshToken));
     return isLogin && approvedJwt;
 }
