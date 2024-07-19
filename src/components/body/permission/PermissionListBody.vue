@@ -54,7 +54,7 @@
                 </el-row>
             </el-collapse-item>
         </el-collapse>
-        <el-dialog v-model="rolePermissionDialog" width="800" style="height: 780px;" destroy-on-close>
+        <el-dialog v-model="rolePermissionDialog" width="800" style="height: 780px; overflow: auto;" destroy-on-close>
             <rolePermissionBody />
         </el-dialog>
     </el-main>

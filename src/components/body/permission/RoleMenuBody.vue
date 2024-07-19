@@ -18,74 +18,78 @@
                 </el-button>
             </span>
             <el-tabs v-model="currentRole.id" ref="tabsContainer" tab-position="left" type="border-card" @tab-click="targetChange" @tab-remove="targetRemove" style="height: calc(100% - 43px); margin-top: 10px;">
-                <div class="height40 alignCenter">
-                    <el-text size="large" tag="b" class="marginRight6">{{ $t('roleMenuBody.roleId') }}:</el-text>
-                    <el-text v-if="isValidId(currentRole.id)" size="large" tag="b" class="marginRight6">{{ currentRole.id }}</el-text>
-                </div>
-                <div class="paddingBottom10 height40 alignCenter">
-                    <el-text size="large" tag="b" class="marginRight6">{{ $t('roleMenuBody.roleName') }}:</el-text>
-                    <el-input ref="inputRoleName" v-if="currentRole.id" :placeholder="$t('roleMenuBody.pleaseInputRoleName')" v-model="currentRole.name" style="width: 200px; margin-right: 6px;" />
-                    <el-button v-if="isValidId(currentRole.id)" type="primary" @click="updateRoleName">{{ $t('roleMenuBody.save') }}</el-button>
-                    <el-button v-if="currentRole.id && isNaN(currentRole.id)" type="success" @click="createNewRole">{{ $t('roleMenuBody.create') }}</el-button>
-                </div>
-                <div class="marginBottom10" >
-                    <el-text size="large" tag="b" class="marginRight12">{{ $t('roleMenuBody.selectMenu') }}:</el-text>
-                    <el-button type="info" @click="expandAll(true)">{{ $t('roleMenuBody.expandTrue') }}</el-button>
-                    <el-button @click="expandAll(false)">{{ $t('roleMenuBody.expandFalse') }}</el-button>
-                </div>
-                <el-row class="border-top border-left border-right alignCenter">
-                    <div style="width: 64px;"></div> 
-                    <div class="border-right alignCenter justifyCenter font-color border-left" style="flex: 1;"><b>{{ $t('roleMenuBody.name') }}</b></div>
-                    <div class="border-right alignCenter justifyCenter font-color" style="flex: 1;"><b>{{ $t('roleMenuBody.id') }}</b></div>
-                    <div class="border-right alignCenter justifyCenter font-color" style="flex: 1;"><b>{{ $t('roleMenuBody.icon') }}</b></div>
-                    <div class="alignCenter justifyCenter font-color" style="flex: 1;"><b>{{ $t('roleMenuBody.path') }}</b></div>
-                </el-row>   
-                <div class="maxFrame marginBottom5">
-                    <div v-if="currentRole.id === null" class="center fullFrame">
-                        <el-empty :description="$t('roleMenuBody.selectRole')" />
+                <div style="height: 132px;">
+                    <div class="height40 alignCenter">
+                        <el-text size="large" tag="b" class="marginRight6">{{ $t('roleMenuBody.roleId') }}:</el-text>
+                        <el-text v-if="isValidId(currentRole.id)" size="large" tag="b" class="marginRight6">{{ currentRole.id }}</el-text>
                     </div>
-                    <el-tab-pane style="height: 100%;" v-for="(role) in showRoleList" :key="role.id"
-                        :label="role.roleName" :name="role.id" :closable="!isValidId(role.id)" >
-                        <template #label >
-                            <span class="justifyBetween alignCenter">
-                                <span>{{ role.roleName }}</span>
-                                <el-icon v-if="isValidId(role.id)" class="closeIcon" @click="removeChecked($event, role.id)" >
-                                    <CloseBold />
-                                </el-icon>
-                            </span>
-                        </template>
-                        <div v-if="!isValidId(currentRole.id)" class="center fullFrame">
-                            <el-empty :description="$t('roleMenuBody.createFirst')" />
-                        </div>
-                        <div v-else>
-                            <el-tree  
-                            ref="tree"
-                            :data="allMenu"
-                            :default-checked-keys="defaultMenuIds"
-                            show-checkbox
-                            node-key="id"
-                            :props="defaultProps"
-                            >
-                                <template #default="{ data }">
-                                    <el-row :style="{ width: '100%', paddingLeft: data.parentsId === 0 ? '18px' : '0' }">
-                                        <el-col class="alignCenter justifyCenter" :span="6">
-                                            <span v-if="data.status === false"><s>{{ $t(data.name) }}</s></span>
-                                            <span v-else>{{ $t(data.name) }}</span>
-                                        </el-col>
-                                        <el-col class="alignCenter justifyCenter" :span="6">{{ data.id }}</el-col>
-                                        <el-col class="alignCenter justifyCenter" :span="6">
-                                            <el-icon>
-                                                <component :is="data.icon" />
-                                            </el-icon>
-                                        </el-col>
-                                        <el-col class="alignCenter justifyCenter" :span="6">{{ data.path }}</el-col>
-                                    </el-row>
-                                </template>
-                            </el-tree>
-                        </div>
-                    </el-tab-pane>
+                    <div class="paddingBottom10 height40 alignCenter">
+                        <el-text size="large" tag="b" class="marginRight6">{{ $t('roleMenuBody.roleName') }}:</el-text>
+                        <el-input ref="inputRoleName" v-if="currentRole.id" :placeholder="$t('roleMenuBody.pleaseInputRoleName')" v-model="currentRole.name" style="width: 200px; margin-right: 6px;" />
+                        <el-button v-if="isValidId(currentRole.id)" type="primary" @click="updateRoleName">{{ $t('roleMenuBody.save') }}</el-button>
+                        <el-button v-if="currentRole.id && isNaN(currentRole.id)" type="success" @click="createNewRole">{{ $t('roleMenuBody.create') }}</el-button>
+                    </div>
+                    <div class="marginBottom10" >
+                        <el-text size="large" tag="b" class="marginRight12">{{ $t('roleMenuBody.selectMenu') }}:</el-text>
+                        <el-button type="info" @click="expandAll(true)">{{ $t('roleMenuBody.expandTrue') }}</el-button>
+                        <el-button @click="expandAll(false)">{{ $t('roleMenuBody.expandFalse') }}</el-button>
+                    </div>
                 </div>
-                <div class="justifyCenter padding10">
+                <div style="height: calc(100% - 174px)">
+                    <el-row class="border-top border-left border-right alignCenter">
+                        <div style="width: 64px;"></div> 
+                        <div class="border-right alignCenter justifyCenter font-color border-left" style="flex: 1;"><b>{{ $t('roleMenuBody.name') }}</b></div>
+                        <div class="border-right alignCenter justifyCenter font-color" style="flex: 1;"><b>{{ $t('roleMenuBody.id') }}</b></div>
+                        <div class="border-right alignCenter justifyCenter font-color" style="flex: 1;"><b>{{ $t('roleMenuBody.icon') }}</b></div>
+                        <div class="alignCenter justifyCenter font-color" style="flex: 1;"><b>{{ $t('roleMenuBody.path') }}</b></div>
+                    </el-row>   
+                    <div class="maxFrame marginBottom5">
+                        <div v-if="currentRole.id === null" class="center fullFrame">
+                            <el-empty :description="$t('roleMenuBody.selectRole')" />
+                        </div>
+                        <el-tab-pane style="height: 100%;" v-for="(role) in showRoleList" :key="role.id"
+                            :label="role.roleName" :name="role.id" :closable="!isValidId(role.id)" >
+                            <template #label >
+                                <span class="justifyBetween alignCenter">
+                                    <span>{{ role.roleName }}</span>
+                                    <el-icon v-if="isValidId(role.id)" class="closeIcon" @click="removeChecked($event, role.id)" >
+                                        <CloseBold />
+                                    </el-icon>
+                                </span>
+                            </template>
+                            <div v-if="!isValidId(currentRole.id)" class="center fullFrame">
+                                <el-empty :description="$t('roleMenuBody.createFirst')" />
+                            </div>
+                            <div v-else>
+                                <el-tree  
+                                ref="tree"
+                                :data="allMenu"
+                                :default-checked-keys="defaultMenuIds"
+                                show-checkbox
+                                node-key="id"
+                                :props="defaultProps"
+                                >
+                                    <template #default="{ data }">
+                                        <el-row :style="{ width: '100%', paddingLeft: data.parentsId === 0 ? '18px' : '0' }">
+                                            <el-col class="alignCenter justifyCenter" :span="6">
+                                                <span v-if="data.status === false"><s>{{ $t(data.name) }}</s></span>
+                                                <span v-else>{{ $t(data.name) }}</span>
+                                            </el-col>
+                                            <el-col class="alignCenter justifyCenter" :span="6">{{ data.id }}</el-col>
+                                            <el-col class="alignCenter justifyCenter" :span="6">
+                                                <el-icon>
+                                                    <component :is="data.icon" />
+                                                </el-icon>
+                                            </el-col>
+                                            <el-col class="alignCenter justifyCenter" :span="6">{{ data.path }}</el-col>
+                                        </el-row>
+                                    </template>
+                                </el-tree>
+                            </div>
+                        </el-tab-pane>
+                    </div>
+                </div>
+                <div class="justifyCenter padding10" style="height: 32px;">
                     <el-button v-if="isValidId(currentRole.id)" type="primary" @click="saveRoleMenu">
                         {{ $t('roleMenuBody.save') }}
                     </el-button>
@@ -344,8 +348,8 @@ const defaultProps = {
 
 .maxFrame {
     border: 1px solid #dcdfe6;
-    width: calc(100% -2px);
-    height: 580px;
+    width: calc(100% - 2px);
+    height: calc(100% - 19px);
     overflow: auto;
 }
 

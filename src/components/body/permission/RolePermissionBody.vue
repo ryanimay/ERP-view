@@ -1,5 +1,5 @@
 <template>
-    <div class="justifyCenter" v-loading.lock="loading" >
+    <div class="justifyCenter fullFrame" v-loading.lock="loading" >
         <div class="fullFrame marginSide16">
             <span class="marginRight20">
                 <el-button type="success" @click="openAddRole" >+{{ $t('rolePermissionBody.addRole') }}</el-button>

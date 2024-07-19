@@ -204,6 +204,7 @@ function rowStyle(){
 <style scope>
 .border{
     border: 2px solid #dcdfe6;
+    overflow: auto;
 }
 .mergin5{
     margin: 10px;

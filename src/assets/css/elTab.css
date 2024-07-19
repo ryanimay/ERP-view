@@ -11,5 +11,5 @@
     background-color: #dddddd !important;
 }
 .el-tabs__content{
-    height: 100%;
+    height: calc(100% - 20px) !important;
 }
