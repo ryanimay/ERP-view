@@ -36,6 +36,7 @@ export default {
     banPermission: request(path.api.permission.ban),
     getSalaryList: request(path.api.salary.get),
     salaryRoots: request(path.api.salary.roots),
+    editSalaryRoots: request(path.api.salary.editRoot),
 }
 
 const axios = instance();

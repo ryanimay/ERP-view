@@ -5,16 +5,16 @@
                 <span>
                     <span class="searchHeaderBlock">{{ $t('salarySettingBody.search') }}</span>
                     <span class="searchHeaderBlock">
-                        <el-input @keydown="numberInput" @input="numSize" type="number" v-model="requestParam.userId" style="width: 200px" clearable :placeholder="$t('salarySettingBody.pleaseInputUserId')"/>
-                    </span>
-                    <span class="searchHeaderBlock">
-                        <el-button type="primary" @click="requestSalaryRoots()">
-                            <el-icon>
-                                <Search />
-                            </el-icon>
-                            {{ $t('salarySettingBody.search') }}
-                        </el-button>
-                    </span>
+                    <el-input oninput="value = value.replace(/[^\d]/g, ''); if (value > 9999) value = 9999;" v-model="requestParam.userId" style="width: 200px" clearable :placeholder="$t('salarySettingBody.pleaseInputUserId')"/>
+                </span>
+                <span class="searchHeaderBlock">
+                    <el-button type="primary" @click="requestSalaryRoots()">
+                        <el-icon>
+                            <Search />
+                        </el-icon>
+                        {{ $t('salarySettingBody.search') }}
+                    </el-button>
+                </span>
                 </span>
                 <span>
                     <el-button type="danger" @click="openAddNewRoot">
@@ -38,11 +38,7 @@
                     <el-table-column column-key="time" prop="time" :label="$t('salarySettingBody.col-time')" min-width="105" sortable='custom' :align="'center'" />
                     <el-table-column :label="$t('clientBody.col-config')" min-width="80" :align="'center'">
                         <template #default="scope">
-                            <el-button type="primary" @click="openEdit(scope.row)" >
-                                <el-icon>
-                                    <EditPen />
-                                </el-icon>
-                            </el-button>
+                            <el-button type="primary" icon="EditPen" @click="openEdit(scope.row)" />
                         </template>
                     </el-table-column>
                 </el-table>
@@ -72,26 +68,46 @@
                 </el-pagination>
             </el-footer>
 
-            <!--申請新用戶彈窗-->
-            <el-dialog v-model="addNewRootDialog" :title="$t('salarySettingBody.addNewRoot')" width="350">
-                <el-form :model="applyUserData" label-position="right" @submit.prevent>
-                    <el-form-item :label="$t('salarySettingBody.col-username')+':'">
-                        <el-input v-model="applyUserData.username" ref="registerUserName"/>
+            <!--新增薪資設定彈窗-->
+            <el-dialog v-model="addNewRootDialog" :title="$t('salarySettingBody.addNewRoot')" width="350" @close="cleanAddDialog">
+                <el-form :model="salaryRoot" label-position="right" @submit.prevent>
+                    <el-form-item :label="$t('salarySettingBody.col-userId')+':'">
+                        <el-tooltip
+                            placement="top"
+                            trigger="hover"
+                            :content="$t('salarySettingBody.col-userIdPrompt')">
+                            <el-input 
+                            ref="userIdCol"
+                            v-model="salaryRoot.userId" 
+                            oninput="value = value.replace(/[^\d]/g, ''); if (value > 9999) value = 9999;"/>
+                        </el-tooltip>
                     </el-form-item>
-                    <el-form-item :label="$t('salarySettingBody.col-departmentName')+':'">
-                        <el-select v-model="applyUserData.departmentId" style="width: 150px" placeholder="none">
-                            <el-option v-for="val in departmentList"
-                            :key="val.id"
-                            :label="val.name"
-                            :value="val.id"
-                            />
-                        </el-select>
+                    <el-form-item :label="$t('salarySettingBody.col-baseSalary')+':'">
+                        <el-input  
+                        ref="baseSalaryCol"
+                        v-model="salaryRoot.baseSalary" 
+                        :formatter="(value) => '$ '+ `${value}`.replace(/[^\d]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"/>
+                    </el-form-item>
+                    <el-form-item :label="$t('salarySettingBody.col-mealAllowance')+':'">
+                        <el-input v-model="salaryRoot.mealAllowance"
+                        :formatter="(value) => '$ '+ `${value}`.replace(/[^\d]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"/>
+                    </el-form-item>
+                    <el-form-item :label="$t('salarySettingBody.col-laborInsurance')+':'">
+                        <el-input v-model="salaryRoot.laborInsurance" 
+                        :formatter="(value) => '$ '+ `${value}`.replace(/[^\d]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"/>
+                    </el-form-item>
+                    <el-form-item :label="$t('salarySettingBody.col-nationalHealthInsurance')+':'">
+                        <el-input v-model="salaryRoot.nationalHealthInsurance" 
+                        :formatter="(value) => '$ '+ `${value}`.replace(/[^\d]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"/>
                     </el-form-item>
                 </el-form>
                 <template #footer>
                     <div class="dialog-footer">
-                        <el-button @click="handleClose">{{ $t('salarySettingBody.cancel') }}</el-button>
-                        <el-button type="primary" @click="applyUser">{{ $t('salarySettingBody.submit') }}</el-button>
+                        <el-button type="primary" @click="addSalaryRoot">{{ $t('salarySettingBody.save') }}</el-button>
                     </div>
                 </template>
             </el-dialog>
@@ -108,28 +124,6 @@
                             />
                         </el-select>
                         <el-button type="primary" @click="editUser">{{ $t('salarySettingBody.save') }}</el-button>
-                    </div>
-                    <div class="alignCenter">
-                        <el-text size="large" tag="b">{{$t('salarySettingBody.col-active')}}:</el-text>
-                        <el-switch v-model="statusData.active" inline-prompt size="large" style="margin-left: 10px; --el-switch-on-color: #67c23a; --el-switch-off-color: #f56c6c" @change="changeActive">
-                            <template #active-action>
-                                <el-icon><Select></Select></el-icon>
-                            </template>
-                            <template #inactive-action>
-                                <el-icon><CloseBold /></el-icon>
-                            </template>
-                        </el-switch>
-                    </div>
-                    <div class="alignCenter">
-                        <el-text size="large" tag="b">{{$t('salarySettingBody.col-lock')}}:</el-text>
-                        <el-switch v-model="statusData.lock" inline-prompt size="large" style="margin-left: 10px; --el-switch-on-color: #f56c6c; --el-switch-off-color: #67c23a" @change="changeLock">
-                            <template #active-action>
-                                <el-icon><Select></Select></el-icon>
-                            </template>
-                            <template #inactive-action>
-                                <el-icon><CloseBold /></el-icon>
-                            </template>
-                        </el-switch>
                     </div>
                 </div>
             </el-dialog>
@@ -150,18 +144,17 @@ const editData = reactive({
     id: null,
     departmentId: null,
 })
-const statusData = reactive({
-    clientId: null,
-    username: null,
-    active: null,
-    lock: null,
+const salaryRoot = reactive({
+    id: null,
+    userId: '',
+    baseSalary: '',
+    mealAllowance: '',
+    laborInsurance: '',
+    nationalHealthInsurance: '',
+    root: true
 })
-const applyUserData = reactive({
-    createBy: user.id,
-    username: null,
-    departmentId: null
-})
-const registerUserName = ref(false);
+const userIdCol = ref(false);
+const baseSalaryCol = ref(false);
 const addNewRootDialog = ref(false);
 const editUserDialog = ref(false);
 const loading = ref(false);
@@ -199,7 +192,6 @@ async function requestSalaryRoots() {
 async function loadSalaryRoots(requestParam){
     const response = await request.salaryRoots(requestParam);
     const data = handleResponse(response);
-    console.log(data);
     updatePage(data);
 }
 function handleResponse(response) {
@@ -216,17 +208,6 @@ function updatePage(response){
         requestParam.pageSize = response.pageSize;
         requestParam.totalElements = response.totalElements;
         requestParam.totalPage = response.totalPage;
-    }
-}
-//擋掉科學記號
-function numberInput(val){
-    if(val.key === 'e' || val.key === 'E' || val.key === '-' || val.key === '+'){
-        val.preventDefault();
-    }
-}
-function numSize(val){
-    if(val > 99999){
-        requestParam.id = 99999;
     }
 }
 function handleCurrentChange(page){
@@ -252,61 +233,36 @@ function getOrder(order){
 function openAddNewRoot(){
     addNewRootDialog.value = true;
 }
-function handleClose(){
-    applyUserData.username = null;
-    applyUserData.departmentId = null;
-    addNewRootDialog.value = false;
-}
-async function applyUser(){
+async function addSalaryRoot(){
     fullLoading.value = true;
-    if(dataInvalid()){
-        proxy.$msg.error(t('salarySettingBody.pleaseInputUserName'));
-        registerUserName.value.focus();
-    }else{
-        const response = await request.register(applyUserData);
+    if(!dataInvalid()){
+        const response = await request.editSalaryRoots(salaryRoot);
         if(response.data.code === 200){
             proxy.$msg.success(response.data.data);
-            applyUserData.username = null;
-            applyUserData.departmentId = null;
             await loadSalaryRoots();//新增完重載清單
-            requestParam.id =  null;
-            requestParam.name =  null;
             addNewRootDialog.value = false;
+        }else{
+            proxy.$msg.error(response.data.data);
         }
     }
     fullLoading.value = false;
 }
 function dataInvalid(){
-    return !applyUserData.username || applyUserData.username.trim() === '';
+    if(salaryRoot.userId === ''){
+        proxy.$msg.error(t('salarySettingBody.pleaseInputUserId'));
+        userIdCol.value.focus();
+        return true;
+    }else if(salaryRoot.baseSalary === '' || parseInt(salaryRoot.baseSalary) === 0){
+        proxy.$msg.error(t('salarySettingBody.pleaseInputBaseSalary'));
+        baseSalaryCol.value.focus();
+        return true;
+    }
+    return false;
 }
 function openEdit(row){
-    statusData.clientId = row.id;
-    statusData.username = row.username;
-    statusData.active = row.active;
-    statusData.lock = row.lock;
     editData.id = row.id;
     editData.departmentId = row.department ? row.department.id : null;
     editUserDialog.value = true;
-}
-async function changeActive(val){
-    fullLoading.value = true;
-    statusData['status'] = val;
-    const response = await request.clientStatus(statusData);
-    handleClientStatusResponse(response);
-    fullLoading.value = false;
-}
-async function changeLock(val){
-    fullLoading.value = true;
-    statusData['status'] = val;
-    const response = await request.clientLock(statusData);
-    handleClientStatusResponse(response);
-    fullLoading.value = false;
-}
-async function handleClientStatusResponse(response){
-    if(response.data.code === 200){
-        proxy.$msg.success(response.data.data);
-        await loadSalaryRoots(requestParam);//更新完重載
-    }
 }
 async function editUser(){
     fullLoading.value = true;
@@ -320,6 +276,13 @@ async function editUser(){
         }
     }
     fullLoading.value = false;
+}
+function cleanAddDialog(){
+    salaryRoot.userId = '';
+    salaryRoot.baseSalary = '';
+    salaryRoot.mealAllowance = '';
+    salaryRoot.laborInsurance = '';
+    salaryRoot.nationalHealthInsurance = '';
 }
 </script>
 

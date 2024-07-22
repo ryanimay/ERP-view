@@ -247,8 +247,11 @@ const userKick = async (msg) => {
 }
 const handleNotification = (message) => {
     var data = JSON.parse(message).data;
-    data.forEach(msg => notification.value.push(msg));
-    
+    if (Array.isArray(data)) {
+        data.forEach(msg => notification.value.push(msg));
+    } else {
+        notification.value.push(data);
+    }
 };
 
 async function getMenu() {

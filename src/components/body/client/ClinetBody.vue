@@ -18,7 +18,7 @@
                         </el-select>
                     </span>
                     <span class="searchHeaderBlock">
-                        <el-input v-if="requestParam.type == 1" class="no-number" @keydown="numberInput" @input="numSize" type="number" v-model="requestParam.id" style="width: 200px" clearable/>
+                        <el-input v-if="requestParam.type == 1" class="no-number" oninput="value = value.replace(/[^\d]/g, ''); if (value > 9999) value = 9999;" type="number" v-model="requestParam.id" style="width: 200px" clearable/>
                         <el-input v-else-if="requestParam.type == 2" v-model="requestParam.name" style="width: 200px" clearable/>
                         <el-input v-else v-model="requestParam.id" style="width: 200px" disabled/>
                     </span>
@@ -314,17 +314,6 @@ function statusText2(status){
         return 'clientBody.lock.true';
     }else{
         return 'clientBody.lock.false';
-    }
-}
-//擋掉科學記號
-function numberInput(val){
-    if(val.key === 'e' || val.key === 'E' || val.key === '-' || val.key === '+'){
-        val.preventDefault();
-    }
-}
-function numSize(val){
-    if(val > 99999){
-        requestParam.id = 99999;
     }
 }
 function handleCurrentChange(page){

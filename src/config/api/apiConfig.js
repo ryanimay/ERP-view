@@ -191,6 +191,11 @@ const config = {
           path: salary + '/roots',
           method:'get',
           requiresAuth: true
+        },
+        editRoot:{
+          path: salary + '/editRoot',
+          method:'post',
+          requiresAuth: true
         }
       }
     };

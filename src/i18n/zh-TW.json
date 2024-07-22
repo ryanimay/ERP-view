@@ -200,6 +200,7 @@
         "createTime":"創建時間"
     },
     "salarySettingBody":{
+        "col-userIdPrompt":"如ID已設定過, 則會進行修改, 反之則為新增",
         "col-userId":"用戶Id",
         "col-username":"用戶名稱",
         "col-baseSalary":"基本薪資",
@@ -210,26 +211,16 @@
         "col-active":"帳戶狀態",
         "col-lock":"帳戶鎖定",
         "col-config":"設置",
-        "active":{
-            "true":"啟用中",
-            "false":"停用中"
-        },
-        "lock":{
-            "true":"鎖定中",
-            "false":"未鎖定"
-        },
         "total":"總數",
         "totalQuantifier":"條",
         "pageQuantifier":"/頁",
         "search":"搜尋",
         "addNewRoot":"新增薪資設定",
         "cancel":"取消",
-        "submit":"提交",
-        "new":"新用戶",
         "save":"保存",
         "updateSuccess":"保存成功",
-        "pleaseInputUserName":"請輸入用戶名",
-        "pleaseInputUserId":"請輸入用ID"
+        "pleaseInputBaseSalary":"請至少輸入基本薪資",
+        "pleaseInputUserId":"請輸入用戶ID"
     },
 
 
