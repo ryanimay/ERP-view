@@ -79,7 +79,7 @@
                             <el-input 
                             ref="userIdCol"
                             v-model="salaryRoot.userId" 
-                            oninput="value = value.replace(/[^\d]/g, ''); if (value > 9999) value = 9999;"/>
+                            @input="handleUserIdInput"/>
                         </el-tooltip>
                     </el-form-item>
                     <el-form-item :label="$t('salarySettingBody.col-baseSalary')+':'">
@@ -282,6 +282,12 @@ function cleanAddDialog(){
     salaryRoot.laborInsurance = '';
     salaryRoot.nationalHealthInsurance = '';
 }
+const handleUserIdInput = (value) => {
+    console.log(value);
+    let formattedValue = value.replace(/[^\d]/g, ''); // 只保留数字
+    if (formattedValue > 9999) formattedValue = 9999; // 限制最大值为9999
+    salaryRoot.userId = formattedValue; // 更新数据模型
+};
 </script>
 
 <style scope>
