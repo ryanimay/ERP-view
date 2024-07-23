@@ -241,8 +241,6 @@ async function addSalaryRoot(){
             proxy.$msg.success(response.data.data);
             await loadSalaryRoots();//新增完重載清單
             addNewRootDialog.value = false;
-        }else{
-            proxy.$msg.error(response.data.data);
         }
     }
     fullLoading.value = false;
