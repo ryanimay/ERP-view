@@ -250,7 +250,7 @@ const handleNotification = (message) => {
     if (Array.isArray(data)) {
         data.forEach(msg => notification.value.push(msg));
     } else {
-        notification.value.push(data);
+        notification.value.unshift(data);
     }
 };
 
