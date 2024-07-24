@@ -69,17 +69,19 @@
             </el-footer>
 
             <!--新增薪資設定彈窗-->
-            <el-dialog v-model="addNewRootDialog" :title="$t('salarySettingBody.addNewRoot')" width="350" @close="cleanAddDialog">
+            <el-dialog v-model="editRootDialog" :title="isEdit ? $t('salarySettingBody.editRoot') : $t('salarySettingBody.addNewRoot')" width="350" @close="cleanAddDialog">
                 <el-form :model="salaryRoot" label-position="right" @submit.prevent>
                     <el-form-item :label="$t('salarySettingBody.col-userId')+':'">
                         <el-tooltip
                             placement="top"
                             trigger="hover"
-                            :content="$t('salarySettingBody.col-userIdPrompt')">
+                            :content="$t('salarySettingBody.col-userIdPrompt')"
+                            :disabled="isEdit">
                             <el-input 
                             ref="userIdCol"
                             v-model="salaryRoot.userId" 
-                            @input="handleUserIdInput"/>
+                            @input="handleUserIdInput"
+                            :disabled="isEdit"/>
                         </el-tooltip>
                     </el-form-item>
                     <el-form-item :label="$t('salarySettingBody.col-baseSalary')+':'">
@@ -111,22 +113,6 @@
                     </div>
                 </template>
             </el-dialog>
-            <!--設置用戶狀態彈窗-->
-            <el-dialog v-model="editUserDialog" :title="$t('salarySettingBody.col-config')" width="350" destroy-on-close>
-                <div id="bordorTop">
-                    <div class="alignCenter">
-                        <el-text size="large" tag="b">{{$t('salarySettingBody.col-departmentName')}}:</el-text>
-                        <el-select v-model="editData.departmentId" style="width: 150px; margin: 10px" placeholder="none">
-                            <el-option v-for="val in departmentList"
-                            :key="val.id"
-                            :label="val.name"
-                            :value="val.id"
-                            />
-                        </el-select>
-                        <el-button type="primary" @click="editUser">{{ $t('salarySettingBody.save') }}</el-button>
-                    </div>
-                </div>
-            </el-dialog>
         </el-container>
     </el-main>
 </template>
@@ -134,18 +120,11 @@
 <script setup>
 import request from '@/config/api/request.js';
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue';
-import userStore from '@/config/store/user';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-const user = userStore();
 const { proxy } = getCurrentInstance();
-const editData = reactive({
-    id: null,
-    departmentId: null,
-})
 const salaryRoot = reactive({
-    id: null,
     userId: '',
     baseSalary: '',
     mealAllowance: '',
@@ -153,10 +132,10 @@ const salaryRoot = reactive({
     nationalHealthInsurance: '',
     root: true
 })
+const isEdit = ref(false);
 const userIdCol = ref(false);
 const baseSalaryCol = ref(false);
-const addNewRootDialog = ref(false);
-const editUserDialog = ref(false);
+const editRootDialog = ref(false);
 const loading = ref(false);
 const fullLoading = ref(false);
 const rootList = ref([]);
@@ -231,7 +210,8 @@ function getOrder(order){
     }
 }
 function openAddNewRoot(){
-    addNewRootDialog.value = true;
+    isEdit.value = false;
+    editRootDialog.value = true;
 }
 async function addSalaryRoot(){
     fullLoading.value = true;
@@ -240,7 +220,7 @@ async function addSalaryRoot(){
         if(response.data.code === 200){
             proxy.$msg.success(response.data.data);
             await loadSalaryRoots();//新增完重載清單
-            addNewRootDialog.value = false;
+            editRootDialog.value = false;
         }
     }
     fullLoading.value = false;
@@ -258,22 +238,13 @@ function dataInvalid(){
     return false;
 }
 function openEdit(row){
-    editData.id = row.id;
-    editData.departmentId = row.department ? row.department.id : null;
-    editUserDialog.value = true;
-}
-async function editUser(){
-    fullLoading.value = true;
-    const response = await request.update(editData);
-    const data = handleResponse(response);
-    if(data){
-        proxy.$msg.success(t('salarySettingBody.updateSuccess'));
-        await loadSalaryRoots(requestParam);
-        if(editData.id === user.id){
-            user.update(data);
-        }
-    }
-    fullLoading.value = false;
+    salaryRoot.userId = row.user.id,
+    salaryRoot.baseSalary = row.baseSalary,
+    salaryRoot.mealAllowance = row.mealAllowance,
+    salaryRoot.laborInsurance = row.laborInsurance,
+    salaryRoot.nationalHealthInsurance = row.nationalHealthInsurance,
+    isEdit.value = true;
+    editRootDialog.value = true;
 }
 function cleanAddDialog(){
     salaryRoot.userId = '';
@@ -283,10 +254,9 @@ function cleanAddDialog(){
     salaryRoot.nationalHealthInsurance = '';
 }
 const handleUserIdInput = (value) => {
-    console.log(value);
     let formattedValue = value.replace(/[^\d]/g, ''); // 只保留数字
     if (formattedValue > 9999) formattedValue = 9999; // 限制最大值为9999
-    salaryRoot.userId = formattedValue; // 更新数据模型
+    salaryRoot.userId = formattedValue;
 };
 </script>
 

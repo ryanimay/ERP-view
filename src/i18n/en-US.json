@@ -216,6 +216,7 @@
         "pageQuantifier":"/page",
         "search":"Search",
         "addNewRoot":"Add New Setting",
+        "editRoot":"Edit Salary Setting",
         "cancel":"Cancel",
         "save":"Save",
         "updateSuccess":"Update successful",

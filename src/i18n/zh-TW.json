@@ -216,6 +216,7 @@
         "pageQuantifier":"/頁",
         "search":"搜尋",
         "addNewRoot":"新增薪資設定",
+        "editRoot":"編輯薪資設定",
         "cancel":"取消",
         "save":"保存",
         "updateSuccess":"保存成功",
