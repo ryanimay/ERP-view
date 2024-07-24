@@ -140,6 +140,19 @@ const routerPath = [
             parentName: ':salaryManagement',
             headerKey: 'HomeHeader'
         }
+    },
+    {
+        path: '/performanceList',
+        name: 'performanceList',
+        components: {
+            header: () => import('@/components/header/HomeHeader.vue'),
+            body: () => import('@/components/body/performance/PerformanceListBody.vue'),
+        },
+        meta: { 
+            requiresAuth: true,
+            parentName: ':performanceManagement',
+            headerKey: 'HomeHeader'
+        }
     }
 ]
 
