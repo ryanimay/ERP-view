@@ -279,11 +279,4 @@ const handleUserIdInput = (value) => {
 .searchHeaderBlock{
     padding-right: 10px;
 }
-#bordorTop{
-    border-Top: 1px solid #cccccc;
-}
-.alignCenter{
-    display: flex;
-    align-items: center;
-}
 </style>
