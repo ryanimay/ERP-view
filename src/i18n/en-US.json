@@ -208,8 +208,6 @@
         "col-laborInsurance":"LaborInsurance",
         "col-nationalHealthInsurance":"NationalHealthInsurance",
         "col-time":"LastEditTime",
-        "col-active":"Active",
-        "col-lock":"Lock",
         "col-config":"Config",
         "total":"Total",
         "totalQuantifier":"",

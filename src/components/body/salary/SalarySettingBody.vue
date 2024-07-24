@@ -29,9 +29,9 @@
                     style="width: 100%" :border="true"
                     @sort-change="handleSortChange"
                     :show-overflow-tooltip="true">
-                    <el-table-column column-key="userId" prop="user.id" :label="$t('salarySettingBody.col-userId')" sortable='custom' min-width="65"/>
+                    <el-table-column column-key="userId" prop="user.id" :label="$t('salarySettingBody.col-userId')" sortable='custom' min-width="70"/>
                     <el-table-column column-key="username" prop="user.username" :label="$t('salarySettingBody.col-username')" min-width="130"/>
-                    <el-table-column column-key="baseSalary" prop="baseSalary" :label="$t('salarySettingBody.col-baseSalary')" min-width="150"/>
+                    <el-table-column column-key="baseSalary" prop="baseSalary" :label="$t('salarySettingBody.col-baseSalary')" sortable='custom' min-width="150"/>
                     <el-table-column column-key="mealAllowance" prop="mealAllowance" :label="$t('salarySettingBody.col-mealAllowance')" sortable='custom' min-width="130" />
                     <el-table-column column-key="laborInsurance" prop="laborInsurance" :label="$t('salarySettingBody.col-laborInsurance')" sortable='custom' min-width="130"/>
                     <el-table-column column-key="nationalHealthInsurance" prop="nationalHealthInsurance" :label="$t('salarySettingBody.col-nationalHealthInsurance')" sortable='custom' min-width="130"/>

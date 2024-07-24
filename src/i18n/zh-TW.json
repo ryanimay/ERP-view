@@ -208,8 +208,6 @@
         "col-laborInsurance":"勞保",
         "col-nationalHealthInsurance":"健保",
         "col-time":"上次編輯時間",
-        "col-active":"帳戶狀態",
-        "col-lock":"帳戶鎖定",
         "col-config":"設置",
         "total":"總數",
         "totalQuantifier":"條",
