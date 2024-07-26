@@ -242,7 +242,8 @@
         "roleMenu":"菜單管理",
         "salaryList":"薪資清單",
         "salarySetting":"薪資設置",
-        "performanceList":"個人績效"
+        "personalPerformance":"個人績效",
+        "performanceList":"績效管理"
     },
     "axios":{
         "reLogin":"登入過期，請重新登入"

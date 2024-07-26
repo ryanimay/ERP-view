@@ -243,7 +243,8 @@
         "roleMenu":"Menu Management",
         "salaryList":"Salary List",
         "salarySetting":"Salary Setting",
-        "performanceList":"Personal Performance"
+        "personalPerformance":"Personal Performance",
+        "performanceList":"Performance List"
     },
     "axios":{
         "reLogin":"Your session has expired. Please log in again."

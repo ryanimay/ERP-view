@@ -142,6 +142,19 @@ const routerPath = [
         }
     },
     {
+        path: '/personalPerformance',
+        name: 'personalPerformance',
+        components: {
+            header: () => import('@/components/header/HomeHeader.vue'),
+            body: () => import('@/components/body/performance/PersonalPerformanceBody.vue'),
+        },
+        meta: { 
+            requiresAuth: true,
+            parentName: ':performanceManagement',
+            headerKey: 'HomeHeader'
+        }
+    },
+    {
         path: '/performanceList',
         name: 'performanceList',
         components: {
