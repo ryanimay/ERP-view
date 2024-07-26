@@ -19,6 +19,7 @@ const config = {
     const role = context_path + '/role';
     const permission = context_path + '/permission';
     const salary = context_path + '/salary';
+    const performance = context_path + '/performance';
     return {
       cache: {
       },
@@ -194,6 +195,18 @@ const config = {
         },
         editRoot:{
           path: salary + '/editRoot',
+          method:'post',
+          requiresAuth: true
+        }
+      },
+      performance: {
+        list:{
+          path: performance + '/list',
+          method:'get',
+          requiresAuth: true
+        },
+        add:{
+          path: performance + '/add',
           method:'post',
           requiresAuth: true
         }

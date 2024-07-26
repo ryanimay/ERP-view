@@ -37,6 +37,8 @@ export default {
     getSalaryList: request(path.api.salary.get),
     salaryRoots: request(path.api.salary.roots),
     editSalaryRoots: request(path.api.salary.editRoot),
+    performanceList: request(path.api.performance.list),
+    addPerformance: request(path.api.performance.add),
 }
 
 const axios = instance();
