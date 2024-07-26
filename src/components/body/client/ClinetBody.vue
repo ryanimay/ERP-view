@@ -53,8 +53,8 @@
                     </el-table-column>
                     <el-table-column prop="email" :label="$t('clientBody.col-email')" min-width="150"/>
                     <el-table-column column-key="department" prop="department.name" :label="$t('clientBody.col-departmentName')" sortable='custom' min-width="130" />
-                    <el-table-column column-key="lastLoginTime" prop="lastLoginTime" :label="$t('clientBody.col-lastLoginTime')" sortable='custom' min-width="130" :formatter="formatTime2"/>
-                    <el-table-column column-key="createTime" prop="createTime" :label="$t('clientBody.col-createTime')" sortable='custom' min-width="130" :formatter="formatTime1"/>
+                    <el-table-column column-key="lastLoginTime" prop="lastLoginTime" :label="$t('clientBody.col-lastLoginTime')" sortable='custom' min-width="130" :formatter="formatTime"/>
+                    <el-table-column column-key="createTime" prop="createTime" :label="$t('clientBody.col-createTime')" sortable='custom' min-width="130" :formatter="formatTime"/>
                     <el-table-column column-key="attendStatus" prop="attendStatus" :label="$t('clientBody.col-attendStatus')" min-width="105" sortable='custom' :align="'center'" sort-by="attendStatus">
                         <template #default="scope">
                             <el-tag :type="signType(scope.row.attendStatus)">{{ $t(signText(scope.row.attendStatus)) }}</el-tag>    
@@ -107,7 +107,7 @@
             </el-footer>
 
             <!--申請新用戶彈窗-->
-            <el-dialog v-model="applyUserDialog" :title="$t('clientBody.applyNewUser')" width="350">
+            <el-dialog v-model="applyUserDialog" :title="$t('clientBody.applyNewUser')" width="350" @close="handleClose">
                 <el-form :model="applyUserData" label-position="right" @submit.prevent>
                     <el-form-item :label="$t('clientBody.col-username')+':'">
                         <el-input v-model="applyUserData.username" ref="registerUserName"/>
@@ -262,14 +262,8 @@ function updatePage(response){
         requestParam.totalPage = response.totalPage;
     }
 }
-function formatTime(time){
-    return time ? time.replace("T", " ") : time;
-}
-function formatTime1(cellValue){
-    return formatTime(cellValue.createTime);
-}
-function formatTime2(cellValue){
-    return formatTime(cellValue.lastLoginTime);
+function formatTime(row, column, cellValue){
+    return cellValue ? cellValue.replace("T", " ") : cellValue;
 }
 function signType(type){
     switch (type) {
