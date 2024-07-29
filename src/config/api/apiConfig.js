@@ -200,6 +200,11 @@ const config = {
         }
       },
       performance: {
+        pendingList:{
+          path: performance + '/pendingList',
+          method:'get',
+          requiresAuth: true
+        },
         list:{
           path: performance + '/list',
           method:'get',

@@ -244,6 +244,33 @@
         "pleaseInputEvent":"Please Input Event",
         "pleaseInputEventTime":"Please Input EventTime"
     },
+    "performanceList":{
+        "search":"Search",
+        "userId":"UserId",
+        "to":"To",
+        "status":"Status",
+        "All":"All",
+        "Pending":"Pending",
+        "Approved":"Approved",
+        "Closed":"Closed",
+        "Removed":"Removed",
+        "col-userId":"User Id",
+        "col-userName":"User Name",
+        "col-createTime":"Create Time",
+        "col-eventTime":"Event Time",
+        "col-event":"Event",
+        "col-fixedBonus":"Fixed Bonus",
+        "col-performanceRatio":"Performance Ratio",
+        "col-status":"Performance Status",
+        "total":"Total",
+        "totalQuantifier":"",
+        "pageQuantifier":"/page",
+        "applyPerformance":"Apply Performance",
+        "submit":"Save",
+        "inputUserId":"Input UserId",
+        "pleaseInputEvent":"Please Input Event",
+        "pleaseInputEventTime":"Please Input EventTime"
+    },
 
 
 

@@ -38,6 +38,7 @@ export default {
     salaryRoots: request(path.api.salary.roots),
     editSalaryRoots: request(path.api.salary.editRoot),
     performanceList: request(path.api.performance.list),
+    performancePendingList: request(path.api.performance.pendingList),
     addPerformance: request(path.api.performance.add),
 }
 
