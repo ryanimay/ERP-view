@@ -311,6 +311,9 @@ function statusText2(status){
     }
 }
 function handleCurrentChange(page){
+    if (requestParam.totalPage === 0) {
+        return; // total為0避免重複觸發
+    }
     requestParam.pageNum = page;
     requestClientList();
 }

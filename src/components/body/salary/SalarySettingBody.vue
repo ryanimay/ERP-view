@@ -190,6 +190,9 @@ function updatePage(response){
     }
 }
 function handleCurrentChange(page){
+    if (requestParam.totalPage === 0) {
+        return; // total為0避免重複觸發
+    }
     requestParam.pageNum = page;
     requestSalaryRoots();
 }

@@ -130,6 +130,7 @@ const searchParams = reactive({
     userId: user.id,//固定找本人績效
     startTime:null,
     endTime:null,
+    status:null,
     pageNum:null,
     pageSize:null,
     sort: null,
@@ -199,6 +200,9 @@ function setTime(times){
     }
 }
 function handleCurrentChange(page){
+    if (searchParams.totalPage === 0) {
+        return; // total為0避免重複觸發
+    }
     searchParams.pageNum = page;
     requestPerformance();
 }
