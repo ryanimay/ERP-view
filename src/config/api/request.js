@@ -41,6 +41,9 @@ export default {
     performanceList: request(path.api.performance.list),
     performancePendingList: request(path.api.performance.pendingList),
     addPerformance: request(path.api.performance.add),
+    rejectPerformance: request(path.api.performance.remove),
+    updatePerformance: request(path.api.performance.update),
+    acceptPerformance: request(path.api.performance.accept),
 }
 
 const axios = instance();

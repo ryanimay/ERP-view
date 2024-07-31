@@ -254,6 +254,7 @@
         "Approved":"已審核",
         "Closed":"已結算",
         "Removed":"已取消",
+        "col-applyUser":"申請用戶",
         "col-userId":"用戶Id",
         "col-userName":"用戶名稱",
         "col-createTime":"創建時間",
@@ -262,14 +263,23 @@
         "col-fixedBonus":"固定績效",
         "col-performanceRatio":"比例績效",
         "col-status":"績效狀態",
+        "col-review":"審核",
         "total":"總數",
         "totalQuantifier":"條",
         "pageQuantifier":"/頁",
         "applyPerformance":"績效申請",
-        "submit":"保存",
+        "save":"保存",
         "inputUserId":"輸入用戶Id",
+        "pleaseInputUserId":"請輸入輸入用戶Id",
         "pleaseInputEvent":"請輸入績效內容",
-        "pleaseInputEventTime":"請輸入績效時間"
+        "pleaseInputEventTime":"請輸入績效時間",
+        "pleaseInputAmount":"請至少輸入其中一績效金額",
+        "reviewPerformance":"績效審核",
+        "performanceId":"績效Id",
+        "btn-approved":"通過審核",
+        "btn-save":"暫存",
+        "btn-rejected":"駁回績效",
+        "pleaseSaveFirst":"請先做儲存才能通過審核"
     },
 
 

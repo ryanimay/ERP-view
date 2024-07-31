@@ -219,6 +219,21 @@ const config = {
           path: performance + '/add',
           method:'post',
           requiresAuth: true
+        },
+        remove:{
+          path: performance + '/remove',
+          method:'delete',
+          requiresAuth: true
+        },
+        update:{
+          path: performance + '/update',
+          method:'put',
+          requiresAuth: true
+        },
+        accept:{
+          path: performance + '/accept',
+          method:'put',
+          requiresAuth: true
         }
       }
     };
