@@ -54,7 +54,7 @@
                     <el-table-column column-key="performanceRatio" prop="performanceRatio" :label="$t('personalPerformance.col-performanceRatio')" min-width="150"/>
                     <el-table-column column-key="status" prop="status" :label="$t('personalPerformance.col-status')" min-width="160" :align="'center'" >
                         <template #default="scope">
-                            <el-tag effect="plain" :type="statusType(scope.row.status)">{{ formatStatus(scope.row.status) }}</el-tag>    
+                            <el-tag effect="dark" :type="statusType(scope.row.status)">{{ formatStatus(scope.row.status) }}</el-tag>    
                         </template>
                     </el-table-column>
                 </el-table>
