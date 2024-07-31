@@ -79,6 +79,11 @@ const config = {
           method:'post',
           requiresAuth: true
         },
+        nameList: {
+          path: client + '/nameList',
+          method:'get',
+          requiresAuth: true
+        },
       },
       role: {
         list: {

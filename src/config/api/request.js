@@ -16,6 +16,7 @@ export default {
     clientStatus: request(path.api.client.clientStatus),
     clientLock: request(path.api.client.clientLock),
     refreshToken: request(path.api.client.refreshT),
+    clientNameList: request(path.api.client.nameList),
     allMenu: request(path.api.menu.all),
     pMenu: request(path.api.menu.pMenu),
     signIn: request(path.api.attend.signIn),
