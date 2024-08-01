@@ -44,6 +44,7 @@ export default {
     rejectPerformance: request(path.api.performance.remove),
     updatePerformance: request(path.api.performance.update),
     acceptPerformance: request(path.api.performance.accept),
+    calculatePerformance: request(path.api.performance.calculate),
 }
 
 const axios = instance();

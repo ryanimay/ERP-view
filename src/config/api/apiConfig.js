@@ -234,6 +234,11 @@ const config = {
           path: performance + '/accept',
           method:'put',
           requiresAuth: true
+        },
+        calculate:{
+          path: performance + '/calculate',
+          method:'get',
+          requiresAuth: true
         }
       }
     };

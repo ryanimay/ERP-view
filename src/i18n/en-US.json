@@ -230,6 +230,9 @@
         "Approved":"Approved",
         "Closed":"Closed",
         "Removed":"Removed",
+        "col-userId":"User Id",
+        "col-userName":"User Name",
+        "col-settleYear":"Settle Year",
         "col-createTime":"Create Time",
         "col-eventTime":"Event Time",
         "col-event":"Event",
@@ -242,7 +245,10 @@
         "applyPerformance":"Apply Performance",
         "submit":"Save",
         "pleaseInputEvent":"Please Input Event",
-        "pleaseInputEventTime":"Please Input EventTime"
+        "pleaseInputEventTime":"Please Input EventTime",
+        "personalAnnualPerformance":"Personal annual performance",
+        "annualPerformance":"Annual Performance Total",
+        "count": "Performance Count"
     },
     "performanceList":{
         "search":"Search",
@@ -279,7 +285,8 @@
         "btn-approved":"Approved",
         "btn-save":"Save",
         "btn-rejected":"Rejected",
-        "pleaseSaveFirst": "Please save first before approving"
+        "pleaseSaveFirst": "Please save first before approving",
+        "annualPerformance":"Annual Performance"
     },
 
 

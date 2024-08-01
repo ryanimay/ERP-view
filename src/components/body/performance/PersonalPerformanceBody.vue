@@ -35,6 +35,10 @@
                     </span>
                 </span>
                 <span>
+                    <el-button color="#80C080" @click="calculate">
+                        <el-icon><Flag /></el-icon>
+                        {{ $t('personalPerformance.personalAnnualPerformance') }}
+                    </el-button>
                     <el-button type="danger" @click="openApply">
                         {{ $t('personalPerformance.applyPerformance') }}
                     </el-button>
@@ -71,7 +75,7 @@
                 @current-change="handleCurrentChange">
                 <span class="fontBold">
                     <span>{{ $t('personalPerformance.total') + ' ' + searchParams.totalElements + $t('personalPerformance.totalQuantifier') }}</span>
-                    <span id="marginLeft12">
+                    <span class="marginLeft12">
                         <el-select v-model="searchParams.pageSize" style="width: 110px" @change="handleSizeChange">
                             <el-option v-for="size in sizeOptions"
                                 :key="size"
@@ -105,6 +109,29 @@
                     </div>
                 </template>
             </el-dialog>
+            <!--年度績效彈窗-->
+            <el-dialog v-model="annualDialog" :title="$t('personalPerformance.annualPerformance')" width="350" @close="handleAnnualClose">
+                <el-form :model="annualParams" label-position="right">
+                    <el-form-item :label="$t('personalPerformance.col-userId')+':'">
+                        <el-text size="large">{{ annualParams.userId }}</el-text>
+                    </el-form-item>
+                    <el-form-item :label="$t('personalPerformance.col-userName')+':'">
+                        <el-text size="large">{{ annualParams.userName }}</el-text>
+                    </el-form-item>
+                    <el-form-item :label="$t('personalPerformance.col-settleYear')+':'">
+                        <el-text size="large">{{ annualParams.settleYear }}</el-text>
+                    </el-form-item>
+                    <el-form-item :label="$t('personalPerformance.count')+':'">
+                        <el-text size="large">{{ annualParams.count }}</el-text>
+                    </el-form-item>
+                    <el-form-item :label="$t('personalPerformance.col-fixedBonus')+':'">
+                        <el-text size="large">{{ annualParams.fixedBonus }}</el-text>
+                    </el-form-item>
+                    <el-form-item :label="$t('personalPerformance.col-performanceRatio')+':'">
+                        <el-text size="large">{{ annualParams.performanceRatio }}</el-text>
+                    </el-form-item>
+                </el-form>
+            </el-dialog>
         </el-container>
     </el-main>
 </template>
@@ -123,6 +150,7 @@ const searchTime = ref([]);
 const loading = ref(false);
 const fullLoading = ref(false);
 const applyDialog = ref(false);
+const annualDialog = ref(false);
 const eventRef = ref(false);
 const eventTimeRef = ref(false);
 const performanceList = ref([]);
@@ -142,6 +170,14 @@ const applyParams = reactive({
     userId: user.id,
     event: '',
     eventTime: null
+})
+const annualParams = reactive({
+    userId: null,
+    userName: null,
+    settleYear: null,
+    count: null,
+    fixedBonus: null,
+    performanceRatio: null
 })
 //1.待審 2.已審 3.已結 4.移除
 const statusOptions = [
@@ -262,6 +298,32 @@ async function checkApply(){
     }
     return true;
 }
+async function calculate(){
+    loading.value = true;
+    const response = await request.calculatePerformance({
+        id: user.id
+    });
+    if (response && response.data.code === 200) {
+        const totalPerformance =  response.data.data[0];
+        annualParams.userId = totalPerformance.user.id;
+        annualParams.userName = totalPerformance.user.username;
+        annualParams.settleYear = totalPerformance.settleYear;
+        annualParams.count = totalPerformance.count;
+        annualParams.fixedBonus = totalPerformance.fixedBonus;
+        annualParams.performanceRatio = totalPerformance.performanceRatio;
+
+        annualDialog.value = true;
+    }
+    loading.value = false;
+}
+function handleAnnualClose(){
+    annualParams.userId = null;
+    annualParams.userName = null;
+    annualParams.settleYear = null;
+    annualParams.count = null;
+    annualParams.fixedBonus = null;
+    annualParams.performanceRatio = null;
+}
 </script>
 
 <style scope>
@@ -272,7 +334,7 @@ async function checkApply(){
 .fontBold{
     font-weight: bold;
 }
-#marginLeft12{
+.marginLeft12{
     margin-left: 12px;
 }
 #searchHeader{

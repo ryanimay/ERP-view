@@ -46,6 +46,10 @@
                 </span>
             </span>
             <span>
+                <el-button color="#80C080" @click="calculate">
+                    <el-icon><Flag /></el-icon>
+                    {{ $t('performanceList.annualPerformance') }}
+                </el-button>
                 <el-button type="danger" @click="openApply">
                     {{ $t('performanceList.applyPerformance') }}
                 </el-button>
@@ -231,6 +235,37 @@
                 </span>
             </template>
         </el-dialog>
+        <!--年度績效彈窗-->
+        <el-dialog v-model="annualDialog" :title="$t('personalPerformance.annualPerformance')" width="1000" @close="handleAnnualClose">
+            <div class="paddingBottom10">
+                <span class="searchHeaderBlock">
+                    <el-text size="large">{{ $t('performanceList.userId') }}: </el-text>
+                    <el-input v-model="searchAnnualUserId" @input="handleAnnualUserIdInput"
+                    clearable style="width: 100px"
+                    :placeholder="$t('performanceList.inputUserId')"/>
+                </span>
+                <span class="searchHeaderBlock">
+                    <el-button type="primary" @click="calculate">
+                        <el-icon>
+                            <Search />
+                        </el-icon>  
+                        {{ $t('performanceList.search') }}
+                    </el-button>
+                </span>
+            </div>
+            <el-table
+                :data="annualList"
+                :default-sort="{ prop: 'userId', order: 'ascending' }"
+                style="width: 100%" :border="true"
+                :show-overflow-tooltip="true">
+                <el-table-column column-key="userId" prop="user.id" :label="$t('personalPerformance.col-userId')" min-width="50" />
+                <el-table-column column-key="userName" prop="user.username" :label="$t('personalPerformance.col-userName')" min-width="80" />
+                <el-table-column column-key="settleYear" prop="settleYear" :label="$t('personalPerformance.col-settleYear')" min-width="50"/>
+                <el-table-column column-key="count" prop="count" :label="$t('personalPerformance.count')" min-width="50"/>
+                <el-table-column column-key="fixedBonus" prop="fixedBonus" :label="$t('personalPerformance.col-fixedBonus')" min-width="50" :formatter="formatAmount"/>
+                <el-table-column column-key="performanceRatio" prop="performanceRatio" :label="$t('personalPerformance.col-performanceRatio')" min-width="50"/>
+            </el-table>
+        </el-dialog>
     </el-main>
 </template>
 
@@ -248,6 +283,7 @@ const loading = ref(false);
 const fullLoading = ref(false);
 const performanceList = ref([]);
 const clientNameList = ref([]);
+const annualList = ref([]);
 const applyDialog = ref(false);
 const reviewDialog = ref(false);
 const userIdRef = ref(false);
@@ -255,6 +291,8 @@ const eventRef = ref(false);
 const eventTimeRef = ref(false);
 const fixedBonusRef = ref(false);
 const approvedLock = ref(true);
+const annualDialog = ref(false);
+const searchAnnualUserId = ref(null);
 const pendingNum = ref(0);
 const pendingParams = reactive({
     pageNum:null,
@@ -421,6 +459,9 @@ function handleCurrentChange(page){
 const handleUserIdInput = (value) => {
     searchParams.userId = formatIdValue(value);
 };
+const handleAnnualUserIdInput = (value) => {
+    searchAnnualUserId.value = formatIdValue(value);
+};
 function formatIdValue(value){
     let formattedValue = value.replace(/[^\d]/g, ''); // 只保留数字
     if (formattedValue > 9999) formattedValue = 9999; // 限制最大值为9999
@@ -558,6 +599,23 @@ async function approveApply(){
 function lockApporved(){
     approvedLock.value = true;
 }
+async function calculate(){
+    fullLoading.value = true;
+    const response = await request.calculatePerformance({
+        id: searchAnnualUserId.value
+    });
+    if (response && response.data.code === 200) {
+        annualList.value =  response.data.data;
+        annualDialog.value = true;
+    }
+    fullLoading.value = false;
+}
+function handleAnnualClose(){
+    annualList.value = [];
+}
+function formatAmount(row, column, cellValue){
+    return cellValue ? '$ '+ `${cellValue}`.replace(/[^\d]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',') : cellValue;
+}
 </script>
 
 <style scope>
@@ -582,5 +640,8 @@ function lockApporved(){
 .pagingStyle{
     height: calc(100% - 50px);
     overflow: auto;
+}
+.paddingBottom10 {
+    padding-bottom: 10px;
 }
 </style>
