@@ -310,7 +310,9 @@
         "salaryList":"薪資清單",
         "salarySetting":"薪資設置",
         "personalPerformance":"個人績效",
-        "performanceList":"績效管理"
+        "performanceList":"績效管理",
+        "personalLeave":"個人休假",
+        "leaveList":"休假管理"
     },
     "axios":{
         "reLogin":"登入過期，請重新登入"

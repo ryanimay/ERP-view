@@ -311,7 +311,9 @@
         "salaryList":"Salary List",
         "salarySetting":"Salary Setting",
         "personalPerformance":"Personal Performance",
-        "performanceList":"Performance List"
+        "performanceList":"Performance List",
+        "personalLeave":"Personal Leave",
+        "leaveList":"Leave List"
     },
     "axios":{
         "reLogin":"Your session has expired. Please log in again."

@@ -166,6 +166,32 @@ const routerPath = [
             parentName: ':performanceManagement',
             headerKey: 'HomeHeader'
         }
+    },
+    {
+        path: '/personalLeave',
+        name: 'personalLeave',
+        components: {
+            header: () => import('@/components/header/HomeHeader.vue'),
+            body: () => import('@/components/body/leave/PersonalLeaveBody.vue'),
+        },
+        meta: { 
+            requiresAuth: true,
+            parentName: ':leaveManagement',
+            headerKey: 'HomeHeader'
+        }
+    },
+    {
+        path: '/leaveList',
+        name: 'leaveList',
+        components: {
+            header: () => import('@/components/header/HomeHeader.vue'),
+            body: () => import('@/components/body/leave/LeaveListBody.vue'),
+        },
+        meta: { 
+            requiresAuth: true,
+            parentName: ':leaveManagement',
+            headerKey: 'HomeHeader'
+        }
     }
 ]
 
