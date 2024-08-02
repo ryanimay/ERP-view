@@ -288,6 +288,29 @@
         "pleaseSaveFirst":"請先做儲存才能通過審核",
         "annualPerformance":"年度績效"
     },
+    "personalLeave":{
+        "addLeave":"新增假單",
+        "editLeave":"編輯假單",
+        "col-id":"假單號",
+        "col-username":"名稱",
+        "col-type":"類別",
+        "col-startTime":"開始時間",
+        "col-endTime":"結束時間",
+        "col-time":"請假時間",
+        "col-createdTime":"創建時間",
+        "col-info":"請假事由",
+        "col-status":"假單狀態",
+        "col-edit":"編輯",
+        "total":"總數",
+        "totalQuantifier":"條",
+        "pageQuantifier":"/頁",
+        "to":"到",
+        "submit":"保存",
+        "pleaseSelectType":"請選擇類別",
+        "pleaseSelectTime":"請選擇時間",
+        "success":"操作成功",
+        "":""
+    },
 
 
 
@@ -312,7 +335,7 @@
         "personalPerformance":"個人績效",
         "performanceList":"績效管理",
         "personalLeave":"個人休假",
-        "leaveList":"休假管理"
+        "leaveList":"休假審核"
     },
     "axios":{
         "reLogin":"登入過期，請重新登入"
@@ -347,5 +370,14 @@
         "MENU":"菜單相關",
         "JOB":"任務相關",
         "QUARTZ":"排程相關"
+    },
+    "leaveType":{
+        "annual": "年假",
+        "sick": "病假",
+        "maternity": "產假",
+        "paternity": "陪產假",
+        "marriage": "婚假",
+        "bereavement": "喪假",
+        "publicHoliday": "公假"
     }
 }

@@ -20,6 +20,7 @@ const config = {
     const permission = context_path + '/permission';
     const salary = context_path + '/salary';
     const performance = context_path + '/performance';
+    const leave = context_path + '/leave';
     return {
       cache: {
       },
@@ -240,7 +241,24 @@ const config = {
           method:'get',
           requiresAuth: true
         }
-      }
+      },
+      leave: {
+        list:{
+          path: leave + '/list',
+          method:'get',
+          requiresAuth: true
+        },
+        typeList:{
+          path: leave + '/typeList',
+          method:'get',
+          requiresAuth: true
+        },
+        add:{
+          path: leave + '/add',
+          method:'post',
+          requiresAuth: true
+        },
+      },
     };
   })(),
 }

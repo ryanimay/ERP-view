@@ -45,6 +45,9 @@ export default {
     updatePerformance: request(path.api.performance.update),
     acceptPerformance: request(path.api.performance.accept),
     calculatePerformance: request(path.api.performance.calculate),
+    leaveList: request(path.api.leave.list),
+    leaveTypeList: request(path.api.leave.typeList),
+    addLeave: request(path.api.leave.add),
 }
 
 const axios = instance();

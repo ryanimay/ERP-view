@@ -288,6 +288,29 @@
         "pleaseSaveFirst": "Please save first before approving",
         "annualPerformance":"Annual Performance"
     },
+    "personalLeave":{
+        "addLeave":"Add Leave Request",
+        "editLeave":"Edit Leave Request",
+        "col-id":"Leave Id",
+        "col-username":"user Name",
+        "col-type":"Leave Type",
+        "col-startTime":"Start Time",
+        "col-endTime":"End Time",
+        "col-time":"Leave Time",
+        "col-createdTime":"Created Time",
+        "col-info":"Leave Info",
+        "col-status":"Status",
+        "col-edit":"Edit",
+        "total":"Total",
+        "totalQuantifier":"",
+        "pageQuantifier":"/Page",
+        "to":"to",
+        "submit":"Save",
+        "pleaseSelectType":"Please Select Leave Type",
+        "pleaseSelectTime":"Please Select Leave Time",
+        "success":"Operation successful",
+        "":""
+    },
 
 
 
@@ -313,7 +336,7 @@
         "personalPerformance":"Personal Performance",
         "performanceList":"Performance List",
         "personalLeave":"Personal Leave",
-        "leaveList":"Leave List"
+        "leaveList":"Review Leave"
     },
     "axios":{
         "reLogin":"Your session has expired. Please log in again."
@@ -348,5 +371,14 @@
         "MENU": "Menu Related",
         "JOB": "Job Related",
         "QUARTZ": "Schedule Related"
+    },
+    "leaveType":{
+        "annual": "Annual Leave",
+        "sick": "Sick Leave",
+        "maternity": "Maternity Leave",
+        "paternity": "Paternity Leave",
+        "marriage": "Marriage Leave",
+        "bereavement": "Bereavement Leave",
+        "publicHoliday": "Public Holiday Leave"
     }
 }
