@@ -1,10 +1,7 @@
 <template>
     <el-main class="homeBodyContainer" v-loading.fullscreen.lock="fullLoading">
-        <el-header id="searchHeader">
-            <span>
-                <span class="searchHeaderBlock">
-                    <el-text size="large">{{ $t('performanceList.search') }}</el-text>
-                </span>
+        <el-header>
+            <div class="paddingBottom10">
                 <span class="searchHeaderBlock">
                     <el-text size="large">{{ $t('performanceList.userId') }}: </el-text>
                     <el-input v-model="searchParams.userId" @input="handleUserIdInput" 
@@ -22,38 +19,42 @@
                     end-placeholder="End date"
                     @change="setTime"/>
                 </span>
-                <span class="searchHeaderBlock">
-                    <el-text size="large">{{ $t('performanceList.status') }}: </el-text>
-                    <el-select 
-                    :disabled="currentIndex === '0'"
-                    v-model="searchParams.status" 
-                    :placeholder="$t('performanceList.All')" 
-                    style="width: 110px">
-                        <el-option v-for="status in statusOptions"
-                            :key="status.key"
-                            :label="$t('performanceList.' + status.name)"
-                            :value="status.key"
-                        />
-                    </el-select>
+            </div>
+            <div id="searchHeader">
+                <span>
+                    <span class="searchHeaderBlock">
+                        <el-text size="large">{{ $t('performanceList.status') }}: </el-text>
+                        <el-select 
+                        :disabled="currentIndex === '0'"
+                        v-model="searchParams.status" 
+                        :placeholder="$t('performanceList.All')" 
+                        style="width: 110px">
+                            <el-option v-for="status in statusOptions"
+                                :key="status.key"
+                                :label="$t('performanceList.' + status.name)"
+                                :value="status.key"
+                            />
+                        </el-select>
+                    </span>
+                    <span class="searchHeaderBlock">
+                        <el-button :disabled="currentIndex === '0'" type="primary" @click="requestPerformance()">
+                            <el-icon>
+                                <Search />
+                            </el-icon>  
+                            {{ $t('performanceList.search') }}
+                        </el-button>
+                    </span>
                 </span>
-                <span class="searchHeaderBlock">
-                    <el-button :disabled="currentIndex === '0'" type="primary" @click="requestPerformance()">
-                        <el-icon>
-                            <Search />
-                        </el-icon>  
-                        {{ $t('performanceList.search') }}
+                <span>
+                    <el-button color="#80C080" @click="calculate">
+                        <el-icon><Flag /></el-icon>
+                        {{ $t('performanceList.annualPerformance') }}
+                    </el-button>
+                    <el-button type="danger" @click="openApply">
+                        {{ $t('performanceList.applyPerformance') }}
                     </el-button>
                 </span>
-            </span>
-            <span>
-                <el-button color="#80C080" @click="calculate">
-                    <el-icon><Flag /></el-icon>
-                    {{ $t('performanceList.annualPerformance') }}
-                </el-button>
-                <el-button type="danger" @click="openApply">
-                    {{ $t('performanceList.applyPerformance') }}
-                </el-button>
-            </span>
+            </div>
         </el-header>
         <el-main style="height: calc(100% - 60px);">
             <el-badge :value="pendingNum" :show-zero="false" style="position: absolute; z-index: 10; margin-left: 65px;"/>
@@ -65,8 +66,8 @@
                         style="width: 100%" :border="true"
                         @sort-change="handleSortChange"
                         :show-overflow-tooltip="true">
-                        <el-table-column column-key="userId" prop="user.id" :label="$t('performanceList.col-userId')" min-width="50" />
-                        <el-table-column column-key="userName" prop="user.username" :label="$t('performanceList.col-userName')" min-width="80" />
+                        <el-table-column column-key="userId" prop="user.id" :label="$t('performanceList.col-userId')" min-width="60" />
+                        <el-table-column column-key="userName" prop="user.username" :label="$t('performanceList.col-userName')" min-width="90" />
                         <el-table-column column-key="createTime" prop="createTime" :label="$t('performanceList.col-createTime')" sortable='custom' min-width="130" :formatter="formatTime"/>
                         <el-table-column column-key="eventTime" prop="eventTime" :label="$t('performanceList.col-eventTime')" sortable='custom' min-width="130" :formatter="formatTime"/>
                         <el-table-column column-key="event" prop="event" :label="$t('performanceList.col-event')" min-width="200"/>
@@ -113,8 +114,8 @@
                         style="width: 100%" :border="true"
                         @sort-change="handleSortChange"
                         :show-overflow-tooltip="true">
-                        <el-table-column column-key="userId" prop="user.id" :label="$t('performanceList.col-userId')" min-width="50" />
-                        <el-table-column column-key="userName" prop="user.username" :label="$t('performanceList.col-userName')" min-width="80" />
+                        <el-table-column column-key="userId" prop="user.id" :label="$t('performanceList.col-userId')" min-width="65" />
+                        <el-table-column column-key="userName" prop="user.username" :label="$t('performanceList.col-userName')" min-width="100" />
                         <el-table-column column-key="createTime" prop="createTime" :label="$t('performanceList.col-createTime')" sortable='custom' min-width="130" :formatter="formatTime"/>
                         <el-table-column column-key="eventTime" prop="eventTime" :label="$t('performanceList.col-eventTime')" sortable='custom' min-width="130" :formatter="formatTime"/>
                         <el-table-column column-key="event" prop="event" :label="$t('performanceList.col-event')" min-width="200"/>
