@@ -336,7 +336,7 @@
         "personalPerformance":"Personal Performance",
         "performanceList":"Performance List",
         "personalLeave":"Personal Leave",
-        "leaveList":"Review Leave"
+        "leaveList":"Leave List"
     },
     "axios":{
         "reLogin":"Your session has expired. Please log in again."
