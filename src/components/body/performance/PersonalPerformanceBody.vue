@@ -305,13 +305,14 @@ async function calculate(){
     });
     if (response && response.data.code === 200) {
         const totalPerformance =  response.data.data[0];
-        annualParams.userId = totalPerformance.user.id;
-        annualParams.userName = totalPerformance.user.username;
-        annualParams.settleYear = totalPerformance.settleYear;
-        annualParams.count = totalPerformance.count;
-        annualParams.fixedBonus = totalPerformance.fixedBonus;
-        annualParams.performanceRatio = totalPerformance.performanceRatio;
-
+        if(totalPerformance){
+            annualParams.userId = totalPerformance.user.id;
+            annualParams.userName = totalPerformance.user.username;
+            annualParams.settleYear = totalPerformance.settleYear;
+            annualParams.count = totalPerformance.count;
+            annualParams.fixedBonus = totalPerformance.fixedBonus;
+            annualParams.performanceRatio = totalPerformance.performanceRatio;
+        }
         annualDialog.value = true;
     }
     loading.value = false;
