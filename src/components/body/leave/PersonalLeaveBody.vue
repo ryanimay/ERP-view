@@ -193,11 +193,16 @@ function openEdit(row){
     editParams.info = row.info;
     editDialog.value = true;
 }
-function handleCurrentChange(){
-    
+function handleCurrentChange(page){
+    if (searchParams.totalPage === 0) {
+        return; // total為0避免重複觸發
+    }
+    searchParams.pageNum = page;
+    loadLeaveList();
 }
-function handleSizeChange(){
-    
+function handleSizeChange(size){
+    searchParams.pageSize = size;
+    loadLeaveList();
 }
 function handleClose(done) {
     ElMessageBox.confirm(t('homeHeader.confirmClose'))
