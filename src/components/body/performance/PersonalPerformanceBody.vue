@@ -197,7 +197,18 @@ async function requestPerformance() {
     loading.value = false;
 }
 async function loadPerformance(searchParams){
-    const response = await request.performanceList(searchParams);
+    const response = await request.performanceList({
+        userId: searchParams.userId,
+        startTime: searchParams.startTime,
+        endTime: searchParams.endTime,
+        status: searchParams.status === 0 ? null : searchParams.status,
+        pageNum: searchParams.pageNum,
+        pageSize: searchParams.pageSize,
+        sort: searchParams.sort,
+        sortBy: searchParams.sortBy,
+        totalElements: searchParams.totalElements,
+        totalPage: searchParams.totalPage
+    });
     const data = handleResponse(response);
     updatePage(data);
 }
