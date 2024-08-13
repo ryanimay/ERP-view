@@ -22,7 +22,11 @@
                     <el-table-column column-key="endTime" prop="endTime" :label="$t('personalLeave.col-endTime')" sortable='custom' min-width="150" :formatter="formatTime"/>
                     <el-table-column column-key="createdTime" prop="createdTime" :label="$t('personalLeave.col-createdTime')" sortable='custom' min-width="150" :formatter="formatTime"/>
                     <el-table-column column-key="info" prop="info" :label="$t('personalLeave.col-info')" min-width="160" :align="'center'" />
-                    <el-table-column column-key="status" prop="status" :label="$t('personalLeave.col-status')" sortable='custom' min-width="100" :align="'center'" />
+                    <el-table-column column-key="status" prop="status" :label="$t('personalLeave.col-status')" sortable='custom' min-width="100" :align="'center'" >
+                        <template #default="scope">
+                            <el-tag effect="dark" :type="statusType(scope.row.status)">{{ formatStatus(scope.row.status) }}</el-tag>    
+                        </template>
+                    </el-table-column>
                     <el-table-column :label="$t('personalLeave.col-edit')" min-width="80" :align="'center'">
                         <template #default="scope">
                             <el-button v-if="scope.row.status === 'Pending'" type="primary" @click="openEdit(scope.row)" >
@@ -258,6 +262,23 @@ function formatTime(row, column, cellValue){
 }
 function formatType(row, column, cellValue){
     return t(cellValue);
+}
+function formatStatus(status){
+    return status ? t('personalLeave.' + status) : status;
+}
+function statusType(status){
+    switch (status) {
+    case "Pending":
+      return "warning";
+    case "Approved":
+      return "success";
+    case "Closed":
+      return "primary";
+    case "Removed":
+      return "info";
+    default:
+      return "danger";
+  }
 }
 </script>
 

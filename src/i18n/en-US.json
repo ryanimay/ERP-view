@@ -309,6 +309,10 @@
         "pleaseSelectType":"Please Select Leave Type",
         "pleaseSelectTime":"Please Select Leave Time",
         "success":"Operation successful",
+        "Pending":"Pending",
+        "Approved":"Approved",
+        "Closed":"Closed",
+        "Removed":"Removed",
         "":""
     },
 

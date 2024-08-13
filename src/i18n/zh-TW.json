@@ -309,6 +309,10 @@
         "pleaseSelectType":"請選擇類別",
         "pleaseSelectTime":"請選擇時間",
         "success":"操作成功",
+        "Pending":"待審核",
+        "Approved":"已審核",
+        "Closed":"已結算",
+        "Removed":"已取消",
         "":""
     },
 
