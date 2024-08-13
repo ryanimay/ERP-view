@@ -258,6 +258,11 @@ const config = {
           method:'post',
           requiresAuth: true
         },
+        update:{
+          path: leave + '/update',
+          method:'put',
+          requiresAuth: true
+        },
       },
     };
   })(),
