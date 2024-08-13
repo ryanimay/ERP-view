@@ -159,7 +159,7 @@
                 <el-form-item :label="$t('performanceList.col-applyUser')+':'">
                     <el-select 
                     v-model="applyParams.userId" 
-                    :placeholder="$t('performanceList.inputUserId')" 
+                    :placeholder="$t('performanceList.selectUser')" 
                     style="width: 180px"
                     ref="userIdRef">
                         <el-option v-for="client in clientNameList"
