@@ -258,9 +258,19 @@ const config = {
           method:'post',
           requiresAuth: true
         },
+        delete:{
+          path: leave + '/delete',
+          method:'delete',
+          requiresAuth: true
+        },
         update:{
           path: leave + '/update',
           method:'put',
+          requiresAuth: true
+        },
+        pendingList:{
+          path: leave + '/pendingList',
+          method:'get',
           requiresAuth: true
         },
       },

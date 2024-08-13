@@ -94,6 +94,7 @@
             </el-form>
             <template #footer>
                 <div class="dialog-footer">
+                    <el-button v-if="!isAdd" type="danger" @click="deleteLeave">{{ $t('personalLeave.delete') }}</el-button>
                     <el-button type="primary" @click="saveLeave">{{ $t('personalLeave.submit') }}</el-button>
                 </div>
             </template>
@@ -244,6 +245,20 @@ async function saveLeave(){
         }
         fullLoading.value = false;
     }
+}
+async function deleteLeave(){
+    fullLoading.value = true;
+    let response = await request.deleteLeave({
+        id: editParams.id
+    });
+
+    if (response && response.data.code === 200) {
+        proxy.$msg.success(t('personalLeave.success'));
+        await loadLeaveList();
+        clearDialog();
+        editDialog.value = false;
+    }
+    fullLoading.value = false;
 }
 async function checkSave(){
     if(!editParams.type){
