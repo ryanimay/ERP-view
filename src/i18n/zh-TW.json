@@ -290,6 +290,7 @@
         "annualPerformance":"年度績效"
     },
     "personalLeave":{
+        "search":"搜尋",
         "addLeave":"新增假單",
         "editLeave":"編輯假單",
         "col-id":"假單號",
@@ -314,7 +315,7 @@
         "Pending":"待審核",
         "Approved":"已審核",
         "Closed":"已結算",
-        "Removed":"已取消"
+        "Removed":"已駁回"
     },
     "leaveList":{
         "search":"搜尋",
@@ -325,7 +326,7 @@
         "Pending":"待審核",
         "Approved":"已審核",
         "Closed":"已結算",
-        "Removed":"已取消",
+        "Removed":"已駁回",
         "col-applyUser":"申請用戶",
         "col-userId":"用戶Id",
         "col-userName":"用戶名稱",
@@ -344,16 +345,11 @@
         "save":"保存",
         "inputUserId":"輸入用戶Id",
         "selectUser":"選擇用戶",
-        "pleaseInputUserId":"請輸入輸入用戶Id",
-        "pleaseInputEvent":"請輸入績效內容",
-        "pleaseInputEventTime":"請輸入績效時間",
-        "pleaseInputAmount":"請至少輸入其中一績效金額",
-        "reviewPerformance":"績效審核",
-        "performanceId":"假單Id",
+        "reviewLeave":"假單審核",
+        "leaveId":"假單Id",
         "btn-approved":"通過審核",
         "btn-save":"暫存",
-        "btn-rejected":"駁回假單",
-        "pleaseSaveFirst":"請先做儲存才能通過審核"
+        "btn-rejected":"駁回假單"
     },
 
 
@@ -394,7 +390,8 @@
         "addPerformance":"用戶[{0}]新增了待審核績效",
         "acceptPerformance":"績效通過審核",
         "addLeave":"用戶[{0}]新增了待審核假單",
-        "acceptLeave":"假單通過審核"
+        "acceptLeave":"假單通過審核",
+        "rejectLeave":"假單駁回"
     },
     "permission":{
         "*":"公開",

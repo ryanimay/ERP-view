@@ -51,6 +51,8 @@ export default {
     deleteLeave: request(path.api.leave.delete),
     updateLeave: request(path.api.leave.update),
     leavePendingList: request(path.api.leave.pendingList),
+    acceptLeave: request(path.api.leave.accept),
+    rejectLeave: request(path.api.leave.reject),
 }
 
 const axios = instance();

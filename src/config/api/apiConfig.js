@@ -273,6 +273,16 @@ const config = {
           method:'get',
           requiresAuth: true
         },
+        accept:{
+          path: leave + '/accept',
+          method:'put',
+          requiresAuth: true
+        },
+        reject:{
+          path: leave + '/reject',
+          method:'put',
+          requiresAuth: true
+        },
       },
     };
   })(),

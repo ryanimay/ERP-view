@@ -290,6 +290,7 @@
         "annualPerformance":"Annual Performance"
     },
     "personalLeave":{
+        "search":"Search",
         "addLeave":"Add Leave Request",
         "editLeave":"Edit Leave Request",
         "col-id":"Leave Id",
@@ -314,7 +315,7 @@
         "Pending":"Pending",
         "Approved":"Approved",
         "Closed":"Closed",
-        "Removed":"Removed"
+        "Removed":"Rejected"
     },
     "leaveList":{
         "search":"Search",
@@ -325,7 +326,7 @@
         "Pending":"Pending",
         "Approved":"Approved",
         "Closed":"Closed",
-        "Removed":"Removed",
+        "Removed":"Rejected",
         "col-applyUser":"Apply User",
         "col-userId":"User Id",
         "col-userName":"User Name",
@@ -344,16 +345,11 @@
         "save":"Save",
         "inputUserId":"Input UserId",
         "selectUser":"Select User",
-        "pleaseInputUserId":"Please Input UserId",
-        "pleaseInputEvent":"Please Input Event",
-        "pleaseInputEventTime":"Please Input EventTime",
-        "pleaseInputAmount":"Please input at least one performance amount",
-        "reviewPerformance":"Review Performance",
-        "performanceId":"Performance Id",
+        "reviewLeave":"Review Leave",
+        "leaveId":"Leave Id",
         "btn-approved":"Approved",
         "btn-save":"Save",
-        "btn-rejected":"Rejected",
-        "pleaseSaveFirst": "Please save first before approving"
+        "btn-rejected":"Rejected"
     },
 
 
@@ -395,7 +391,8 @@
         "addPerformance":"User[{0}] Added Pending Performance Review.",
         "acceptPerformance":"Performance Approval Passed.",
         "addLeave":"User [{0}] has submitted a leave request for approval.",
-        "acceptLeave":"Leave Approval Passed."
+        "acceptLeave":"Leave Approval Passed.",
+        "rejectLeave":"Leave Reject."
     },
     "permission": {
         "*": "Public",
