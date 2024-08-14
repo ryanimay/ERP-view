@@ -5,7 +5,7 @@
                 <div>
                     <span>{{ $t('personalLeave.search') }}:</span>
                     <el-date-picker
-                    v-model="searchTime"
+                    v-model="searchParams.searchTime"
                     type="month"
                     placeholder="Pick a month"
                     class="marginLeft12"
@@ -128,7 +128,6 @@ const { t } = useI18n();
 const { proxy } = getCurrentInstance();
 const editSelectRef = ref(null);
 const datePickerRef = ref(null);
-const searchTime = ref(null);
 const isAdd = ref(true);
 const loading = ref(false);
 const fullLoading = ref(false);
@@ -161,7 +160,6 @@ onMounted(() => {
     loading.value = false;
 });
 async function loadLeaveList(){
-    searchParams.searchTime = searchTime.value;
     const response = await request.leaveList(searchParams);
     const data = handleResponse(response);
     leaveList.value = data.data;

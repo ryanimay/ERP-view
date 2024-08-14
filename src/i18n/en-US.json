@@ -337,7 +337,6 @@
         "col-endTime":"End Time",
         "col-info":"Info",
         "col-type":"Leave Type",
-        "col-performanceRatio":"Performance Ratio",
         "col-status":"Leave Status",
         "col-review":"Review",
         "total":"Total",
@@ -350,7 +349,6 @@
         "reviewLeave":"Review Leave",
         "leaveId":"Leave Id",
         "btn-approved":"Approved",
-        "btn-save":"Save",
         "btn-rejected":"Rejected",
         "success":"操作成功"
     },

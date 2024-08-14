@@ -337,7 +337,6 @@
         "col-endTime":"結束時間",
         "col-info":"請假內容",
         "col-type":"請假類型",
-        "col-performanceRatio":"比例績效",
         "col-status":"假單狀態",
         "col-review":"審核",
         "total":"總數",
@@ -350,7 +349,6 @@
         "reviewLeave":"假單審核",
         "leaveId":"假單Id",
         "btn-approved":"通過審核",
-        "btn-save":"暫存",
         "btn-rejected":"駁回假單",
         "success":"操作成功"
     },

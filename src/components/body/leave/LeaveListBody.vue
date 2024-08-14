@@ -12,12 +12,11 @@
                 <span class="searchHeaderBlock">
                     <el-date-picker
                     :disabled="currentIndex === '0'"
-                    v-model="searchTime"
-                    type="daterange"
-                    :range-separator="$t('leaveList.to')"
-                    start-placeholder="Start date"
-                    end-placeholder="End date"
-                    @change="setTime"/>
+                    v-model="searchParams.searchTime"
+                    type="month"
+                    placeholder="Pick a month"
+                    value-format="YYYY-MM"
+                    />
                 </span>
                 <span class="searchHeaderBlock">
                     <el-button :disabled="currentIndex === '0'" type="primary" @click="requestLeave()">
@@ -94,15 +93,14 @@
                         style="width: 100%" :border="true"
                         @sort-change="handleSortChange"
                         :show-overflow-tooltip="true">
-                        <el-table-column column-key="userId" prop="user.id" :label="$t('leaveList.col-userId')" min-width="65" />
-                        <el-table-column column-key="userName" prop="user.username" :label="$t('leaveList.col-userName')" min-width="100" />
+                        <el-table-column column-key="userId" prop="user.id" :label="$t('leaveList.col-userId')" min-width="60" />
+                        <el-table-column column-key="userName" prop="user.username" :label="$t('leaveList.col-userName')" min-width="90" />
                         <el-table-column column-key="createdTime" prop="createdTime" :label="$t('leaveList.col-createdTime')" sortable='custom' min-width="130" :formatter="formatTime"/>
                         <el-table-column column-key="startTime" prop="startTime" :label="$t('leaveList.col-startTime')" sortable='custom' min-width="130" :formatter="formatTime"/>
                         <el-table-column column-key="endTime" prop="endTime" :label="$t('leaveList.col-endTime')" sortable='custom' min-width="130" :formatter="formatTime"/>
+                        <el-table-column column-key="type" prop="type.name" :label="$t('leaveList.col-type')" min-width="150" :formatter="formatType"/>
                         <el-table-column column-key="info" prop="info" :label="$t('leaveList.col-info')" min-width="200"/>
-                        <el-table-column column-key="type" prop="type.name" :label="$t('leaveList.col-type')" min-width="150" />
-                        <el-table-column column-key="performanceRatio" prop="performanceRatio" :label="$t('leaveList.col-performanceRatio')" min-width="150"/>
-                        <el-table-column column-key="status" prop="status" :label="$t('leaveList.col-status')" min-width="160" :align="'center'" >
+                        <el-table-column column-key="status" prop="status" :label="$t('leaveList.col-status')" min-width="140" :align="'center'" >
                             <template #default="scope">
                                 <el-tag effect="dark" :type="statusType(scope.row.status)">{{ formatStatus(scope.row.status) }}</el-tag>    
                             </template>
@@ -225,7 +223,6 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const { proxy } = getCurrentInstance();
 const currentIndex = ref('0');
-const searchTime = ref([]);
 const loading = ref(false);
 const fullLoading = ref(false);
 const leaveList = ref([]);
@@ -246,8 +243,7 @@ const pendingParams = reactive({
 })
 const searchParams = reactive({
     userId: null,
-    startTime:null,
-    endTime:null,
+    searchTime: null,
     status:null,
     pageNum:null,
     pageSize:null,
@@ -284,7 +280,7 @@ async function requestLeave() {
     if(currentIndex.value === '0'){
         await requestPendingList();
     }else{
-        await loadPerformance(searchParams);
+        await loadLeaveList();
     }
     
     loading.value = false;
@@ -304,19 +300,8 @@ async function requestPendingList() {
     const data = handleResponse(response);
     updatePage(data);
 }
-async function loadPerformance(searchParams){
-    const response = await request.performanceList({
-        userId: searchParams.userId,
-        startTime: searchParams.startTime,
-        endTime: searchParams.endTime,
-        status: searchParams.status === 0 ? null : searchParams.status,
-        pageNum: searchParams.pageNum,
-        pageSize: searchParams.pageSize,
-        sort: searchParams.sort,
-        sortBy: searchParams.sortBy,
-        totalElements: searchParams.totalElements,
-        totalPage: searchParams.totalPage
-    });
+async function loadLeaveList(){
+    const response = await request.leaveList(searchParams);
     const data = handleResponse(response);
     updatePage(data);
 }
@@ -342,12 +327,6 @@ function updatePage(response){
             searchParams.totalPage = response.totalPage;
         }
         leaveList.value = response.data;
-    }
-}
-function setTime(times){
-    if(times && times.length === 2){
-        searchParams.startTime = formatDateTimeStart(times[0]);
-        searchParams.endTime = formatDateTimeEnd(times[1]);
     }
 }
 function openApply(){
@@ -426,7 +405,7 @@ function formatTime(row, column, cellValue){
     return cellValue ? cellValue.replace("T", " ") : cellValue;
 }
 function formatStatus(status){
-    return status ? t('personalPerformance.' + status) : status;
+    return status ? t('leaveList.' + status) : status;
 }
 function statusType(status){
     switch (status) {
@@ -457,9 +436,7 @@ function resetParams(){
         pendingParams.totalPage = null;
     }else{
         searchParams.userId = null;
-        searchParams.startTime = null;
-        searchParams.endTime = null;
-        searchParams.status = null;
+        searchParams.searchTime = null;
         searchParams.pageNum = null;
         searchParams.pageSize = null;
         searchParams.sort = null;
