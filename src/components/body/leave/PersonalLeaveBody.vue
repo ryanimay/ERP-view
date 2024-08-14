@@ -7,7 +7,7 @@
                     <el-date-picker
                     v-model="searchParams.searchTime"
                     type="month"
-                    placeholder="Pick a month"
+                    :placeholder="$t('personalLeave.pickMonth')"
                     class="marginLeft12"
                     value-format="YYYY-MM"
                     />

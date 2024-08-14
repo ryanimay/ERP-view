@@ -248,7 +248,9 @@
         "pleaseInputEventTime":"Please Input EventTime",
         "personalAnnualPerformance":"Personal annual performance",
         "annualPerformance":"Annual Performance Total",
-        "count": "Performance Count"
+        "count": "Performance Count",
+        "startDate":"Start date",
+        "endDate":"End date"
     },
     "performanceList":{
         "search":"Search",
@@ -287,7 +289,9 @@
         "btn-save":"Save",
         "btn-rejected":"Rejected",
         "pleaseSaveFirst": "Please save first before approving",
-        "annualPerformance":"Annual Performance"
+        "annualPerformance":"Annual Performance",
+        "startDate":"Start date",
+        "endDate":"End date"
     },
     "personalLeave":{
         "search":"Search",
@@ -315,7 +319,8 @@
         "Pending":"Pending",
         "Approved":"Approved",
         "Closed":"Closed",
-        "Removed":"Rejected"
+        "Removed":"Rejected",
+        "pickMonth":"Pick a month"
     },
     "leaveList":{
         "search":"Search",
@@ -350,7 +355,8 @@
         "leaveId":"Leave Id",
         "btn-approved":"Approved",
         "btn-rejected":"Rejected",
-        "success":"操作成功"
+        "success":"Operation successful",
+        "pickMonth":"Pick a month"
     },
 
 

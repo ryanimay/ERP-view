@@ -11,8 +11,8 @@
                         v-model="searchTime"
                         type="daterange"
                         :range-separator="$t('personalPerformance.to')"
-                        start-placeholder="Start date"
-                        end-placeholder="End date"
+                        :start-placeholder="$t('personalPerformance.startDate')"
+                        :end-placeholder="$t('personalPerformance.endDate')"
                         @change="setTime"/>
                     </span>
                     <span class="searchHeaderBlock">

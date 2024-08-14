@@ -248,7 +248,9 @@
         "pleaseInputEventTime":"請輸入績效時間",
         "personalAnnualPerformance":"個人年度績效",
         "annualPerformance":"年度績效總計",
-        "count":"績效總數"
+        "count":"績效總數",
+        "startDate":"開始時間",
+        "endDate":"結束時間"
     },
     "performanceList":{
         "search":"搜尋",
@@ -287,7 +289,9 @@
         "btn-save":"暫存",
         "btn-rejected":"駁回績效",
         "pleaseSaveFirst":"請先做儲存才能通過審核",
-        "annualPerformance":"年度績效"
+        "annualPerformance":"年度績效",
+        "startDate":"開始時間",
+        "endDate":"結束時間"
     },
     "personalLeave":{
         "search":"搜尋",
@@ -315,7 +319,8 @@
         "Pending":"待審核",
         "Approved":"已審核",
         "Closed":"已結算",
-        "Removed":"已駁回"
+        "Removed":"已駁回",
+        "pickMonth":"選擇月份"
     },
     "leaveList":{
         "search":"搜尋",
@@ -350,7 +355,8 @@
         "leaveId":"假單Id",
         "btn-approved":"通過審核",
         "btn-rejected":"駁回假單",
-        "success":"操作成功"
+        "success":"操作成功",
+        "pickMonth":"選擇月份"
     },
 
 

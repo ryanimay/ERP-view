@@ -3,7 +3,7 @@
         <el-header id="searchHeader">
             <span>
                 <span class="searchHeaderBlock">
-                    <el-text size="large">{{ $t('leaveList.userId') }}: </el-text>
+                    <el-text size="large">{{ $t('leaveList.search') }}: </el-text>
                     <el-input v-model="searchParams.userId" @input="handleUserIdInput" 
                     :disabled="currentIndex === '0'"
                     clearable style="width: 100px"
@@ -14,7 +14,7 @@
                     :disabled="currentIndex === '0'"
                     v-model="searchParams.searchTime"
                     type="month"
-                    placeholder="Pick a month"
+                    :placeholder="$t('personalLeave.pickMonth')"
                     value-format="YYYY-MM"
                     />
                 </span>
