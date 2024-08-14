@@ -1,7 +1,7 @@
 <template>
     <el-main class="homeBodyContainer" v-loading.fullscreen.lock="fullLoading">
-        <el-header>
-            <div class="paddingBottom10">
+        <el-header id="searchHeader">
+            <span>
                 <span class="searchHeaderBlock">
                     <el-text size="large">{{ $t('leaveList.userId') }}: </el-text>
                     <el-input v-model="searchParams.userId" @input="handleUserIdInput" 
@@ -19,38 +19,22 @@
                     end-placeholder="End date"
                     @change="setTime"/>
                 </span>
-            </div>
-            <div id="searchHeader">
-                <span>
-                    <span class="searchHeaderBlock">
-                        <el-text size="large">{{ $t('leaveList.status') }}: </el-text>
-                        <el-select 
-                        :disabled="currentIndex === '0'"
-                        v-model="searchParams.status" 
-                        :placeholder="$t('leaveList.All')" 
-                        style="width: 110px">
-                            <el-option v-for="status in statusOptions"
-                                :key="status.key"
-                                :label="$t('leaveList.' + status.name)"
-                                :value="status.key"
-                            />
-                        </el-select>
-                    </span>
-                    <span class="searchHeaderBlock">
-                        <el-button :disabled="currentIndex === '0'" type="primary" @click="requestLeave()">
-                            <el-icon>
-                                <Search />
-                            </el-icon>  
-                            {{ $t('leaveList.search') }}
-                        </el-button>
-                    </span>
-                </span>
-                <span>
-                    <el-button type="danger" @click="openApply">
-                        {{ $t('leaveList.applyPerformance') }}
+                <span class="searchHeaderBlock">
+                    <el-button :disabled="currentIndex === '0'" type="primary" @click="requestLeave()">
+                        <el-icon>
+                            <Search />
+                        </el-icon>  
+                        {{ $t('leaveList.search') }}
                     </el-button>
                 </span>
-            </div>
+            </span>
+            <span>
+                <span>
+                    <el-button type="danger" @click="openApply">
+                        {{ $t('leaveList.applyLeave') }}
+                    </el-button>
+                </span>
+            </span>
         </el-header>
         <el-main style="height: calc(100% - 60px);">
             <el-badge :value="pendingNum" :show-zero="false" style="position: absolute; z-index: 10; margin-left: 65px;"/>
@@ -151,7 +135,7 @@
             </el-tabs>
         </el-main>
         <!--編輯績效彈窗-->
-        <el-dialog v-model="applyDialog" :title="$t('leaveList.applyPerformance')" width="350" @close="handleClose">
+        <el-dialog v-model="applyDialog" :title="$t('leaveList.applyLeave')" width="350" @close="handleClose">
             <el-form :model="applyParams" label-position="right" @submit.prevent>
                 <el-form-item :label="$t('leaveList.col-applyUser')+':'">
                     <el-select 
@@ -166,21 +150,32 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item :label="$t('leaveList.col-event')+':'">
-                    <el-input v-model="applyParams.event" ref="eventRef"/>
+                <el-form-item :label="$t('leaveList.col-type')+':'">
+                    <el-select v-model="applyParams.type" style="width: 180px" ref="editSelectRef">
+                        <el-option v-for="leaveType in leaveTypeList"
+                            :key="leaveType.id"
+                            :label="$t(leaveType.name)"
+                            :value="leaveType.id"
+                        />
+                    </el-select>
                 </el-form-item>
-                <el-form-item :label="$t('leaveList.col-eventTime')+':'">
+                <el-form-item :label="$t('leaveList.col-time')+':'">
                     <el-date-picker
-                        v-model="applyParams.eventTime"
-                        type="date"
-                        placeholder="Pick a day"
-                        ref="eventTimeRef"
-                    />
+                    v-model="leaveTime"
+                    type="daterange"
+                    :range-separator="$t('leaveList.to')"
+                    start-placeholder="Start date"
+                    end-placeholder="End date"
+                    @change="setLeaveTime"
+                    ref="datePickerRef"/>
+                </el-form-item>
+                <el-form-item :label="$t('leaveList.col-info')+':'">
+                    <el-input v-model="applyParams.info" />
                 </el-form-item>
             </el-form>
             <template #footer>
                 <div class="dialog-footer">
-                    <el-button type="primary" @click="applyPerformance">{{ $t('leaveList.save') }}</el-button>
+                    <el-button type="primary" @click="applyLeave">{{ $t('leaveList.save') }}</el-button>
                 </div>
             </template>
         </el-dialog>
@@ -234,12 +229,12 @@ const searchTime = ref([]);
 const loading = ref(false);
 const fullLoading = ref(false);
 const leaveList = ref([]);
+const leaveTime = ref([]);
 const clientNameList = ref([]);
+const leaveTypeList = ref([]);
 const applyDialog = ref(false);
 const reviewDialog = ref(false);
 const userIdRef = ref(false);
-const eventRef = ref(false);
-const eventTimeRef = ref(false);
 const pendingNum = ref(0);
 const pendingParams = reactive({
     pageNum:null,
@@ -263,8 +258,10 @@ const searchParams = reactive({
 })
 const applyParams = reactive({
     userId: null,
-    event: '',
-    eventTime: null
+    type: null,
+    startTime: null,
+    endTime: null,
+    info: null
 })
 const reviewParams = reactive({
     id: null,
@@ -276,18 +273,11 @@ const reviewParams = reactive({
     createdTime: null,
     info: null,
 })
-//1.待審 2.已審 3.已結 4.移除
-const statusOptions = [
-{name: "All", key: 0},
-{name: "Pending", key: 1},
-{name: "Approved", key: 2},
-{name: "Closed", key: 3},
-{name: "Removed", key: 4}
-]
 const sizeOptions = [10, 30, 50, 100]
 onMounted(async () => {
     await requestLeave();
     await loadClientNameList();
+    await loadLeaveTypeList();
 });
 async function requestLeave() {
     loading.value = true;
@@ -303,6 +293,11 @@ async function loadClientNameList() {
     const response = await request.clientNameList();
     const data = handleResponse(response);
     clientNameList.value = data;
+}
+async function loadLeaveTypeList(){
+    const response = await request.leaveTypeList();
+    const data = handleResponse(response);
+    leaveTypeList.value = data;
 }
 async function requestPendingList() {
     const response = await request.leavePendingList(pendingParams);
@@ -359,19 +354,22 @@ function openApply(){
     applyDialog.value = true;
 }
 function handleClose(){
-    applyParams.event = '';
-    applyParams.eventTime = null;
+    applyParams.userId = null;
+    applyParams.type = null;
+    applyParams.startTime = null;
+    applyParams.endTime = null;
+    applyParams.info = null;
+    leaveTime.value = [];
 }
 function handleReviewClose(){
     reviewParams.id = null;
     reviewParams.eventUserId = null;
 }
-async function applyPerformance(){
+async function applyLeave(){
     fullLoading.value = true;
-    applyParams.eventTime = formatDateTimeStart(applyParams.eventTime);
-    const response = await request.addPerformance(applyParams);
+    const response = await request.addLeave(applyParams);
     if (response && response.data.code === 200) {
-        proxy.$msg.success(response.data.data);
+        proxy.$msg.success(t('leaveList.success'));
         await requestLeave();
         applyDialog.value = false;
     }
@@ -511,6 +509,12 @@ async function approveApply(){
 function formatType(row, column, cellValue){
     return t(cellValue);
 }
+function setLeaveTime(times){
+    if(times && times.length === 2){
+        applyParams.startTime = formatDateTimeStart(times[0]);
+        applyParams.endTime = formatDateTimeEnd(times[1]);
+    }
+}
 </script>
 
 <style scope>
@@ -535,8 +539,5 @@ function formatType(row, column, cellValue){
 .pagingStyle{
     height: calc(100% - 50px);
     overflow: auto;
-}
-.paddingBottom10 {
-    padding-bottom: 10px;
 }
 </style>
