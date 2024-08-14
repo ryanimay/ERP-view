@@ -2,11 +2,24 @@
     <el-main class="homeBodyContainer" v-loading.lock="loading" v-loading.fullscreen.lock="fullLoading">
         <el-container>
             <el-header id="searchHeader">
-                <span>
-                    <el-button type="primary" @click="openAdd">
+                <div>
+                    <span>{{ $t('personalLeave.search') }}:</span>
+                    <el-date-picker
+                    v-model="searchTime"
+                    type="month"
+                    placeholder="Pick a month"
+                    class="marginLeft12"
+                    value-format="YYYY-MM"
+                    />
+                    <el-button class="marginLeft12" type="primary" @click="loadLeaveList">
+                        {{ $t('personalLeave.search') }}
+                    </el-button>
+                </div>
+                <div>
+                    <el-button type="danger" @click="openAdd">
                         {{ $t('personalLeave.addLeave') }}
                     </el-button>
-                </span>
+                </div>
             </el-header>
             <el-main>
                 <el-table
@@ -108,11 +121,14 @@ import { ElMessageBox } from 'element-plus'
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue';
 import { formatDateTimeStart, formatDateTimeEnd } from '@/config/tool/dateTool.js';
 import { useI18n } from 'vue-i18n';
+import userStore from '@/config/store/user';
 
+const user = userStore();
 const { t } = useI18n();
 const { proxy } = getCurrentInstance();
 const editSelectRef = ref(null);
 const datePickerRef = ref(null);
+const searchTime = ref(null);
 const isAdd = ref(true);
 const loading = ref(false);
 const fullLoading = ref(false);
@@ -121,6 +137,8 @@ const leaveList = ref([]);
 const leaveTime = ref([]);
 const leaveTypeList = ref([]);
 const searchParams = reactive({
+    userId: user.id,
+    searchTime: null,
     pageNum:null,
     pageSize:null,
     sort: null,
@@ -143,6 +161,7 @@ onMounted(() => {
     loading.value = false;
 });
 async function loadLeaveList(){
+    searchParams.searchTime = searchTime.value;
     const response = await request.leaveList(searchParams);
     const data = handleResponse(response);
     leaveList.value = data.data;
