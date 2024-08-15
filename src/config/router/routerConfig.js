@@ -192,6 +192,19 @@ const routerPath = [
             parentName: ':leaveManagement',
             headerKey: 'HomeHeader'
         }
+    },
+    {
+        path: '/projectList',
+        name: 'projectList',
+        components: {
+            header: () => import('@/components/header/HomeHeader.vue'),
+            body: () => import('@/components/body/project/ProjectListBody.vue'),
+        },
+        meta: { 
+            requiresAuth: true,
+            parentName: ':projectManagement',
+            headerKey: 'HomeHeader'
+        }
     }
 ]
 

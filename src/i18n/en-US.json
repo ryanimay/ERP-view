@@ -383,7 +383,8 @@
         "personalPerformance":"Personal Performance",
         "performanceList":"Performance List",
         "personalLeave":"Personal Leave",
-        "leaveList":"Leave List"
+        "leaveList":"Leave List",
+        "projectList":"Project List"
     },
     "axios":{
         "reLogin":"Your session has expired. Please log in again."
