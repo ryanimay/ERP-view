@@ -358,6 +358,19 @@
         "success":"Operation successful",
         "pickMonth":"Pick a month"
     },
+    "projectList":{
+        "type1": "Development",
+        "type2": "Maintenance",
+        "type3": "Others",
+        "id":"ID",
+        "name":"Name",
+        "type":"Type",
+        "scheduledStartTime":"StartTime",
+        "scheduledEndTime":"EndTime",
+        "info":"Info",
+        "manager":"Manager",
+        "status":"Status"
+    },
 
 
 

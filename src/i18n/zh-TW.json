@@ -358,6 +358,19 @@
         "success":"操作成功",
         "pickMonth":"選擇月份"
     },
+    "projectList":{
+        "type1":"開發案",
+        "type2":"維護案",
+        "type3":"其他",
+        "id":"編號",
+        "name":"名稱",
+        "type":"專案類別",
+        "scheduledStartTime":"開始時間",
+        "scheduledEndTime":"結束時間",
+        "info":"內容",
+        "manager":"負責人",
+        "status":"專案狀態"
+    },
 
 
 

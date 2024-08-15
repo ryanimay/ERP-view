@@ -53,6 +53,7 @@ export default {
     leavePendingList: request(path.api.leave.pendingList),
     acceptLeave: request(path.api.leave.accept),
     rejectLeave: request(path.api.leave.reject),
+    projectList: request(path.api.project.list),
 }
 
 const axios = instance();

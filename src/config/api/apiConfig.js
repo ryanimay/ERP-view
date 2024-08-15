@@ -21,6 +21,7 @@ const config = {
     const salary = context_path + '/salary';
     const performance = context_path + '/performance';
     const leave = context_path + '/leave';
+    const project = context_path + '/project';
     return {
       cache: {
       },
@@ -281,6 +282,13 @@ const config = {
         reject:{
           path: leave + '/reject',
           method:'put',
+          requiresAuth: true
+        },
+      },
+      project: {
+        list:{
+          path: project + '/list',
+          method:'get',
           requiresAuth: true
         },
       },

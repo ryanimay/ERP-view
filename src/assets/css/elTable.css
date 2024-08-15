@@ -1,9 +1,22 @@
 .elTable{
     padding-bottom: 0px !important;
 }
-.el-table--enable-row-hover .el-table__body tr:hover>td.el-table__cell {
+.el-table--enable-row-hover .el-table__body tr:not(.noHoverClass):hover>td.el-table__cell {
     background-color: #e0e0e0 !important;
 }
-.el-table__body tr.current-row>td.el-table__cell {
-    background-color: #d3d3d3 !important;
+.el-table__body tr.current-row:not(.noHoverClass)>td.el-table__cell {
+    background-color: #e0e0e0 !important;
+}
+.el-table__body tr.noHoverClass > td.el-table__cell {
+    transition: border-top 0.05s ease, border-bottom 0.05s ease;
+}
+.el-table--enable-row-hover .el-table__body tr.noHoverClass:hover>td.el-table__cell {
+    background-color: inherit !important;
+    border-top: 2px solid #555555;
+    border-bottom: 2px solid #555555;
+}
+.el-table__body tr.current-row.noHoverClass>td.el-table__cell {
+    background-color: inherit !important;
+    border-top: 2px solid #555555;
+    border-bottom: 2px solid #555555;
 }
