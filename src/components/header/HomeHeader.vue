@@ -175,6 +175,7 @@ import websocketStore  from '@/config/store/websocket';
 import { ElMessageBox } from 'element-plus';
 import i18nSelector from '@/components/tool/I18nSelector.vue';
 import { useI18n } from 'vue-i18n';
+import { ElNotification } from 'element-plus'
 
 const { t } = useI18n();
 const ws = websocketStore();
@@ -248,12 +249,20 @@ const userKick = async (msg) => {
 const handleNotification = (message) => {
     var data = JSON.parse(message).data;
     if (Array.isArray(data)) {
+        //舊通知是數組
         data.forEach(msg => notification.value.push(msg));
     } else {
+        //單筆新通知加入，並且顯示提示彈窗
         notification.value.unshift(data);
+        showNotification(formatNotificationInfo(data.info))
     }
 };
-
+const showNotification = (message) => {
+  ElNotification({
+    title: t('notification.new'),
+    message: message,
+  })
+}
 async function getMenu() {
     param.value.roleIds = user.roleId.join(',');
     const response = await request.pMenu(param.value);

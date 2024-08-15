@@ -392,6 +392,7 @@
         "kickOut":"帳戶已被停用，您被強制登出。"
     },
     "notification":{
+        "new":"新通知",
         "sysInit":"系統初始化",
         "updateUser":"用戶[{0}]更新了您的個人資料",
         "editSalaryRoot":"薪資更動通知",

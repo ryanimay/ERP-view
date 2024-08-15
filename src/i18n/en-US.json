@@ -393,6 +393,7 @@
         "kickOut":"Account has been disabled. You have been logged out."
     },
     "notification":{
+        "new":"New",
         "sysInit":"System Initialize.",
         "updateUser":"User[{0}] update your personal information.",
         "editSalaryRoot":"Salary Adjustment Notification.",
