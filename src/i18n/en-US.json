@@ -369,7 +369,8 @@
         "scheduledEndTime":"EndTime",
         "info":"Info",
         "manager":"Manager",
-        "status":"Status"
+        "status":"Status",
+        "markColor":"Mark Color"
     },
 
 

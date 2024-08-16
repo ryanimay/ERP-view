@@ -54,6 +54,7 @@ export default {
     acceptLeave: request(path.api.leave.accept),
     rejectLeave: request(path.api.leave.reject),
     projectList: request(path.api.project.list),
+    updateProject: request(path.api.project.update),
 }
 
 const axios = instance();

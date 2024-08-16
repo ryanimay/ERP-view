@@ -1,0 +1,4 @@
+/* 移除clear按鈕 */
+.el-color-dropdown__link-btn{
+    display: none;
+}

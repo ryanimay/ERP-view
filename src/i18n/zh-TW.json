@@ -369,7 +369,8 @@
         "scheduledEndTime":"結束時間",
         "info":"內容",
         "manager":"負責人",
-        "status":"專案狀態"
+        "status":"專案狀態",
+        "markColor":"標記顏色"
     },
 
 

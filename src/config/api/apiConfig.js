@@ -291,6 +291,11 @@ const config = {
           method:'get',
           requiresAuth: true
         },
+        update:{
+          path: project + '/update',
+          method:'put',
+          requiresAuth: true
+        },
       },
     };
   })(),
