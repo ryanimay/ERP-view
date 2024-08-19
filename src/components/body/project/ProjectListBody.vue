@@ -6,6 +6,7 @@
                 <el-color-picker :disabled="!markColor" 
                 v-model="markColor" 
                 size="large"
+                :predefine="predefineColors"
                 @change="changeMarkColor"
                 @active-change="showPickColor" 
                 @focus="openColorPicker = true"
@@ -23,14 +24,115 @@
                         row-class-name="noHoverClass"
                         @current-change="rowClick"
                         height="100%">
-                            <el-table-column column-key="id" prop="id" :label="$t('projectList.id')" min-width="50" />
-                            <el-table-column column-key="name" prop="name" :label="$t('projectList.name')" min-width="90" />
-                            <el-table-column column-key="type" prop="type" :label="$t('projectList.type')" min-width="60" />
-                            <el-table-column column-key="scheduledStartTime" prop="scheduledStartTime" :label="$t('projectList.scheduledStartTime')" min-width="130" :formatter="formatTime"/>
-                            <el-table-column column-key="scheduledEndTime" prop="scheduledEndTime" :label="$t('projectList.scheduledEndTime')" min-width="130" :formatter="formatTime"/>
-                            <el-table-column column-key="info" prop="info" :label="$t('projectList.info')" min-width="150" />
-                            <el-table-column column-key="manager" prop="manager.username" :label="$t('projectList.manager')" min-width="90"/>
-                            <el-table-column column-key="status" prop="status" :label="$t('projectList.status')" min-width="65"/>
+                            <el-table-column column-key="id" prop="id" :label="$t('projectList.id')" min-width="50" :align="'center'" />
+                            <el-table-column :label="$t('projectList.name')" min-width="90" >
+                                <template #default="scope">
+                                    <el-input v-if="scope.row.isEdit" v-model="scope.row.name" />
+                                    <el-text v-else>{{scope.row.name}}</el-text>
+                                </template>
+                            </el-table-column>
+                            <el-table-column :label="$t('projectList.type')" min-width="150"  width="150">
+                                <template #default="scope">
+                                    <el-select
+                                    v-if="scope.row.isEdit"
+                                    v-model="scope.row.type" 
+                                    style="width: 135px">
+                                    <el-option
+                                    v-for="item in typeList"
+                                        :key="item.name"
+                                        :label="$t(item.label)"
+                                        :value="item.name"
+                                        />
+                                    </el-select>
+                                    <el-text v-else>{{getTypeLabel(scope.row.type)}}</el-text>
+                                </template>
+                            </el-table-column>
+                            <el-table-column :label="$t('projectList.scheduledStartTime')" min-width="120" >
+                                <template #default="scope">
+                                    <el-date-picker
+                                        v-if="scope.row.isEdit"
+                                        v-model="scope.row.scheduledStartTime"
+                                        type="date"
+                                        placeholder="Pick a day"
+                                        value-format="YYYY-MM-DD"
+                                        style="width:100%"
+                                    />
+                                    <el-text v-else>{{scope.row.scheduledStartTime}}</el-text>
+                                </template>
+                            </el-table-column>
+                            <el-table-column :label="$t('projectList.scheduledEndTime')" min-width="120" >
+                                <template #default="scope">
+                                    <el-date-picker
+                                        v-if="scope.row.isEdit"
+                                        v-model="scope.row.scheduledEndTime"
+                                        type="date"
+                                        placeholder="Pick a day"
+                                        value-format="YYYY-MM-DD"
+                                        style="width:100%"
+                                    />
+                                    <el-text v-else>{{scope.row.scheduledEndTime}}</el-text>
+                                </template>
+                            </el-table-column>
+                            <el-table-column :label="$t('projectList.info')" min-width="150" >
+                                <template #default="scope">
+                                    <el-input v-if="scope.row.isEdit" v-model="scope.row.info" />
+                                    <el-text v-else>{{scope.row.info}}</el-text>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="manager.username" :label="$t('projectList.manager')" min-width="135" width="135" >
+                                <template #default="scope">
+                                    <el-select 
+                                    v-if="scope.row.isEdit"
+                                    v-model="scope.row.manager.id" 
+                                    :placeholder="$t('projectList.selectManager')" 
+                                    style="width: 100%"
+                                    @change="(val) => updateManagerName(scope.row, val)">
+                                        <el-option v-for="client in clientNameList"
+                                            :key="client.id"
+                                            :label="client.username"
+                                            :value="client.id"
+                                        />
+                                    </el-select>
+                                    <el-text v-else>{{scope.row.manager.username}}</el-text>
+                                </template>
+                            </el-table-column>
+                            <el-table-column :label="$t('projectList.edit')" min-width="60" :align="'center'">
+                                <template #default="scope">
+                                    <el-button 
+                                    v-if="scope.row.isEdit" 
+                                    type="primary"
+                                    circle 
+                                    @click="{
+                                        scope.row.isEdit = false;
+                                        saveRow(scope.row);    
+                                    }" >
+                                        <el-icon>
+                                            <Upload />
+                                        </el-icon>
+                                    </el-button>
+                                    <el-button 
+                                    v-else 
+                                    circle 
+                                    :disabled="scope.row.status === 3"
+                                    @click="scope.row.isEdit = true" >
+                                        <el-icon>
+                                            <Edit />
+                                        </el-icon>
+                                    </el-button>
+                                </template>
+                            </el-table-column>
+                            <el-table-column :label="$t('projectList.status')" min-width="65" :align="'center'" >
+                                <template #default="scope">
+                                    <el-button 
+                                    plain
+                                    size="small"
+                                    @click="clickStatus(scope.row)" 
+                                    :type="statusType(scope.row)"
+                                    :disabled="scope.row.status !== 1 && scope.row.status !== 2">
+                                        {{getStatusName(scope.row.status)}}
+                                    </el-button>
+                                </template>
+                            </el-table-column>
                         </el-table>
                     </el-tab-pane>
                 </el-tabs>
@@ -42,11 +144,21 @@
 <script setup>
 import request from '@/config/api/request.js';
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue'
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const { proxy } = getCurrentInstance();
 const openColorPicker = ref(false);
 const loading = ref(false);
+const clientNameList = ref([]);
 const projectList = ref([]);
+const predefineColors = ref([
+  '#B0CADC',
+  '#D0B0DC',
+  '#DCB0B0',
+  '#DCCCB0',
+  '#B0DCC0',
+])
 const searchParams = reactive({
     id: null,
     name: null,
@@ -84,9 +196,24 @@ const typeList = [
         "label":"projectList.type3",
         "name":"3"
     }
+];
+const statusList = [
+    {
+        "id":1,
+        "name":"projectList.status1"
+    },
+    {
+        "id":2,
+        "name":"projectList.status2"
+    },
+    {
+        "id":3,
+        "name":"projectList.status3"
+    }
 ]
 onMounted(() => {
     loadProject();
+    loadClientNameList();
 });
 async function loadProject() {
     loading.value = true;
@@ -100,8 +227,15 @@ async function updateProject() {
     const response = await request.updateProject(currentProject);
     if (response && response.data.code === 200) {
         proxy.$msg.success(response.data.data);
+        loading.value = false;
+        return true;
     }
     loading.value = false;
+}
+async function loadClientNameList() {
+    const response = await request.clientNameList();
+    const data = handleResponse(response);
+    clientNameList.value = data;
 }
 function handleResponse(response) {
     if (response && response.data.code === 200) {
@@ -113,9 +247,6 @@ function handleResponse(response) {
 function handleClick(){
     markColor.value = null;
     loadProject();
-}
-function formatTime(row, column, cellValue){
-    return cellValue ? cellValue.replace("T", " ") : cellValue;
 }
 function tableRowStyle(col) {
     return { 
@@ -160,6 +291,78 @@ function clearCurrentProject(){
     currentProject.status = null;
     currentProject.markColor =  null;
 }
+function saveRow(row){
+    currentProject.id = row.id;
+    currentProject.name = row.name;
+    currentProject.type = row.type;
+    currentProject.scheduledStartTime = row.scheduledStartTime;
+    currentProject.scheduledEndTime = row.scheduledEndTime;
+    currentProject.info = row.info;
+    currentProject.managerId = row.manager.id;
+    currentProject.status = row.status;
+    currentProject.markColor = row.markColor;
+    const rs = updateProject();
+    //如果type改變，就從當前列表移除不顯示
+    if(rs){
+        if(row.type !== searchParams.type) {
+            projectList.value = projectList.value.filter(item => item.id !== row.id);
+        }
+    }
+}
+function getTypeLabel(typeName){
+    const type = typeList.find(item => item.name === typeName);
+    return type ? t(type.label) : typeName;
+}
+function updateManagerName(row, val){
+    const selectedManager = this.clientNameList.find(client => client.id === val);
+    if (selectedManager) {
+        row.manager.username = selectedManager.username;
+    }
+}
+function getStatusName(statusId){
+    const status = statusList.find(item => item.id === statusId);
+    return status ? t(status.name) : statusId;
+}
+function statusType(row){
+    if(row.status === 1){
+        return 'primary'
+    }else if(row.status === 2){
+        return 'success'
+    }else{
+        return 'info'
+    }
+}
+function clickStatus(row){
+    if(row.status === 1){
+        if(requestStartProject(row.id)){
+            row.status = 2;
+        }
+    }else if(row.status === 2){
+        if(requestDoneProject(row.id)){
+            row.status = 3;
+        }
+    }
+}
+async function requestStartProject(id){
+    loading.value = true;
+    const response = await request.startProject({"id": id});
+    if (response && response.data.code === 200) {
+        proxy.$msg.success(response.data.data);
+        loading.value = false;
+        return true;
+    }
+    loading.value = false;
+}
+async function requestDoneProject(id){
+    loading.value = true;
+    const response = await request.doneProject({"id": id});
+    if (response && response.data.code === 200) {
+        proxy.$msg.success(response.data.data);
+        loading.value = false;
+        return true;
+    }
+    loading.value = false;
+}
 </script>
 
 <style scoped>
@@ -172,5 +375,9 @@ function clearCurrentProject(){
 }
 .marginRight6{
     margin-right: 6px;
+}
+.flexBetween{
+    display: flex;
+    justify-content: space-between;
 }
 </style>

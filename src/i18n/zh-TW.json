@@ -362,6 +362,9 @@
         "type1":"開發案",
         "type2":"維護案",
         "type3":"其他",
+        "status1":"待辦",
+        "status2":"進行中",
+        "status3":"結案",
         "id":"編號",
         "name":"名稱",
         "type":"專案類別",
@@ -370,7 +373,9 @@
         "info":"內容",
         "manager":"負責人",
         "status":"專案狀態",
-        "markColor":"標記顏色"
+        "markColor":"標記顏色",
+        "edit":"編輯",
+        "selectManager":"選擇負責人"
     },
 
 

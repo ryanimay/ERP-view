@@ -296,6 +296,16 @@ const config = {
           method:'put',
           requiresAuth: true
         },
+        start:{
+          path: project + '/start',
+          method:'put',
+          requiresAuth: true
+        },
+        done:{
+          path: project + '/done',
+          method:'put',
+          requiresAuth: true
+        },
       },
     };
   })(),

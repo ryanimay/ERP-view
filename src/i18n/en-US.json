@@ -362,6 +362,9 @@
         "type1": "Development",
         "type2": "Maintenance",
         "type3": "Others",
+        "status1":"Pending",
+        "status2":"In Progress",
+        "status3":"Completed",
         "id":"ID",
         "name":"Name",
         "type":"Type",
@@ -370,7 +373,9 @@
         "info":"Info",
         "manager":"Manager",
         "status":"Status",
-        "markColor":"Mark Color"
+        "markColor":"Mark Color",
+        "edit":"Edit",
+        "selectManager":"Select Manager"
     },
 
 
