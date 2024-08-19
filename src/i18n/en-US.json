@@ -375,7 +375,10 @@
         "status":"Status",
         "markColor":"Mark Color",
         "edit":"Edit",
-        "selectManager":"Select Manager"
+        "selectManager":"Select Manager",
+        "statusOk":"OK",
+        "statusCencel":"cencel",
+        "statusAsk":"Are you sure to edit status?"
     },
 
 

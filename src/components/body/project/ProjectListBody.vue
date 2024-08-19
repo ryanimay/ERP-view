@@ -123,14 +123,25 @@
                             </el-table-column>
                             <el-table-column :label="$t('projectList.status')" min-width="65" :align="'center'" >
                                 <template #default="scope">
-                                    <el-button 
-                                    plain
-                                    size="small"
-                                    @click="clickStatus(scope.row)" 
-                                    :type="statusType(scope.row)"
-                                    :disabled="scope.row.status !== 1 && scope.row.status !== 2">
-                                        {{getStatusName(scope.row.status)}}
-                                    </el-button>
+                                    <el-popconfirm
+                                    width="250"
+                                    :confirm-button-text="$t('projectList.statusOk')"
+                                    :cancel-button-text="$t('projectList.statusCencel')"
+                                    cancel-button-type="info"
+                                    icon="InfoFilled"
+                                    :title="$t('projectList.statusAsk')"
+                                    @confirm="clickStatus(scope.row)"
+                                    >
+                                        <template #reference>
+                                            <el-button 
+                                            plain
+                                            size="small" 
+                                            :type="statusType(scope.row)"
+                                            :disabled="scope.row.status !== 1 && scope.row.status !== 2">
+                                            {{getStatusName(scope.row.status)}}
+                                            </el-button>
+                                        </template>
+                                    </el-popconfirm>
                                 </template>
                             </el-table-column>
                         </el-table>
