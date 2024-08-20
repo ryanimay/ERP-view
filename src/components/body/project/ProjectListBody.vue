@@ -123,7 +123,7 @@
                                         </el-icon>
                                     </el-button>
                                     <el-button 
-                                    v-else 
+                                    v-if="!scope.row.isEdit && scope.row.status !== 3" 
                                     circle 
                                     :disabled="scope.row.status === 3"
                                     @click="scope.row.isEdit = true" >
@@ -353,11 +353,11 @@ function handleResponse(response) {
         return [];
     }
 }
-function handleClick(){
+async function handleClick(){
     loading.value = true;
     inputNameRef.value = [];//陣列歸零
     markColor.value = null;//清除標記顏色
-    loadProject();
+    await loadProject();
     loading.value = false;
 }
 function tableRowStyle(col) {
