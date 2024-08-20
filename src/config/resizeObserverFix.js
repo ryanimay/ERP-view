@@ -6,7 +6,11 @@ const debounce = (fn, delay) => {
         let args = arguments;
         clearTimeout(timer);
         timer = setTimeout(() => {
-            fn.apply(context, args);
+            try {
+                fn.apply(context, args);
+            } catch (error) {
+                console.error('Debounced function error:', error);
+            }
         }, delay);
     }
 };

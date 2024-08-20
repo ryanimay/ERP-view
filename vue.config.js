@@ -9,5 +9,19 @@ module.exports = defineConfig({
         pathRewrite: { '^/api': '' },
       },
     },
+    client: {
+      overlay: {
+        warnings: false,
+        runtimeErrors: (error) => {
+          const ignoreErrors = [
+            "ResizeObserver loop limit exceeded",
+            "ResizeObserver loop completed with undelivered notifications.",
+          ];
+          if (ignoreErrors.includes(error.message)) {
+            return false;
+          }
+        },
+      },
+    },
   }
 })
