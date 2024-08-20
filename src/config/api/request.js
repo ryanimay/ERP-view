@@ -54,6 +54,7 @@ export default {
     acceptLeave: request(path.api.leave.accept),
     rejectLeave: request(path.api.leave.reject),
     projectList: request(path.api.project.list),
+    addProject: request(path.api.project.add),
     updateProject: request(path.api.project.update),
     startProject: request(path.api.project.start),
     doneProject: request(path.api.project.done),

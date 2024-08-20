@@ -378,7 +378,11 @@
         "selectManager":"選擇負責人",
         "statusOk":"確認",
         "statusCencel":"取消",
-        "statusAsk":"確定更改專案狀態?"
+        "statusAsk":"確定更改專案狀態?",
+        "addNewProject":"新增專案",
+        "save":"保存",
+        "pleaseInputName":"請輸入專案名稱",
+        "pleaseInputType":"請輸入專案類型"
     },
 
 

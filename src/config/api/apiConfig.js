@@ -291,6 +291,11 @@ const config = {
           method:'get',
           requiresAuth: true
         },
+        add:{
+          path: project + '/add',
+          method:'post',
+          requiresAuth: true
+        },
         update:{
           path: project + '/update',
           method:'put',

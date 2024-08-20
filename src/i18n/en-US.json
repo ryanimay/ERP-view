@@ -378,7 +378,11 @@
         "selectManager":"Select Manager",
         "statusOk":"OK",
         "statusCencel":"cencel",
-        "statusAsk":"Are you sure to edit status?"
+        "statusAsk":"Are you sure to edit status?",
+        "addNewProject":"Add Project",
+        "save":"Save",
+        "pleaseInputName":"Please Input project name",
+        "pleaseInputType":"Please Input project Type"
     },
 
 

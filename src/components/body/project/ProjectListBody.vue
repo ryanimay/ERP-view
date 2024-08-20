@@ -1,16 +1,23 @@
 <template>
-    <el-main class="homeBodyContainer">
+    <el-main class="homeBodyContainer" v-loading.fullscreen.lock="fullLoading">
         <el-container class="height100">
-            <el-header class="alignCenter">
-                <el-text size="large" tag="b" class="marginRight6">{{$t('projectList.markColor')}}:</el-text>
-                <el-color-picker :disabled="!markColor" 
-                v-model="markColor" 
-                size="large"
-                :predefine="predefineColors"
-                @change="changeMarkColor"
-                @active-change="showPickColor" 
-                @focus="openColorPicker = true"
-                @blur="resetColor"/>
+            <el-header class="alignCenter flexBetween">
+                <span>
+                    <el-text size="large" tag="b" class="marginRight6">{{$t('projectList.markColor')}}:</el-text>
+                    <el-color-picker :disabled="!markColor" 
+                    v-model="markColor" 
+                    size="large"
+                    :predefine="predefineColors"
+                    @change="changeMarkColor"
+                    @active-change="showPickColor" 
+                    @focus="openColorPicker = true"
+                    @blur="resetColor"/>
+                </span>
+                <span>
+                    <el-button @click="addDialog = true" type="primary">
+                        {{$t('projectList.addNewProject')}}
+                    </el-button>
+                </span>
             </el-header>
             <el-main class="height100">
                 <el-tabs v-model="searchParams.type" type="border-card" @tab-change="handleClick" style="height: calc(100% - 30px); min-height: 200px;">
@@ -27,7 +34,7 @@
                             <el-table-column column-key="id" prop="id" :label="$t('projectList.id')" min-width="50" :align="'center'" />
                             <el-table-column :label="$t('projectList.name')" min-width="90" >
                                 <template #default="scope">
-                                    <el-input v-if="scope.row.isEdit" v-model="scope.row.name" />
+                                    <el-input v-if="scope.row.isEdit" v-model="scope.row.name" :ref="el => inputNameRef[scope.$index] = el"/>
                                     <el-text v-else>{{scope.row.name}}</el-text>
                                 </template>
                             </el-table-column>
@@ -102,10 +109,7 @@
                                     v-if="scope.row.isEdit" 
                                     type="primary"
                                     circle 
-                                    @click="{
-                                        scope.row.isEdit = false;
-                                        saveRow(scope.row);    
-                                    }" >
+                                    @click="saveRow(scope)" >
                                         <el-icon>
                                             <Upload />
                                         </el-icon>
@@ -121,7 +125,7 @@
                                     </el-button>
                                 </template>
                             </el-table-column>
-                            <el-table-column :label="$t('projectList.status')" min-width="65" :align="'center'" >
+                            <el-table-column :label="$t('projectList.status')" min-width="120" :align="'center'" >
                                 <template #default="scope">
                                     <el-popconfirm
                                     width="250"
@@ -149,6 +153,79 @@
                 </el-tabs>
             </el-main>
         </el-container>
+        <!--新增專案-->
+        <el-dialog v-model="addDialog" :title="$t('projectList.addNewProject')" width="1200" @close="closeAdd">
+            <el-table :data="[addProjectModel]" style="width: 100%">
+                <el-table-column :label="$t('projectList.name')" min-width="90" >
+                    <template #default="scope">
+                        <el-input v-model="scope.row.name" ref="addNameRef"/>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('projectList.type')" min-width="150"  width="150">
+                    <template #default="scope">
+                        <el-select
+                        v-model="scope.row.type" 
+                        style="width: 135px"
+                        ref="addTypeRef">
+                        <el-option
+                        v-for="item in typeList"
+                            :key="item.name"
+                            :label="$t(item.label)"
+                            :value="item.name"
+                            />
+                        </el-select>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('projectList.scheduledStartTime')" min-width="120" >
+                    <template #default="scope">
+                        <el-date-picker
+                            v-model="scope.row.scheduledStartTime"
+                            type="date"
+                            placeholder="Pick a day"
+                            value-format="YYYY-MM-DD"
+                            style="width:100%"
+                        />
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('projectList.scheduledEndTime')" min-width="120" >
+                    <template #default="scope">
+                        <el-date-picker
+                            v-model="scope.row.scheduledEndTime"
+                            type="date"
+                            placeholder="Pick a day"
+                            value-format="YYYY-MM-DD"
+                            style="width:100%"
+                        />
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('projectList.info')" min-width="150" >
+                    <template #default="scope">
+                        <el-input v-model="scope.row.info" />
+                    </template>
+                </el-table-column>
+                <el-table-column prop="manager.username" :label="$t('projectList.manager')" min-width="135" >
+                    <template #default="scope">
+                        <el-select 
+                        v-model="scope.row.managerId" 
+                        :placeholder="$t('projectList.selectManager')" 
+                        style="width: 100%"
+                        @change="(val) => updateManagerName(scope.row, val)">
+                            <el-option v-for="client in clientNameList"
+                                :key="client.id"
+                                :label="client.username"
+                                :value="client.id"
+                            />
+                        </el-select>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button @click="addDialog = false">{{ $t('projectList.statusCencel') }}</el-button>
+                    <el-button type="primary" @click="addProject">{{ $t('projectList.save') }}</el-button>
+                </div>
+            </template>
+        </el-dialog>
     </el-main>
 </template>
 
@@ -161,8 +238,13 @@ const { t } = useI18n();
 const { proxy } = getCurrentInstance();
 const openColorPicker = ref(false);
 const loading = ref(false);
+const fullLoading = ref(false);
+const addDialog = ref(false);
+const addNameRef = ref(null);
+const addTypeRef = ref(null);
 const clientNameList = ref([]);
 const projectList = ref([]);
+const inputNameRef = ref([]);
 const predefineColors = ref([
   '#B0CADC',
   '#D0B0DC',
@@ -194,6 +276,14 @@ const currentProject = reactive({
     status: null,
     markColor: null
 })
+const addProjectModel = reactive({
+    name: null,
+    type: null,
+    scheduledStartTime: null,
+    scheduledEndTime: null,
+    info: null,
+    managerId: null
+})
 const typeList = [
     {
         "label":"projectList.type1",
@@ -223,15 +313,15 @@ const statusList = [
     }
 ]
 onMounted(() => {
+    loading.value = true;
     loadProject();
     loadClientNameList();
+    loading.value = false;
 });
 async function loadProject() {
-    loading.value = true;
     const response = await request.projectList(searchParams);
     const data = handleResponse(response);
     projectList.value = data;
-    loading.value = false;
 }
 async function updateProject() {
     loading.value = true;
@@ -256,8 +346,15 @@ function handleResponse(response) {
     }
 }
 function handleClick(){
-    markColor.value = null;
+    loading.value = true;
+    inputNameRef.value = [];//陣列歸零
+    markColor.value = null;//清除標記顏色
+    //先關閉所有編輯，不然element-plus的內建配置會和ResizeObserver衝突報錯
+    projectList.value.forEach(project => {
+        project.isEdit = false;
+    });
     loadProject();
+    loading.value = false;
 }
 function tableRowStyle(col) {
     return { 
@@ -302,23 +399,35 @@ function clearCurrentProject(){
     currentProject.status = null;
     currentProject.markColor =  null;
 }
-function saveRow(row){
-    currentProject.id = row.id;
-    currentProject.name = row.name;
-    currentProject.type = row.type;
-    currentProject.scheduledStartTime = row.scheduledStartTime;
-    currentProject.scheduledEndTime = row.scheduledEndTime;
-    currentProject.info = row.info;
-    currentProject.managerId = row.manager.id;
-    currentProject.status = row.status;
-    currentProject.markColor = row.markColor;
-    const rs = updateProject();
-    //如果type改變，就從當前列表移除不顯示
-    if(rs){
-        if(row.type !== searchParams.type) {
-            projectList.value = projectList.value.filter(item => item.id !== row.id);
+function saveRow(scope){
+    if(checkEditName(scope)){
+        currentProject.id = scope.row.id;
+        currentProject.name = scope.row.name;
+        currentProject.type = scope.row.type;
+        currentProject.scheduledStartTime = scope.row.scheduledStartTime;
+        currentProject.scheduledEndTime = scope.row.scheduledEndTime;
+        currentProject.info = scope.row.info;
+        currentProject.managerId = scope.row.manager.id;
+        currentProject.status = scope.row.status;
+        currentProject.markColor = scope.row.markColor;
+        const rs = updateProject();
+        if(rs){
+            //更新成功關閉編輯
+            scope.row.isEdit = false;
+            //如果type改變，就從當前列表移除不顯示
+            if(scope.row.type !== searchParams.type) {
+                projectList.value = projectList.value.filter(item => item.id !== scope.row.id);
+            }
         }
     }
+}
+function checkEditName(scope){
+    if(scope.row.name && scope.row.name.trim()){
+        return true;
+    }
+    proxy.$msg.error(t('projectList.pleaseInputName'));
+    inputNameRef.value[scope.$index].focus();
+    return false;
 }
 function getTypeLabel(typeName){
     const type = typeList.find(item => item.name === typeName);
@@ -326,7 +435,7 @@ function getTypeLabel(typeName){
 }
 function updateManagerName(row, val){
     const selectedManager = this.clientNameList.find(client => client.id === val);
-    if (selectedManager) {
+    if (selectedManager && row.manager) {
         row.manager.username = selectedManager.username;
     }
 }
@@ -373,6 +482,38 @@ async function requestDoneProject(id){
         return true;
     }
     loading.value = false;
+}
+async function addProject(){
+    if(checkAddParam()){
+        fullLoading.value = true;
+        const response = await request.addProject(addProjectModel);
+        if (response && response.data.code === 200) {
+            proxy.$msg.success(response.data.data);
+            loadProject();
+            addDialog.value = false;
+        }
+        fullLoading.value = false;
+    }
+}
+function checkAddParam(){
+    if(!addProjectModel.name || !addProjectModel.name.trim()){
+        proxy.$msg.error(t('projectList.pleaseInputName'));
+        addNameRef.value.focus();
+        return false;
+    }else if(!addProjectModel.type){
+        proxy.$msg.error(t('projectList.pleaseInputType'));
+        addTypeRef.value.focus();   
+        return false;
+    }
+    return true;
+}
+function closeAdd(){
+    addProjectModel.name = null;
+    addProjectModel.type = null;
+    addProjectModel.scheduledStartTime = null;
+    addProjectModel.scheduledEndTime = null;
+    addProjectModel.info = null;
+    addProjectModel.managerId = null;
 }
 </script>
 
