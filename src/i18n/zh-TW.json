@@ -409,7 +409,8 @@
         "performanceList":"績效管理",
         "personalLeave":"個人休假",
         "leaveList":"休假清單",
-        "projectList":"專案清單"
+        "projectList":"專案清單",
+        "procureList":"採購清單"
     },
     "axios":{
         "reLogin":"登入過期，請重新登入"

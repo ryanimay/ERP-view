@@ -205,6 +205,19 @@ const routerPath = [
             parentName: ':projectManagement',
             headerKey: 'HomeHeader'
         }
+    },
+    {
+        path: '/procureList',
+        name: 'procureList',
+        components: {
+            header: () => import('@/components/header/HomeHeader.vue'),
+            body: () => import('@/components/body/procure/ProcureListBody.vue'),
+        },
+        meta: { 
+            requiresAuth: true,
+            parentName: ':procureManagement',
+            headerKey: 'HomeHeader'
+        }
     }
 ]
 
