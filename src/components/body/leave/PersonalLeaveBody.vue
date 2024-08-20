@@ -153,10 +153,10 @@ const editParams = reactive({
     info: null
 })
 const sizeOptions = [10, 30, 50, 100]
-onMounted(() => {
+onMounted(async () => {
     loading.value = true;
-    loadLeaveList();
-    loadLeaveTypeList();
+    await loadLeaveList();
+    await loadLeaveTypeList();
     loading.value = false;
 });
 async function loadLeaveList(){

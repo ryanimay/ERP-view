@@ -320,10 +320,10 @@ const statusList = [
         "name":"projectList.status3"
     }
 ]
-onMounted(() => {
+onMounted(async () => {
     loading.value = true;
-    loadProject();
-    loadClientNameList();
+    await loadProject();
+    await loadClientNameList();
     loading.value = false;
 });
 async function loadProject() {
