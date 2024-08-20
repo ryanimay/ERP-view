@@ -34,7 +34,11 @@
                             <el-table-column column-key="id" prop="id" :label="$t('projectList.id')" min-width="50" :align="'center'" />
                             <el-table-column :label="$t('projectList.name')" min-width="90" >
                                 <template #default="scope">
-                                    <el-input v-if="scope.row.isEdit" v-model="scope.row.name" :ref="el => inputNameRef[scope.$index] = el"/>
+                                    <div class="el-input" v-if="scope.row.isEdit" >
+                                        <div class="el-input__wrapper">
+                                            <input class="el-input__inner" v-model.lazy="scope.row.name" :ref="el => inputNameRef[scope.$index] = el"/>
+                                        </div>
+                                    </div>
                                     <el-text v-else>{{scope.row.name}}</el-text>
                                 </template>
                             </el-table-column>
@@ -82,7 +86,11 @@
                             </el-table-column>
                             <el-table-column :label="$t('projectList.info')" min-width="150" >
                                 <template #default="scope">
-                                    <el-input v-if="scope.row.isEdit" v-model="scope.row.info" />
+                                    <div class="el-input" v-if="scope.row.isEdit" >
+                                        <div class="el-input__wrapper">
+                                            <input class="el-input__inner" v-model.lazy="scope.row.info" />
+                                        </div>
+                                    </div>
                                     <el-text v-else>{{scope.row.info}}</el-text>
                                 </template>
                             </el-table-column>
@@ -349,10 +357,6 @@ function handleClick(){
     loading.value = true;
     inputNameRef.value = [];//陣列歸零
     markColor.value = null;//清除標記顏色
-    //先關閉所有編輯，不然element-plus的內建配置會和ResizeObserver衝突報錯
-    projectList.value.forEach(project => {
-        project.isEdit = false;
-    });
     loadProject();
     loading.value = false;
 }
