@@ -311,6 +311,11 @@ const config = {
           method:'put',
           requiresAuth: true
         },
+        order:{
+          path: project + '/order',
+          method:'put',
+          requiresAuth: true
+        },
       },
     };
   })(),

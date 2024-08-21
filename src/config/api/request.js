@@ -58,6 +58,7 @@ export default {
     updateProject: request(path.api.project.update),
     startProject: request(path.api.project.start),
     doneProject: request(path.api.project.done),
+    projectOrder: request(path.api.project.order),
 }
 
 const axios = instance();

@@ -382,7 +382,11 @@
         "addNewProject":"新增專案",
         "save":"保存",
         "pleaseInputName":"請輸入專案名稱",
-        "pleaseInputType":"請輸入專案類型"
+        "pleaseInputType":"請輸入專案類型",
+        "updateOrder":"更新排序",
+        "saveOrder":"保存排序",
+        "updateOrderMsg":"點擊編輯排序",
+        "saveOrderMsg":"編輯完成，點擊保存排序"
     },
 
 

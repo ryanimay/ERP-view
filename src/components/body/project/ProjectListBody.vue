@@ -14,6 +14,22 @@
                     @blur="resetColor"/>
                 </span>
                 <span>
+                    <el-tooltip
+                    v-if="isUpdateOrder"
+                    :content="$t('projectList.saveOrderMsg')"
+                    placement="bottom-end">
+                        <el-button @click="saveOrder" type="danger">
+                            {{$t('projectList.saveOrder')}}
+                        </el-button>
+                    </el-tooltip>
+                    <el-tooltip
+                    v-else
+                    :content="$t('projectList.updateOrderMsg')"
+                    placement="bottom-end">
+                        <el-button @click="openOrder" type="success">
+                            {{$t('projectList.updateOrder')}}
+                        </el-button>
+                    </el-tooltip>
                     <el-button @click="addDialog = true" type="primary">
                         {{$t('projectList.addNewProject')}}
                     </el-button>
@@ -23,6 +39,8 @@
                 <el-tabs v-model="searchParams.type" type="border-card" @tab-change="handleClick" style="height: calc(100% - 30px); min-height: 200px;">
                     <el-tab-pane v-for="item in typeList" :key="item.name" :label="$t(item.label)" :name="item.name" v-loading.lock="loading"  style="height: calc(100% - 39px);">
                         <el-table
+                        :id="'dragTable' + item.name"
+                        row-key="id"
                         :data="projectList"
                         style="width: 100%;" 
                         :show-overflow-tooltip="true"
@@ -94,7 +112,7 @@
                                     <el-text v-else>{{scope.row.info}}</el-text>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="manager.username" :label="$t('projectList.manager')" min-width="135" width="135" >
+                            <el-table-column prop="manager.username" :label="$t('projectList.manager')" min-width="150" width="150" >
                                 <template #default="scope">
                                     <el-select 
                                     v-if="scope.row.isEdit"
@@ -111,7 +129,7 @@
                                     <el-text v-else>{{scope.row.manager.username}}</el-text>
                                 </template>
                             </el-table-column>
-                            <el-table-column :label="$t('projectList.edit')" min-width="60" :align="'center'">
+                            <el-table-column :label="$t('projectList.edit')" min-width="60" width="60" :align="'center'">
                                 <template #default="scope">
                                     <el-button 
                                     v-if="scope.row.isEdit" 
@@ -133,7 +151,7 @@
                                     </el-button>
                                 </template>
                             </el-table-column>
-                            <el-table-column :label="$t('projectList.status')" min-width="120" :align="'center'" >
+                            <el-table-column :label="$t('projectList.status')" min-width="120" width="120" :align="'center'" >
                                 <template #default="scope">
                                     <el-popconfirm
                                     width="250"
@@ -241,6 +259,7 @@
 import request from '@/config/api/request.js';
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue'
 import { useI18n } from 'vue-i18n';
+import { setSort, destroy } from '@/config/sortable.js'
 
 const { t } = useI18n();
 const { proxy } = getCurrentInstance();
@@ -248,11 +267,13 @@ const openColorPicker = ref(false);
 const loading = ref(false);
 const fullLoading = ref(false);
 const addDialog = ref(false);
+const isUpdateOrder = ref(false);
 const addNameRef = ref(null);
 const addTypeRef = ref(null);
 const clientNameList = ref([]);
 const projectList = ref([]);
 const inputNameRef = ref([]);
+const orderRequest = ref([]);
 const predefineColors = ref([
   '#B0CADC',
   '#D0B0DC',
@@ -358,6 +379,7 @@ async function handleClick(){
     inputNameRef.value = [];//陣列歸零
     markColor.value = null;//清除標記顏色
     await loadProject();
+    closeOrder();//清除排序編輯，重設按鈕
     loading.value = false;
 }
 function tableRowStyle(col) {
@@ -518,6 +540,30 @@ function closeAdd(){
     addProjectModel.scheduledEndTime = null;
     addProjectModel.info = null;
     addProjectModel.managerId = null;
+}
+function openOrder(){
+    setSort(projectList.value, ("#dragTable"+searchParams.type) + " table tbody");//依照type的tableId做初始化
+    isUpdateOrder.value = true;
+}
+function updateOrderRequest(){
+    orderRequest.value = projectList.value.map((item, index) => ({
+        id: item.id,
+        order: index + 1
+    }));
+}
+async function saveOrder(){
+    loading.value = true;
+    await updateOrderRequest();
+    const response = await request.projectOrder(orderRequest.value);
+    if (response && response.data.code === 200) {
+        proxy.$msg.success(response.data.data);
+        closeOrder();
+    }
+    loading.value = false;
+}
+function closeOrder(){
+    destroy();
+    isUpdateOrder.value = false;
 }
 </script>
 

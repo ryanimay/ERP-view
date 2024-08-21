@@ -382,7 +382,11 @@
         "addNewProject":"Add Project",
         "save":"Save",
         "pleaseInputName":"Please Input project name",
-        "pleaseInputType":"Please Input project Type"
+        "pleaseInputType":"Please Input project Type",
+        "updateOrder":"Update Order",
+        "saveOrder":"Save Order",
+        "updateOrderMsg":"Click to edit sorting",
+        "saveOrderMsg":"Editing complete, click to save sorting"
     },
 
 
