@@ -22,6 +22,7 @@ const config = {
     const performance = context_path + '/performance';
     const leave = context_path + '/leave';
     const project = context_path + '/project';
+    const procure = context_path + '/procurement';
     return {
       cache: {
       },
@@ -317,6 +318,18 @@ const config = {
           requiresAuth: true
         },
       },
+      procure:{
+        list:{
+          path: procure + '/list',
+          method:'get',
+          requiresAuth: true
+        },
+        update:{
+          path: procure + '/update',
+          method:'put',
+          requiresAuth: true
+        },
+      }
     };
   })(),
 }

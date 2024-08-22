@@ -388,6 +388,34 @@
         "updateOrderMsg":"點擊編輯排序",
         "saveOrderMsg":"編輯完成，點擊保存排序"
     },
+    "procureList":{
+        "procureId":"採購單號",
+        "inputProcureId":"輸入採購單號",
+        "type1":"進",
+        "type2":"出",
+        "name":"名稱",
+        "inputName":"輸入名稱",
+        "to":"到",
+        "createTime":"創建時間",
+        "startTime":"開始時間",
+        "endTime":"結束時間",
+        "status":"狀態",
+        "All":"全部",
+        "pending":"待執行",
+        "approved":"已執行",
+        "done":"已結算",
+        "search":"搜尋",
+        "addNewProcure":"新增採購資料",
+        "id":"Id",
+        "price":"單價",
+        "count":"數量",
+        "total":"總價",
+        "info":"備註",
+        "createBy":"建立人",
+        "edit":"編輯",
+        "pleaseInputName":"請輸入採購名稱",
+        "":""
+    },
 
 
 

@@ -388,6 +388,34 @@
         "updateOrderMsg":"Click to edit sorting",
         "saveOrderMsg":"Editing complete, click to save sorting"
     },
+    "procureList":{
+        "procureId":"Procurement Id",
+        "inputProcureId":"Input Procurement Id",
+        "type1":"IN",
+        "type2":"OUT",
+        "name":"Name",
+        "inputName":"Input Name",
+        "to":"To",
+        "createTime":"CreateTime",
+        "startTime":"StartTime",
+        "endTime":"EndTime",
+        "status":"Status",
+        "All":"All",
+        "pending":"Pending",
+        "approved":"Approved",
+        "done":"Completed",
+        "search":"Search",
+        "addNewProcure":"Add Procurement Data",
+        "id":"Id",
+        "price":"Price",
+        "count":"Count",
+        "total":"Total Price",
+        "info":"Info",
+        "createBy":"CreateBy",
+        "edit":"Edit",
+        "pleaseInputName":"Please input procurement name",
+        "":""
+    },
 
 
 

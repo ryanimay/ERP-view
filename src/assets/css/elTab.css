@@ -13,3 +13,7 @@
 .el-tabs__content{
     height: calc(100% - 20px) !important;
 }
+/* procureListBody */
+#tabTable .el-tabs__content {
+    height: calc(100% - 69px) !important;
+}
