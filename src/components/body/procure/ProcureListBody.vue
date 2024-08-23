@@ -65,9 +65,10 @@
                         style="width: 100%;" 
                         :show-overflow-tooltip="true"
                         :highlight-current-row="true"
+                        @sort-change="handleSortChange"
                         height="100%">
-                            <el-table-column column-key="id" prop="id" :label="$t('procureList.id')" min-width="50" width="50" :align="'center'" />
-                            <el-table-column prop="name" :label="$t('procureList.name')" min-width="130">
+                            <el-table-column column-key="id" prop="id" :label="$t('procureList.id')" width="60" :align="'center'" sortable='custom'/>
+                            <el-table-column prop="name" :label="$t('procureList.name')" min-width="110">
                                 <template #default="scope">
                                     <div class="el-input" v-if="scope.row.isEdit" >
                                         <div class="el-input__wrapper">
@@ -77,13 +78,13 @@
                                     <el-text v-else>{{scope.row.name}}</el-text>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="count" :label="$t('procureList.count')" min-width="100" :align="'center'">
+                            <el-table-column column-key="count" prop="count" :label="$t('procureList.count')" min-width="100" :align="'center'" sortable='custom'>
                                 <template #default="scope">
                                     <el-input-number v-if="scope.row.isEdit" v-model.lazy="scope.row.count" :precision="0" :step="1" :min="0" size="small" style="width: 70px"/>
                                     <el-text v-else>{{ scope.row.count }}</el-text>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="price" :label="$t('procureList.price')" min-width="130">
+                            <el-table-column column-key="price" prop="price" :label="$t('procureList.price')" min-width="130" sortable='custom'>
                                 <template #default="scope">
                                     <div class="el-input" v-if="scope.row.isEdit" >
                                         <div class="el-input__wrapper">
@@ -98,7 +99,7 @@
                                     <el-text>{{ '$' + (scope.row.count * scope.row.price).toFixed(2) }}</el-text>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="info" :label="$t('procureList.info')" min-width="130" >
+                            <el-table-column prop="info" :label="$t('procureList.info')" min-width="110" >
                                 <template #default="scope">
                                     <div class="el-input" v-if="scope.row.isEdit" >
                                         <div class="el-input__wrapper">
@@ -108,8 +109,8 @@
                                     <el-text v-else>{{scope.row.info}}</el-text>
                                 </template>
                             </el-table-column>
-                            <el-table-column column-key="createTime" prop="createTime" :label="$t('procureList.createTime')" min-width="180" width="180" :formatter="formatTime"/>
-                            <el-table-column column-key="createBy" prop="createBy.username" :label="$t('procureList.createBy')" min-width="120" />
+                            <el-table-column column-key="createTime" prop="createTime" :label="$t('procureList.createTime')" sortable='custom' min-width="180" width="180" :formatter="formatTime"/>
+                            <el-table-column column-key="createBy" prop="createBy.username" :label="$t('procureList.createBy')" min-width="110" />
                             <el-table-column :label="$t('procureList.status')" min-width="130" :align="'center'" >
                                 <template #default="scope">
                                     <el-select v-if="scope.row.isEdit" v-model="scope.row.status" style="width: 100px" size="small">
@@ -364,6 +365,29 @@ function setTime(times){
 }
 function formatTime(row, column, cellValue){
     return cellValue ? cellValue.replace("T", " ") : cellValue;
+}
+function handleCurrentChange(page){
+    if (searchParams.totalPage === 0) {
+        return; // total為0避免重複觸發
+    }
+    searchParams.pageNum = page;
+    requestProcurement();
+}
+function handleSizeChange(size){
+    searchParams.pageSize = size;
+    requestProcurement();
+}
+function handleSortChange(data){
+    searchParams.sort = getOrder(data.order);
+    searchParams.sortBy = data.column.columnKey;
+    requestProcurement();
+}
+function getOrder(order){
+    if(order === 'descending'){
+        return 2;
+    }else{
+        return 1;
+    }
 }
 </script>
 
