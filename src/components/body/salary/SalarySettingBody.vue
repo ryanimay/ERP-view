@@ -54,12 +54,12 @@
                 :page-count="requestParam.totalPage"
                 @current-change="handleCurrentChange">
                 <span class="fontBold">
-                    <span>{{ $t('salarySettingBody.total') + ' ' + requestParam.totalElements + $t('salarySettingBody.totalQuantifier') }}</span>
+                    <span>{{ $t('paging.total') + ' ' + requestParam.totalElements + $t('paging.totalQuantifier') }}</span>
                     <span id="marginLeft12">
                         <el-select v-model="requestParam.pageSize" style="width: 110px" @change="handleSizeChange">
                             <el-option v-for="size in sizeOptions"
                                 :key="size"
-                                :label="size + $t('salarySettingBody.pageQuantifier')"
+                                :label="size + $t('paging.pageQuantifier')"
                                 :value="size"
                             />
                         </el-select>

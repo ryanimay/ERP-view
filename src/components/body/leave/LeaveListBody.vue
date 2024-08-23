@@ -73,12 +73,12 @@
                     @current-change="handleCurrentChange"
                     style="display: flex; justify-content: flex-end; padding-top: 10px;">
                         <span class="fontBold">
-                            <span>{{ $t('leaveList.total') + ' ' + pendingParams.totalElements + $t('leaveList.totalQuantifier') }}</span>
+                            <span>{{ $t('paging.total') + ' ' + pendingParams.totalElements + $t('paging.totalQuantifier') }}</span>
                             <span class="marginLeft12">
                                 <el-select v-model="pendingParams.pageSize" style="width: 110px" @change="handleSizeChange">
                                     <el-option v-for="size in sizeOptions"
                                         :key="size"
-                                        :label="size + $t('leaveList.pageQuantifier')"
+                                        :label="size + $t('paging.pageQuantifier')"
                                         :value="size"
                                     />
                                 </el-select>
@@ -117,12 +117,12 @@
                     @current-change="handleCurrentChange"
                     style="display: flex; justify-content: flex-end; padding-top: 10px;">
                         <span class="fontBold">
-                            <span>{{ $t('leaveList.total') + ' ' + searchParams.totalElements + $t('leaveList.totalQuantifier') }}</span>
+                            <span>{{ $t('paging.total') + ' ' + searchParams.totalElements + $t('paging.totalQuantifier') }}</span>
                             <span class="marginLeft12">
                                 <el-select v-model="searchParams.pageSize" style="width: 110px" @change="handleSizeChange">
                                     <el-option v-for="size in sizeOptions"
                                         :key="size"
-                                        :label="size + $t('leaveList.pageQuantifier')"
+                                        :label="size + $t('paging.pageQuantifier')"
                                         :value="size"
                                     />
                                 </el-select>

@@ -164,12 +164,12 @@
                 :page-count="searchParams.totalPage"
                 @current-change="handleCurrentChange">
                 <span class="fontBold">
-                    <span>{{ $t('personalPerformance.total') + ' ' + searchParams.totalElements + $t('personalPerformance.totalQuantifier') }}</span>
+                    <span>{{ $t('paging.total') + ' ' + searchParams.totalElements + $t('paging.totalQuantifier') }}</span>
                     <span class="marginLeft12">
                         <el-select v-model="searchParams.pageSize" style="width: 110px" @change="handleSizeChange">
                             <el-option v-for="size in sizeOptions"
                                 :key="size"
-                                :label="size + $t('personalPerformance.pageQuantifier')"
+                                :label="size + $t('paging.pageQuantifier')"
                                 :value="size"
                             />
                         </el-select>
