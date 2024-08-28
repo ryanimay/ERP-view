@@ -61,6 +61,7 @@ export default {
     projectOrder: request(path.api.project.order),
     procureList: request(path.api.procure.list),
     updateProcure: request(path.api.procure.update),
+    addProcure: request(path.api.procure.add),
 }
 
 const axios = instance();

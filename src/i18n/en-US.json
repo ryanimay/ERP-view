@@ -373,6 +373,7 @@
     "procureList":{
         "procureId":"Procurement Id",
         "inputProcureId":"Input Procurement Id",
+        "type":"Type",
         "type1":"IN",
         "type2":"OUT",
         "name":"Name",
@@ -396,6 +397,7 @@
         "createBy":"CreateBy",
         "edit":"Edit",
         "pleaseInputName":"Please input procurement name",
+        "submit":"Submit",
         "":""
     },
 

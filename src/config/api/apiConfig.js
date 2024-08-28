@@ -329,6 +329,11 @@ const config = {
           method:'put',
           requiresAuth: true
         },
+        add:{
+          path: procure + '/add',
+          method:'post',
+          requiresAuth: true
+        },
       }
     };
   })(),

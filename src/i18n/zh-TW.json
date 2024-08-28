@@ -373,6 +373,7 @@
     "procureList":{
         "procureId":"採購單號",
         "inputProcureId":"輸入採購單號",
+        "type":"類別",
         "type1":"進",
         "type2":"出",
         "name":"名稱",
@@ -396,6 +397,7 @@
         "createBy":"建立人",
         "edit":"編輯",
         "pleaseInputName":"請輸入採購名稱",
+        "submit":"提交",
         "":""
     },
 

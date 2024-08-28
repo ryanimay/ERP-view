@@ -180,8 +180,39 @@
             </el-footer>
         </el-container>
         <!--新增專案-->
-        <el-dialog v-model="addDialog" :title="$t('procureList.addNewProcure')" width="1200" @close="closeAdd">
-            
+        <el-dialog v-model="addDialog" :title="$t('procureList.addNewProcure')" width="300" @close="closeAdd">
+            <el-form :model="addProcureModel" label-position="right">
+                <el-form-item :label="$t('procureList.type')+' ('+$t('procureList.type1')+'/'+$t('procureList.type2')+'):'">
+                    <el-select v-model="addProcureModel.type" style="width: 100px" >
+                        <el-option v-for="t in typeList"
+                            :key="t.name"
+                            :label="$t(t.label)"
+                            :value="t.name"
+                        />
+                    </el-select>
+                </el-form-item>
+                <el-form-item :label="$t('procureList.name')+':'">
+                    <el-input v-model="addProcureModel.name" style="width: 200px"/>
+                </el-form-item>
+                <el-form-item :label="$t('procureList.price')+':'">
+                    <div class="el-input" style="width: 100px">
+                        <div class="el-input__wrapper">
+                            <input class="el-input__inner" v-model="addProcureModel.price" @input="handlePriceInput"/>
+                        </div>
+                    </div>
+                </el-form-item>
+                <el-form-item :label="$t('procureList.count')+':'">
+                    <el-input-number v-model="addProcureModel.count" :precision="0" :step="1" :min="0" style="width: 100px"/>
+                </el-form-item>
+                <el-form-item :label="$t('procureList.info')+':'">
+                    <el-input type="textarea" v-model="addProcureModel.info" />
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button type="primary" @click="addNewProcure">{{ $t('procureList.submit') }}</el-button>
+                </div>
+            </template>
         </el-dialog>
     </el-main>
 </template>
@@ -231,10 +262,10 @@ const currentProcure = reactive({
     status: null,
 })
 const addProcureModel = reactive({
-    type: null,
+    type: 1,
     name: null,
     price: null,
-    count: null,
+    count: 0,
     info: null
 })
 const typeList = [
@@ -329,10 +360,10 @@ function statusType(status){
   }
 }
 function closeAdd(){
-    addProcureModel.type = null;
+    addProcureModel.type = 1;
     addProcureModel.name = null;
     addProcureModel.price = null;
-    addProcureModel.count = null;
+    addProcureModel.count = 0;
     addProcureModel.info = null;
 }
 const handlePriceInput = (event) => {
@@ -388,6 +419,16 @@ function getOrder(order){
     }else{
         return 1;
     }
+}
+async function addNewProcure(){
+    fullLoading.value = true;
+    const response = await request.addProcure(addProcureModel);
+    if (response && response.data.code === 200) {
+        proxy.$msg.success(response.data.data);
+        addDialog.value = false;
+        await requestProcurement();
+    }
+    fullLoading.value = false;
 }
 </script>
 
