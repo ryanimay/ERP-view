@@ -218,6 +218,19 @@ const routerPath = [
             parentName: ':procureManagement',
             headerKey: 'HomeHeader'
         }
+    },
+    {
+        path: '/jobCard',
+        name: 'jobCard',
+        components: {
+            header: () => import('@/components/header/HomeHeader.vue'),
+            body: () => import('@/components/body/job/JobCardBody.vue'),
+        },
+        meta: { 
+            requiresAuth: true,
+            parentName: ':jobManagement',
+            headerKey: 'HomeHeader'
+        }
     }
 ]
 

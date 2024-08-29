@@ -430,7 +430,8 @@
         "personalLeave":"Personal Leave",
         "leaveList":"Leave List",
         "projectList":"Project List",
-        "procureList":"Procure List"
+        "procureList":"Procure List",
+        "jobCard":"Job Card"
     },
     "axios":{
         "reLogin":"Your session has expired. Please log in again."
