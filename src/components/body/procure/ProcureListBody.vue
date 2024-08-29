@@ -128,7 +128,7 @@
                                     </el-tag>
                                 </template>
                             </el-table-column>
-                            <el-table-column :label="$t('procureList.edit')" min-width="60" width="60" :align="'center'">
+                            <el-table-column :label="$t('procureList.edit')" width="60" :align="'center'">
                                 <template #default="scope">
                                     <el-button 
                                     v-if="scope.row.isEdit" 
@@ -148,6 +148,24 @@
                                             <Edit />
                                         </el-icon>
                                     </el-button>
+                                </template>
+                            </el-table-column>
+                            <el-table-column :label="$t('procureList.delete')" width="70" :align="'center'">
+                                <template #default="scope">
+                                    <el-popconfirm 
+                                    :title="$t('procureList.deleteWarning')" 
+                                    :confirm-button-text="$t('procureList.deleteSubmit')"
+                                    :cancel-button-text="$t('procureList.deleteCancel')"
+                                    @confirm="deleteRow(scope)"
+                                    width="220">
+                                        <template #reference>
+                                            <el-button type="danger" circle plain>
+                                                <el-icon>
+                                                    <Close />
+                                                </el-icon>
+                                            </el-button>
+                                        </template>
+                                    </el-popconfirm>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -334,6 +352,17 @@ function saveRow(scope){
             scope.row.isEdit = false;
         }
     }
+}
+async function deleteRow(scope){
+    loading.value = true;
+    const response = await request.deleteProcure({id: scope.row.id});
+    if (response && response.data.code === 200) {
+        proxy.$msg.success(response.data.data);
+        procureList.value = procureList.value.filter(item => item.id !== scope.row.id);
+        searchParams.totalElements--;
+        searchParams.totalPage = Math.ceil(searchParams.totalElements / searchParams.pageSize);
+    }
+    loading.value = false;
 }
 function checkEditName(scope){
     if(scope.row.name && scope.row.name.trim()){

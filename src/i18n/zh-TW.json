@@ -398,7 +398,10 @@
         "edit":"編輯",
         "pleaseInputName":"請輸入採購名稱",
         "submit":"提交",
-        "":""
+        "delete":"刪除",
+        "deleteWarning":"確定刪除嗎?",
+        "deleteSubmit":"確定",
+        "deleteCancel":"取消"
     },
 
 

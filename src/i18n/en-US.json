@@ -398,7 +398,10 @@
         "edit":"Edit",
         "pleaseInputName":"Please input procurement name",
         "submit":"Submit",
-        "":""
+        "delete":"Delete",
+        "deleteWarning":"Are you sure to delete this procurement?",
+        "deleteSubmit":"Yes",
+        "deleteCancel":"No"
     },
 
 

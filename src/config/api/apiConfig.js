@@ -334,6 +334,11 @@ const config = {
           method:'post',
           requiresAuth: true
         },
+        delete:{
+          path: procure + '/delete',
+          method:'delete',
+          requiresAuth: true
+        },
       }
     };
   })(),

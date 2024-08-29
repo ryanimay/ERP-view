@@ -62,6 +62,7 @@ export default {
     procureList: request(path.api.procure.list),
     updateProcure: request(path.api.procure.update),
     addProcure: request(path.api.procure.add),
+    deleteProcure: request(path.api.procure.delete),
 }
 
 const axios = instance();
