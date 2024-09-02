@@ -1,0 +1,25 @@
+.jobCard > .el-card {
+    border: 1px solid rgba(0, 0, 0, 0.3) !important;
+}
+.jobCard > .el-card >.el-card__body{
+    height: calc(100% - 56px);
+}
+.el-card__header{
+    background-color: #b9ccdf;
+}
+.innerCard{
+    margin: 2px;
+    border-radius: 5px;
+    border: 1px solid #bbbbbb;
+}
+.newInnerCard{
+    margin: 2px;
+    border-radius: 5px;
+    border: 1px solid #409eff;
+}
+.cardHoverShadow{
+    transition: background-color 0.3s ease;
+}
+.cardHoverShadow:hover{
+    background-color: #f0f0f0;
+}

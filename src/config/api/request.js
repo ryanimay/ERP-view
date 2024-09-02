@@ -63,6 +63,9 @@ export default {
     updateProcure: request(path.api.procure.update),
     addProcure: request(path.api.procure.add),
     deleteProcure: request(path.api.procure.delete),
+    jobList: request(path.api.job.list),
+    addJob: request(path.api.job.add),
+    updateJob: request(path.api.job.update),
 }
 
 const axios = instance();

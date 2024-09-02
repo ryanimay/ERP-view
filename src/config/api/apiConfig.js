@@ -23,6 +23,7 @@ const config = {
     const leave = context_path + '/leave';
     const project = context_path + '/project';
     const procure = context_path + '/procurement';
+    const job = context_path + '/job';
     return {
       cache: {
       },
@@ -337,6 +338,23 @@ const config = {
         delete:{
           path: procure + '/delete',
           method:'delete',
+          requiresAuth: true
+        },
+      },
+      job:{
+        list:{
+          path: job + '/list',
+          method:'get',
+          requiresAuth: true
+        },
+        add:{
+          path: job + '/add',
+          method:'post',
+          requiresAuth: true
+        },
+        update:{
+          path: job + '/update',
+          method:'put',
           requiresAuth: true
         },
       }

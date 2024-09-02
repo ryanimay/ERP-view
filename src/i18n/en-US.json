@@ -403,6 +403,25 @@
         "deleteSubmit":"Yes",
         "deleteCancel":"No"
     },
+    "jobCard":{
+        "tracking": "Tracking",
+        "Pending": "Pending",
+        "Approved": "In Progress",
+        "Closed": "Completed",
+        "Removed":"Removed",
+        "info": "Content",
+        "startTime": "Start Time",
+        "endTime": "End Time",
+        "tracker": "Tracker",
+        "username": "Executor",
+        "selectUser":"select Executor",
+        "editTracking":"Edit Tracking",
+        "untracked":"Untracked",
+        "save":"Save",
+        "success":"Operation successful",
+        "pleaseSelectUser":"Please Select Executor",
+        "":""
+    },
 
 
 

@@ -403,6 +403,25 @@
         "deleteSubmit":"確定",
         "deleteCancel":"取消"
     },
+    "jobCard":{
+        "tracking":"追蹤中",
+        "Pending":"待處理",
+        "Approved":"處理中",
+        "Closed":"已完成",
+        "Removed":"已完成",
+        "info":"內容",
+        "startTime":"開始時間",
+        "endTime":"結束時間",
+        "tracker":"追蹤人",
+        "username":"執行人",
+        "selectUser":"指派執行人",
+        "editTracking":"編輯追蹤人",
+        "untracked":"未追蹤",
+        "save":"保存",
+        "success":"操作成功",
+        "pleaseSelectUser":"請選擇執行人",
+        "":""
+    },
 
 
 
