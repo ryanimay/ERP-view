@@ -66,6 +66,7 @@ export default {
     jobList: request(path.api.job.list),
     addJob: request(path.api.job.add),
     updateJob: request(path.api.job.update),
+    deleteJob: request(path.api.job.delete),
 }
 
 const axios = instance();

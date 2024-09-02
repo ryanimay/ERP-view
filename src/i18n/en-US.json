@@ -420,6 +420,10 @@
         "save":"Save",
         "success":"Operation successful",
         "pleaseSelectUser":"Please Select Executor",
+        "confirmDelete":"Are you sure to delete this?",
+        "delete":"Delete",
+        "cancel":"Cancel",
+        "warning":"Warning",
         "":""
     },
 
@@ -501,5 +505,6 @@
         "total":"Total",
         "totalQuantifier":"",
         "pageQuantifier":"/page"
-    }
+    },
+    "unknownError":"UnknownError"
 }

@@ -420,6 +420,10 @@
         "save":"保存",
         "success":"操作成功",
         "pleaseSelectUser":"請選擇執行人",
+        "confirmDelete":"確定要刪除嗎?",
+        "delete":"刪除",
+        "cancel":"取消",
+        "warning":"警告",
         "":""
     },
 
@@ -500,5 +504,6 @@
         "total":"總數",
         "totalQuantifier":"條",
         "pageQuantifier":"/頁"
-    }
+    },
+    "unknownError":"未知錯誤"
 }

@@ -141,15 +141,27 @@
                             </el-row>
                             <el-row style="height: 30px">
                                 <el-col :span="18" class="text-overflow text-nowrap">
-                                    <el-tooltip v-if="job.trackingSet && job.trackingSet.length !== 0" placement="top-start">
-                                        <template #content>
-                                            <el-scrollbar max-height="70px" style="max-width:200px;">
-                                                <el-tag v-for="tracker in job.trackingSet" :key="tracker.id" type="info" size="small" style="margin-right: 5px;">
-                                                    {{ tracker.username }}
-                                                </el-tag>
-                                            </el-scrollbar>
-                                        </template>
+                                    <span v-if="!job.newAdd">
+                                        <el-tooltip v-if="job.trackingSet && job.trackingSet.length !== 0" placement="top-start">
+                                            <template #content>
+                                                <el-scrollbar max-height="70px" style="max-width:200px;">
+                                                    <el-tag v-for="tracker in job.trackingSet" :key="tracker.id" type="info" size="small" style="margin-right: 5px;">
+                                                        {{ tracker.username }}
+                                                    </el-tag>
+                                                </el-scrollbar>
+                                            </template>
+                                            <el-button 
+                                            :icon="job.trackHover ? 'Plus' : 'Fold'"
+                                            size="small" 
+                                            :type="job.trackHover ? 'primary' : 'info'"
+                                            @mouseenter="job.trackHover = true"
+                                            @mouseleave="job.trackHover = false"
+                                            @click="openTrackingDialog(job)">
+                                                {{ $t('jobCard.tracker') }}
+                                            </el-button>
+                                        </el-tooltip>
                                         <el-button 
+                                        v-else
                                         :icon="job.trackHover ? 'Plus' : 'Fold'"
                                         size="small" 
                                         :type="job.trackHover ? 'primary' : 'info'"
@@ -158,17 +170,8 @@
                                         @click="openTrackingDialog(job)">
                                             {{ $t('jobCard.tracker') }}
                                         </el-button>
-                                    </el-tooltip>
-                                    <el-button 
-                                    v-else
-                                    :icon="job.trackHover ? 'Plus' : 'Fold'"
-                                    size="small" 
-                                    :type="job.trackHover ? 'primary' : 'info'"
-                                    @mouseenter="job.trackHover = true"
-                                    @mouseleave="job.trackHover = false"
-                                    @click="openTrackingDialog(job)">
-                                        {{ $t('jobCard.tracker') }}
-                                    </el-button>
+                                    </span>
+                                    <span v-else style="width: 79.23px; height: 1px; display: inline-block;"></span>
                                     <el-text style="margin-left: 5px;" tag="b" size="small">{{ $t('jobCard.username')+':' }}</el-text>
                                     <el-select
                                     v-if="job.isEdit" 
@@ -189,7 +192,7 @@
                                 <el-col :span="6" class="card__tag--rignt">
                                     <el-button v-if="!job.isEdit" @click="job.isEdit=true" icon="Edit" type="info" plain circle size="small"/>
                                     <el-button v-else @click="job.newAdd ? addJobModel(job, index) : updateJobModel(job, index)" icon="Download" type="info" circle size="small"/>
-                                    <el-button icon="Delete" type="danger" circle size="small" style="margin-left: 5px;"/>
+                                    <el-button @click="confirmDelete(job.id)" icon="Delete" type="danger" circle size="small" style="margin-left: 5px;"/>
                                     <el-button icon="CaretRight" type="success" circle size="small" style="margin-left: 5px;"/>
                                 </el-col>
                             </el-row>
@@ -241,6 +244,7 @@ import request from '@/config/api/request.js';
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue'
 import userStore from '@/config/store/user';
 import { useI18n } from 'vue-i18n';
+import { ElMessageBox } from 'element-plus'
 
 const { t } = useI18n();
 const user = userStore();
@@ -349,6 +353,7 @@ async function updateJobModel(job, index){
         if (response && response.data.code === 200) {
             proxy.$msg.success(t('jobCard.success'));
             job.isEdit = false;
+            inNewAdd.value = false;
             await requestJob();
         }
         loading.value = false;
@@ -411,6 +416,33 @@ function addNewJob(){
             }
         });
     }
+}
+const confirmDelete = (id) => {
+    ElMessageBox.confirm(
+        t('jobCard.confirmDelete'),
+        t('jobCard.warning'),
+        {
+            confirmButtonText: t('jobCard.delete'),
+            cancelButtonText: t('jobCard.cancel'),
+            type: 'warning',
+            draggable: true,
+        }
+        )
+        .then(() => {
+            deleteJob(id)
+        })
+        .catch(() => {}
+    )
+}
+async function deleteJob(id){
+    fullLoading.value = true;
+    const response = await request.deleteJob({"id": id});
+    if (response && response.data.code === 200) {
+        proxy.$msg.success(response.data.data);
+        await requestJob();
+    }
+    fullLoading.value = false;
+    
 }
 </script>
 

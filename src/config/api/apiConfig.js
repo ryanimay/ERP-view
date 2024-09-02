@@ -357,6 +357,11 @@ const config = {
           method:'put',
           requiresAuth: true
         },
+        delete:{
+          path: job + '/remove',
+          method:'delete',
+          requiresAuth: true
+        },
       }
     };
   })(),
