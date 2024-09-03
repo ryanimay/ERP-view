@@ -27,7 +27,7 @@
                             <el-row style="height: 60px" class="infoBlock">
                                 <el-scrollbar>
                                     <el-col :span="24" class="text-overflow text-normal">
-                                        <el-text>{{ $t('jobCard.info')+':'+job.info }}</el-text>
+                                        <el-text>{{ job.info }}</el-text>
                                     </el-col>
                                 </el-scrollbar>
                             </el-row>
@@ -67,14 +67,19 @@
                 </el-card>
             </el-col>
             <el-col :span="6" class="jobCard minWidth360">
-                <el-card class="shadow height100" :body-style="{ padding: '0' }">
+                <el-card class="shadow height100" :body-style="{ padding: '0' }" :style="{ '--el-transition-duration': '0s' }">
                     <template #header>
                         <div class="card__header--spaceBetween">
                             <el-text tag="b">{{ $t('jobCard.Pending') }}</el-text>
                             <el-button style="height: 16px; width: 16px;" icon="Plus" @click="addNewJob()" plain circle type="primary"/>
                         </div>
                     </template>
-                    <el-scrollbar>
+                    <el-scrollbar 
+                    view-class="draggableClass"
+                    :view-style="{ 
+                        height: '100%', 
+                        width: '100%', 
+                        }">
                         <el-card 
                         v-for="(job, index) in jobModel['Pending']"
                         :key="index"
@@ -87,8 +92,9 @@
                         body-class="cardHoverShadow"
                         shadow="hover">
                             <el-row style="height: 20px">
-                                <el-col :span="24">
+                                <el-col :span="24" class="card__header--spaceBetween">
                                     <el-text tag="b" size="small">{{ $t('jobCard.info')+':' }}</el-text>
+                                    <el-icon v-if="!job.newAdd" size="14" class="handle"><Rank /></el-icon>
                                 </el-col>
                             </el-row>
                             <el-row v-if="job.isEdit" style="height: 60px">
@@ -201,7 +207,7 @@
                 </el-card>
             </el-col>
             <el-col :span="6" class="jobCard minWidth360">
-                <el-card class="shadow height100" :body-style="{ padding: '0' }">
+                <el-card class="shadow height100" :body-style="{ padding: '0' }" :style="{ '--el-transition-duration': '0s' }">
                     <template #header>
                         <div>
                             <el-text tag="b">{{ $t('jobCard.Approved') }}</el-text>
@@ -210,7 +216,7 @@
                 </el-card>
             </el-col>
             <el-col :span="6" class="jobCard minWidth360">
-                <el-card class="shadow height100" :body-style="{ padding: '0' }">
+                <el-card class="shadow height100" :body-style="{ padding: '0' }" :style="{ '--el-transition-duration': '0s' }">
                     <template #header>
                         <div>
                             <el-text tag="b">{{ $t('jobCard.Closed') }}</el-text>
@@ -245,6 +251,7 @@ import { ref, onMounted, reactive, getCurrentInstance } from 'vue'
 import userStore from '@/config/store/user';
 import { useI18n } from 'vue-i18n';
 import { ElMessageBox } from 'element-plus'
+import {Sortable} from 'sortablejs';
 
 const { t } = useI18n();
 const user = userStore();
@@ -270,6 +277,7 @@ onMounted(async () => {
     loading.value = true;
     await requestJob();
     await loadClientNameList();
+    setSort();
     loading.value = false;
 });
 async function loadClientNameList() {
@@ -442,7 +450,29 @@ async function deleteJob(id){
         await requestJob();
     }
     fullLoading.value = false;
-    
+}
+function setSort() {
+    const elements = document.querySelectorAll('.draggableClass');
+    elements.forEach((el) => {
+        new Sortable(el, {
+            animation: 150,//過渡動畫
+            group: 'sortGroup',
+            handle: ".handle",
+            sort: true,
+            ghostClass: 'sortable-ghost',//被選取樣式
+            dragClass: "ghost",
+            scrollSensitivity: 100,//觸發滾動距離
+            scrollSpeed: 15,//滾動速度
+            draggable: ".innerCard",
+            onStart: () => {
+                document.body.style.userSelect = 'none'; // 禁用文本選擇，避免拖曳反白
+            },
+            onEnd: (e) => {
+                document.body.style.userSelect = ''; // 恢復文本選擇
+                console.log(e);
+            },
+        })
+    })
 }
 </script>
 
@@ -494,5 +524,19 @@ async function deleteJob(id){
 .card__header--spaceBetween{
     display: flex;
     justify-content: space-between;
+}
+.sortable-ghost {
+    opacity: 0.5;
+    background-color: #f0f0f0;
+    transition: transform 150ms ease;
+}
+
+.ghost {
+    opacity: 0.8;
+    transform: scale(1.05);
+    transition: transform 150ms ease;
+}
+.handle{
+    cursor: grab ;
 }
 </style>
