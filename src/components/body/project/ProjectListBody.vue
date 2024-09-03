@@ -259,7 +259,7 @@
 import request from '@/config/api/request.js';
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue'
 import { useI18n } from 'vue-i18n';
-import { setSort, destroy } from '@/config/sortable.js'
+import Sortable from 'sortablejs';
 
 const { t } = useI18n();
 const { proxy } = getCurrentInstance();
@@ -270,6 +270,7 @@ const addDialog = ref(false);
 const isUpdateOrder = ref(false);
 const addNameRef = ref(null);
 const addTypeRef = ref(null);
+const sortableInstance = ref(null);
 const clientNameList = ref([]);
 const projectList = ref([]);
 const inputNameRef = ref([]);
@@ -542,7 +543,7 @@ function closeAdd(){
     addProjectModel.managerId = null;
 }
 function openOrder(){
-    setSort(projectList.value, ("#dragTable"+searchParams.type) + " table tbody");//依照type的tableId做初始化
+    sortableInstance.value = setSort(projectList.value, ("#dragTable"+searchParams.type) + " table tbody");//依照type的tableId做初始化
     isUpdateOrder.value = true;
 }
 function updateOrderRequest(){
@@ -562,8 +563,34 @@ async function saveOrder(){
     loading.value = false;
 }
 function closeOrder(){
-    destroy();
+    if(sortableInstance.value){
+        sortableInstance.value.destroy();
+        sortableInstance.value = null;
+    }
     isUpdateOrder.value = false;
+}
+function setSort(tableData, element) {
+    const el = document.querySelector(element)
+    if (!el) {
+        console.error('Element not found: ', element)
+        return
+    }
+    return new Sortable(el, {
+        animation: 150,//過渡動畫
+        sort: true,
+        ghostClass: 'sortable-ghost',//被選取樣式
+        forceFallback: true,//禁用html，下面autoScroll配置才會生效
+        scrollSensitivity: 100,//觸發滾動距離
+        scrollSpeed: 15,//滾動速度
+        onStart: () => {
+            document.body.style.userSelect = 'none'; // 禁用文本選擇，避免拖曳反白
+        },
+        onEnd: (e) => {
+            document.body.style.userSelect = ''; // 恢復文本選擇
+            const targetRow = tableData.splice(e.oldIndex, 1)[0]
+            tableData.splice(e.newIndex, 0, targetRow)
+        },
+    })
 }
 </script>
 
