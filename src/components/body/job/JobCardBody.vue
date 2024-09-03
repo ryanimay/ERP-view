@@ -67,6 +67,7 @@
                 </el-card>
             </el-col>
             <el-col :span="6" class="jobCard minWidth360">
+                <!-- sortablejs拖曳會和element-plus預設css衝突，要拖曳的範圍內設--el-transition-duration': '0s' -->
                 <el-card class="shadow height100" :body-style="{ padding: '0' }" :style="{ '--el-transition-duration': '0s' }">
                     <template #header>
                         <div class="card__header--spaceBetween">
@@ -195,9 +196,12 @@
                                     </el-select>
                                     <el-text v-else tag="b" size="small">{{ job.user.username }}</el-text>
                                 </el-col>
-                                <el-col :span="6" class="card__tag--rignt">
+                                <el-col v-if="job.newAdd" :span="6">
+                                    <el-button @click="addJobModel(job, index)" icon="Download" type="info" circle size="small"/>
+                                </el-col>
+                                <el-col v-else :span="6" class="card__tag--rignt">
                                     <el-button v-if="!job.isEdit" @click="job.isEdit=true" icon="Edit" type="info" plain circle size="small"/>
-                                    <el-button v-else @click="job.newAdd ? addJobModel(job, index) : updateJobModel(job, index)" icon="Download" type="info" circle size="small"/>
+                                    <el-button v-else @click="updateJobModel(job, index)" icon="Download" type="info" circle size="small"/>
                                     <el-button @click="confirmDelete(job.id)" icon="Delete" type="danger" circle size="small" style="margin-left: 5px;"/>
                                     <el-button icon="CaretRight" type="success" circle size="small" style="margin-left: 5px;"/>
                                 </el-col>
