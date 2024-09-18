@@ -423,8 +423,7 @@
         "confirmDelete":"確定要刪除嗎?",
         "delete":"刪除",
         "cancel":"取消",
-        "warning":"警告",
-        "":""
+        "warning":"警告"
     },
 
 
@@ -453,7 +452,8 @@
         "leaveList":"休假清單",
         "projectList":"專案清單",
         "procureList":"採購清單",
-        "jobCard":"任務卡"
+        "jobCard":"任務卡",
+        "scheduleList":"排程清單"
     },
     "axios":{
         "reLogin":"登入過期，請重新登入"

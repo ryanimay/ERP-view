@@ -231,6 +231,19 @@ const routerPath = [
             parentName: ':jobManagement',
             headerKey: 'HomeHeader'
         }
+    },
+    {
+        path: '/scheduleList',
+        name: 'scheduleList',
+        components: {
+            header: () => import('@/components/header/HomeHeader.vue'),
+            body: () => import('@/components/body/schedule/ScheduleListBody.vue'),
+        },
+        meta: { 
+            requiresAuth: true,
+            parentName: ':scheduleManagement',
+            headerKey: 'HomeHeader'
+        }
     }
 ]
 

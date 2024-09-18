@@ -423,8 +423,7 @@
         "confirmDelete":"Are you sure to delete this?",
         "delete":"Delete",
         "cancel":"Cancel",
-        "warning":"Warning",
-        "":""
+        "warning":"Warning"
     },
 
 
@@ -454,7 +453,8 @@
         "leaveList":"Leave List",
         "projectList":"Project List",
         "procureList":"Procure List",
-        "jobCard":"Job Card"
+        "jobCard":"Job Card",
+        "scheduleList":"Schedule List"
     },
     "axios":{
         "reLogin":"Your session has expired. Please log in again."
