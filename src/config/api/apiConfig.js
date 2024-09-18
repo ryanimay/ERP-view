@@ -362,6 +362,11 @@ const config = {
           method:'delete',
           requiresAuth: true
         },
+        order:{
+          path: job + '/order',
+          method:'put',
+          requiresAuth: true
+        },
       }
     };
   })(),
