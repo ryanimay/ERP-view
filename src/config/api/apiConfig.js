@@ -24,6 +24,7 @@ const config = {
     const project = context_path + '/project';
     const procure = context_path + '/procurement';
     const job = context_path + '/job';
+    const quartzJob = context_path + '/quartzJob';
     return {
       cache: {
       },
@@ -364,6 +365,28 @@ const config = {
         },
         order:{
           path: job + '/order',
+          method:'put',
+          requiresAuth: true
+        },
+      },
+      quartzJob:{
+        list:{
+          path: quartzJob + '/list',
+          method:'get',
+          requiresAuth: true
+        },
+        add:{
+          path: quartzJob + '/add',
+          method:'post',
+          requiresAuth: true
+        },
+        toggle:{
+          path: quartzJob + '/toggle',
+          method:'put',
+          requiresAuth: true
+        },
+        update:{
+          path: quartzJob + '/update',
           method:'put',
           requiresAuth: true
         },

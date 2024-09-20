@@ -425,6 +425,26 @@
         "cancel":"取消",
         "warning":"警告"
     },
+    "scheduleList":{
+        "id":"Id",
+        "name":"名稱",
+        "cron":"Cron",
+        "classPath":"執行路徑",
+        "info":"說明",
+        "param":"其他參數",
+        "status":"初始狀態",
+        "addSchedule":"新增排程",
+        "toggleSchedule":"切換狀態",
+        "editSchedule":"編輯排程",
+        "triggerSchedule":"單次觸發",
+        "deleteSchedule":"刪除排程",
+        "cancel":"取消",
+        "save":"保存",
+        "pleaseInputName":"請輸入名稱",
+        "pleaseInputCron":"請輸入Cron",
+        "pleaseInputClassPath":"請輸入執行路徑",
+        "":""
+    },
 
 
 

@@ -425,6 +425,26 @@
         "cancel":"Cancel",
         "warning":"Warning"
     },
+    "scheduleList":{
+        "id":"Id",
+        "name":"Name",
+        "cron":"Cron",
+        "classPath":"ClassPath",
+        "info":"Info",
+        "param":"Params",
+        "status":"Status",
+        "addSchedule": "Add Schedule",
+        "toggleSchedule": "Toggle Status",
+        "editSchedule": "Edit Schedule",
+        "triggerSchedule": "Trigger Once",
+        "deleteSchedule": "Delete Schedule",
+        "cancel":"Cancel",
+        "save":"Save",
+        "pleaseInputName": "Please enter the name",
+        "pleaseInputCron": "Please enter the Cron expression",
+        "pleaseInputClassPath": "Please enter the execution path",
+        "":""
+    },
 
 
 
