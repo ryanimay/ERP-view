@@ -438,12 +438,15 @@
         "editSchedule":"編輯排程",
         "triggerSchedule":"單次觸發",
         "deleteSchedule":"刪除排程",
+        "warning":"警告",
+        "ok":"確認",
         "cancel":"取消",
         "save":"保存",
         "pleaseInputName":"請輸入名稱",
         "pleaseInputCron":"請輸入Cron",
         "pleaseInputClassPath":"請輸入執行路徑",
-        "":""
+        "warningTrigger":"確認要單次觸發排程?",
+        "warningDelete":"確認要刪除排程?"
     },
 
 

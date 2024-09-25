@@ -438,12 +438,15 @@
         "editSchedule": "Edit Schedule",
         "triggerSchedule": "Trigger Once",
         "deleteSchedule": "Delete Schedule",
+        "warning":"Warning",
+        "ok":"OK",
         "cancel":"Cancel",
         "save":"Save",
         "pleaseInputName": "Please enter the name",
         "pleaseInputCron": "Please enter the Cron expression",
         "pleaseInputClassPath": "Please enter the execution path",
-        "":""
+        "warningTrigger":"Are you sure you want to trigger the job once?",
+        "warningDelete":"Are you sure you want to delete the job?"
     },
 
 

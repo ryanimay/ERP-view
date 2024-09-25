@@ -390,6 +390,16 @@ const config = {
           method:'put',
           requiresAuth: true
         },
+        exec:{
+          path: quartzJob + '/exec',
+          method:'post',
+          requiresAuth: true
+        },
+        delete:{
+          path: quartzJob + '/delete',
+          method:'delete',
+          requiresAuth: true
+        },
       }
     };
   })(),

@@ -38,7 +38,7 @@
                         :content="$t('scheduleList.triggerSchedule')"
                         placement="top-start"
                     >
-                        <el-button :disabled="!currentModel.id" type="success" icon="CaretRight" size="large" circle />
+                        <el-button :disabled="!currentModel.id" type="success" icon="CaretRight" size="large" circle @click="warningTrigger"/>
                     </el-tooltip>
                 </span>
                 <span class="schedule__headerButton">
@@ -48,7 +48,7 @@
                         :content="$t('scheduleList.deleteSchedule')"
                         placement="top-start"
                     >
-                        <el-button :disabled="!currentModel.id" type="danger" icon="Delete" size="large" circle />
+                        <el-button :disabled="!currentModel.id" type="danger" icon="Delete" size="large" circle @click="warningDelete"/>
                     </el-tooltip>
                 </span>
             </el-header>
@@ -88,7 +88,7 @@
             </el-main>
         </el-container>
         <!--編輯彈窗-->
-        <el-dialog v-model="editDialog" :title="$t(isAdd ? 'scheduleList.addSchedule' : 'scheduleList.editSchedule')" width="1000" @close="handleClose">
+        <el-dialog v-model="editDialog" :title="$t(isAdd ? 'scheduleList.addSchedule' : 'scheduleList.editSchedule')" width="1000">
             <el-table :border="true" :data="[editModel]" style="width: 100%">
                 <el-table-column v-if="!isAdd" column-key="id" prop="id" :label="$t('scheduleList.id')" width="50" :align="'center'" />
                 <el-table-column v-if="!isAdd" column-key="name" prop="name" :label="$t('scheduleList.name')" min-width="150" ref="inputNameRef"/>
@@ -137,6 +137,7 @@
 import request from '@/config/api/request.js';
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue'
 import { useI18n } from 'vue-i18n';
+import { ElMessageBox } from 'element-plus'
 
 const { t } = useI18n();
 const { proxy } = getCurrentInstance();
@@ -179,16 +180,15 @@ async function requestJob(){
     }
 }
 function rowClick(row){
-    currentModel.id = row.id;
-    currentModel.name = row.name;
-    currentModel.cron = row.cron;
-    currentModel.classPath = row.classPath;
-    currentModel.info = row.info;
-    currentModel.param = row.param;
-    currentModel.status = row.status;
-}
-function handleClose(){
-    console.log('close');
+    if(row){
+        currentModel.id = row.id;
+        currentModel.name = row.name;
+        currentModel.cron = row.cron;
+        currentModel.classPath = row.classPath;
+        currentModel.info = row.info;
+        currentModel.param = row.param;
+        currentModel.status = row.status;
+    }
 }
 async function saveSchedule(){
     if(checkAdd()){
@@ -262,6 +262,62 @@ async function toggleStatus(){
         }
         loading.value = false;
     }
+}
+const warningTrigger = () => {
+  ElMessageBox.confirm(
+    t('scheduleList.warningTrigger'),
+    t('scheduleList.warning'),
+    {
+      confirmButtonText: t('scheduleList.ok'),
+      cancelButtonText: t('scheduleList.cancel'),
+      type: t('scheduleList.warning'),
+    }
+  )
+    .then(() => {
+        triggerOnce()
+    })
+    .catch(() => {
+    })
+}
+async function triggerOnce(){
+    if(currentModel.id){
+        loading.value = true;
+        const response = await request.execSchedule({"id": currentModel.id});
+        if (response && response.data.code === 200) {
+            proxy.$msg.success(response.data.data);
+        }
+        loading.value = false;
+    }
+}
+const warningDelete = () => {
+  ElMessageBox.confirm(
+    t('scheduleList.warningDelete'),
+    t('scheduleList.warning'),
+    {
+      confirmButtonText: t('scheduleList.ok'),
+      cancelButtonText: t('scheduleList.cancel'),
+      type: t('scheduleList.warning'),
+    }
+  )
+    .then(() => {
+        deleteSc()
+    })
+    .catch(() => {
+    })
+}
+async function deleteSc(){
+    if(currentModel.id){
+        loading.value = true;
+        const response = await request.deleteSchedule({"id": currentModel.id});
+        if (response && response.data.code === 200) {
+            proxy.$msg.success(response.data.data);
+            removeModel(currentModel.id);
+        }
+        loading.value = false;
+    }
+}
+function removeModel(id){
+    jobModel.value = jobModel.value.filter(job => job.id !== id);
 }
 </script>
 
