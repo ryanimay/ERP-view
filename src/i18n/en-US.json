@@ -477,7 +477,8 @@
         "projectList":"Project List",
         "procureList":"Procure List",
         "jobCard":"Job Card",
-        "scheduleList":"Schedule List"
+        "scheduleList":"Schedule List",
+        "logList":"Log List"
     },
     "axios":{
         "reLogin":"Your session has expired. Please log in again."

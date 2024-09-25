@@ -244,6 +244,18 @@ const routerPath = [
             parentName: ':scheduleManagement',
             headerKey: 'HomeHeader'
         }
+    },
+    {
+        path: '/logList',
+        name: 'logList',
+        components: {
+            header: () => import('@/components/header/HomeHeader.vue'),
+            body: () => import('@/components/body/log/LogListBody.vue'),
+        },
+        meta: { 
+            requiresAuth: true,
+            headerKey: 'HomeHeader'
+        }
     }
 ]
 
