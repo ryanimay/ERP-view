@@ -22,7 +22,7 @@
                 <el-menu ref="menu" active-text-color="#fff" background-color="#16415c" class="el-menu"
                     :default-active="navigation[2]" text-color="#fff" :router="true" unique-opened>
                     <template v-for="(menu, index) in menuList" :key="index">
-                        <el-sub-menu :index="menu.id.toString()" v-if="menu.child">
+                        <el-sub-menu v-if="menu.child" :index="menu.id.toString()">
                             <template #title>
                                 <el-icon>
                                     <component :is="menu.icon" />
@@ -37,6 +37,13 @@
                                 <span>{{ $t(child.name) }}</span>
                             </el-menu-item>
                         </el-sub-menu>
+                        <el-menu-item v-else :index="menu.path" :key="menu.id.toString()"
+                            :style="{ backgroundColor: navigation[2] === menu.path ? activeColor : normalColor }">
+                            <el-icon>
+                                <component :is="menu.icon" />
+                            </el-icon>
+                            <span>{{ $t(menu.name) }}</span>
+                        </el-menu-item>
                     </template>
                 </el-menu>
             </el-main>
