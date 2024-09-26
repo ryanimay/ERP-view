@@ -448,6 +448,26 @@
         "warningTrigger":"Are you sure you want to trigger the job once?",
         "warningDelete":"Are you sure you want to delete the job?"
     },
+    "logList":{
+        "search":"Search",
+        "username":"Operator",
+        "status":"Status",
+        "all":"All",
+        "success":"Success",
+        "failed":"Failed",
+        "unknown":"Unknown",
+        "url":"RequestUrl",
+        "ip":"IP",
+        "time":"Time",
+        "to":"To",
+        "startDate":"StartDate",
+        "endDate":"EndDate",
+        "params":"Request",
+        "result":"Response",
+        "clickToCopy":"※Click to copy the parameter",
+        "copyDone":"Copy to Clipboard",
+        "copyError":"Copy operation error"
+    },
 
 
 

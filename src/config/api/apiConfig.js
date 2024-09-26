@@ -25,6 +25,7 @@ const config = {
     const procure = context_path + '/procurement';
     const job = context_path + '/job';
     const quartzJob = context_path + '/quartzJob';
+    const log = context_path + '/log';
     return {
       cache: {
       },
@@ -398,6 +399,13 @@ const config = {
         delete:{
           path: quartzJob + '/delete',
           method:'delete',
+          requiresAuth: true
+        },
+      },
+      log:{
+        list:{
+          path: log + '/list',
+          method:'get',
           requiresAuth: true
         },
       }

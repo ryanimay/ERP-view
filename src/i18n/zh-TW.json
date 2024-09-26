@@ -448,6 +448,26 @@
         "warningTrigger":"確認要單次觸發排程?",
         "warningDelete":"確認要刪除排程?"
     },
+    "logList":{
+        "search":"搜尋",
+        "username":"操作人",
+        "status":"狀態",
+        "all":"全部",
+        "success":"成功",
+        "failed":"失敗",
+        "unknown":"未知",
+        "url":"請求路徑",
+        "ip":"IP",
+        "time":"時間",
+        "to":"到",
+        "startDate":"開始時間",
+        "endDate":"結束時間",
+        "params":"請求參數",
+        "result":"返回參數",
+        "clickToCopy":"※點擊參數複製",
+        "copyDone":"已複製至剪貼簿",
+        "copyError":"複製操作異常"
+    },
 
 
 

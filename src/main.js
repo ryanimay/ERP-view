@@ -18,6 +18,7 @@ import '@/assets/css/elTree.css';
 import '@/assets/css/elCollapse.css';
 import '@/assets/css/elDialog.css';
 import '@/assets/css/elCard.css';
+import '@/assets/css/elSelect.css';
 //20240820
 //原本是為了解決resizeobserver loop completed with undelivered notifications.
 //但因為會和elementPlus的內建配置衝突，改成直接配置vue.config.js忽略警告

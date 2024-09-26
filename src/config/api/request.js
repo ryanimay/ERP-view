@@ -73,6 +73,7 @@ export default {
     toggleSchedule: request(path.api.quartzJob.toggle),
     execSchedule: request(path.api.quartzJob.exec),
     deleteSchedule: request(path.api.quartzJob.delete),
+    logList: request(path.api.log.list),
 }
 
 const axios = instance();

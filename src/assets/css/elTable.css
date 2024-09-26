@@ -20,3 +20,11 @@
     border-top: 2px solid #555555;
     border-bottom: 2px solid #555555;
 }
+/* logList被複製欄位 */
+.column__copyTitle > .cell{
+    color: #e65c5c !important;
+}
+/* logList被複製欄位 */
+.column__copyColumn{
+    padding: 1px 0px !important;
+}
