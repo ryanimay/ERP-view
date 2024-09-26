@@ -44,7 +44,7 @@
                     </el-button>
                 </span>
             </el-header>
-            <el-main>
+            <el-main class="main__frame">
                 <el-table
                     :data="performanceList"
                     :default-sort="{ prop: 'createTime', order: 'descending' }"
@@ -356,5 +356,8 @@ function handleAnnualClose(){
 }
 .searchHeaderBlock{
     padding-right: 10px;
+}
+.main__frame{
+    max-height: 600px;
 }
 </style>

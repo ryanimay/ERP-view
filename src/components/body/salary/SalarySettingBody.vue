@@ -22,7 +22,7 @@
                     </el-button>
                 </span>
             </el-header>
-            <el-main>
+            <el-main class="main__frame">
                 <el-table
                     :data="rootList"
                     :default-sort="{ prop: 'user.id', order: 'ascending' }"
@@ -281,5 +281,8 @@ const handleUserIdInput = (value) => {
 }
 .searchHeaderBlock{
     padding-right: 10px;
+}
+.main__frame{
+    max-height: 600px;
 }
 </style>

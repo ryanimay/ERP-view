@@ -21,7 +21,7 @@
                     </el-button>
                 </div>
             </el-header>
-            <el-main>
+            <el-main class="main__frame">
                 <el-table
                     :data="leaveList"
                     :default-sort="{ prop: 'id', order: 'ascending' }"
@@ -329,5 +329,8 @@ function statusType(status){
 }
 .marginLeft12{
     margin-left: 12px;
+}
+.main__frame{
+    max-height: 600px;
 }
 </style>

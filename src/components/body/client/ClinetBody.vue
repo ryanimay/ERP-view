@@ -37,7 +37,7 @@
                     </el-button>
                 </span>
             </el-header>
-            <el-main>
+            <el-main class="main__frame">
                 <el-table
                     :data="clientList"
                     :default-sort="{ prop: 'id', order: 'ascending' }"
@@ -443,5 +443,8 @@ async function editUser(){
 .alignCenter{
     display: flex;
     align-items: center;
+}
+.main__frame{
+    max-height: 600px;
 }
 </style>
