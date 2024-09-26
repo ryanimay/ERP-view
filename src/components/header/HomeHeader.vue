@@ -38,7 +38,7 @@
                             </el-menu-item>
                         </el-sub-menu>
                         <el-menu-item v-else :index="menu.path" :key="menu.id.toString()"
-                            :style="{ backgroundColor: navigation[2] === menu.path ? activeColor : normalColor }">
+                            :style="{ backgroundColor: navigation[1] === menu.path ? activeColor : '#16415c' }">
                             <el-icon>
                                 <component :is="menu.icon" />
                             </el-icon>
