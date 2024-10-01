@@ -305,7 +305,9 @@
         "Approved":"Approved",
         "Closed":"Closed",
         "Removed":"Rejected",
-        "pickMonth":"Pick a month"
+        "pickMonth":"Pick a month",
+        "userCurrentLeave":"Remaining Annual Leave",
+        "userTotalLeave":"Total Annual Leave"
     },
     "leaveList":{
         "search":"Search",

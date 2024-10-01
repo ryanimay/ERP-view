@@ -16,7 +16,15 @@
                     </el-button>
                 </div>
                 <div>
-                    <el-button type="danger" @click="openAdd">
+                    <span class="header__text--right">
+                        <el-text size="large" tag="b">{{ $t('personalLeave.userCurrentLeave') }}: </el-text>
+                        <el-text size="large" tag="b">{{ user.currentLeave }}</el-text>
+                    </span>
+                    <span class="header__text--right">
+                        <el-text size="large" tag="b">{{ $t('personalLeave.userTotalLeave') }}: </el-text>
+                        <el-text size="large" tag="b">{{ user.totalLeave }}</el-text>
+                    </span>
+                    <el-button type="danger" @click="openAdd" class="header__text--right">
                         {{ $t('personalLeave.addLeave') }}
                     </el-button>
                 </div>
@@ -332,5 +340,8 @@ function statusType(status){
 }
 .main__frame{
     max-height: 600px;
+}
+.header__text--right{
+    margin:0px 10px;
 }
 </style>

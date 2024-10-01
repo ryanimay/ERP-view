@@ -19,6 +19,8 @@ const userStore = defineStore(
             active: '',
             lock: '',
             isLogin: false,
+            currentLeave: '0',
+            totalLeave: '0',
         }),
         actions: {
             async login(data){

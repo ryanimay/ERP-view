@@ -305,7 +305,9 @@
         "Approved":"已審核",
         "Closed":"已結算",
         "Removed":"已駁回",
-        "pickMonth":"選擇月份"
+        "pickMonth":"選擇月份",
+        "userCurrentLeave":"剩餘特休",
+        "userTotalLeave":"特休總數"
     },
     "leaveList":{
         "search":"搜尋",
