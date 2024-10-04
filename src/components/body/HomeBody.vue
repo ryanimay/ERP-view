@@ -273,7 +273,7 @@ async function refreshCache(){loading.value = true;
 }
 .block--frame{
     height:100%;
-    min-height: 150px;
+    min-height: 100px;
     width: 100%;
     font-size: 20px;
 }
@@ -285,9 +285,9 @@ async function refreshCache(){loading.value = true;
 }
 .block--row{
     height: 100%;
-    min-height: 150px;
+    min-height: 100px;
     width: 90%;
-    min-width: 1200px;
+    min-width: 1000px;
 }
 .block__card--frame{
     transition: box-shadow 0.3s; 
