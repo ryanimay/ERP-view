@@ -4,6 +4,9 @@ import Stomp from 'webstomp-client';
 
 const applicationDestinationPrefixes = "/app";
 
+let reconnectAttempts = 0;
+const maxReconnectAttempts = 5;
+
 const websocketStore = defineStore(
     'websocket',
     {
@@ -25,6 +28,7 @@ const websocketStore = defineStore(
                 const connectPromise = new Promise((resolve, reject) => {
                     this.client.connect({}, () => {
                         this.isConnected = true;
+                        reconnectAttempts = 0; // 成功連接後重置重試計數
                         console.log('Websocket Connected');
                         resolve(); // Resolve the promise when connected
                     }, error => {
@@ -35,10 +39,15 @@ const websocketStore = defineStore(
                 });
 
                 connectPromise.catch(() => {
-                    setTimeout(() => {
-                        console.log('Attempting to reconnect...');
-                        this.connect(); 
-                    }, 5000);
+                    reconnectAttempts++;
+                    if (reconnectAttempts < maxReconnectAttempts) {
+                        setTimeout(() => {
+                            console.log('Attempting to reconnect...');
+                            this.connect(); 
+                        }, 5000);
+                    } else {
+                        console.error('Max reconnect attempts reached.');
+                    }
                 });
 
                 return connectPromise;
