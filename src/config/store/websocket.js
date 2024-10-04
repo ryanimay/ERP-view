@@ -25,6 +25,7 @@ const websocketStore = defineStore(
                 const socket = new SockJS(url + '?token=' + token);
                 const options = { protocols: ['v12.stomp'] }
                 this.client = Stomp.over(socket, options);
+                this.client.debug = () => {};
                 const connectPromise = new Promise((resolve, reject) => {
                     this.client.connect({}, () => {
                         this.isConnected = true;
