@@ -470,10 +470,30 @@
         "copyDone":"Copy to Clipboard",
         "copyError":"Copy operation error"
     },
-
-
-
-
+    "homeBody":{
+        "signIn":"Click to Sign In",
+        "signOut":"Click to Sign Out",
+        "offWork":"Off Work",
+        "error":"Abnormal Status",
+        "jobCard":"Personal Task Scheduling",
+        "newSalary":"Personal Salary",
+        "systemLog":"System Log",
+        "totalLeave":"Total Leave",
+        "currentLeave":"Remaining Leave",
+        "pendingLeave":"Pending Leave",
+        "pendingPerformance":"Pending Performance",
+        "unsettledPerformance":"Unsettled Performance",
+        "loggedUser":"Logged-in Users",
+        "totalDepartments":"Total Departments",
+        "totalProjects":"Total Projects",
+        "procureIn":"Monthly Procurement Amount (In)",
+        "procureOut":"Monthly Procurement Amount (Out)",
+        "systemInfo":"System Info",
+        "refreshKeyInfo1":"Refresh cache, Use ' ",
+        "refreshKeyInfo2":" ' to separate.",
+        "refreshKeyInfo3":"If empty, refresh all cache.",
+        "refreshCachePlaceholder":"e.g. cacheName:cacheKey"
+    },
     "router":{
         "reLogin":"Your session has expired. Please log in again.",
         "home":"Home",

@@ -74,6 +74,8 @@ export default {
     execSchedule: request(path.api.quartzJob.exec),
     deleteSchedule: request(path.api.quartzJob.delete),
     logList: request(path.api.log.list),
+    systemInfo: request(path.api.client.systemInfo),
+    refreshCache: request(path.api.cache.refresh),
 }
 
 const axios = instance();

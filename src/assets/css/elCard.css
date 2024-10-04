@@ -26,3 +26,7 @@
 .cardHoverShadow:hover{
     background-color: #f0f0f0;
 }
+.block__cardHeader--frame > .el-card__header{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

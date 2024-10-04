@@ -470,9 +470,30 @@
         "copyDone":"已複製至剪貼簿",
         "copyError":"複製操作異常"
     },
-
-
-
+    "homeBody":{
+        "signIn":"點擊簽到",
+        "signOut":"點擊簽退",
+        "offWork":"已下班",
+        "error":"異常",
+        "jobCard":"個人任務卡",
+        "newSalary":"個人薪資單",
+        "systemLog":"系統日誌",
+        "totalLeave":"特休總數",
+        "currentLeave":"剩餘特休",
+        "pendingLeave":"待審核假單",
+        "pendingPerformance":"待審核績效",
+        "unsettledPerformance":"未結算績效",
+        "loggedUser":"登入用戶數",
+        "totalDepartments":"部門總數",
+        "totalProjects":"專案總數",
+        "procureIn":"本月採購總金額(進)",
+        "procureOut":"本月採購總金額(出)",
+        "systemInfo":"系統資訊",
+        "refreshKeyInfo1":"刷新緩存, 以「 ",
+        "refreshKeyInfo2":" 」為分隔符",
+        "refreshKeyInfo3":"如果為空，則刷新全部緩存",
+        "refreshCachePlaceholder":"例如： cacheName:cacheKey"
+    },
     "router":{
         "reLogin":"登入過期，請重新登入",
         "home":"首頁",

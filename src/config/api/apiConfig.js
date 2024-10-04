@@ -11,6 +11,7 @@ const config = {
   api: (() => {
     const base = '/api';//proxy轉換
     const context_path = base + '/erp_base';//後端api字段
+    const cache = context_path + '/cache';
     const client = context_path + '/client';
     const menu = context_path + '/menu';
     const attend = context_path + '/attend';
@@ -28,6 +29,11 @@ const config = {
     const log = context_path + '/log';
     return {
       cache: {
+        refresh: {
+          path: cache + '/refresh',
+          method:'get',
+          requiresAuth: true
+        }
       },
       client: {
         opValid: {
@@ -88,6 +94,11 @@ const config = {
         nameList: {
           path: client + '/nameList',
           method:'get',
+          requiresAuth: true
+        },
+        systemInfo: {
+          path: client + '/systemInfo',
+          method:'post',
           requiresAuth: true
         },
       },
