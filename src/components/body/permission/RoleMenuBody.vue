@@ -252,7 +252,6 @@ async function saveRoleMenu(){
 async function getCheckedIds(){
     let ids = new Set();
     await tree.value[currentRole.index].getCheckedNodes().forEach(node => {
-        console.log(node);
         if(node.parentsId) ids.add(node.parentsId);
         ids.add(node.id);
     });
