@@ -1,7 +1,7 @@
 # ERP-view
 
 erp的前端部分  
-主要就練習Vue.js(Vue3)，接ERP-Base的API  
+主要就練習Vue.js(Vue3)，接ERP-Base的API，並且主要搭配element-plus做畫面處理  
 ~~Vue.js筆記:https://hackmd.io/0HEbLvzQQViCfIFTtY9TZQ~~
 ***
 ## 2024.3.15
@@ -9,9 +9,10 @@ erp的前端部分
 後端API重寫完，前端重寫  
 主要希望改善code的css  
 不要寫hardCode  
-多利用套件做畫面效果  
-figma熟練  
-Router配置的部分整合到後端讀資料庫  
+多利用套件(element-plus)做畫面效果  
+~~figma熟練~~(做不到啊)  
+~~Router配置的部分整合到後端讀資料庫~~  
+(思考其實好像沒必要，前後端分離了要新增菜單勢必前端也必須同步做修改，全部綁在同一邊沒必要)  
 新筆記: https://hackmd.io/@S1MNxjTORYSfAfivxMlEQw/Bkf-N7Y0a
 
 ## 流程   
