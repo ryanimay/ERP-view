@@ -38,12 +38,15 @@
                 </div>
             </div>
             <div class="maxFrame">
-                <div v-if="showClientList.length === 0" class="center fullFrame">
+                <div v-if="!currentDepartment.id" class="center fullFrame">
                     <el-empty :description="$t('departmentBody.clientEmpty')" />
                 </div>
                 <el-tab-pane style="height: 100%;" v-for="(department) in departmentList" :key="department.id"
                     :label="department.name" :name="department.id">
-                    <div v-if="showClientList.length !== 0">
+                    <div v-if="showClientList.length === 0" class="center fullFrame">
+                        <el-empty :description="$t('departmentBody.clientEmpty')" />
+                    </div>
+                    <div v-else>
                         <el-table :data="showClientList" stripe style="width: 100%" :border="true"
                             :show-overflow-tooltip="true">
                             <el-table-column :resizable="false" prop="id" :label="$t('departmentBody.col-id')"

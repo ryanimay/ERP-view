@@ -70,7 +70,9 @@
                                 :props="defaultProps"
                                 >
                                     <template #default="{ data }">
-                                        <el-row :style="{ width: '100%', paddingLeft: data.parentsId === 0 ? '18px' : '0' }">
+                                        <el-row :style="{ width: '100%', 
+                                        paddingLeft: data.parentsId === 0 ? '18px' : '0',
+                                        backgroundColor: data.child ? '#dcdfe6' : '' }">
                                             <el-col class="alignCenter justifyCenter" :span="6">
                                                 <span v-if="data.status === false"><s>{{ $t(data.name) }}</s></span>
                                                 <span v-else>{{ $t(data.name) }}</span>
@@ -178,8 +180,14 @@ function checkedRoleMenu(index, ids){
     }
 }
 function getIdList(data){
-    return data.length === 0 ? [] : data.flatMap(item => {
-        if(item.child) return item.child.map(child => child.id)
+    return data.flatMap(item => {
+        if (item.path) {
+            return item.id; // 如果有 path，返回該節點的 id
+        } else if (item.child) {
+            return getIdList(item.child); // 遞迴處理子節點
+        } else {
+            return [];
+        }
     });
 }
 async function updateRoleName() {

@@ -67,25 +67,32 @@
                     </el-scrollbar>
                 </el-card>
             </el-col>
-            <!-- Pending待辦清單 -->
-            <el-col :span="6" class="jobCard minWidth360">
+            <!-- Pending、Approved、Closed三種清單 -->
+            <el-col v-for="(statusName) in statusCode"
+            :key="statusName"
+            :id="statusName"
+            :span="6" 
+            class="jobCard minWidth360">
                 <!-- sortablejs拖曳會和element-plus預設css衝突，要拖曳的範圍內設--el-transition-duration': '0s' -->
                 <el-card class="shadow height100" :body-style="{ padding: '0' }" :style="{ '--el-transition-duration': '0s' }">
                     <template #header>
-                        <div class="card__header--spaceBetween">
+                        <div v-if="statusName === 'Pending'" class="card__header--spaceBetween">
                             <el-text tag="b">{{ $t('jobCard.Pending') + '(' + (jobModel['Pending'] ? jobModel['Pending'].length : 0) + ')' }}</el-text>
                             <el-button style="height: 16px; width: 16px;" icon="Plus" @click="addNewJob()" plain circle type="primary"/>
                         </div>
+                        <div v-else>
+                            <el-text tag="b">{{ $t('jobCard.'+statusName) + '(' + (jobModel[statusName] ? jobModel[statusName].length : 0) + ')' }}</el-text>
+                        </div>
                     </template>
                     <el-scrollbar 
-                    view-class="draggablePending"
-                    :id="'idPending'"
+                    :view-class="'draggable' + statusName"
+                    :id="'id'+statusName"
                     :view-style="{ 
                         height: '99%', 
                         width: '100%', 
                         }">
                         <el-card 
-                        v-for="(job, index) in jobModel['Pending']"
+                        v-for="(job, index) in jobModel[statusName]"
                         :key="job.id + ':' + index"
                         :body-style="{ 
                             height: '130px',
@@ -202,241 +209,16 @@
                                 <el-col v-if="job.newAdd" :span="6">
                                     <el-button @click="addJobModel(job, index)" icon="Download" type="info" circle size="small"/>
                                 </el-col>
+                                <el-col v-else-if="statusName === 'Closed'" :span="6" class="card__tag--rignt">
+                                    <el-tag effect="dark" type="primary">
+                                        {{ $t('jobCard.Closed') }}
+                                    </el-tag>
+                                </el-col>
                                 <el-col v-else :span="6" class="card__tag--rignt">
                                     <el-button v-if="!job.isEdit" @click="job.isEdit=true" icon="Edit" type="info" plain circle size="small"/>
                                     <el-button v-else @click="updateJobModel(job, index)" icon="Download" type="info" circle size="small"/>
                                     <el-button @click="confirmDelete(job.id)" icon="Delete" type="danger" circle size="small" style="margin-left: 5px;"/>
-                                    <el-button @click="jobStatusClick(job.id, index, 'Pending', 'Approved')" icon="CaretRight" type="warning" circle size="small" style="margin-left: 5px;"/>
-                                </el-col>
-                            </el-row>
-                        </el-card>
-                    </el-scrollbar>
-                </el-card>
-            </el-col>
-            <!-- Approved執行中清單 -->
-            <el-col :span="6" class="jobCard minWidth360">
-                <el-card class="shadow height100" :body-style="{ padding: '0' }" :style="{ '--el-transition-duration': '0s' }">
-                    <template #header>
-                        <div>
-                            <el-text tag="b">{{ $t('jobCard.Approved') + '(' + (jobModel['Approved'] ? jobModel['Approved'].length : 0) + ')' }}</el-text>
-                        </div>
-                    </template>
-                    <el-scrollbar 
-                    view-class="draggableApproved"
-                    :id="'idApproved'"
-                    :view-style="{ 
-                        height: '99%', 
-                        width: '100%', 
-                        }">
-                        <el-card 
-                        v-for="(job, index) in jobModel['Approved']"
-                        :key="job.id + ':' + index"
-                        :body-style="{ 
-                            height: '130px',
-                            padding: '10px'
-                        }"
-                        :id="job.id"
-                        :class="'innerCard'"
-                        body-class="cardHoverShadow"
-                        shadow="hover">
-                            <el-row style="height: 20px">
-                                <el-col :span="24" class="card__header--spaceBetween">
-                                    <el-text tag="b" size="small">{{ $t('jobCard.info')+':' }}</el-text>
-                                    <el-icon size="14" class="handle"><Rank /></el-icon>
-                                </el-col>
-                            </el-row>
-                            <el-row v-if="job.isEdit" style="height: 60px">
-                                <el-col :span="24">
-                                    <el-input
-                                        v-model="job.info" 
-                                        resize="none"
-                                        style="width: 100%;"
-                                        :input-style="{
-                                            height: '60px',
-                                            padding: '5px'
-                                        }"
-                                        :rows="3"
-                                        type="textarea"
-                                    />
-                                </el-col>
-                            </el-row>
-                            <el-row v-else style="height: 60px" class="infoBlock">
-                                <el-scrollbar>
-                                    <el-col :span="24" class="text-overflow text-normal">
-                                        <el-text>{{ job.info }}</el-text>
-                                    </el-col>
-                                </el-scrollbar>
-                            </el-row>
-                            <el-row style="height: 30px">
-                                <el-col :span="12" class="text-overflow text-nowrap card__text--alignCenter">
-                                    <el-text tag="b" size="small">{{ $t('jobCard.startTime')+':' }}</el-text>
-                                    <el-date-picker
-                                        v-if="job.isEdit"
-                                        v-model="job.startTime"
-                                        size="small"
-                                        type="date"
-                                        format="YYYY-MM-DD"
-                                        value-format="YYYY-MM-DD"
-                                        style="width:100%"/>
-                                    <el-text v-else tag="b" size="small">{{ formatTime(job.startTime) }}</el-text>
-                                </el-col>
-                                <el-col :span="12" class="text-overflow text-nowrap card__text--alignCenter">
-                                    <el-text tag="b" size="small">{{ $t('jobCard.endTime')+':' }}</el-text>
-                                    <el-date-picker
-                                        v-if="job.isEdit"
-                                        v-model="job.endTime"
-                                        size="small"
-                                        type="date"
-                                        format="YYYY-MM-DD"
-                                        value-format="YYYY-MM-DD"
-                                        style="width:100%"/>
-                                    <el-text v-else tag="b" size="small">{{ formatTime(job.endTime) }}</el-text>
-                                </el-col>
-                            </el-row>
-                            <el-row style="height: 30px">
-                                <el-col :span="18" class="text-overflow text-nowrap">
-                                    <el-tooltip v-if="job.trackingSet && job.trackingSet.length !== 0" placement="top-start">
-                                        <template #content>
-                                            <el-scrollbar max-height="70px" style="max-width:200px;">
-                                                <el-tag v-for="tracker in job.trackingSet" :key="tracker.id" type="info" size="small" style="margin-right: 5px;">
-                                                    {{ tracker.username }}
-                                                </el-tag>
-                                            </el-scrollbar>
-                                        </template>
-                                        <el-button 
-                                        :icon="job.trackHover ? 'Plus' : 'Fold'"
-                                        size="small" 
-                                        :type="job.trackHover ? 'primary' : 'info'"
-                                        @mouseenter="job.trackHover = true"
-                                        @mouseleave="job.trackHover = false"
-                                        @click="openTrackingDialog(job)">
-                                            {{ $t('jobCard.tracker') }}
-                                        </el-button>
-                                    </el-tooltip>
-                                    <el-button 
-                                    v-else
-                                    :icon="job.trackHover ? 'Plus' : 'Fold'"
-                                    size="small" 
-                                    :type="job.trackHover ? 'primary' : 'info'"
-                                    @mouseenter="job.trackHover = true"
-                                    @mouseleave="job.trackHover = false"
-                                    @click="openTrackingDialog(job)">
-                                        {{ $t('jobCard.tracker') }}
-                                    </el-button>
-                                    <el-text style="margin-left: 5px;" tag="b" size="small">{{ $t('jobCard.username')+':' }}</el-text>
-                                    <el-select
-                                    v-if="job.isEdit" 
-                                    v-model="job.user.id" 
-                                    :placeholder="$t('jobCard.selectUser')" 
-                                    size="small"
-                                    :ref="'select' + job.id"
-                                    style="width: calc(100% - 140px);"
-                                    @change="(val) => updateJobUser(job.user, val)">
-                                        <el-option v-for="client in clientNameList"
-                                            :key="client.id"
-                                            :label="client.username"
-                                            :value="client.id"
-                                        />
-                                    </el-select>
-                                    <el-text v-else tag="b" size="small">{{ job.user.username }}</el-text>
-                                </el-col>
-                                <el-col :span="6" class="card__tag--rignt">
-                                    <el-button v-if="!job.isEdit" @click="job.isEdit=true" icon="Edit" type="info" plain circle size="small"/>
-                                    <el-button v-else @click="updateJobModel(job, index)" icon="Download" type="info" circle size="small"/>
-                                    <el-button @click="confirmDelete(job.id)" icon="Delete" type="danger" circle size="small" style="margin-left: 5px;"/>
-                                    <el-button @click="jobStatusClick(job.id, index, 'Approved', 'Closed')" icon="Select" type="success" circle size="small" style="margin-left: 5px;"/>
-                                </el-col>
-                            </el-row>
-                        </el-card>
-                    </el-scrollbar>
-                </el-card>
-            </el-col>
-            <!-- Closed完成清單 -->
-            <el-col :span="6" class="jobCard minWidth360">
-                <el-card class="shadow height100" :body-style="{ padding: '0' }" :style="{ '--el-transition-duration': '0s' }">
-                    <template #header>
-                        <div>
-                            <el-text tag="b">{{ $t('jobCard.Closed') + '(' + (jobModel['Closed'] ? jobModel['Closed'].length : 0) + ')' }}</el-text>
-                        </div>
-                    </template>
-                    <el-scrollbar 
-                    view-class="draggableClosed"
-                    :id="'idClosed'"
-                    :view-style="{ 
-                        height: '99%', 
-                        width: '100%', 
-                        }">
-                        <el-card 
-                        v-for="(job, index) in jobModel['Closed']"
-                        :key="job.id + ':' + index"
-                        :body-style="{ 
-                            height: '130px',
-                            padding: '10px'
-                        }"
-                        :id="job.id"
-                        :class="'innerCard'"
-                        body-class="cardHoverShadow"
-                        shadow="hover">
-                            <el-row style="height: 20px">
-                                <el-col :span="24" class="card__header--spaceBetween">
-                                    <el-text tag="b" size="small">{{ $t('jobCard.info')+':' }}</el-text>
-                                    <el-icon size="14" class="handle"><Rank /></el-icon>
-                                </el-col>
-                            </el-row>
-                            <el-row style="height: 60px" class="infoBlock">
-                                <el-scrollbar>
-                                    <el-col :span="24" class="text-overflow text-normal">
-                                        <el-text>{{ job.info }}</el-text>
-                                    </el-col>
-                                </el-scrollbar>
-                            </el-row>
-                            <el-row style="height: 30px">
-                                <el-col :span="12" class="text-overflow text-nowrap card__text--alignCenter">
-                                    <el-text tag="b" size="small">{{ $t('jobCard.startTime')+':' }}</el-text>
-                                    <el-text tag="b" size="small">{{ formatTime(job.startTime) }}</el-text>
-                                </el-col>
-                                <el-col :span="12" class="text-overflow text-nowrap card__text--alignCenter">
-                                    <el-text tag="b" size="small">{{ $t('jobCard.endTime')+':' }}</el-text>
-                                    <el-text tag="b" size="small">{{ formatTime(job.endTime) }}</el-text>
-                                </el-col>
-                            </el-row>
-                            <el-row style="height: 30px">
-                                <el-col :span="18" class="text-overflow text-nowrap">
-                                    <el-tooltip v-if="job.trackingSet && job.trackingSet.length !== 0" placement="top-start">
-                                        <template #content>
-                                            <el-scrollbar max-height="70px" style="max-width:200px;">
-                                                <el-tag v-for="tracker in job.trackingSet" :key="tracker.id" type="info" size="small" style="margin-right: 5px;">
-                                                    {{ tracker.username }}
-                                                </el-tag>
-                                            </el-scrollbar>
-                                        </template>
-                                        <el-button 
-                                        :icon="job.trackHover ? 'Plus' : 'Fold'"
-                                        size="small" 
-                                        :type="job.trackHover ? 'primary' : 'info'"
-                                        @mouseenter="job.trackHover = true"
-                                        @mouseleave="job.trackHover = false"
-                                        @click="openTrackingDialog(job)">
-                                            {{ $t('jobCard.tracker') }}
-                                        </el-button>
-                                    </el-tooltip>
-                                    <el-button 
-                                    v-else
-                                    :icon="job.trackHover ? 'Plus' : 'Fold'"
-                                    size="small" 
-                                    :type="job.trackHover ? 'primary' : 'info'"
-                                    @mouseenter="job.trackHover = true"
-                                    @mouseleave="job.trackHover = false"
-                                    @click="openTrackingDialog(job)">
-                                        {{ $t('jobCard.tracker') }}
-                                    </el-button>
-                                    <el-text style="margin-left: 5px;" tag="b" size="small">{{ $t('jobCard.username')+':' }}</el-text>
-                                    <el-text tag="b" size="small">{{ job.user.username }}</el-text>
-                                </el-col>
-                                <el-col :span="6" class="card__tag--rignt">
-                                    <el-tag effect="dark" type="primary">
-                                        {{ $t('jobCard.Closed') }}
-                                    </el-tag>
+                                    <el-button @click="jobStatusClick(job.id, index, statusName, getNextStatus(statusName))" :icon="getStatusIcon(statusName)" :type="handleStatusType(statusName)" circle size="small" style="margin-left: 5px;"/>
                                 </el-col>
                             </el-row>
                         </el-card>
@@ -693,18 +475,22 @@ function setSort() {
                 onStart: () => {
                     document.body.style.userSelect = 'none'; // 禁用文本選擇，避免拖曳反白
                 },
-                onEnd: async (e) => {
+                onEnd: (e) => {
+                    //移除sortablejs默認的DOM操作，全部的渲染都由下面手動操作，不然sortablejs默認操作會和v-model衝突導致畫面多出一個DOM
+                    e.to.removeChild(e.item);
+
                     const toStatus = e.to.id.replace('id', '');
                     document.body.style.userSelect = ''; // 恢復文本選擇
-                    //整理被移動元素的排序位置
+                    //拿出被移動元素
                     const targetRow = jobModel.value[key].splice(e.oldIndex, 1)[0];
+                    //放入對應位置
                     jobModel.value[toStatus].splice(e.newIndex, 0, targetRow);
-                    
-                    //如果新排序位置狀態不同就單獨更新任務狀態
+                    // 如果新排序位置狀態不同就單獨更新任務狀態
                     if(toStatus !== key){
                         const jobId = e.item.id;
                         const statusCode = getStatusCode(toStatus);
-                        await updateJobStatus(jobId, statusCode, e.newIndex);
+                        updateJobStatus(jobId, statusCode, e.newIndex);
+                        updateTrackingJobStatus(jobId, toStatus);//改變追蹤清單狀態
                     }
                     //一次整理、更新所有類別的排序
                     orderRequest.value = statusCode.flatMap(key => 
@@ -713,8 +499,7 @@ function setSort() {
                             order: index
                         }))
                     );
-                    await saveOrder();//改變排序
-                    await requestJob();//刷新
+                    saveOrder();//保存全部改變排序
                 },
             })
         }
@@ -737,13 +522,14 @@ async function updateJobStatus(id, status, order){
     jobRequest.idSet = null;
     await updateJobRequest();
 }
-async function jobStatusClick(id, index, nowStatus, toStatus){
+function jobStatusClick(id, index, nowStatus, toStatus){
     //整理被移動元素的排序位置
     const targetRow = jobModel.value[nowStatus].splice(index, 1)[0];
+    
     jobModel.value[toStatus].splice(0, 0, targetRow);//放最前面
     
     const currentStatusCode = getStatusCode(toStatus);
-    await updateJobStatus(id, currentStatusCode, 0);
+    updateJobStatus(id, currentStatusCode, 0);
     //一次整理、更新所有類別的排序
     orderRequest.value = statusCode.flatMap(key => 
         jobModel.value[key].map((item, index) => ({
@@ -751,8 +537,28 @@ async function jobStatusClick(id, index, nowStatus, toStatus){
             order: index
         }))
     );
-    await saveOrder();//改變排序
-    await requestJob();//刷新
+    saveOrder();//改變排序
+    updateTrackingJobStatus(id, toStatus);//改變追蹤清單狀態
+}
+function getNextStatus(status){
+    switch (status) {
+        case "Pending":
+            return "Approved";
+        case "Approved":
+            return "Closed";
+    }
+}
+function getStatusIcon(status){
+    switch (status) {
+        case "Pending":
+            return "CaretRight";
+        case "Approved":
+            return "Select";
+    }
+}
+function updateTrackingJobStatus(id, toStatus){
+    const model = jobModel.value['tracking'].find(job => job.id == id);
+    if(model) model.status = toStatus;
 }
 </script>
 
