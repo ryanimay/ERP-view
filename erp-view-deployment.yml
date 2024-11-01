@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: erp-view
+  labels:
+    app: erp-view
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: erp-view
+  template:
+    metadata:
+      labels:
+        app: erp-view
+    spec:
+      imagePullSecrets:
+        - name: dockerhub
+      containers:
+      - name: erp-view
+        image: ryanimay840121/erp-view:latest
+        ports:
+          - containerPort: 8082
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: erp-view
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8082
+      targetPort: 8082
+  selector:
+    app: erp-view
