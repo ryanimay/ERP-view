@@ -20,7 +20,8 @@ const websocketStore = defineStore(
                     console.log("Already connected");
                     return Promise.resolve();
                 }
-                const url = 'http://localhost:8082/erp_base/ws'
+                //正式環境用domain改走ingress因為會和HTTPS的配置衝突
+                const url = 'https://erppp.duckdns.org/erp_base/ws'
                 const token = localStorage.getItem('token');
                 const socket = new SockJS(url + '?token=' + token);
                 const options = { protocols: ['v12.stomp'] }
