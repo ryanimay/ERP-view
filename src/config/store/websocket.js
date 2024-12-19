@@ -20,7 +20,7 @@ const websocketStore = defineStore(
                     console.log("Already connected");
                     return Promise.resolve();
                 }
-                const url = 'wss://localhost:80/erp_base/ws'
+                const url = 'https://localhost:80/erp_base/ws'
                 const token = localStorage.getItem('token');
                 const socket = new SockJS(url + '?token=' + token);
                 const options = { protocols: ['v12.stomp'] }
